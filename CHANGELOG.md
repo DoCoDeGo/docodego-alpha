@@ -6,6 +6,39 @@ semver) and the **record spec** (a strict integer — the contract version of
 the planted `.docodego/` layer). Users upgrade records, not just tools, so
 the record axis is the one to watch. Format: Keep a Changelog.
 
+## [0.7.1] — 2026-11-07
+
+The checklist §2 threat pass over `skill add`, fixes applied. No record
+change — the record spec stays 5; this is a CLI-only release.
+
+### Fixed
+
+- **Skill names are validated** (`DG-U074`) — letters/digits/`.`/`_`/`-`
+  only, at the CLI boundary and re-checked at the filesystem boundary. The
+  critical: a remote skill whose `SKILL.md` declared `name: ../../escape`
+  could plant files anywhere writable, and the lockfile digest then
+  certified the escaped content as "verified" for `skill list` and
+  `doctor`; `skill remove` chained it into whole-project deletion. All
+  three doors are closed, and a poisoned lockfile entry now verifies as
+  false instead of blessing out-of-tree bytes.
+- **`--from` accepts named transports only** (`DG-U075`) — `https://`,
+  `ssh://`, `git://`, `file://`. `ext::`/`fd::` command transports, bare
+  paths, and option-shaped strings are refused before git runs.
+- **Symlinks in a remote tree are skipped, never followed** — closing the
+  arbitrary-file-read channel (and a symlink-cycle crash with it).
+- **The lockfile stays metadata-only** — `skill add` no longer embeds
+  every installed file's contents in `skills-lock.json`; the digest is the
+  attestation, the folder is the evidence.
+
+### Added
+
+- Thirteen conformance checks keep the threat pass's probes as permanent
+  law: traversal refused at add and remove, `ext::`, option-shaped and
+  bare-path sources refused before git runs, a full `file://` remote
+  install verified end to end, a symlinked remote tree proven not to read
+  outside itself, and the poisoned-frontmatter fixture refused with
+  nothing escaping the skills directory.
+
 ## [0.7.0] — 2026-11-07 · record spec 5
 
 The record can now be born speaking a vocabulary: `docodego init

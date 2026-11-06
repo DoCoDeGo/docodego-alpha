@@ -46,17 +46,33 @@ Manage skills only through the CLI — hand-editing the lockfile breaks the
 audit trail (`DG-K002`), and hand-copying folders skips the digest
 (`DG-K001` will catch it).
 
-### Remote sources are opt-in
+### Remote sources are opt-in, validated, and inert
 
 ```sh
-docodego skill add <name> --from <git-url>
+docodego skill add <name> --from https://github.com/org/skills
 ```
 
 Bundled first-party skills install offline. Pulling from a remote git
-repository is an explicit act: the CLI clones the source, requires a
-`<name>/SKILL.md` folder, and records what it installed (source URL,
-digest) in the lockfile. Verify what you pulled — the digest proves the
-*bytes* stayed what was recorded, not that the upstream was trustworthy.
+repository is an explicit act — and a bounded one:
+
+- **Names are strict.** Letters, digits, `.`, `_`, `-` only — no paths, no
+  traversal (`DG-U074`). A remote whose `SKILL.md` declares a traversing
+  name is refused, and the filesystem layer re-checks every install path
+  stays inside `.agents/skills/`.
+- **Sources are named transports only.** `https://`, `ssh://`, `git://`,
+  `file://` (`DG-U075`). Bare paths, `ext::`/`fd::` command transports, and
+  option-shaped strings are refused before git runs — the CLI does not
+  inherit the user's git-protocol config.
+- **Symlinks are skipped, never followed** — a cloned tree can only offer
+  what it actually contains.
+- **The lockfile stays metadata-only** — name, version, source, digest.
+  File contents live in the installed folder; the digest attests them.
+- **The content is inert text.** Nothing in a skill is executed, evaluated,
+  or templated into a command; the only child process a remote add spawns
+  is `git clone` itself, with fixed arguments. The documented trade stands:
+  a skill's text is prompt material — verify what you pulled. The digest
+  proves the *bytes* stayed what was recorded, not that the upstream was
+  trustworthy.
 
 ## The usage law
 

@@ -5,8 +5,8 @@
  * never silently overwritten — the incoming copy lands side-by-side as
  * `<file>.new` unless --force names explicit human intent. */
 import { createHash } from "node:crypto";
-import { readdirSync, readFileSync } from "node:fs";
-import { join } from "node:path";
+import { lstatSync, readdirSync, readFileSync } from "node:fs";
+import { join, resolve, sep } from "node:path";
 import { appendText, isDir, readText, writeText } from "../fsx.ts";
 import { agentPresets, skillFiles, skillsIndex, TRACKER_TEMPLATE } from "../bundled/index.ts";
 import { TRACKER_REL } from "../record/load.ts";
@@ -14,6 +14,15 @@ import type { SkillLockEntry, SkillsLock } from "../types.ts";
 
 export const LOCK_REL = "skills-lock.json";
 export const AGENTS_DIR = ".agents";
+
+/** The shape of a skill name — one character class, no separators, no
+ * traversal. Enforced at the CLI boundary and re-checked at the filesystem
+ * boundary (plantSkill), so no path can wear a skill's clothes. */
+export const SKILL_NAME_OK = /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/;
+
+/** The skills root for a record, resolved — the boundary every install and
+ * verify path stays inside. */
+export const skillsBase = (recordRoot: string): string => resolve(recordRoot, "..", AGENTS_DIR, "skills");
 
 const readdirSorted = (p: string): string[] => {
   try {
@@ -24,14 +33,18 @@ const readdirSorted = (p: string): string[] => {
 };
 
 /** sha256 over a skill folder on disk — same recipe as the bundler:
- * for each file in sorted order, hash relpath + NUL + bytes. */
+ * for each file in sorted order, hash relpath + NUL + bytes. Symlinks are
+ * skipped, never followed, so the digest covers exactly what a remote tree
+ * actually contains — and what gets planted — never a link's target. */
 export function digestSkillDir(absDir: string): string {
   const h = createHash("sha256");
   const visit = (dir: string, base: string): void => {
     for (const e of readdirSorted(dir)) {
       const abs = join(dir, e);
+      const st = lstatSync(abs, { throwIfNoEntry: false });
+      if (st === undefined || st.isSymbolicLink()) continue;
       const rel = base === "" ? e : `${base}/${e}`;
-      if (isDir(abs)) visit(abs, rel);
+      if (st.isDirectory()) visit(abs, rel);
       else {
         h.update(rel);
         h.update("\0");
@@ -55,21 +68,31 @@ export function writeLock(recordRoot: string, lock: SkillsLock): void {
 
 export const emptyLock = (recordSpecVersion: number): SkillsLock => ({ version: 1, recordSpecVersion, installed: [] });
 
-/** Re-verify every installed skill's folder digest against the lockfile. */
+/** Re-verify every installed skill's folder digest against the lockfile.
+ * An entry whose name escapes the skills directory verifies as false — a
+ * poisoned lockfile cannot bless out-of-tree content. */
 export function verifyInstalled(recordRoot: string, lock: SkillsLock): { name: string; ok: boolean }[] {
+  const base = skillsBase(recordRoot);
   return lock.installed.map((e) => {
-    const dir = join(recordRoot, "..", AGENTS_DIR, "skills", e.name);
+    if (!SKILL_NAME_OK.test(e.name)) return { name: e.name, ok: false };
+    const dir = resolve(base, e.name);
+    if (!dir.startsWith(base + sep)) return { name: e.name, ok: false };
     return { name: e.name, ok: isDir(dir) && digestSkillDir(dir) === e.integrity };
   });
 }
 
 /** Plant one skill's files create-only; returns per-file actions. A differing
- * existing file is preserved — the new bytes land as `<file>.new` beside it. */
+ * existing file is preserved — the new bytes land as `<file>.new` beside it.
+ * The name is re-checked here at the filesystem boundary so a future caller
+ * that forgets the CLI guard still cannot plant outside the skills dir. */
 export function plantSkill(recordRoot: string, name: string, files: Record<string, string>, force: boolean): string[] {
+  if (!SKILL_NAME_OK.test(name)) throw new Error(`skill name '${name}' is not installable — names match letters/digits/./_/- only`);
   const actions: string[] = [];
-  const base = join(recordRoot, "..", AGENTS_DIR, "skills", name);
+  const base = skillsBase(recordRoot);
+  const target = resolve(base, name);
+  if (!target.startsWith(base + sep)) throw new Error(`skill name '${name}' escapes the skills directory`);
   for (const [rel, body] of Object.entries(files)) {
-    const abs = join(base, rel);
+    const abs = join(target, rel);
     const existing = readText(abs);
     if (existing === null || (force && existing !== body)) {
       writeText(abs, body);

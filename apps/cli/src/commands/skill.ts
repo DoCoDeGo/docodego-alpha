@@ -8,14 +8,14 @@
  * unless --force names explicit human intent.
  * Exit codes: 0 ok · 1 failure/mismatch · 2 usage · 3 record corrupt. */
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdtempSync, readdirSync, rmSync, statSync, readFileSync } from "node:fs";
+import { existsSync, lstatSync, mkdtempSync, readdirSync, rmSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import type { Args, Io, SkillLockEntry, SkillsLock } from "../types.ts";
 import { isDir, readText } from "../fsx.ts";
 import { loadRecord, RecordFatal } from "../record/load.ts";
 import { PROFILES, profiles as profileMap, skillFiles, skillsIndex } from "../bundled/index.ts";
-import { digestSkillDir, emptyLock, LOCK_REL, plantSkill, readLock, verifyInstalled, writeLock } from "../skills/lock.ts";
+import { digestSkillDir, emptyLock, LOCK_REL, plantSkill, readLock, SKILL_NAME_OK, verifyInstalled, writeLock } from "../skills/lock.ts";
 import { complain } from "./resolve.ts";
 import { envelope } from "../emit/json.ts";
 
@@ -24,7 +24,7 @@ export function run(args: Args, io: Io): number {
   if (sub === "list") return list(args, io);
   if (sub === "add") return add(args, io);
   if (sub === "remove") return remove(args, io);
-  return complain(args.json, io, { severity: "error", code: "DG-U070", message: "usage: docodego skill list [--json] | skill add <name> [--from <git-url>] [--force] | skill remove <name>" }, 2, "usage");
+  return complain(args.json, io, { severity: "error", code: "DG-U070", message: "usage: docodego skill list [--json] | skill add <name> [--from <url>] [--force] | skill remove <name>" }, 2, "usage");
 }
 
 /** The lockfile: missing -> empty (nothing installed yet); corrupt -> exit 3. */
@@ -59,30 +59,37 @@ function list(args: Args, io: Io): number {
 function add(args: Args, io: Io): number {
   const name = args.pos[1];
   if (name === undefined || name === "") {
-    return complain(args.json, io, { severity: "error", code: "DG-U071", message: "usage: docodego skill add <name> [--from <git-url>] [--force]" }, 2, "usage");
+    return complain(args.json, io, { severity: "error", code: "DG-U071", message: "usage: docodego skill add <name> [--from <url>] [--force]" }, 2, "usage");
+  }
+  if (!SKILL_NAME_OK.test(name)) {
+    return complain(args.json, io, { severity: "error", code: "DG-U074", message: `invalid skill name '${name}' — names are letters/digits/./_/- only (no paths, no traversal)` }, 2, "usage");
+  }
+  if (args.from !== undefined && (/^-/.test(args.from) || !/^(https|ssh|git|file):\/\//.test(args.from))) {
+    return complain(args.json, io, { severity: "error", code: "DG-U075", message: `unsupported --from source — use an https://, ssh://, git:// or file:// URL (bare paths and ext::/fd:: transports are refused before git runs)` }, 2, "usage");
   }
   const rec = loadRecord(process.cwd());
   const lock = lockOrFatal(rec.root);
   const incoming = incomingSkill(args, io, rec.root, name);
   if (incoming === null) return args.from !== undefined ? 1 : 2;
+  const { files, ...entry } = incoming;
   const skillDir = join(rec.root, "..", ".agents", "skills", name);
   const alreadyOnDisk = isDir(skillDir);
   const recorded = lock.installed.find((e) => e.name === name);
   if (alreadyOnDisk && digestSkillDir(skillDir) === incoming.integrity) {
-    if (args.json) io.out(JSON.stringify(envelope("skill", { installed: incoming, changed: false }), null, 2));
+    if (args.json) io.out(JSON.stringify(envelope("skill", { installed: entry, changed: false }), null, 2));
     else io.out(`${name} v${incoming.version} already installed, unchanged`);
     return 0;
   }
   if ((alreadyOnDisk || recorded !== undefined) && !args.force) {
-    plantSkill(rec.root, `${name}.new`, incoming.files, false);
+    plantSkill(rec.root, `${name}.new`, files, false);
     io.err(`refusing: '${name}' exists${recorded !== undefined ? ` in ${LOCK_REL}` : " on disk"} and differs — incoming copy planted at .agents/skills/${name}.new/ for comparison; pass --force to replace`);
     return 1;
   }
-  plantSkill(rec.root, name, incoming.files, args.force);
+  plantSkill(rec.root, name, files, args.force);
   lock.installed = lock.installed.filter((e) => e.name !== name);
-  lock.installed.push(incoming);
+  lock.installed.push(entry);
   writeLock(rec.root, lock);
-  if (args.json) io.out(JSON.stringify(envelope("skill", { installed: incoming, changed: true }), null, 2));
+  if (args.json) io.out(JSON.stringify(envelope("skill", { installed: entry, changed: true }), null, 2));
   else io.out(`installed ${name} v${incoming.version} (source ${incoming.source}, ${incoming.integrity.slice(0, 19)}…)`);
   return 0;
 }
@@ -91,6 +98,9 @@ function remove(args: Args, io: Io): number {
   const name = args.pos[1];
   if (name === undefined || name === "") {
     return complain(args.json, io, { severity: "error", code: "DG-U073", message: "usage: docodego skill remove <name>" }, 2, "usage");
+  }
+  if (!SKILL_NAME_OK.test(name)) {
+    return complain(args.json, io, { severity: "error", code: "DG-U074", message: `invalid skill name '${name}' — names are letters/digits/./_/- only (no paths, no traversal)` }, 2, "usage");
   }
   const rec = loadRecord(process.cwd());
   const lock = lockOrFatal(rec.root);
@@ -118,7 +128,10 @@ function incomingSkill(args: Args, io: Io, root: string, name: string): SkillLoc
 
 /** Opt-in remote: shallow clone into a temp dir, locate <name>/SKILL.md by
  * frontmatter name, copy the folder in, record the digest (computed over the
- * exact bytes that get planted, so list's re-verify matches). */
+ * exact bytes that get planted, so list's re-verify matches). The source URL
+ * is validated by the caller before this runs — only named transports reach
+ * git, so ext::/fd:: and option-shaped strings never do. Symlinks inside the
+ * cloned tree are skipped (lstat), never followed. */
 function fetchRemote(args: Args, io: Io, name: string): (SkillLockEntry & { files: Record<string, string> }) | null {
   const tmp = mkdtempSync(join(tmpdir(), "docodego-skill-"));
   try {
@@ -141,11 +154,14 @@ function fetchRemote(args: Args, io: Io, name: string): (SkillLockEntry & { file
   }
 }
 
-/** Depth-first search for a directory whose SKILL.md frontmatter names `name`. */
+/** Depth-first search for a directory whose SKILL.md frontmatter names `name`.
+ * Symlinked entries are skipped, not followed — a cloned tree can only offer
+ * what it actually contains. */
 function findSkillDir(root: string, name: string): string | null {
   for (const e of readdirSync(root).sort()) {
     const p = join(root, e);
-    if (!statSync(p).isDirectory() || e === ".git") continue;
+    const st = lstatSync(p, { throwIfNoEntry: false });
+    if (st === undefined || st.isSymbolicLink() || !st.isDirectory() || e === ".git") continue;
     const skillMd = join(p, "SKILL.md");
     if (existsSync(skillMd) && frontmatter(readFileSync(skillMd, "utf8"), "name") === name) return p;
     const nested = findSkillDir(p, name);
@@ -154,13 +170,16 @@ function findSkillDir(root: string, name: string): string | null {
   return null;
 }
 
-/** Relative paths of all files under `dir`, sorted, depth-first. */
+/** Relative paths of all files under `dir`, sorted, depth-first. Symlinks are
+ * skipped (not followed): neither arbitrary reads nor link cycles survive. */
 function walkDir(dir: string, base = ""): string[] {
   const out: string[] = [];
   for (const e of readdirSync(dir).sort()) {
     const p = join(dir, e);
+    const st = lstatSync(p, { throwIfNoEntry: false });
+    if (st === undefined || st.isSymbolicLink()) continue;
     const rel = base === "" ? e : `${base}/${e}`;
-    if (statSync(p).isDirectory()) out.push(...walkDir(p, rel));
+    if (st.isDirectory()) out.push(...walkDir(p, rel));
     else out.push(rel);
   }
   return out;

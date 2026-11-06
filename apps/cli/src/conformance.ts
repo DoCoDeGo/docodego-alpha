@@ -8,7 +8,7 @@
  * Run:   node --experimental-strip-types src/conformance.ts
  * Exit 0 = every check green; exit 1 = at least one failed (named). */
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -357,6 +357,66 @@ check("canonical grill asks the canonical question", dvq, 0, (r) => {
   return first !== undefined && first.id === "GQ-1" && first.text === "What does this unit do, in one sentence a stranger can verify?";
 });
 rmSync(vd, { recursive: true, force: true });
+
+// --- v0.7.1: skill-add hardening — names, sources, symlinks (checklist §2) ---
+// The threat pass's probes, kept as law: a skill name can never traverse, a
+// source URL can only be a named transport, symlinks in a remote tree are
+// never followed, and the lockfile stays metadata-only.
+const sh = mkdtempSync(join(tmpdir(), "docodego-conformance-skillhard-"));
+run(sh, ["init"]);
+check("a traversing name is refused at add", run(sh, ["skill", "add", "../../escape"]), 2, (r) => r.stderr.includes("DG-U074"));
+check("a traversing name is refused at remove", run(sh, ["skill", "remove", "../.."]), 2, (r) => r.stderr.includes("DG-U074"));
+check("ext:: transports are refused before git runs", run(sh, ["skill", "add", "x", "--from", "ext::touch pwned.txt"]), 2, (r) => r.stderr.includes("DG-U075"));
+check("option-shaped sources are refused", run(sh, ["skill", "add", "x", "--from", "--upload-pack=evil"]), 2, (r) => r.stderr.includes("DG-U075"));
+check("bare paths are refused — named transports only", run(sh, ["skill", "add", "x", "--from", "../not-a-url"]), 2, (r) => r.stderr.includes("DG-U075"));
+const gitFixture = (repo: string): void => {
+  runRaw(repo, "git", ["init"]);
+  runRaw(repo, "git", ["config", "user.email", "fixture@example.com"]);
+  runRaw(repo, "git", ["config", "user.name", "fixture"]);
+  runRaw(repo, "git", ["add", "-A"]);
+  runRaw(repo, "git", ["commit", "-m", "fixture"]);
+};
+const secret = join(sh, "outside-secret.txt");
+writeFileSync(secret, "secret-contents-from-outside\n");
+const goodRepo = join(sh, "fixture-good");
+const goodDir = join(goodRepo, "tskill");
+mkdirSync(goodDir, { recursive: true });
+writeFileSync(join(goodDir, "SKILL.md"), "---\nname: tskill\nversion: 1.2.3\ndescription: probe craft\n---\n\nprobe body\n");
+gitFixture(goodRepo);
+check("a file:// remote install works end to end", run(sh, ["skill", "add", "tskill", "--from", `file://${goodRepo}`]), 0);
+fact("installed craft carries the remote's bytes", read(sh, "../.agents/skills/tskill/SKILL.md").includes("probe body"));
+fact("the lockfile entry is metadata-only — no file contents", (() => {
+  const entry = (JSON.parse(read(sh, "skills-lock.json")) as { installed: { name: string; files?: unknown }[] }).installed.find((e) => e.name === "tskill");
+  return entry !== undefined && entry.files === undefined;
+})());
+check("skill list re-verifies the remote install", run(sh, ["skill", "list"]), 0);
+const symRepo = join(sh, "fixture-sym");
+const symDir = join(symRepo, "withsym");
+mkdirSync(symDir, { recursive: true });
+writeFileSync(join(symDir, "SKILL.md"), "---\nname: withsym\nversion: 1.0.0\n---\n\nsym body\n");
+let symlinksWork = true;
+try {
+  symlinkSync(secret, join(symDir, "linkfile"));
+} catch {
+  symlinksWork = false;
+}
+if (symlinksWork) {
+  gitFixture(symRepo);
+  check("a remote tree with a symlink installs cleanly", run(sh, ["skill", "add", "withsym", "--from", `file://${symRepo}`]), 0);
+  fact("the symlink was skipped, not followed — no arbitrary read", !existsSync(join(sh, ".agents/skills/withsym/linkfile")));
+  fact("the outside secret never entered the craft", !read(sh, "../.agents/skills/withsym/SKILL.md").includes("secret-contents-from-outside"));
+  check("the record still verifies clean after the remote adds", run(sh, ["skill", "list"]), 0);
+} else {
+  fact("symlink probe skipped — filesystem does not support symlinks", true);
+}
+const evilRepo = join(sh, "fixture-evil");
+const evilDir = join(evilRepo, "escape");
+mkdirSync(evilDir, { recursive: true });
+writeFileSync(join(evilDir, "SKILL.md"), "---\nname: ../../escape\nversion: 9.9.9\n---\n\nEVIL BODY\n");
+gitFixture(evilRepo);
+check("a remote declaring a traversing name is refused before any clone", run(sh, ["skill", "add", "../../escape", "--from", `file://${evilRepo}`]), 2, (r) => r.stderr.includes("DG-U074"));
+fact("nothing escaped the skills directory", !existsSync(join(sh, "escape")) && !existsSync(join(sh, ".agents/skills/escape")));
+rmSync(sh, { recursive: true, force: true });
 
 // --- v2: --branch runs the upgrade on its own branch and commits ---
 const bf = mkdtempSync(join(tmpdir(), "docodego-conformance-branch-"));

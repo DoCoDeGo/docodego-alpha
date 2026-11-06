@@ -334,6 +334,18 @@ prefix (`docodego explain DG-F`) prints every page in the family.
 - law: removals are recorded too — the lockfile always tells the truth about what is installed.
 - fix: 'docodego skill remove <name>'.
 
+**DG-U074 — invalid skill name**
+
+- meaning: a skill name may only carry letters, digits, '.', '_' and '-' (63 characters max) — this one contains a path separator, traversal, or other character that could wear a skill's clothes.
+- law: a skill installs into .agents/skills/<name>/ and nowhere else; the name is validated at the CLI boundary and re-checked at the filesystem boundary, so no traversal can masquerade as craft.
+- fix: use a plain name. Remote skills whose SKILL.md frontmatter declares a traversing name are refused the same way — check the source repo.
+
+**DG-U075 — unsupported --from source**
+
+- meaning: --from accepts https://, ssh://, git:// and file:// URLs only; bare paths, ext::/fd:: command transports, and option-shaped strings are refused before git runs.
+- law: the clone boundary is the supply-chain boundary: only named transports with no command-execution surface may fetch craft — the CLI does not inherit the user's git-protocol config.
+- fix: pass a real URL, e.g. --from https://github.com/org/repo — and let git do the transporting.
+
 **DG-U080 — unknown explain target**
 
 - meaning: the argument is not a diagnostic code, a family prefix, and --list was not passed.

@@ -36,10 +36,16 @@ Nothing here blocks alpha users from building from source today.
 
 - [x] Skills supply chain: lockfile digests, opt-in remote sources,
   `doctor` re-verifies digests.
-- [ ] us — threat-pass over `skill add --from <git-url>`: path traversal in
+- [x] us — threat-pass over `skill add --from <git-url>`: path traversal in
   skill folders, symlinked files inside a cloned skill, hooks/scripts
   inside skill content (should be inert text — prove it), clone URL
   schemes (file://, ssh with options).
+  Done in v0.7.1: traversal refused by name law + filesystem re-check
+  (`DG-U074`), sources limited to https/ssh/git/file URLs (`DG-U075`),
+  symlinks skipped not followed, lockfile metadata-only; inert content
+  proven (the only child process is `git clone` with fixed argv). The
+  standing trade — a skill's text is prompt material — is documented in
+  skills.md, not eliminable in code.
 - [ ] us — threat-pass over record parsing (the parser is fuzzed for
   crashes; now check *semantics*: can a crafted record make `deliver`
   pass gates falsely, or `upgrade` write outside the repo?).
