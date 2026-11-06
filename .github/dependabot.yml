@@ -1,0 +1,7 @@
+# Keep the workflow actions themselves fresh — the build tooling is code too.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

@@ -38,17 +38,21 @@ function report(): void {
   for (const g of gates) process.stdout.write(`  ${g.ok ? "ok  " : "FAIL"} ${g.name}${g.ok && g.detail ? ` — ${g.detail}` : ""}${g.ok ? "" : `\n       ${g.detail}`}\n`);
 }
 
-/** Walk up from the repo root to find a node_modules/.bin/tsc (build tool). */
-function findTsc(): string {
+/** Walk up from the repo root to find the typescript package's own entry
+ * point. Run through node (`node .../typescript/bin/tsc`) rather than the
+ * `node_modules/.bin/tsc` shim — the shim is a POSIX sh script on disk and a
+ * `.cmd` on Windows, so spawning it directly breaks the build on Windows.
+ * The node entry is platform-independent by construction. */
+function findTsc(): { cmd: string; args: string[] } {
   let dir = dirname(APP);
   for (let i = 0; i < 6; i++) {
-    const candidate = join(dir, "node_modules", ".bin", "tsc");
-    if (existsSync(candidate)) return candidate;
+    const candidate = join(dir, "node_modules", "typescript", "bin", "tsc");
+    if (existsSync(candidate)) return { cmd: process.execPath, args: [candidate] };
     const parent = dirname(dir);
     if (parent === dir) break;
     dir = parent;
   }
-  return "";
+  return { cmd: "", args: [] };
 }
 
 function sha256(p: string): string {
@@ -66,12 +70,12 @@ run("bundle --verify", process.execPath, ["--experimental-strip-types", join(SCR
 
 // 2 — typecheck: strict, no emit
 const tsc = findTsc();
-if (tsc === "") {
-  gate("typecheck", false, "no node_modules/.bin/tsc found up-tree — install devDependencies");
+if (tsc.cmd === "") {
+  gate("typecheck", false, "no typescript package found up-tree — install devDependencies");
   report();
   process.exit(1);
 }
-run("typecheck", tsc, ["-p", join(APP, "tsconfig.json"), "--noEmit"], APP);
+run("typecheck", tsc.cmd, [...tsc.args, "-p", join(APP, "tsconfig.json"), "--noEmit"], APP);
 
 // 3 — compile dist/docodego.js: one file, shebang, any modern Node, no flags
 const bun = "bun";

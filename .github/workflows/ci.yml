@@ -5,10 +5,22 @@ on:
     branches: [main]
   pull_request:
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   gates:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
+      # The record layer is lf; a crlf checkout would poison the goldens,
+      # the payload drift gate, and every byte-exact assertion.
+      - name: normalize line endings before checkout
+        run: git config --global core.autocrlf false
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:

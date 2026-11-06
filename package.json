@@ -7,6 +7,7 @@
   "devDependencies": { "@types/node": "^24", "typescript": "^7.0.2" },
   "scripts": {
     "typecheck": "tsc -p apps/cli/tsconfig.json --noEmit",
+    "test": "npm run conformance && npm run fuzz",
     "conformance": "node --experimental-strip-types apps/cli/src/conformance.ts",
     "bundle": "node --experimental-strip-types apps/cli/scripts/bundle.ts",
     "bundle:verify": "node --experimental-strip-types apps/cli/scripts/bundle.ts --verify",
