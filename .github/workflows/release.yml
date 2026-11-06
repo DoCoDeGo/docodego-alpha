@@ -16,6 +16,8 @@ jobs:
   release:
     if: github.repository == 'DoCoDeGo/docodego-alpha'
     runs-on: ubuntu-latest
+    outputs:
+      published: ${{ steps.fresh.outputs.new }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -69,7 +71,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           {
-            echo "Assets: the zero-dependency docodego.js (Node 20 or newer, no flags), self-contained binaries per platform, sha256sums.txt."
+            echo "Assets: the zero-dependency docodego.js (Node 22.6 or newer, no flags), self-contained binaries per platform, sha256sums.txt."
             echo
             awk -v ver="${{ steps.version.outputs.version }}" 'index($0, "## [" ver "]") == 1 {f=1; next} f && /^## \[/ {f=0} f' CHANGELOG.md
           } > release-notes.md
@@ -83,3 +85,67 @@ jobs:
             apps/cli/dist/docodego-darwin-arm64 \
             apps/cli/dist/docodego-windows-x64.exe \
             apps/cli/dist/sha256sums.txt
+
+  # The smoke job proves the release, not the build: it downloads the assets
+  # any user would download, verifies every checksum, and executes the real
+  # platform binary end to end (version → init → status → check). The linux
+  # leg additionally runs docodego.js on Node 22 — the engines floor the
+  # docs claim. A release whose binaries do not run is not a release.
+  smoke:
+    needs: release
+    if: github.repository == 'DoCoDeGo/docodego-alpha' && needs.release.outputs.published == 'true'
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-latest, asset: docodego-linux-x64 }
+          - { os: macos-latest, asset: docodego-darwin-arm64 }
+          - { os: windows-latest, asset: docodego-windows-x64.exe }
+    name: smoke ${{ matrix.asset }}
+    runs-on: ${{ matrix.os }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+
+      - id: version
+        shell: bash
+        run: echo "version=$(node -p "require('./apps/cli/package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: download the release assets
+        shell: bash
+        run: |
+          mkdir smoke
+          gh release download "v${{ steps.version.outputs.version }}" -R "$GITHUB_REPOSITORY" --dir smoke --pattern "${{ matrix.asset }}" --pattern sha256sums.txt
+
+      - name: verify checksums
+        shell: bash
+        run: node apps/cli/scripts/verify-checksums.mjs smoke "${{ matrix.asset }}"
+
+      - name: run the binary — version, init, status, check
+        shell: bash
+        run: |
+          cd smoke
+          chmod +x "${{ matrix.asset }}" || true
+          out=$("./${{ matrix.asset }}" --version) || exit 1
+          echo "$out"
+          case "$out" in *" ${{ steps.version.outputs.version }} "*) ;; *) echo "version mismatch in '$out'"; exit 1;; esac
+          rm -rf rec && mkdir rec && cd rec
+          "../${{ matrix.asset }}" init
+          "../${{ matrix.asset }}" status
+          "../${{ matrix.asset }}" check
+
+      - name: node 22 runs docodego.js — the engines floor, proven
+        if: matrix.os == 'ubuntu-latest'
+        shell: bash
+        run: |
+          gh release download "v${{ steps.version.outputs.version }}" -R "$GITHUB_REPOSITORY" --dir smoke --pattern docodego.js
+          node apps/cli/scripts/verify-checksums.mjs smoke docodego.js
+          cd smoke
+          npx -y node@22 docodego.js --version
+          rm -rf rec && mkdir rec && cd rec
+          npx -y node@22 ../docodego.js init
+          npx -y node@22 ../docodego.js check
