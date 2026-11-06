@@ -1,31 +1,48 @@
-# Distribution — channels, processes, secrets policy
+# Publishing — every channel, the processes, the record
 
-Recorded: 2026-11-07, during the v0.7.1 go-public rollout.
+Recorded: 2026-11-07, during the v0.7.1 go-public rollout. Updated as
+channels land.
 
-This page documents how docodego reaches its users. Law: no token, key, or
+This page is the one authoritative record of how docodego reaches its
+users: where it is published, how each channel was set up, what changes on
+each release, and what happened along the way. Law: no token, key, or
 secret value ever lives in this repository, this file, or chat — secrets
-exist only as GitHub Actions secrets (referenced here by name, never value).
+exist only as GitHub Actions secrets (referenced here by name, never
+value).
+
+## Channel status
+
+| channel | where | status | proven how |
+|---|---|---|---|
+| npm (unscoped) | [docodego](https://www.npmjs.com/package/docodego) | **live** — 0.7.1 | `npx docodego --version`, `pnpm dlx docodego --version` from the live registry |
+| npm (org mirror) | [@docodego/cli](https://www.npmjs.com/package/@docodego/cli) | **live** — 0.7.1 | `npx @docodego/cli --version` from the live registry |
+| Homebrew | [DoCoDeGo/homebrew-tap](https://github.com/DoCoDeGo/homebrew-tap) | **live** — 0.7.1 | `brew install docodego/tap/docodego` + `brew test docodego` on macOS arm64 |
+| install script | `install.sh` (repo root) | **live** — 0.7.1 | full run: resolve → download → verify → install → execute |
+| Scoop | [DoCoDeGo/scoop-bucket](https://github.com/DoCoDeGo/scoop-bucket) | **published, unproven** | manifest schema-correct, hashes pinned; no Windows host here yet |
+| Nix | `flake.nix` (repo root) | **published, unproven** | four systems pinned to release sha256s; no nix host here |
+| AUR | `packaging/aur/PKGBUILD` | **staged** — needs Arch account | blocked on founder account + SSH key |
+| Winget | `packaging/winget/` | **staged** — needs PR | blocked on `winget validate` + PR to microsoft/winget-pkgs |
+| GitHub Releases | [releases](https://github.com/DoCoDeGo/docodego-alpha/releases) | **live** — since v0.6.x | release + 3-OS smoke matrix in CI |
 
 ## npm
 
-The primary channel — `npx docodego` / `pnpm dlx docodego` is the front door
-of the README quickstart.
+The primary channel — `npx docodego` / `pnpm dlx docodego` is the front
+door of the README quickstart.
 
 - **Org**: [npmjs.com/org/docodego](https://www.npmjs.com/org/docodego)
   (account `docodego-owner`). Org creation is website-only — the registry
   API has no org-create endpoint (`PUT /-/org/<name>` returns 404); this
   was confirmed empirically during setup.
 - **Packages** (claude / opencode pattern — one artifact, two names):
-  - [`docodego`](https://www.npmjs.com/package/docodego) — unscoped,
-    primary. bin `docodego` → `dist/docodego.js`.
-  - [`@docodego/cli`](https://www.npmjs.com/package/@docodego/cli) — scoped
-    org mirror; the org page lists nothing without it.
-- **Published**: 0.7.1 on 2026-11-07, manually (first publish), from the
-  v0.7.1 release artifact.
+  - `docodego` — unscoped, primary. bin `docodego` → `dist/docodego.js`.
+  - `@docodego/cli` — scoped org mirror; the org page lists nothing
+    without it.
 - **Manifest**: `apps/cli/package.json` carries the publish fields
   (`bin`, `files`, `engines: >=22.6`, `publishConfig.access: public`,
   `repository`, `keywords`). `files` locks the tarball to the built bundle —
-  74 kB packed, zero runtime dependencies.
+  74 kB packed, zero runtime dependencies. npm normalizes bin paths: use
+  `dist/docodego.js`, not `./dist/docodego.js` (the `./` form gets the bin
+  stripped with a publish warning — found in the v0.7.1 dry-run).
 - **CI**: the `npm` job in `.github/workflows/release.yml` publishes both
   packages on every fresh release. Design law: it does NOT rebuild — it
   downloads `docodego.js` from the freshly published GitHub release,
@@ -46,11 +63,22 @@ of the README quickstart.
   name). Harmless — `latest` is always the real release. Machines that
   fetched metadata during the stub window hold a stale packument; the
   one-time fix is `rm -rf ~/Library/Caches/pnpm` (npm's cache self-heals
-  within minutes). Fresh machines never see it.
-- **Verification performed**: `npx docodego --version`,
-  `pnpm dlx docodego --version`, and `npx @docodego/cli --version` all
-  resolve 0.7.1 from the live registry and print
-  `docodego cli 0.7.1 · record spec 5`.
+  within minutes). Fresh machines never see it. Symptom if you hit it:
+  pnpm resolves `0.0.0-stage` and fails with "numeric field was not a
+  number" on the stub tarball.
+- **First-publish walk** (used for 0.7.1; CI repeats it from now on):
+
+  ```sh
+  cp README.md LICENSE apps/cli/          # npm-page files; remove after publish
+  cd apps/cli
+  npm publish --dry-run --userconfig <npmrc-with-token>   # inspect the tarball
+  npm publish --userconfig <npmrc-with-token>             # unscoped docodego
+  # scoped mirror from the same artifact:
+  mkdir -p /tmp/mirror/dist && cp dist/docodego.js /tmp/mirror/dist/
+  cp README.md LICENSE /tmp/mirror/       # plus a package.json with name @docodego/cli
+  cd /tmp/mirror && npm publish --userconfig <npmrc-with-token>
+  rm apps/cli/README.md apps/cli/LICENSE  # keep the tree clean
+  ```
 
 ## Homebrew
 
@@ -59,10 +87,6 @@ of the README quickstart.
 - **Install**: `brew install docodego/tap/docodego`.
 - **Proven**: full install + `brew test docodego` green on macOS arm64,
   v0.7.1.
-- **Release bump**: update `version` and the two darwin `sha256` values in
-  the formula from the release's `sha256sums.txt`. Automation candidate —
-  a CI job can push the bump per release, but cross-repo pushes need a
-  fine-grained PAT secret (`GITHUB_TOKEN` cannot write to another repo).
 - **homebrew-core**: deliberately not pursued yet (notability bar); own-tap
   first is the standard indie-CLI path.
 
@@ -83,8 +107,6 @@ of the README quickstart.
   (x86_64/aarch64 × linux/darwin), each pinned to the release binary and
   its sha256.
 - **Run**: `nix run github:DoCoDeGo/docodego-alpha`.
-- **Release bump**: version + four hashes from `sha256sums.txt`, bumped
-  together.
 - **Proven**: not executed locally (no nix on the build machine); schema is
   minimal and the hashes are the release's own.
 
@@ -103,9 +125,6 @@ of the README quickstart.
   git -C aur-docodego-bin add -A && git -C aur-docodego-bin commit -m "0.7.1"
   git -C aur-docodego-bin push
   ```
-
-  Update `pkgver` + `sha256sums_x86_64` at each release; CI can automate
-  the push once an AUR deploy key exists as a secret.
 
 ## Winget (Windows)
 
@@ -131,6 +150,22 @@ of the README quickstart.
 - **Windows**: intentionally out of scope for the script — Scoop and the
   winget manifest cover Windows.
 
+## The per-release checklist
+
+What changes where when a new version ships. The release workflow fires on
+any push to `main` that carries a new `apps/cli/package.json` version.
+
+| channel | action per release | who |
+|---|---|---|
+| GitHub Releases | nothing — automatic (build, cross-compile, checksums, publish) | CI |
+| 3-OS smoke | nothing — automatic (downloads, verifies, executes every asset) | CI |
+| npm (both names) | nothing — automatic (publishes the checksum-verified release artifact with provenance) | CI |
+| Scoop bucket | nothing — `checkver: github` autoupdates; hashes read from the new release's sums | nobody |
+| Homebrew tap | bump `version` + two darwin `sha256` values in `Formula/docodego.rb` | manual now; CI candidate (needs a fine-grained PAT — `GITHUB_TOKEN` cannot push cross-repo) |
+| Nix flake | bump `version` + four `sha256` values in `flake.nix` | manual now; same CI candidate |
+| AUR | bump `pkgver` + `sha256sums_x86_64` in `packaging/aur/PKGBUILD`, push per the walk above | founder/CI after the account exists |
+| Winget | new manifest directory per version at PR time to microsoft/winget-pkgs | per-PR |
+
 ## Handle and claim map
 
 **Ours, verified** — docodego.com (registered 2022) · YouTube `@docodego` ·
@@ -149,12 +184,48 @@ vanity (claimable only after creating a server).
 Python/Rust/Ruby); Product Hunt / Hacker News are launch-day actions, not
 claims.
 
-## What fires automatically now
+## Process log
 
-A push to `main` with a new `apps/cli/package.json` version runs the full
-gate chain, publishes the GitHub release with all platform binaries, proves
-every asset on three operating systems, then publishes npm — both package
-names, from the checksum-verified release artifact, with provenance.
+The record of the rollout, in order. Values of tokens are never recorded —
+see the secrets law at the top.
+
+- **2026-11-07** — handle availability verified: npm `docodego` and
+  `@docodego/docodego` free (registry 404s), docodego.io/.org free (whois),
+  docodego.dev free (RDAP 404), docodego.com ours, Bluesky/Mastodon/dev.to
+  free, Docker Hub namespace empty, Homebrew core name free. Discussions
+  enabled on the alpha repo.
+- **2026-11-07** — Homebrew formula written and locally checked against
+  the v0.7.1 release sums; tap repo `DoCoDeGo/homebrew-tap` created and
+  pushed; `brew install docodego/tap/docodego` executed for real — install
+  and `brew test` green.
+- **2026-11-07** — first npm token (pasted in chat) tested: E401 against
+  the registry — dead on arrival (truncated, revoked, or IP-restricted;
+  never diagnosed further, treated as burned).
+- **2026-11-07** — `apps/cli/package.json` rewritten for publishing:
+  `private` removed, bin moved to the built artifact, `files`/`engines`/
+  `repository`/`keywords`/`publishConfig` added. Dry-run caught npm
+  stripping the `./`-prefixed bin — fixed to `dist/docodego.js`.
+- **2026-11-07** — founder created the npm org on the website (registry
+  API cannot) and supplied a fresh token; `NPM_TOKEN` repository secret
+  set. Token verified via `npm whoami` → account `docodego-owner`.
+- **2026-11-07** — published `docodego@0.7.1` (unscoped, dry-run first)
+  and `@docodego/cli@0.7.1` (staged mirror) from the v0.7.1 release
+  artifact. Verified live: `npx docodego`, `pnpm dlx docodego`,
+  `npx @docodego/cli` all print `docodego cli 0.7.1 · record spec 5`.
+- **2026-11-07** — diagnosed the stale-packument effect: machines that
+  queried the names during the stub-only window resolve `0.0.0-stage`
+  until their package-manager cache clears; fix recorded above. Fresh
+  machines unaffected.
+- **2026-11-07** — `install.sh` written and proven end-to-end on macOS
+  arm64 against v0.7.1. Scoop bucket repo created and pushed. `flake.nix`,
+  `packaging/aur/PKGBUILD`, and the three winget manifests staged, pinned
+  to the v0.7.1 release sums.
+- **2026-11-07** — release.yml gained the `npm` job (after-smoke,
+  released-artifact, provenance). README quickstart switched from
+  build-from-source to the live channels; Status section updated (install
+  channels no longer open questions). Commits `d17917e` + `161f185`
+  pushed (no version bump — no release fired).
+- **2026-11-07** — this file expanded into the standing publishing record.
 
 ## Founder actions left
 
@@ -165,6 +236,6 @@ names, from the checksum-verified release artifact, with provenance.
 4. Optional claims: defensive domains (.dev/.io/.org), Bluesky, Mastodon,
    dev.to, Docker Hub; manual 30-second checks for X, Reddit, LinkedIn,
    Discord.
-5. Later automation: cross-repo release bumps for the tap, bucket, and
-   flake need one fine-grained PAT stored as a secret (`GITHUB_TOKEN`
-   cannot push outside the repo).
+5. Later automation: cross-repo release bumps for the tap and flake need
+   one fine-grained PAT stored as a secret (`GITHUB_TOKEN` cannot push
+   outside the repo). Scoop needs nothing — autoupdate.
