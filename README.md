@@ -1,6 +1,6 @@
 # docodego
 
-The intent-and-evidence layer for the agent age.
+The intent-and-evidence layer for the agent age — **[docodego.com](https://docodego.com)**.
 
 docodego is a CLI that plants and operates a **record layer** in your
 repository: a versioned, append-only tree where intent is written down

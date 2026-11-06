@@ -178,9 +178,12 @@ any push to `main` that carries a new `apps/cli/package.json` version.
 
 ## Handle and claim map
 
-**Ours, verified** — docodego.com (registered 2022) · YouTube `@docodego` ·
+**Ours, verified** — **docodego.com (the official homepage, live over
+HTTPS)** · YouTube `@docodego` ·
 GitHub org `DoCoDeGo` · npm org `docodego` + both packages · Discussions on
 the alpha repo · ghcr.io namespace (org-included).
+Defensive option: `docodgo.com` (the common typo) is unregistered — cheap
+to squat.
 
 **Verified available, unclaimed** — domains docodego.dev / .io / .org ·
 Bluesky `docodego.bsky.social` · Mastodon `@docodego@mastodon.social` ·
@@ -235,6 +238,19 @@ see the secrets law at the top.
   build-from-source to the live channels; Status section updated (install
   channels no longer open questions). Commits `d17917e` + `161f185`
   pushed (no version bump — no release fired).
+- **2026-11-07** — Homebrew bare-name behavior verified on Homebrew
+  7.0.12: third-party taps are untrusted for bare-name installs until
+  `brew trust docodego/tap` (anti-typosquatting); trust → bare install
+  proven, documented in the README, this file, and the tap's README.
+- **2026-11-07** — `docodego.com` adopted as the official homepage (live,
+  HTTPS, Cloudflare) across all packaging metadata: npm manifest, Homebrew
+  formula, Scoop bucket, Nix flake, AUR PKGBUILD, winget locale manifest,
+  README tagline, the GitHub repo sidebar, and the org profile.
+  GitHub-release URLs stay where they are — they are the artifact store,
+  not the homepage. Timing note: npm pins manifest metadata per version,
+  so the published 0.7.1 pages keep the GitHub link until the next
+  release carries the new `homepage` field. Defensive note: `docodgo.com`
+  (the typo variant) is unregistered — cheap to squat.
 - **2026-11-07** — this file expanded into the standing publishing record.
 
 ## Founder actions left

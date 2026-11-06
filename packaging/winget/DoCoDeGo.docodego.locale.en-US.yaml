@@ -5,7 +5,7 @@ PackageLocale: en-US
 Publisher: DoCoDeGo
 PublisherUrl: https://github.com/DoCoDeGo
 PackageName: docodego
-PackageUrl: https://github.com/DoCoDeGo/docodego-alpha
+PackageUrl: https://docodego.com
 ShortDescription: The intent-and-evidence layer for the agent age.
 Description: |-
   docodego plants and operates a record layer in your repository: a versioned,

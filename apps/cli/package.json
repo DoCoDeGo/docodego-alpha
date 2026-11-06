@@ -7,7 +7,7 @@
   "bin": { "docodego": "dist/docodego.js" },
   "files": ["dist/docodego.js", "README.md", "LICENSE"],
   "engines": { "node": ">=22.6" },
-  "homepage": "https://github.com/DoCoDeGo/docodego-alpha#readme",
+  "homepage": "https://docodego.com",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DoCoDeGo/docodego-alpha.git",
