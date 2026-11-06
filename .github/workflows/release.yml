@@ -50,7 +50,12 @@ jobs:
           for t in bun-linux-x64 bun-linux-arm64 bun-darwin-x64 bun-darwin-arm64 bun-windows-x64; do
             bun build --compile --target="$t" docodego.js --outfile "docodego-${t#bun-}"
           done
-          for f in docodego-windows-x64*; do mv "$f" "docodego-windows-x64.exe"; done
+          for f in docodego-windows-x64*; do
+            case "$f" in
+              *.exe) ;; # bun already names the windows target .exe
+              *) mv "$f" "$f.exe" ;;
+            esac
+          done
 
       - name: checksums
         if: steps.fresh.outputs.new == 'true'
