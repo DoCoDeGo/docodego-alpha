@@ -6,6 +6,57 @@ semver) and the **record spec** (a strict integer — the contract version of
 the planted `.docodego/` layer). Users upgrade records, not just tools, so
 the record axis is the one to watch. Format: Keep a Changelog.
 
+## [0.7.0] — 2026-11-07 · record spec 5
+
+The record can now be born speaking a vocabulary: `docodego init
+--vocabulary babok` plants the same contract in different words. Words
+change, the contract does not — paths, file names, statuses, commands,
+gate ids, and diagnostic codes are identical in every pack, and the
+sixteen statutes stay verbatim. The choice is init-time only: an existing
+record is never re-voiced. The record front door is also replaced (it was
+a planted research note; now it is the record index), and the
+getting-started walkthrough is corrected against a live transcript.
+
+### Added
+
+- **Vocabulary packs** — three ship built in: `plain` (the canonical
+  voice), `agile` (product owners: refinement, planning, review, retro),
+  `babok` (business analysts: elicit, analyse, specify). `init
+  --vocabulary <pack>` re-voices the sixteen stream READMEs, the
+  AGENTS.md movement glosses, and the phrasing of gate questions GQ-1…4
+  (ids unchanged, so answers files and verdicts are dialect-blind), and
+  plants `.docodego/.standard/vocabulary.md` — the glossary bridge back
+  to canonical. The manifest records the choice as `vocabulary`.
+- **The pack law, enforced at three points** — one validator
+  (`src/record/vocabulary.ts`): the bundle refuses to embed an invalid
+  pack (the build fails), conformance asserts every shipped pack passes
+  it and plants byte-identically, and grill/init consume packs only
+  through its type.
+- Six more packs (waterfall, dual-track, double-diamond, lean-startup,
+  itil, dora) exist as on-demand examples in the studio research record;
+  promoting one is: drop the JSON into `apps/cli/vocabularies/`, bump.
+
+### Changed
+
+- **The record front door is replaced** — `.docodego/README.md` is now
+  the record index: read order, the shape, the law in short, the tracker
+  pointer. Migration 4 → 5 is a documented no-op: no paths change, your
+  words are yours.
+- **Node floor restated** — docs now say Node 22.6 or newer, matching the
+  engines contract `doctor` enforces; the earlier "Node 20 or newer —
+  verified" claim had only ever tested `--version`.
+
+### Fixed
+
+- **Getting-started replays cleanly** — a transcript pass against v0.6.0
+  found six drifts, all fixed here: the build path is
+  `apps/cli/dist/docodego.js` (README quickstart and alias too), the §3
+  scaffold shown is the one `new --from-sketch` actually plants, §6's
+  proofs are markdown list entries (`- <path> — what it shows`; bare
+  paths fail gate G4), `lint --self-check`'s comment no longer claims it
+  lints the record, and the `status --epic` example admits it prints
+  `0 unit(s)` when no epic exists.
+
 ## [0.6.0] — 2026-11-07 · record spec 4
 
 The planted AGENTS.md now teaches agents all fifteen commands — a record

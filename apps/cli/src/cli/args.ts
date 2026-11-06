@@ -3,7 +3,7 @@ import { MODES, type Args, type DocType, type Mode } from "../types.ts";
 import { DOC_TYPES } from "../types.ts";
 
 const BOOL_FLAGS = new Set(["--json", "--force", "--self-check", "--apply", "--branch", "--all-skills", "--version", "--help", "--list"]);
-const VALUE_FLAGS = new Set(["--mode", "--answers", "--type", "--epic", "--story", "--stream", "--from-sketch", "--profile", "--from"]);
+const VALUE_FLAGS = new Set(["--mode", "--answers", "--type", "--epic", "--story", "--stream", "--from-sketch", "--profile", "--from", "--vocabulary"]);
 
 export type ParsedArgs = { ok: true; args: Args } | { ok: false; message: string };
 
@@ -64,6 +64,7 @@ export function parseArgs(argv: string[]): ParsedArgs {
       else if (tok === "--from-sketch") args.fromSketch = value;
       else if (tok === "--profile") args.profile = value;
       else if (tok === "--from") args.from = value;
+      else if (tok === "--vocabulary") args.vocabulary = value;
       i += 1;
       continue;
     }
@@ -78,7 +79,7 @@ const USAGE = `docodego — the intent-and-evidence CLI (bundled record · parse
 usage: docodego <command> [args] [flags]
 
 commands:
-  init [--mode auto|review|guided|hands-on] [--profile <p>] [--all-skills] [--force]
+  init [--mode auto|review|guided|hands-on] [--profile <p>] [--all-skills] [--vocabulary <pack>] [--force]
   new <unit> [--type unit|epic|story] [--epic E] [--story S] [--stream <stream>] [--from-sketch <name>]
   sketch <name>
   grill <unit> [--answers <file>] [--json]

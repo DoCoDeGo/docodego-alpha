@@ -1,0 +1,56 @@
+{
+  "name": "babok",
+  "displayName": "BABOK — the business analyst's dialect",
+  "version": "1.0.0",
+  "recordVersion": 4,
+  "summary": "For business analysts (IIBA BABOK v3 vocabulary): elicit, analyse, specify, verify, validate, approve. Docodego's 01-document is the BABOK's working vocabulary already — this pack says so in the record's own voice, and names the sponsor where the sign happens.",
+  "law": "Words change. The contract does not: paths, file names, statuses, command names, exit codes, and diagnostic codes are identical in every pack. The sixteen statutes are recorded verbatim and are never re-voiced.",
+  "movements": {
+    "01-document": { "gloss": "business needs elicited, analysed, and specified" },
+    "02-compose": { "gloss": "the solution increment, built and kept shippable" },
+    "03-demonstrate": { "gloss": "verification, validation, and approval" },
+    "04-govern": { "gloss": "the value loop closed: monitor, measure, improve" }
+  },
+  "streams": {
+    "01-document/01-discover": "[Finding] business needs elicited from stakeholders, before any register exists · producer: anyone with a need → consumer: 02-refine",
+    "01-document/02-refine": "[Finding] requirements analysis — elicit, analyse, specify, prioritise · producer: the analyst with stakeholders → consumer: 04-plan",
+    "01-document/03-validate": "[Grounding] assumptions tested before commitment — validate cheap, before solution design · producer: analysis work → consumer: a specified, prioritised requirement",
+    "01-document/04-plan": "[Grounding] solution planning — what enters this delivery cycle · producer: the analyst + sponsor → consumer: 02-compose/01-build",
+    "02-compose/01-build": "[Rising] the solution increment, built tests-first · producer: specified requirements + compose → consumer: 02-integrate",
+    "02-compose/02-integrate": "[Rising] keep it shippable — merged, green, reviewed · producer: 01-build → consumer: 01-demo",
+    "02-compose/03-enhance": "[Nurturing] improvements from stakeholder feedback into the cycle · producer: demo feedback → consumer: 01-build",
+    "02-compose/04-maintain": "[Nurturing] defect fixes and technical debt, never starved · producer: incidents, retro actions → consumer: 01-build",
+    "03-demonstrate/01-demo": "[Nurturing] the solution demonstrated — working software, to stakeholders · producer: 02-integrate → consumer: 02-accept",
+    "03-demonstrate/02-accept": "[Nurturing] acceptance criteria verified, the sponsor approves · producer: 01-demo → consumer: 03-release",
+    "03-demonstrate/03-release": "[Nurturing] cut the release · producer: 02-accept → consumer: 04-deploy",
+    "03-demonstrate/04-deploy": "[Nurturing] into production · producer: 03-release → consumer: 04-govern/01-monitor",
+    "04-govern/01-monitor": "[Nurturing] production tells the truth · producer: 04-deploy → consumer: 02-measure",
+    "04-govern/02-measure": "[Leaving] outcomes against the business need — outcomes only, never person-scores · producer: 01-monitor → consumer: 03-retrospect",
+    "04-govern/03-retrospect": "[Leaving] the lessons-learned round · producer: the whole team → consumer: 04-improve",
+    "04-govern/04-improve": "[Leaving] improvement actions land here, each with an owner · producer: 03-retrospect → consumer: the next analysis cycle — the loop closes"
+  },
+  "gateQuestions": {
+    "GQ-1": "What business need does this requirement serve, in one sentence a stakeholder can verify?",
+    "GQ-2": "What evidence proves each acceptance criterion actually ran — verified in the build, validated with stakeholders?",
+    "GQ-3": "What is the biggest risk to this requirement delivering value — and its mitigation?",
+    "GQ-4": "What did you explicitly exclude from solution scope?"
+  },
+  "glossary": {
+    "business need": "a unit's intent — the `## intent` section of spec.md",
+    "requirement": "a unit — the folder whose spec.md carries the need, scope, acceptance, and risks",
+    "elicitation": "01-document/01-discover — needs gathered before any register exists",
+    "requirements analysis": "01-document/02-refine — elicit, analyse, specify, prioritise",
+    "solution scope": "a spec's `## scope` section — in and out, explicitly",
+    "risk": "a spec's `## threats` section — each risk with its mitigation",
+    "specify": "authoring spec.md — the requirement specification, scored by `docodego score`",
+    "verification": "did we build it right — the check and lint passes, the proofs on disk",
+    "validation": "did we build the right thing — 03-demonstrate/02-accept, criteria met against stakeholders",
+    "approval": "03-demonstrate/02-accept — the sponsor signs; `docodego deliver` records it",
+    "traceability": "`docodego trace <unit>` — one requirement's whole arc on one timeline",
+    "the register": "the tracker — 04-govern/01-monitor/tracker.md, append-only",
+    "sponsor": "the human whose sign closes 02-accept",
+    "stakeholder": "anyone with a need — the producer of 01-discover and the audience of 01-demo",
+    "recommended actions": "04-govern/04-improve — improvement actions, each with an owner",
+    "BABOK v3": "IIBA, A Guide to the Business Analysis Body of Knowledge — this pack's dialect source; docodego is not affiliated with or endorsed by the IIBA"
+  }
+}

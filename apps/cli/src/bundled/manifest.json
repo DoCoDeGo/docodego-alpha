@@ -1,6 +1,6 @@
 {
-  "specVersion": 4,
-  "cliVersion": "0.6.0",
+  "specVersion": 5,
+  "cliVersion": "0.7.0",
   "structureHash": "9ab7debed2bc5476bb4e515d12ddae6d043f730504339196ab951c81786409b7",
   "files": {
     ".agents/agents/docodego-researcher.md": "dff87e487865ef57b0e6e786ba39dcf543d87a0eb81831aea8ec9b41a760a0b9",
@@ -16,7 +16,7 @@
     ".agents/skills/docodego-grounding/questions.md": "49a6dd5d90a4a9dba102f2ee47faa432905f5c0cc8e01ba336d025d127faa76e",
     ".agents/skills/docodego-loop/SKILL.md": "2f8c03a6891e9c8c0660557f5a3e64a6fdc6511eaa5bdc723b5ca81e6d4b7e77",
     ".agents/skills/docodego/SKILL.md": "62e491d26d655e5112e066288bd9921beb9168bade16f574fe1ae29f65737eff",
-    ".docodego/.standard/manifest.json": "c86a946d6486d3090b17e8ad8cc5de4dbbb47e6601eba85d19d3192909850303",
+    ".docodego/.standard/manifest.json": "a262a3580d2cdd904e8bcfee38d2bc5483f68f90d9f9e69966fbed2c5f18f0e6",
     ".docodego/.standard/statutes.md": "950faefc481f0276913c49c5e31b0535e5aa80f44e2f957cff771f28fdd00902",
     ".docodego/.standard/tech-radar.md": "6fdf71fac4037381fe8eef9ce5809867c208f99b760e78ede573bb56f8a9a3af",
     ".docodego/01-document/01-discover/README.md": "5f2b26255f4383c8b2070fcc2c13fb1a940b2be7db69bcaab9c3db6dc85d9597",
@@ -35,7 +35,7 @@
     ".docodego/04-govern/02-measure/README.md": "cb491990093ba2318cfea80be4d7fcee0b49e2f88481107dcfec06a02fc074bd",
     ".docodego/04-govern/03-retrospect/README.md": "ebc281dbb57424f9f1d411f72036ac04fbd709cc8a9477866cd60798350e92a3",
     ".docodego/04-govern/04-improve/README.md": "2f39b0cf2b98e55ec5c49461109330c2c3c1b4e94f0858a525ca0d962a21c95e",
-    ".docodego/README.md": "7b606127046bce7d71732b23b3ec7bf66322b793bdd4d9301097cf5dda9feaf8",
+    ".docodego/README.md": "d61893c0bcfdd14cb18e5465be5660a72fc5f74316dd47955ce5d244dc20c492",
     "AGENTS.md": "a83e6f66d8577af2ab45a343a88b2fd9fe2afafb01d4e755788bca09d8fc81da"
   }
 }

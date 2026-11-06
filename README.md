@@ -43,15 +43,15 @@ git clone <this repository> docodego && cd docodego
 npm install
 npm run build        # chained gates: bundle → bump guard → drift verify
                      #   → typecheck → smoke
-node dist/docodego.js --version
-# docodego cli 0.6.0 · record spec 4
+node apps/cli/dist/docodego.js --version
+# docodego cli 0.7.0 · record spec 5
 ```
 
 Then, in a project you want governed (every command below is replayed
 literally by the conformance suite — the quickstart cannot drift):
 
 ```sh
-alias docodego="node /path/to/docodego/dist/docodego.js"
+alias docodego="node /path/to/docodego/apps/cli/dist/docodego.js"
 
 docodego init --mode review                      # plant .docodego/, AGENTS.md, skills
 docodego sketch retry-webhook-idea               # capture an idea, near zero ceremony
@@ -127,7 +127,7 @@ earned — commands write the markers, never your hand:
 
 | command | one line |
 |---|---|
-| `init` | plant the record layer, law, agent presets, and skills |
+| `init` | plant the record layer, law, agent presets, and skills (choose a dialect with `--vocabulary`) |
 | `new` | scaffold a unit / epic / story spec (graduates a sketch with `--from-sketch`) |
 | `sketch` | capture an idea at near-zero ceremony |
 | `grill` | the adversarial Q&A; rounds append, verdicts recorded |

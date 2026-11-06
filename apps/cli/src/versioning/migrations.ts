@@ -68,6 +68,16 @@ export const MIGRATIONS: Migration[] = [
     ],
     steps: [appendTraceDoctorCompletions],
   },
+  {
+    from: 4,
+    to: 5,
+    notes: [
+      "the record front door is replaced by the record index (read order, shape, law, tracker pointer)",
+      "the manifest may carry an optional `vocabulary` — the dialect a record was born speaking (init --vocabulary)",
+      "no record paths change; your words are yours — a documented no-op, the scaffold refresh stays create-only",
+    ],
+    steps: [],
+  },
 ];
 
 /** v3 -> v4: teach AGENTS.md the three commands the CLI grew in 0.4.0.

@@ -9,7 +9,8 @@ import type { Args, Io, Manifest, Mode } from "../types.ts";
 import { isDir, readText, today, writeText } from "../fsx.ts";
 import { detect } from "../record/detect.ts";
 import { MANIFEST_REL, RECORD_DIR, TRACKER_REL } from "../record/load.ts";
-import { agentsMd, recordFiles, specVersion, DEFAULT_PROFILE, PROFILES, profiles as profileMap, skillsIndex, TRACKER_TEMPLATE } from "../bundled/index.ts";
+import { agentsMd, recordFiles, specVersion, DEFAULT_PROFILE, PROFILES, profiles as profileMap, skillsIndex, TRACKER_TEMPLATE, vocabularyPack, VOCABULARY_NAMES } from "../bundled/index.ts";
+import { applyMovementGlosses, renderVocabularyMd, type VocabularyPack } from "../record/vocabulary.ts";
 import { installBundledSkill, plantAgentPresets, writeLock, emptyLock, LOCK_REL } from "../skills/lock.ts";
 import { envelope } from "../emit/json.ts";
 
@@ -23,6 +24,20 @@ export function run(args: Args, io: Io): number {
     io.err(`refusing: ${RECORD_DIR}/ already exists — pass --force to fill what is missing (nothing is overwritten)`);
     return 1;
   }
+  // the dialect is chosen at birth: a pack re-voices the fresh plant, and is
+  // refused on an existing record — the record's words are part of its history
+  let pack: VocabularyPack | undefined;
+  if (args.vocabulary !== undefined) {
+    pack = vocabularyPack(args.vocabulary);
+    if (pack === undefined) {
+      process.stderr.write(`error: --vocabulary must be one of ${VOCABULARY_NAMES.join("|")}, got '${args.vocabulary}'\n`);
+      return 2;
+    }
+    if (isDir(root)) {
+      io.err(`refusing: --vocabulary is chosen at birth — 'init --force --vocabulary' would re-voice an existing record, and records are never rewritten`);
+      return 1;
+    }
+  }
   const wanted = args.allSkills ? skillsIndex().map((s) => s.name) : pickProfile(args.profile);
   if (wanted === null) return 2; // unknown --profile — message already printed
   const detection = detect(process.cwd());
@@ -33,6 +48,7 @@ export function run(args: Args, io: Io): number {
     ring: "stable",
     recordVersion: specVersion(),
     detect: detection.detect,
+    ...(pack !== undefined ? { vocabulary: pack.name } : {}),
   };
   const created: string[] = [];
   const putNew = (abs: string, body: string, label: string): void => {
@@ -63,16 +79,33 @@ export function run(args: Args, io: Io): number {
   }
   writeLock(root, lock);
   created.push(`${RECORD_DIR}/${LOCK_REL}`);
+  // the pack's words, laid over the fresh plant: the sixteen stream lines,
+  // the movement glosses on the just-planted law, and the glossary bridge
+  // beside the statutes (which stay verbatim, in every dialect)
+  if (pack !== undefined) {
+    for (const [id, line] of Object.entries(pack.streams)) {
+      writeText(join(root, `${id}/README.md`), `${line}\n`);
+    }
+    writeText(join(root, ".standard", "vocabulary.md"), renderVocabularyMd(pack));
+    created.push(`${RECORD_DIR}/.standard/vocabulary.md`);
+    const agentsAbs = join(process.cwd(), "AGENTS.md");
+    const agentsBody = readText(agentsAbs);
+    if (agentsBody !== null && agentsBody === agentsMd()) {
+      writeText(agentsAbs, applyMovementGlosses(agentsBody, pack.movements));
+    }
+  }
 
   const detectionLine =
     `${detection.fileCount} files, git depth ${detection.detect.gitDepth}, ` +
     `tests ${detection.detect.tests}, ci ${detection.detect.ci} -> ${detection.codeState}`;
   const profileName = args.allSkills ? "all-skills" : (args.profile ?? DEFAULT_PROFILE);
   if (args.json) {
-    io.out(JSON.stringify(envelope("init", { created, manifest, profile: profileName, skills: installed, detection: detectionLine, date: today() }), null, 2));
+    io.out(JSON.stringify(envelope("init", { created, manifest, profile: profileName, skills: installed, detection: detectionLine, date: today(), ...(pack !== undefined ? { vocabulary: pack.name } : {}) }), null, 2));
   } else {
-    io.out(`${RECORD_DIR}/ ready — mode ${mode}, code state ${detection.codeState}, record v${specVersion()}, profile ${profileName}`);
+    const vocabNote = pack !== undefined ? `, vocabulary ${pack.name}` : "";
+    io.out(`${RECORD_DIR}/ ready — mode ${mode}, code state ${detection.codeState}, record v${specVersion()}, profile ${profileName}${vocabNote}`);
     io.err(`skills installed: ${installed.length ? installed.join(", ") : "(none)"}`);
+    if (pack !== undefined) io.err(`vocabulary: ${pack.name} — words change, the contract does not`);
     io.err(`detected: ${detectionLine}`);
     io.err(`planted ${created.length} file(s); existing files were kept (create-only law)`);
   }

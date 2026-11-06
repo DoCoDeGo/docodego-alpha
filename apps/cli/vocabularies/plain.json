@@ -1,0 +1,52 @@
+{
+  "name": "plain",
+  "displayName": "Plain — the solo builder's dialect",
+  "version": "1.0.0",
+  "recordVersion": 4,
+  "summary": "For one person and their agent. No sprints, no stakeholders, no ceremony — intent, proof, and a loop that keeps you honest. The record speaks like a notebook that refuses to let you fool yourself.",
+  "law": "Words change. The contract does not: paths, file names, statuses, command names, exit codes, and diagnostic codes are identical in every pack. The sixteen statutes are recorded verbatim and are never re-voiced.",
+  "movements": {
+    "01-document": { "gloss": "intent sharpened until it is small, clear, and testable" },
+    "02-compose": { "gloss": "the thing itself, built and kept working" },
+    "03-demonstrate": { "gloss": "prove it works, then ship it" },
+    "04-govern": { "gloss": "the loop closed: watch, measure, learn, adjust" }
+  },
+  "streams": {
+    "01-document/01-discover": "[Finding] an idea or irritation enters, before any list exists · producer: you, living with the problem → consumer: 02-refine",
+    "01-document/02-refine": "[Finding] make it small and clear — sharpen, size, order · producer: you → consumer: 04-plan",
+    "01-document/03-validate": "[Grounding] test the cheap assumptions before you commit — a spike, not a plan · producer: an hour of trying things → consumer: one clear item worth building",
+    "01-document/04-plan": "[Grounding] decide what you are building next — and what you are not · producer: you → consumer: 02-compose/01-build",
+    "02-compose/01-build": "[Rising] build it tests-first, so the proof exists the day you finish · producer: one clear item → consumer: 02-integrate",
+    "02-compose/02-integrate": "[Rising] keep it working — merged, green, re-read by you tomorrow · producer: 01-build → consumer: 01-demo",
+    "02-compose/03-enhance": "[Nurturing] the improvements you noticed while actually using it · producer: daily use → consumer: 01-build",
+    "02-compose/04-maintain": "[Nurturing] breakage and debt, fixed before they pile up · producer: breakage, your own notes → consumer: 01-build",
+    "03-demonstrate/01-demo": "[Nurturing] show it working — to yourself, honestly, end to end · producer: 02-integrate → consumer: 02-accept",
+    "03-demonstrate/02-accept": "[Nurturing] the acceptance criteria you wrote are the ones you met · producer: 01-demo → consumer: 03-release",
+    "03-demonstrate/03-release": "[Nurturing] cut the version you would defend · producer: 02-accept → consumer: 04-deploy",
+    "03-demonstrate/04-deploy": "[Nurturing] put it where you actually use it · producer: 03-release → consumer: 04-govern/01-monitor",
+    "04-govern/01-monitor": "[Nurturing] reality tells the truth · producer: 04-deploy → consumer: 02-measure",
+    "04-govern/02-measure": "[Leaving] did it do what you built it for — outcomes only, no self-scoring theatre · producer: 01-monitor → consumer: 03-retrospect",
+    "04-govern/03-retrospect": "[Leaving] what you learned, written down while it is fresh · producer: you → consumer: 04-improve",
+    "04-govern/04-improve": "[Leaving] the changes you decided on, each with a when · producer: 03-retrospect → consumer: the next idea — the loop closes"
+  },
+  "gateQuestions": {
+    "GQ-1": "What does this do, in one sentence your future self can verify?",
+    "GQ-2": "What proof will exist that each acceptance criterion actually ran?",
+    "GQ-3": "What is most likely to stop this from landing — and what will you do then?",
+    "GQ-4": "What are you deliberately not doing?"
+  },
+  "glossary": {
+    "the list": "01-document/02-refine — where ideas are sharpened before anything is built",
+    "a spike": "01-document/03-validate — a time-boxed test of one assumption, thrown away after",
+    "the thing": "02-compose — the increment under construction (DO→CO)",
+    "tests-first": "02-compose/01-build — the proof is written while the code is",
+    "show it working": "03-demonstrate/01-demo — an honest end-to-end run, even with no audience",
+    "the criteria you wrote": "03-demonstrate/02-accept — acceptance is measured against your own spec, nothing else",
+    "cut the version": "03-demonstrate/03-release — a tag, a note, done",
+    "where you actually use it": "03-demonstrate/04-deploy — your real machine or real users, not a folder called staging",
+    "reality": "04-govern/01-monitor — whatever actually happens, logged",
+    "the loop": "04-govern — watch, measure, learn, adjust; the reason the record exists",
+    "proof": "proofs.md — paths that exist on disk and are checked at the deliver gate",
+    "the gate": "docodego deliver — four checks; nothing is recorded as done until they pass"
+  }
+}

@@ -16,6 +16,7 @@ import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { validateVocabularyPack, type VocabularyPack } from "../src/record/vocabulary.ts";
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(SCRIPT_DIR, "..", "..", "..");
@@ -119,6 +120,7 @@ function buildPayload(): Payload {
     hashes,
     skills,
     profiles,
+    vocabularies: loadVocabularies(),
   };
 }
 
@@ -138,6 +140,32 @@ interface Payload {
   hashes: Record<string, string>;
   skills: SkillIndexEntry[];
   profiles: Record<string, string[]>;
+  vocabularies: VocabularyPack[];
+}
+
+/** Authored data — the packs are product templates, not this repo's record:
+ * generated from nothing, validated fully, embedded only when valid. A pack
+ * that fails `validateVocabularyPack` fails the build here, at the gate. */
+function loadVocabularies(): VocabularyPack[] {
+  const dir = join(ROOT, "apps", "cli", "vocabularies");
+  if (!existsSync(dir)) return [];
+  const packs: VocabularyPack[] = [];
+  for (const f of readdirSync(dir).sort()) {
+    if (!f.endsWith(".json")) continue;
+    const name = f.replace(/\.json$/, "");
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(readFileSync(join(dir, f), "utf8"));
+    } catch (e) {
+      throw new Error(`vocabulary ${f}: not valid JSON (${e instanceof Error ? e.message : String(e)})`);
+    }
+    const { pack, errors } = validateVocabularyPack(name, parsed);
+    if (!pack || errors.length > 0) {
+      throw new Error(`vocabulary ${f} failed the pack law:\n  ${errors.join("\n  ")}`);
+    }
+    packs.push(pack);
+  }
+  return packs;
 }
 
 const BUMPS = ["none", "patch", "minor", "major"] as const;
@@ -230,6 +258,9 @@ async function main(): Promise<number> {
  * The single source of truth is the repo's own .docodego/, AGENTS.md, .agents/.
  * Reproducible embed: no timestamps; identical sources give identical bytes. */
 
+import type { VocabularyPack } from "../record/vocabulary.ts";
+export type { VocabularyPack };
+
 export interface SkillIndexEntry {
   name: string;
   description: string;
@@ -247,6 +278,7 @@ export interface Payload {
   hashes: Record<string, string>;
   skills: SkillIndexEntry[];
   profiles: Record<string, string[]>;
+  vocabularies: VocabularyPack[];
 }
 
 export const PAYLOAD: Payload = ${JSON.stringify(fresh, null, 2)};

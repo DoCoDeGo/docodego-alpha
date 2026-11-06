@@ -1,0 +1,52 @@
+{
+  "name": "agile",
+  "displayName": "Agile — the scrum team's dialect",
+  "version": "1.0.0",
+  "recordVersion": 4,
+  "summary": "For the product team already running scrum: planning, refinement, review, retro. The record's streams were named in this shape from the start — this pack makes the ceremonies explicit and puts the product owner's words where the product owner reads.",
+  "law": "Words change. The contract does not: paths, file names, statuses, command names, exit codes, and diagnostic codes are identical in every pack. The sixteen statutes are recorded verbatim and are never re-voiced.",
+  "movements": {
+    "01-document": { "gloss": "the backlog sharpened into sprint-ready work" },
+    "02-compose": { "gloss": "the sprint increment, built and kept shippable" },
+    "03-demonstrate": { "gloss": "the review, the acceptance, the release" },
+    "04-govern": { "gloss": "the retro loop closed: monitor, measure, improve" }
+  },
+  "streams": {
+    "01-document/01-discover": "[Finding] an idea or problem enters the backlog, before refinement exists · producer: anyone on the team → consumer: 02-refine",
+    "01-document/02-refine": "[Finding] backlog refinement — sharpen, size, order · producer: product owner + team → consumer: 04-plan",
+    "01-document/03-validate": "[Grounding] spikes and assumption tests before the sprint commits — validate cheap, before code · producer: discovery work → consumer: a validated backlog item",
+    "01-document/04-plan": "[Grounding] sprint planning — the sprint goal, what enters · producer: product owner + team → consumer: 02-compose/01-build",
+    "02-compose/01-build": "[Rising] the increment, built tests-first · producer: refined tickets + compose → consumer: 02-integrate",
+    "02-compose/02-integrate": "[Rising] keep it shippable — merged, green, reviewed by peers · producer: 01-build → consumer: 01-demo",
+    "02-compose/03-enhance": "[Nurturing] improvements pulled from sprint-review feedback into the sprint · producer: demo feedback → consumer: 01-build",
+    "02-compose/04-maintain": "[Nurturing] bugfixes and debt, never starved · producer: incidents, retro actions → consumer: 01-build",
+    "03-demonstrate/01-demo": "[Nurturing] the sprint review — working software, to stakeholders · producer: 02-integrate → consumer: 02-accept",
+    "03-demonstrate/02-accept": "[Nurturing] acceptance criteria met, the product owner signs · producer: 01-demo → consumer: 03-release",
+    "03-demonstrate/03-release": "[Nurturing] cut the release · producer: 02-accept → consumer: 04-deploy",
+    "03-demonstrate/04-deploy": "[Nurturing] to production · producer: 03-release → consumer: 04-govern/01-monitor",
+    "04-govern/01-monitor": "[Nurturing] production tells the truth · producer: 04-deploy → consumer: 02-measure",
+    "04-govern/02-measure": "[Leaving] outcomes against the sprint goal — outcomes only, never person-scores · producer: 01-monitor → consumer: 03-retrospect",
+    "04-govern/03-retrospect": "[Leaving] the retrospective — the ceremony of learning · producer: the whole team → consumer: 04-improve",
+    "04-govern/04-improve": "[Leaving] retro actions land here, each with an owner · producer: 03-retrospect → consumer: next 02-refine — the loop closes"
+  },
+  "gateQuestions": {
+    "GQ-1": "What does this story deliver, in one sentence anyone at sprint review can verify?",
+    "GQ-2": "What evidence proves each acceptance criterion actually ran?",
+    "GQ-3": "What is the biggest risk to this story landing this sprint — and its mitigation?",
+    "GQ-4": "What did you deliberately leave out of this sprint?"
+  },
+  "glossary": {
+    "backlog refinement": "01-document/02-refine — sharpen, size, order, before planning",
+    "sprint planning": "01-document/04-plan — the sprint goal and what enters",
+    "the increment": "02-compose — what the sprint is building, kept shippable",
+    "peer review": "inside 02-compose/02-integrate — merged and green is not enough, read by a peer",
+    "sprint review": "03-demonstrate/01-demo — working software to stakeholders",
+    "acceptance sign": "03-demonstrate/02-accept — the product owner signs when criteria are met",
+    "definition of done": "the deliver gate — G1 spec complete, G2 score ≥ 60, G3 grill pass, G4 a proof that exists",
+    "retro": "04-govern/03-retrospect — the ceremony of learning; actions land in 04-improve",
+    "sprint goal outcomes": "04-govern/02-measure — outcomes against the goal, never person-scores",
+    "story (docodego type)": "a linked document in 01-document/02-refine — rolls up to an epic; not the scrum story, which this pack calls a ticket",
+    "ticket": "a unit — the folder with spec.md, grill.md, score.md, proofs.md, delivered.md",
+    "velocity": "not tracked here; 04-govern/02-measure records outcomes, not points"
+  }
+}

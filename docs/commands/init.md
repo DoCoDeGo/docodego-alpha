@@ -5,7 +5,7 @@
 ## Usage
 
 ```
-docodego init [--mode auto|review|guided|hands-on] [--profile <p>] [--all-skills] [--force]
+docodego init [--mode auto|review|guided|hands-on] [--profile <p>] [--all-skills] [--vocabulary <pack>] [--force]
 ```
 
 ## Contract
@@ -15,6 +15,8 @@ flags:
   --mode <m>      the oversight contract recorded in the manifest (auto | review | guided | hands-on)
   --profile <p>   which default skill set to install (default: product-team)
   --all-skills    install every bundled skill, ignoring the profile
+  --vocabulary <pack>   the dialect the record is born speaking (agile | babok | plain | none);
+                  words change, the contract does not — paths, ids, codes stay canonical
   --force         fill in missing scaffold files; never overwrite existing content
   --json          emit docodego/init/v1 on stdout
 
@@ -24,9 +26,13 @@ behavior:
   detects code state (new | growing | mature), plants the record tree from the
   bundle, writes the manifest, installs the profile's skills + agent presets,
   and writes .docodego/skills-lock.json recording what was installed.
+  --vocabulary re-voices the planted prose (stream READMEs, AGENTS.md glosses,
+  gate-question phrasing) and plants .standard/vocabulary.md; it is chosen at
+  birth and is refused on an existing record.
 
 example:
   docodego init --mode review --profile docs-only
+  docodego init --vocabulary babok
 ```
 
 ---

@@ -36,6 +36,10 @@ export interface Manifest {
   ring: string;
   recordVersion: number;
   detect: { gitDepth: number; tests: boolean; ci: boolean };
+  /** The vocabulary pack whose words this record was born with (record
+   * spec 5). Absent = the canonical voice. The name only ever resolves
+   * against the CLI's bundled packs; paths, ids, and codes never change. */
+  vocabulary?: string;
 }
 
 /** One installed skill, as recorded in the lockfile. */
@@ -87,6 +91,7 @@ export interface Args {
   fromSketch?: string;
   profile?: string;
   from?: string;
+  vocabulary?: string;
 }
 
 /** Where a command writes. Commands stay pure-ish by taking this in. */

@@ -5,8 +5,9 @@
  * The tracker is the one exception — it is planted fresh from a constant
  * below, because our history is not their history. */
 import { PAYLOAD, type Payload, type SkillIndexEntry } from "./payload.ts";
+import type { VocabularyPack } from "../record/vocabulary.ts";
 
-export type { Payload, SkillIndexEntry };
+export type { Payload, SkillIndexEntry, VocabularyPack };
 export { PAYLOAD };
 
 export const specVersion = (): number => PAYLOAD.specVersion;
@@ -48,6 +49,15 @@ export const skillsIndex = (): SkillIndexEntry[] => PAYLOAD.skills;
 export const profiles = (): Record<string, string[]> => PAYLOAD.profiles;
 export const PROFILES = Object.keys(PAYLOAD.profiles).sort();
 export const DEFAULT_PROFILE = PROFILES.includes("product-team") ? "product-team" : (PROFILES[0] ?? "product-team");
+
+/** The bundled vocabulary packs (sorted by name) and the lookup init and
+ * grill use. An unknown or absent name yields undefined — canonical voice. */
+export const vocabularies = (): VocabularyPack[] => PAYLOAD.vocabularies;
+export const VOCABULARY_NAMES = PAYLOAD.vocabularies.map((v) => v.name).sort();
+export function vocabularyPack(name: string | undefined): VocabularyPack | undefined {
+  if (name === undefined) return undefined;
+  return PAYLOAD.vocabularies.find((v) => v.name === name);
+}
 /** All bundled skill files as `.agents/skills/<name>/<file>` -> body. */
 export function allSkillFiles(): Record<string, string> {
   return filesUnder(".agents/skills/");

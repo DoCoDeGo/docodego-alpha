@@ -12,8 +12,9 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { recordFiles, profiles as bundledProfiles, cliVersion, specVersion } from "./bundled/index.ts";
-import { STREAM_README_PATHS } from "./record/streams.ts";
+import { recordFiles, profiles as bundledProfiles, cliVersion, specVersion, vocabularies, VOCABULARY_NAMES, vocabularyPack } from "./bundled/index.ts";
+import { STREAM_README_PATHS, ALL_STREAMS } from "./record/streams.ts";
+import { validateVocabularyPack } from "./record/vocabulary.ts";
 import { COMMAND_HELP } from "./cli/help.ts";
 import { usageText } from "./cli/args.ts";
 import { COMPLETION_SHELLS } from "./cli/completions.ts";
@@ -315,6 +316,47 @@ check("integrity mismatch is a finding with exit 1", (() => {
   return run(sf, ["skill", "list"]);
 })(), 1, (r) => r.stderr.includes("integrity mismatch"));
 rmSync(sf, { recursive: true, force: true });
+
+// --- v5: vocabulary packs — words change, the contract does not ---
+// The pack law, enforced at every layer: embedded packs pass the validator,
+// cover exactly the canonical keys, keep ids and paths intact, init applies
+// the dialect to a fresh plant only, and grill asks the pack's phrasing
+// with canonical ids.
+fact("three packs ship: plain, agile, babok", JSON.stringify(VOCABULARY_NAMES) === JSON.stringify(["agile", "babok", "plain"]));
+fact("every bundled pack passes the pack validator", vocabularies().every((p) => validateVocabularyPack(p.name, p).errors.length === 0));
+for (const p of vocabularies()) {
+  fact(`pack ${p.name} covers exactly the sixteen streams`, JSON.stringify(Object.keys(p.streams).sort()) === JSON.stringify([...ALL_STREAMS].sort()));
+  fact(`pack ${p.name} keeps the four gate ids`, JSON.stringify(Object.keys(p.gateQuestions).sort()) === JSON.stringify(["GQ-1", "GQ-2", "GQ-3", "GQ-4"]));
+  fact(`pack ${p.name} never renames a path or id`, ALL_STREAMS.every((id) => p.streams[id] !== undefined));
+}
+const vf = mkdtempSync(join(tmpdir(), "docodego-conformance-vocab-"));
+const babok = vocabularyPack("babok")!;
+check("init --vocabulary babok plants the dialect", run(vf, ["init", "--vocabulary", "babok"]), 0, () => read(vf, "01-document/01-discover/README.md") === `${babok.streams["01-document/01-discover"]}\n`);
+fact("all sixteen stream READMEs carry the pack's words, byte for byte", ALL_STREAMS.every((id) => read(vf, `${id}/README.md`) === `${babok.streams[id]}\n`));
+fact("the manifest records the birth dialect", (JSON.parse(read(vf, ".standard/manifest.json")) as { vocabulary?: string }).vocabulary === "babok");
+fact("the glossary bridge is planted with a real entry set", (read(vf, ".standard/vocabulary.md").match(/\| \*\*/g) ?? []).length >= 10);
+fact("the statutes are untouched by the pack", read(vf, ".standard/statutes.md").includes("Recorded verbatim"));
+const agentsVocab = readFileSync(join(vf, "AGENTS.md"), "utf8");
+fact("AGENTS.md movement glosses carry the pack's words, tags intact", agentsVocab.includes("— business needs elicited, analysed, and specified (DO)") && !agentsVocab.includes("intent sharpened into plans"));
+run(vf, ["new", "voice-unit"]);
+const vq = run(vf, ["grill", "voice-unit", "--json"]);
+check("grill asks the pack's phrasing under the canonical id", vq, 0, (r) => {
+  const first = (JSON.parse(r.stdout) as { data?: { questions?: { id: string; text: string }[] } }).data?.questions?.[0];
+  return first !== undefined && first.id === "GQ-1" && first.text === babok.gateQuestions["GQ-1"];
+});
+check("an unknown --vocabulary is a usage error", run(vf, ["init", "--force", "--vocabulary", "klingon"]), 2, (r) => r.stderr.includes("--vocabulary must be one of"));
+check("a vocabulary on an existing record is refused — words are chosen at birth", run(vf, ["init", "--force", "--vocabulary", "plain"]), 1, (r) => r.stderr.includes("chosen at birth"));
+rmSync(vf, { recursive: true, force: true });
+const vd = mkdtempSync(join(tmpdir(), "docodego-conformance-canonical-"));
+check("default init still plants the canonical voice", run(vd, ["init"]), 0, () => read(vd, "01-document/01-discover/README.md") === recordFiles()["01-document/01-discover/README.md"]);
+fact("default manifest carries no vocabulary key", !("vocabulary" in (JSON.parse(read(vd, ".standard/manifest.json")) as Record<string, unknown>)));
+run(vd, ["new", "plain-unit"]);
+const dvq = run(vd, ["grill", "plain-unit", "--json"]);
+check("canonical grill asks the canonical question", dvq, 0, (r) => {
+  const first = (JSON.parse(r.stdout) as { data?: { questions?: { id: string; text: string }[] } }).data?.questions?.[0];
+  return first !== undefined && first.id === "GQ-1" && first.text === "What does this unit do, in one sentence a stranger can verify?";
+});
+rmSync(vd, { recursive: true, force: true });
 
 // --- v2: --branch runs the upgrade on its own branch and commits ---
 const bf = mkdtempSync(join(tmpdir(), "docodego-conformance-branch-"));

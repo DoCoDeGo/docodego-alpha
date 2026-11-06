@@ -13,6 +13,7 @@ import { parseAnswers } from "../record/answers.ts";
 import { grillBlock } from "../record/template-docs.ts";
 import { setStatus } from "../record/record-write.ts";
 import { grillQuestions, verdictFor } from "../passes/index.ts";
+import { vocabularyPack } from "../bundled/index.ts";
 import { complain, resolveUnitOrComplain, unitFile } from "./resolve.ts";
 import { envelope } from "../emit/json.ts";
 
@@ -25,7 +26,10 @@ export async function run(args: Args, io: Io): Promise<number> {
   const resolved = resolveUnitOrComplain(rec, name, io, args.json);
   if (typeof resolved === "number") return resolved;
   const unit = resolved;
-  const questions = grillQuestions(unit.spec!);
+  // the record's birth dialect, if it has one: the pack re-voices GQ-1..4;
+  // ids stay canonical, so answers files and verdicts are dialect-blind
+  const pack = vocabularyPack(rec.manifest.vocabulary);
+  const questions = grillQuestions(unit.spec!, pack?.gateQuestions);
 
   if (args.json && args.answers === undefined) {
     io.out(JSON.stringify(envelope("grill", { unit: name, questions }), null, 2));

@@ -2,6 +2,7 @@
  * command's own page: usage, what it does, flags, exit codes, examples, and
  * the shape of its --json envelope. These pages are the single source for the
  * generated command reference (scripts/gen-docs.ts) — they cannot diverge. */
+import { VOCABULARY_NAMES } from "../bundled/index.ts";
 
 export interface CommandHelp {
   usage: string;
@@ -11,12 +12,14 @@ export interface CommandHelp {
 
 export const COMMAND_HELP: Record<string, CommandHelp> = {
   init: {
-    usage: "docodego init [--mode auto|review|guided|hands-on] [--profile <p>] [--all-skills] [--force]",
+    usage: "docodego init [--mode auto|review|guided|hands-on] [--profile <p>] [--all-skills] [--vocabulary <pack>] [--force]",
     summary: "Plant the record layer, the law, agent presets, and skills — from the bundle this CLI carries.",
     body: `flags:
   --mode <m>      the oversight contract recorded in the manifest (auto | review | guided | hands-on)
   --profile <p>   which default skill set to install (default: product-team)
   --all-skills    install every bundled skill, ignoring the profile
+  --vocabulary <pack>   the dialect the record is born speaking (${VOCABULARY_NAMES.join(" | ")} | none);
+                  words change, the contract does not — paths, ids, codes stay canonical
   --force         fill in missing scaffold files; never overwrite existing content
   --json          emit docodego/init/v1 on stdout
 
@@ -26,9 +29,13 @@ behavior:
   detects code state (new | growing | mature), plants the record tree from the
   bundle, writes the manifest, installs the profile's skills + agent presets,
   and writes .docodego/skills-lock.json recording what was installed.
+  --vocabulary re-voices the planted prose (stream READMEs, AGENTS.md glosses,
+  gate-question phrasing) and plants .standard/vocabulary.md; it is chosen at
+  birth and is refused on an existing record.
 
 example:
-  docodego init --mode review --profile docs-only`,
+  docodego init --mode review --profile docs-only
+  docodego init --vocabulary babok`,
   },
   new: {
     usage: "docodego new <unit> [--type unit|epic|story] [--epic E] [--story S] [--stream <stream>] [--from-sketch <name>]",

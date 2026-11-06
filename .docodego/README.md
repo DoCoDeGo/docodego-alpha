@@ -1,21 +1,36 @@
-# option 01 — agile / scrum (the Atlassian shape)
+# .docodego — the record layer
 
-**The frame:** the loop most product teams already run — discover, refine, plan, build, demo, retro.
-**Sources:** Atlassian, "A guide to agile ceremonies" — sprint planning, daily scrum, sprint review, sprint retrospective, plus backlog refinement; Atlassian agile stages (plan → build → review → release → retrospective).
-**Who it speaks to:** product owners first — planning, demo, acceptance, retro are *their* ceremonies. Devs recognise build/integrate. Management reads plan → demo → retro.
-**Where review lives here:** twice by design — the sprint review (01-demo) and the retrospective (03-retrospect) — plus peer review inside 01-build. Review is a verb in every stream's contract, never a folder.
+This folder is the repository's memory: intent at the top, work underneath,
+evidence everywhere. Read it before you touch code.
 
-| stage | streams |
+## Read in this order
+
+1. `.standard/manifest.json` — what this record is (mode, versions, ring)
+2. `AGENTS.md` at the repo root — the law you work under
+3. `01-document/` — current intent, sharpened into specs
+4. `04-govern/01-monitor/tracker.md` — where the work actually stands
+
+## The shape
+
+Four movements, sixteen streams:
+
+| movement | streams |
 |---|---|
-| 01-document | 01-discover · 02-refine · 03-validate · 04-plan |
-| 02-compose | 01-build · 02-integrate · 03-enhance · 04-maintain |
-| 03-demonstrate | 01-demo · 02-accept · 03-release · 04-deploy |
-| 04-govern | 01-monitor · 02-measure · 03-retrospect · 04-improve |
+| 01-document — intent | 01-discover · 02-refine · 03-validate · 04-plan |
+| 02-compose — the work | 01-build · 02-integrate · 03-enhance · 04-maintain |
+| 03-demonstrate — the proof | 01-demo · 02-accept · 03-release · 04-deploy |
+| 04-govern — the loop | 01-monitor · 02-measure · 03-retrospect · 04-improve |
 
-## Improvements in succession (v7)
+Each stream folder carries a one-line README: what enters, who consumes it.
 
-- `.standard/` — statutes, `manifest.json` (mode contract), `tech-radar.md`, `guidelines/pattern.md`.
-- `04-govern/01-monitor/tracker.md` — appended, never rewritten.
-- Units are folders inside streams: `spec.md`, `grill.md`, `score.md`, `proofs.md`, `delivered.md`.
-- Epics and stories are document **types** (frontmatter `type:`), not folders: epics sit in 01-discover, stories in 02-refine; `status` rolls them up.
-- Modes (auto / review / guided / hands-on) govern oversight, recorded in the manifest.
+## The law, in short
+
+- Records append. Nothing in here is rewritten, only continued.
+- A unit is done when its four gates pass: spec complete, score ≥ 60,
+  grill answered, a proof that exists on disk.
+- Evidence is a path in this repository that exists. No path, no claim.
+
+## Where the work stands
+
+`04-govern/01-monitor/tracker.md` is the append-only ledger. Newest entries
+last. If a file and the tracker disagree, the tracker wins.

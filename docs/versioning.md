@@ -6,10 +6,10 @@ tools:
 | axis | where | scheme |
 |---|---|---|
 | **CLI** | `apps/cli/package.json` `version` | strict semver (`0.5.0`) |
-| **Record spec** | `.docodego/.standard/manifest.json` `recordVersion` | strict integer (`4`) |
+| **Record spec** | `.docodego/.standard/manifest.json` `recordVersion` | strict integer (`5`) |
 
-`docodego --version` prints both — for example `docodego cli 0.5.0 · record
-spec 4` (your build's numbers). The record axis is the contract version of
+`docodego --version` prints both — for example `docodego cli 0.7.0 · record
+spec 5` (your build's numbers). The record axis is the contract version of
 the planted `.docodego/` layer — watch it when a release changes what
 `init` plants or what the passes require.
 
@@ -58,6 +58,7 @@ writes, so an interrupted upgrade resumes cleanly.
 | 1 → 2 | skills index + lockfile; profiles; record contract gains `skills-lock.json` |
 | 2 → 3 | AGENTS.md documents `explain`; no paths change (documented no-op) |
 | 3 → 4 | AGENTS.md gains the `trace`, `doctor`, and `completions` command lines (appended after the explain line; additive, idempotent) |
+| 4 → 5 | the record front door becomes the record index; the manifest may carry `vocabulary` — the dialect a record was born speaking (`init --vocabulary`); no paths change (documented no-op) |
 
 Your units, tracker entries, and dossier are **never migrated and never
 overwritten** — no step touches user content.
