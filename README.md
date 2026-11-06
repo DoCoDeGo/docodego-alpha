@@ -42,22 +42,66 @@ Pre-1.0, so today you build from source:
 git clone <this repository> docodego && cd docodego
 npm install
 npm run build        # chained gates: bundle → bump guard → drift verify
-                     #   → typecheck → conformance → smoke
+                     #   → typecheck → smoke
 node dist/docodego.js --version
-# docodego cli 0.3.0 · record spec 3
+# docodego cli 0.5.0 · record spec 3
 ```
 
-Then, in a project you want governed:
+Then, in a project you want governed (every command below is replayed
+literally by the conformance suite — the quickstart cannot drift):
 
 ```sh
 alias docodego="node /path/to/docodego/dist/docodego.js"
 
-docodego init --mode review            # plant .docodego/, AGENTS.md, skills
-docodego sketch retry-webhook-idea     # capture an idea, near zero ceremony
+docodego init --mode review                      # plant .docodego/, AGENTS.md, skills
+docodego sketch retry-webhook-idea               # capture an idea, near zero ceremony
 docodego new retry-webhook --from-sketch retry-webhook-idea
-docodego grill retry-webhook --answers answers.txt   # adversarial Q&A
-docodego score retry-webhook           # public breakdown → score.md
-docodego deliver retry-webhook         # the gate
+```
+
+Give the unit a real spec — intent, scope, acceptance, threats (the
+template has the placeholders; this is the filling-in step):
+
+```sh
+cat > .docodego/01-document/01-discover/retry-webhook/spec.md <<'EOT'
+---
+name: retry-webhook
+type: unit
+status: draft
+---
+
+# retry-webhook
+
+## intent
+
+Add a retry with capped exponential backoff to the webhook sender so flaky
+networks stop dropping deliveries.
+
+## scope
+
+In: the webhook sender module and its retry policy.
+Out: queue persistence and dead-letter handling.
+
+## acceptance
+
+- a failed webhook send retries exactly 3 times with exponential backoff, verified by a unit test counting attempts
+- after the third failure the sender logs one final warning line, verified by asserting that log line
+
+## threats
+
+- retry storms overload the receiver -> cap at 3 attempts with jittered backoff
+EOT
+```
+
+Then the loop — grilling, scoring, proving, delivering:
+
+```sh
+printf 'capped exponential backoff, three attempts\nthe unit test counts attempts\nretry storms — capped at three attempts with jittered backoff\nqueue persistence stays out of scope\nthe unit test counts exactly three attempts on a failing send\nthe final warning log line is asserted in the same test\n' > answers.txt
+docodego grill retry-webhook --answers answers.txt   # adversarial Q&A; on a TTY you can answer interactively
+docodego score retry-webhook                         # public breakdown → score.md
+
+echo "unit test output: 3 attempts observed, final warning logged" > proof.txt
+printf '# proofs\n\n- proof.txt — the unit test output\n' > .docodego/01-document/01-discover/retry-webhook/proofs.md
+docodego deliver retry-webhook                       # the gate
 ```
 
 `deliver` commits nothing unless all four gates are green: spec complete,

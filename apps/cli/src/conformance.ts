@@ -11,6 +11,7 @@ import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { recordFiles, profiles as bundledProfiles, cliVersion, specVersion } from "./bundled/index.ts";
 import { STREAM_README_PATHS } from "./record/streams.ts";
 import { COMMAND_HELP } from "./cli/help.ts";
@@ -18,7 +19,7 @@ import { usageText } from "./cli/args.ts";
 import { COMPLETION_SHELLS } from "./cli/completions.ts";
 import { EXPLANATIONS, FAMILY_TITLES } from "./passes/explain.ts";
 
-const HERE = dirname(new URL(import.meta.url).pathname);
+const HERE = dirname(fileURLToPath(import.meta.url));
 const MAIN = join(HERE, "main.ts");
 const REPO_ROOT = join(HERE, "..", "..", "..");
 const BUNDLE = join(REPO_ROOT, "apps", "cli", "scripts", "bundle.ts");
@@ -203,6 +204,49 @@ check("doctor --json carries the absent check honestly", run(dr, ["doctor", "--j
 write(dr, ".docodego/.standard/manifest.json", "{ not json");
 check("a corrupt manifest is a failed check with exit 1 — never exit 3", run(dr, ["doctor"]), 1, (r) => r.stdout.includes("SICK manifest"));
 rmSync(dr, { recursive: true, force: true });
+
+// --- the README quickstart, replayed literally: the docs cannot lie ---
+const qs = mkdtempSync(join(tmpdir(), "docodego-conformance-readme-"));
+check("quickstart: init --mode review", run(qs, ["init", "--mode", "review"]), 0);
+check("quickstart: sketch plants the idea", run(qs, ["sketch", "retry-webhook-idea"]), 0);
+check("quickstart: new --from-sketch graduates it", run(qs, ["new", "retry-webhook", "--from-sketch", "retry-webhook-idea"]), 0);
+write(qs, ".docodego/01-document/01-discover/retry-webhook/spec.md", `---
+name: retry-webhook
+type: unit
+status: draft
+---
+
+# retry-webhook
+
+## intent
+
+Add a retry with capped exponential backoff to the webhook sender so flaky
+networks stop dropping deliveries.
+
+## scope
+
+In: the webhook sender module and its retry policy.
+Out: queue persistence and dead-letter handling.
+
+## acceptance
+
+- a failed webhook send retries exactly 3 times with exponential backoff, verified by a unit test counting attempts
+- after the third failure the sender logs one final warning line, verified by asserting that log line
+
+## threats
+
+- retry storms overload the receiver -> cap at 3 attempts with jittered backoff
+`);
+write(qs, "answers.txt", "capped exponential backoff, three attempts\nthe unit test counts attempts\nretry storms — capped at three attempts with jittered backoff\nqueue persistence stays out of scope\nthe unit test counts exactly three attempts on a failing send\nthe final warning log line is asserted in the same test\n");
+check("quickstart: grill pass", run(qs, ["grill", "retry-webhook", "--answers", "answers.txt"]), 0);
+check("quickstart: score clears the floor", run(qs, ["score", "retry-webhook"]), 0, () => {
+  const m = /total:\s*(\d+)/.exec(read(qs, "01-document/01-discover/retry-webhook/score.md"));
+  return m !== null && Number.parseInt(m[1] ?? "0", 10) >= 60;
+});
+write(qs, "proof.txt", "unit test output: 3 attempts observed, final warning logged\n");
+write(qs, ".docodego/01-document/01-discover/retry-webhook/proofs.md", "# proofs\n\n- proof.txt — the unit test output\n");
+check("quickstart: deliver passes all four gates", run(qs, ["deliver", "retry-webhook"]), 0, () => read(qs, "01-document/01-discover/retry-webhook/spec.md").includes("status: delivered"));
+rmSync(qs, { recursive: true, force: true });
 check("upgrade reports the record current", run(scratch, ["upgrade"]), 0);
 check("upgrade --apply is additive and calm", run(scratch, ["upgrade", "--apply"]), 0);
 

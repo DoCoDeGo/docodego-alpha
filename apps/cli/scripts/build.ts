@@ -10,8 +10,9 @@ import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, st
 import { createHash } from "node:crypto";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const SCRIPTS = dirname(new URL(import.meta.url).pathname);
+const SCRIPTS = dirname(fileURLToPath(import.meta.url));
 const APP = dirname(SCRIPTS);
 const DIST = join(APP, "dist");
 
@@ -26,7 +27,12 @@ function gate(name: string, ok: boolean, detail: string): boolean {
 function run(label: string, cmd: string, args: string[], cwd: string): { status: number; out: string; err: string } {
   const r = spawnSync(cmd, args, { cwd, encoding: "utf8" });
   const status = r.status ?? -1;
-  const ok = gate(label, status === 0, status === 0 ? "ok" : `exit ${status}: ${(r.stderr || r.stdout).trim().split("\n").slice(0, 4).join(" | ").slice(0, 300)}`);
+  // A failed spawn (ENOENT, EACCES — the common Windows cases) carries no
+  // streams at all and an `error` object instead. The reporter must survive
+  // that: it exists to explain failures, never to become one.
+  const out = `${(r.stderr ?? "").trim()}\n${(r.stdout ?? "").trim()}`.trim();
+  const why = r.error !== null && r.error !== undefined ? r.error.message : out.split("\n").slice(0, 4).join(" | ").slice(0, 300);
+  const ok = gate(label, status === 0 && (r.error === null || r.error === undefined), status === 0 && (r.error === null || r.error === undefined) ? "ok" : `exit ${status}: ${why}`);
   if (!ok) {
     report();
     process.exit(1);
@@ -93,14 +99,20 @@ const body = readFileSync(jsArtifact, "utf8");
 if (!body.startsWith("#!")) writeFileSync(jsArtifact, `#!/usr/bin/env node\n${body}`);
 chmodSync(jsArtifact, 0o755);
 
-// 4 — compile the self-contained binary from the SAME built JS (one transpile path)
-const binArtifact = join(DIST, "docodego");
-run("compile dist/docodego (binary)", bun, ["build", "--compile", "--target=bun", jsArtifact, "--outfile", binArtifact], APP);
+// 4 — compile the self-contained binary from the SAME built JS (one transpile path).
+// bun appends .exe to the compiled binary on Windows (observed on the
+// bun-windows-x64 release target), so the artifact name follows the platform.
+const binArtifact = process.platform === "win32" ? join(DIST, "docodego.exe") : join(DIST, "docodego");
+run("compile dist/docodego (binary)", bun, ["build", "--compile", "--target=bun", jsArtifact, "--outfile", join(DIST, "docodego")], APP);
 chmodSync(binArtifact, 0o755);
 
-// 5 — smoke through the built artifacts themselves (not the source)
+// 5 — smoke through the built artifacts themselves (not the source). The JS
+// artifact carries a shebang, which POSIX executes directly; Windows cannot,
+// so there it runs under node — the same bytes, the same promise.
 const smoke = mkdtempSync(join(tmpdir(), "docodego-build-smoke-"));
-const js = spawnSync(jsArtifact, ["--version"], { encoding: "utf8" });
+const js = process.platform === "win32"
+  ? spawnSync(process.execPath, [jsArtifact, "--version"], { encoding: "utf8" })
+  : spawnSync(jsArtifact, ["--version"], { encoding: "utf8" });
 gate("smoke js --version", js.status === 0 && (js.stdout ?? "").includes("record spec"), js.stdout?.trim() ?? `exit ${js.status}`);
 const bin = spawnSync(binArtifact, ["--version"], { encoding: "utf8" });
 gate("smoke binary --version", bin.status === 0 && (bin.stdout ?? "").includes("record spec"), bin.stdout?.trim() ?? `exit ${bin.status}`);

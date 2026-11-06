@@ -6,6 +6,44 @@ semver) and the **record spec** (a strict integer — the contract version of
 the planted `.docodego/` layer). Users upgrade records, not just tools, so
 the record axis is the one to watch. Format: Keep a Changelog.
 
+## [0.5.0] — 2026-11-07 · record spec 3
+
+No new commands and no record change this release — the theme is trust:
+every shipped platform now proves itself, and no document lies.
+
+### Fixed
+
+- **Windows builds were broken, found by the new Windows CI leg.** The
+  build and conformance scripts resolved their own location via the URL
+  `pathname` — which on Windows is `/D:/...`, not a path the OS accepts —
+  so every child process they spawned failed. They now use
+  `fileURLToPath`, as `bundle.ts` and `gen-docs.ts` already did.
+- **The build's smoke step assumed POSIX.** It executed the `.js` artifact
+  directly (a shebang does not execute on Windows) and looked for a binary
+  named `docodego` (bun appends `.exe` on Windows). Both now follow the
+  platform; the artifacts' promises are smoked on every OS.
+- **The build's own failure reporter could crash.** When a child process
+  fails to spawn it carries no streams, and the reporter read them
+  unguarded — a reporter must never become the failure. It now reports the
+  spawn error itself and survives.
+
+### Changed
+
+- CI runs the gates on **ubuntu, macOS, and Windows** — the three platforms
+  we ship binaries for — with lf-normalized checkouts and a
+  cancel-in-progress concurrency group. Dependabot keeps the workflow
+  actions fresh.
+- Release notes are now **extracted from the matching CHANGELOG section**
+  instead of a generic line — the release page says what changed because
+  the changelog said it first.
+- `npm test` is the conventional alias (conformance + fuzz), and
+  CONTRIBUTING documents the release flow: bump the version, push, no
+  human runs a release.
+- **The README quickstart is now literally followable end-to-end** — the
+  spec fill, the answers file, and the proof registration are shown — and
+  the conformance suite replays it verbatim (138 checks total), so the
+  quickstart cannot drift from the CLI.
+
 ## [0.4.0] — 2026-11-07 · record spec 3
 
 CLI only this release — the record spec stays 3; `docodego upgrade` has

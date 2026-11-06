@@ -31,13 +31,17 @@ gates, that is a bug in the gates — fix that first.
 
 ```
 npm run build         # bundle -> bump guard -> drift verify -> typecheck
-                      #   -> conformance -> smoke (through built artifacts)
+                      #   -> smoke (through the built artifacts)
+npm test              # conformance (132 checks) + parser fuzz + goldens
 npm run docs:verify   # generated docs match the help/explain registries
 ```
 
-Conformance is the law's test suite — every planted promise in AGENTS.md and
-every exit code in the help pages is a check. If you add a promise, add a
-check.
+`npm run build` bundles, typechecks, and smoke-tests the artifacts; the
+behavioral suite is `npm test` — conformance is the law's test suite (every
+planted promise in AGENTS.md and every exit code in the help pages is a
+check, including a literal replay of the README quickstart), and the fuzz
+harness feeds the parser seeded broken input that must never crash it. If
+you add a promise, add a check.
 
 **Versioning law: hashes detect, humans declare.** Any change to a bundled
 record file (`AGENTS.md`, anything under `.docodego/` or `.agents/`) forces
@@ -46,6 +50,18 @@ cover the change — the bump guard fails the build otherwise, and an
 under-bump is found by CI, not by users. CLI-only changes bump the package
 version; strict semver, no shortcuts. Record migrations are ordered,
 version-keyed, create-only, and never consolidated.
+
+## Releases (automatic)
+
+CI runs the gates on every push, on ubuntu, macOS, and Windows — the three
+platforms we ship binaries for. Releasing is a version bump, nothing else:
+when `apps/cli/package.json` carries a version whose `v<version>` tag does
+not exist yet, the release workflow runs the full gate chain and publishes
+a GitHub release with the zero-dependency `docodego.js`, self-contained
+binaries for all five targets (linux/darwin x64+arm64, windows x64), and
+`sha256sums.txt`. The release body is the matching section of
+`CHANGELOG.md` — write the changelog entry as part of the change, bump the
+version, push. No human runs a release.
 
 ## Repository law
 

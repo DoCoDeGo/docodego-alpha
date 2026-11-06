@@ -68,9 +68,14 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          {
+            echo "Assets: the zero-dependency docodego.js (any modern Node, no flags), self-contained binaries per platform, sha256sums.txt."
+            echo
+            awk -v ver="v${{ steps.version.outputs.version }}" 'index($0, "## [" ver "]") == 1 {f=1; next} f && /^## \[/ {f=0} f' CHANGELOG.md
+          } > release-notes.md
           gh release create "v${{ steps.version.outputs.version }}" \
             --title "docodego v${{ steps.version.outputs.version }}" \
-            --notes "docodego cli ${{ steps.version.outputs.version }} — see CHANGELOG.md for what changed. Assets: the zero-dependency docodego.js (any modern Node, no flags), self-contained binaries per platform, sha256sums.txt." \
+            --notes-file release-notes.md \
             apps/cli/dist/docodego.js \
             apps/cli/dist/docodego-linux-x64 \
             apps/cli/dist/docodego-linux-arm64 \
