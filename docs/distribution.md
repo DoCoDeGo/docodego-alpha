@@ -67,6 +67,10 @@ door of the README quickstart.
   this policy is removed by npm support request (npm scrubs packument
   PII on privacy asks). Account/profile changes are browser-only by
   design — automation tokens are refused there (E401, verified).
+  Posture: any email that has touched published metadata is treated as
+  permanently public (registry mirrors and scrapers copy metadata within
+  hours; removal cannot recall it) — the defense is account 2FA, token
+  rotation, and the role address, not secrecy.
 - **Name reservation quirk**: the registry holds a `0.0.0-stage` stub
   version on both names (npm's placeholder for a claimed-but-unpublished
   name). Harmless — `latest` is always the real release. Machines that
