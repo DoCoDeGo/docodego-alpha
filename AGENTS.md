@@ -52,6 +52,9 @@ reconstruct did not, for the repository's purposes, happen.
 - `docodego upgrade` — plan the record's move to the CLI's bundled record version (`--apply`, `--branch`).
 - `docodego skill list|add|remove` — the installed craft, audited via the lockfile.
 - `docodego explain <code>` — the page for a diagnostic code: what it means, the law behind it, how to fix it.
+- `docodego trace <unit>` — everything recorded about one unit, replayed on one timeline (read-only).
+- `docodego doctor` — support triage: environment, record health, lockfile, version axes.
+- `docodego completions <bash|zsh|fish>` — shell completion scripts generated from the help registry.
 
 Run any command with `--help` for its own contract. Work runs in delivery
 units: a unit's spec is written and scored before implementation, grilled

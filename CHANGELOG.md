@@ -6,6 +6,48 @@ semver) and the **record spec** (a strict integer — the contract version of
 the planted `.docodego/` layer). Users upgrade records, not just tools, so
 the record axis is the one to watch. Format: Keep a Changelog.
 
+## [0.6.0] — 2026-11-07 · record spec 4
+
+The planted AGENTS.md now teaches agents all fifteen commands — a record
+change, so `docodego upgrade` has something to do (a small, additive
+migration). Existing records: run `docodego upgrade --apply` and the three
+command lines are appended after the explain line; nothing else changes.
+
+### Added
+
+- **`docs/go-public-checklist.md`** — the launch checklist: identity and
+  naming, legal, the security review, correctness gates (including
+  "execute the shipped binaries on real machines"), repository surface,
+  distribution, documentation, community, and launch-day mechanics. Alpha
+  users can read exactly where the project stands.
+
+### Changed
+
+- **AGENTS.md (record spec 4).** The planted law file now documents
+  `trace`, `doctor`, and `completions` — the 0.4.0 commands it never
+  mentioned. The migration appends the three lines after the explain line
+  (additive, idempotent; a file that already names `trace` is kept).
+- **Node support stated precisely, not vibes.** The JS artifact runs on
+  **Node 20 or newer** — verified by executing the bundle on Node 20 and
+  24, and the README/getting-started now say so instead of "any modern
+  Node". CI pins Node via `.nvmrc` (one source of truth for both
+  workflows).
+- **CI minutes spent on purpose.** The docs drift gate and the parser fuzz
+  run once per push (on Linux) instead of once per platform — the
+  registries and the parser are platform-blind; build + conformance (the
+  platform-sensitive gates) still run on all three operating systems.
+- **CI logs cleaned.** The runner git config sets `init.defaultBranch`, so
+  the scratch `git init`s in conformance no longer print git's advice hint
+  into every run.
+
+### Fixed
+
+- The record-spec migration for AGENTS.md resolved its file against the
+  record directory instead of the repository root — found by exercising
+  the migration end-to-end on a real v3 record before shipping it
+  (`upgrade --apply` now appends the command lines where AGENTS.md
+  actually lives).
+
 ## [0.5.0] — 2026-11-07 · record spec 3
 
 No new commands and no record change this release — the theme is trust:

@@ -6,8 +6,8 @@ output shown is the real shape of the CLI's output.
 ## 0. Build the CLI
 
 See the [README quickstart](../README.md#quickstart): `npm install`,
-`npm run build`, then either `dist/docodego.js` (any modern Node) or the
-self-contained `dist/docodego` binary.
+`npm run build`, then either `dist/docodego.js` (Node 20 or newer —
+verified on 20 and 24) or the self-contained `dist/docodego` binary.
 
 ## 1. Plant the record
 

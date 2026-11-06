@@ -17,14 +17,18 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      # The record layer is lf; a crlf checkout would poison the goldens,
-      # the payload drift gate, and every byte-exact assertion.
-      - name: normalize line endings before checkout
-        run: git config --global core.autocrlf false
+      # The record layer is lf and branches are main: a crlf checkout would
+      # poison the goldens, the payload drift gate, and every byte-exact
+      # assertion, and an unset init.defaultBranch makes every scratch
+      # `git init` in conformance print git's advice hint into the logs.
+      - name: normalize git for the runner
+        run: |
+          git config --global core.autocrlf false
+          git config --global init.defaultBranch main
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version-file: .nvmrc
       - uses: oven-sh/setup-bun@v2
       - name: install (workspaces + toolchain)
         run: npm install
@@ -32,7 +36,9 @@ jobs:
         run: npm run build
       - name: conformance — the CLI proves itself against scratch records
         run: npm run conformance
-      - name: generated docs match their registries
+      - name: generated docs match their registries (linux only — the registries are platform-blind)
+        if: runner.os == 'Linux'
         run: npm run docs:verify
-      - name: parser fuzz + ast goldens
+      - name: parser fuzz + ast goldens (linux only — the parser is platform-blind)
+        if: runner.os == 'Linux'
         run: npm run fuzz --if-present

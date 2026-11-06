@@ -22,7 +22,7 @@ can read, and the CLI is the set of gates that keep it true.
 - **A record layer** — `.docodego/`: four movements (document · compose ·
   demonstrate · govern), sixteen streams, one append-only tracker. Plain
   files, plain markdown, frontmatter where machines need fields.
-- **A CLI** — twelve commands that plant, walk, gate, and version the
+- **A CLI** — fifteen commands that plant, walk, gate, and version the
   record, with compiler-passes discipline: parse the record once, run pure
   passes, emit rustc-style diagnostics with `file:line:col` and a stable
   code for every finding.
@@ -44,7 +44,7 @@ npm install
 npm run build        # chained gates: bundle → bump guard → drift verify
                      #   → typecheck → smoke
 node dist/docodego.js --version
-# docodego cli 0.5.0 · record spec 3
+# docodego cli 0.6.0 · record spec 4
 ```
 
 Then, in a project you want governed (every command below is replayed
@@ -135,10 +135,13 @@ earned — commands write the markers, never your hand:
 | `check` | integrity: statuses match markers, proofs exist, links resolve |
 | `lint` | the rule tree (`--self-check` audits the rules themselves) |
 | `status` | the one-screen board, with epic/story rollups |
+| `trace` | everything recorded about one unit, on one timeline (read-only) |
+| `doctor` | support triage: environment, record health, lockfile, version axes |
 | `deliver` | the gate — writes only when all four gates are green |
 | `upgrade` | move the record forward — plan first, create-only, `--branch` |
 | `skill` | the installed craft, audited via the lockfile |
 | `explain` | the page for a diagnostic code: meaning, law, fix |
+| `completions` | shell completion scripts for bash, zsh, fish |
 
 Every command keeps its own contract: `docodego <command> --help`.
 Every finding names its page: `docodego explain DG-F004`.

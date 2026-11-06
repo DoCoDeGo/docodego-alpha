@@ -5,13 +5,13 @@ tools:
 
 | axis | where | scheme |
 |---|---|---|
-| **CLI** | `apps/cli/package.json` `version` | strict semver (`0.3.0`) |
-| **Record spec** | `.docodego/.standard/manifest.json` `recordVersion` | strict integer (`3`) |
+| **CLI** | `apps/cli/package.json` `version` | strict semver (`0.5.0`) |
+| **Record spec** | `.docodego/.standard/manifest.json` `recordVersion` | strict integer (`4`) |
 
-`docodego --version` prints both: `docodego cli 0.3.0 · record spec 3`.
-The record axis is the contract version of the planted `.docodego/` layer —
-watch it when a release changes what `init` plants or what the passes
-require.
+`docodego --version` prints both — for example `docodego cli 0.5.0 · record
+spec 4` (your build's numbers). The record axis is the contract version of
+the planted `.docodego/` layer — watch it when a release changes what
+`init` plants or what the passes require.
 
 ## The law: hashes detect, humans declare
 
@@ -57,6 +57,7 @@ writes, so an interrupted upgrade resumes cleanly.
 | 0 → 1 | adds `.standard/` (statutes, radar), the record README, the tracker; manifest gains its field set |
 | 1 → 2 | skills index + lockfile; profiles; record contract gains `skills-lock.json` |
 | 2 → 3 | AGENTS.md documents `explain`; no paths change (documented no-op) |
+| 3 → 4 | AGENTS.md gains the `trace`, `doctor`, and `completions` command lines (appended after the explain line; additive, idempotent) |
 
 Your units, tracker entries, and dossier are **never migrated and never
 overwritten** — no step touches user content.
