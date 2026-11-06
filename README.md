@@ -36,7 +36,32 @@ what this repository lives.
 
 ## Quickstart
 
-Pre-1.0, so today you build from source:
+Run it straight from the npm registry (Node 22.6+, no flags):
+
+```sh
+npx docodego --version             # or: pnpm dlx docodego
+# docodego cli 0.7.1 · record spec 5
+```
+
+Or install a self-contained binary:
+
+```sh
+# macOS / Linux — downloads the latest release, verifies sha256sums.txt,
+# installs to ~/.local/bin (override with PREFIX=…)
+curl -fsSL https://raw.githubusercontent.com/DoCoDeGo/docodego-alpha/main/install.sh | sh
+
+# macOS / Linux via Homebrew
+brew install docodego/tap/docodego
+
+# Windows via Scoop
+scoop bucket add docodego https://github.com/DoCoDeGo/scoop-bucket
+scoop install docodego
+
+# Nix
+nix run github:DoCoDeGo/docodego-alpha
+```
+
+Pre-1.0, you can also build from source:
 
 ```sh
 git clone <this repository> docodego && cd docodego
@@ -215,5 +240,5 @@ Pre-1.0 and dogfooded: this repository runs the record layer it ships, and
 the CLI is built through the same gates it imposes. MIT — see
 [LICENSE](LICENSE).
 
-Open questions, tracked in the record: install channels (npm/Homebrew),
-vocabulary packs for non-plain-English domains, a Windows CI matrix.
+Open questions, tracked in the record: a Windows CI matrix for the full
+conformance suite.

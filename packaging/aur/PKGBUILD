@@ -1,0 +1,20 @@
+# docodego AUR package — staged here, pushed to the AUR once an Arch account
+# exists (with an SSH key registered). AUR convention: prebuilt binary
+# packages carry the -bin suffix. The publish walk lives in
+# docs/distribution.md.
+# Pinned to the v0.7.1 release; sha256 from the release's sha256sums.txt.
+pkgname=docodego-bin
+pkgver=0.7.1
+pkgrel=1
+pkgdesc="The intent-and-evidence layer for the agent age"
+arch=('x86_64')
+url="https://github.com/DoCoDeGo/docodego-alpha"
+license=('MIT')
+provides=('docodego')
+conflicts=('docodego')
+source_x86_64=("docodego::https://github.com/DoCoDeGo/docodego-alpha/releases/download/v$pkgver/docodego-linux-x64")
+sha256sums_x86_64=('9f3794d1b03e4a54c066e8737b01deb3dcd8c89dc6800ef62ea8de325326460a')
+
+package() {
+  install -Dm755 "$srcdir/docodego" "$pkgdir/usr/bin/docodego"
+}

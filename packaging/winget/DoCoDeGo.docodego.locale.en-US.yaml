@@ -1,0 +1,25 @@
+# winget manifest — default locale.
+PackageIdentifier: DoCoDeGo.docodego
+PackageVersion: 0.7.1
+PackageLocale: en-US
+Publisher: DoCoDeGo
+PublisherUrl: https://github.com/DoCoDeGo
+PackageName: docodego
+PackageUrl: https://github.com/DoCoDeGo/docodego-alpha
+ShortDescription: The intent-and-evidence layer for the agent age.
+Description: |-
+  docodego plants and operates a record layer in your repository: a versioned,
+  append-only tree where intent is written down before work starts, decisions
+  are grilled before they are ratified, and delivery is gated on evidence
+  that exists on disk.
+License: MIT
+LicenseUrl: https://github.com/DoCoDeGo/docodego-alpha/blob/main/LICENSE
+Moniker: docodego
+Tags:
+  - cli
+  - specification
+  - evidence
+  - agents
+  - ai
+ManifestType: defaultLocale
+ManifestVersion: 1.6.0

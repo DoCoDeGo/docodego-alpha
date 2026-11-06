@@ -1,0 +1,12 @@
+# winget manifest — installer. Portable exe; the command alias is `docodego`.
+PackageIdentifier: DoCoDeGo.docodego
+PackageVersion: 0.7.1
+Installers:
+  - Architecture: x64
+    InstallerType: portable
+    InstallerUrl: https://github.com/DoCoDeGo/docodego-alpha/releases/download/v0.7.1/docodego-windows-x64.exe
+    InstallerSha256: f75809362a60579ee970b7baa2d70b7020643767d4617f6cf7bbbf739bd1b35d
+    Commands:
+      - docodego
+ManifestType: installer
+ManifestVersion: 1.6.0

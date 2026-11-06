@@ -1,0 +1,8 @@
+# winget manifest — version. Submitted to microsoft/winget-pkgs under
+# manifests/d/DoCoDeGo/docodego/<version>/ after `winget validate` on Windows;
+# the submission walk lives in docs/distribution.md.
+PackageIdentifier: DoCoDeGo.docodego
+PackageVersion: 0.7.1
+DefaultLocale: en-US
+ManifestType: version
+ManifestVersion: 1.6.0
