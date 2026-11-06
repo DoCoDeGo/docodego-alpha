@@ -6,6 +6,33 @@ semver) and the **record spec** (a strict integer — the contract version of
 the planted `.docodego/` layer). Users upgrade records, not just tools, so
 the record axis is the one to watch. Format: Keep a Changelog.
 
+## [0.7.2] — 2026-11-07
+
+The release-engineering release: the npm channel goes live and every
+package surfaces names the homepage. No CLI or record change — the record
+spec stays 5, and the built artifacts are byte-identical to 0.7.1.
+
+### Added
+
+- **npm is a first-class channel** — `docodego` (unscoped) and
+  `@docodego/cli` (org mirror) publish automatically on every release:
+  the workflow downloads the checksum-verified release artifact, proves it
+  against the release's `sha256sums.txt`, and publishes with build
+  provenance — after the three-platform smoke has run the real binaries.
+  `npx docodego` and `pnpm dlx docodego` are the new front door.
+- **Install paths** — `install.sh` (resolve → download → verify checksums →
+  install), a Homebrew tap (`brew install docodego/tap/docodego`), a Scoop
+  bucket, a Nix flake, and staged AUR/winget packaging. The README
+  quickstart leads with the registry and installs instead of
+  build-from-source.
+
+### Changed
+
+- **The homepage is docodego.com** — every package manifest (npm, brew,
+  scoop, nix, aur, winget) and the README now name the official site.
+  Project and artifact URLs stay distinct: the homepage is the site, the
+  releases are the store.
+
 ## [0.7.1] — 2026-11-07
 
 The checklist §2 threat pass over `skill add`, fixes applied. No record
