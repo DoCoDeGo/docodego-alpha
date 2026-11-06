@@ -133,6 +133,9 @@ lockfile schema — is specified in
   runs on every build.
 - **No telemetry. Nothing phones home.** The only network request the CLI
   can ever make is an explicit `skill add --from <git-url>`.
+- **Plain text, by design.** Output carries no ANSI color codes — the same
+  bytes serve humans, terminals without color, and agents parsing stdout.
+  `NO_COLOR` needs no support because there is no color to suppress.
 - **The docs cannot diverge from the CLI.** The command reference and the
   diagnostics pages are generated from the same registries as `--help` and
   `explain`; a drift check fails the build (`npm run docs:verify`).
