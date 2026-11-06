@@ -58,6 +58,15 @@ door of the README quickstart.
   npmjs.com → Access Tokens; issue the replacement directly with
   `gh secret set NPM_TOKEN -R DoCoDeGo/docodego-alpha` so it never passes
   through chat again.
+- **Identity and the publisher email**: npm bakes the publishing account's
+  email into the packument (`maintainers` + the per-version publisher
+  record) at publish time; `npm view` and the website both read it, and
+  published versions freeze it. Policy: the npm account
+  (`docodego-owner`) carries a role address on docodego.com, never a
+  personal one. Personal email that reached 0.7.1/0.7.2 metadata before
+  this policy is removed by npm support request (npm scrubs packument
+  PII on privacy asks). Account/profile changes are browser-only by
+  design — automation tokens are refused there (E401, verified).
 - **Name reservation quirk**: the registry holds a `0.0.0-stage` stub
   version on both names (npm's placeholder for a claimed-but-unpublished
   name). Harmless — `latest` is always the real release. Machines that
