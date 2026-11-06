@@ -2,9 +2,27 @@
   "name": "docodego",
   "version": "0.7.1",
   "description": "The intent-and-evidence CLI: bundles its own record, parses it once, runs pure passes, emits rustc-style diagnostics.",
-  "private": true,
+  "license": "MIT",
   "type": "module",
-  "bin": { "docodego": "./src/main.ts" },
+  "bin": { "docodego": "dist/docodego.js" },
+  "files": ["dist/docodego.js", "README.md", "LICENSE"],
+  "engines": { "node": ">=22.6" },
+  "homepage": "https://github.com/DoCoDeGo/docodego-alpha#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DoCoDeGo/docodego-alpha.git",
+    "directory": "apps/cli"
+  },
+  "keywords": [
+    "cli",
+    "specification",
+    "evidence",
+    "agents",
+    "ai",
+    "governance",
+    "records"
+  ],
+  "publishConfig": { "access": "public" },
   "scripts": {
     "bundle": "node --experimental-strip-types scripts/bundle.ts",
     "bundle:verify": "node --experimental-strip-types scripts/bundle.ts --verify",

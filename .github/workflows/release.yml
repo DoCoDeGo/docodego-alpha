@@ -149,3 +149,68 @@ jobs:
           rm -rf rec && mkdir rec && cd rec
           npx -y node@22 ../docodego.js init
           npx -y node@22 ../docodego.js check
+
+  # npm publication from the proven release — not a rebuild: docodego.js is
+  # downloaded from the fresh release, checksum-verified against the release's
+  # sha256sums.txt, then published twice from the same artifact (the claude /
+  # opencode pattern): unscoped `docodego` (npx docodego, pnpm dlx docodego)
+  # and scoped `@docodego/cli` (the org mirror). --provenance attaches the
+  # GitHub Actions build provenance to both. This job runs only after every
+  # smoke leg has executed the real binaries — npm never sees an unproven
+  # release.
+  npm:
+    needs: [release, smoke]
+    if: github.repository == 'DoCoDeGo/docodego-alpha' && needs.release.outputs.published == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          registry-url: https://registry.npmjs.org
+
+      - id: version
+        run: echo "version=$(node -p "require('./apps/cli/package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: download the released js and verify its checksum
+        run: |
+          mkdir stage
+          gh release download "v${{ steps.version.outputs.version }}" -R "$GITHUB_REPOSITORY" --dir stage --pattern docodego.js --pattern sha256sums.txt
+          node apps/cli/scripts/verify-checksums.mjs stage docodego.js
+
+      - name: publish unscoped docodego
+        run: |
+          mkdir -p pkg/dist
+          cp stage/docodego.js pkg/dist/
+          cp README.md LICENSE pkg/
+          node -e '
+            const fs = require("fs");
+            const p = JSON.parse(fs.readFileSync("apps/cli/package.json", "utf8"));
+            delete p.scripts;
+            fs.writeFileSync("pkg/package.json", JSON.stringify(p, null, 2) + "\n");
+          '
+          cd pkg && npm publish --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: publish the org mirror @docodego/cli
+        run: |
+          mkdir -p mirror/dist
+          cp stage/docodego.js mirror/dist/
+          cp README.md LICENSE mirror/
+          node -e '
+            const fs = require("fs");
+            const p = JSON.parse(fs.readFileSync("apps/cli/package.json", "utf8"));
+            p.name = "@docodego/cli";
+            p.description += " Org mirror of the unscoped docodego package.";
+            delete p.scripts;
+            fs.writeFileSync("mirror/package.json", JSON.stringify(p, null, 2) + "\n");
+          '
+          cd mirror && npm publish --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
