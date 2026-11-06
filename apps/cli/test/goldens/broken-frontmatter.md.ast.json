@@ -1,0 +1,157 @@
+{
+  "diags": [],
+  "front": {
+    "errors": [
+      {
+        "code": "DG-P002",
+        "file": "broken-frontmatter.md",
+        "message": "malformed frontmatter line skipped — expected 'key: value', found: this line has no colon and is skipped with a diagnostic",
+        "severity": "error",
+        "span": {
+          "end": {
+            "col": 120,
+            "line": 3
+          },
+          "start": {
+            "col": 1,
+            "line": 3
+          }
+        }
+      }
+    ],
+    "fields": [
+      {
+        "key": "name",
+        "span": {
+          "end": {
+            "col": 120,
+            "line": 2
+          },
+          "start": {
+            "col": 1,
+            "line": 2
+          }
+        },
+        "value": "broken-frontmatter"
+      },
+      {
+        "key": "type",
+        "span": {
+          "end": {
+            "col": 120,
+            "line": 4
+          },
+          "start": {
+            "col": 1,
+            "line": 4
+          }
+        },
+        "value": "unit"
+      },
+      {
+        "key": "status",
+        "span": {
+          "end": {
+            "col": 120,
+            "line": 5
+          },
+          "start": {
+            "col": 1,
+            "line": 5
+          }
+        },
+        "value": "draft"
+      }
+    ]
+  },
+  "nodes": [
+    {
+      "kind": "heading",
+      "level": 1,
+      "span": {
+        "end": {
+          "col": 21,
+          "line": 8
+        },
+        "start": {
+          "col": 1,
+          "line": 8
+        }
+      },
+      "text": "broken-frontmatter"
+    },
+    {
+      "kind": "heading",
+      "level": 2,
+      "span": {
+        "end": {
+          "col": 10,
+          "line": 10
+        },
+        "start": {
+          "col": 1,
+          "line": 10
+        }
+      },
+      "text": "intent"
+    },
+    {
+      "kind": "para",
+      "span": {
+        "end": {
+          "col": 39,
+          "line": 13
+        },
+        "start": {
+          "col": 1,
+          "line": 12
+        }
+      },
+      "text": "One malformed frontmatter line becomes a diagnostic; the fields around it still parse and the body is untouched."
+    },
+    {
+      "kind": "heading",
+      "level": 2,
+      "span": {
+        "end": {
+          "col": 14,
+          "line": 15
+        },
+        "start": {
+          "col": 1,
+          "line": 15
+        }
+      },
+      "text": "acceptance"
+    },
+    {
+      "kind": "item",
+      "span": {
+        "end": {
+          "col": 64,
+          "line": 17
+        },
+        "start": {
+          "col": 1,
+          "line": 17
+        }
+      },
+      "text": "the malformed line is reported with a position, not swallowed"
+    },
+    {
+      "kind": "item",
+      "span": {
+        "end": {
+          "col": 65,
+          "line": 18
+        },
+        "start": {
+          "col": 1,
+          "line": 18
+        }
+      },
+      "text": "`name`, `type`, and `status` are still readable after the skip"
+    }
+  ],
+  "path": "broken-frontmatter.md"
+}

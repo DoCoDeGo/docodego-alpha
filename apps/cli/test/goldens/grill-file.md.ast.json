@@ -1,0 +1,121 @@
+{
+  "diags": [],
+  "front": null,
+  "nodes": [
+    {
+      "kind": "heading",
+      "level": 2,
+      "span": {
+        "end": {
+          "col": 20,
+          "line": 1
+        },
+        "start": {
+          "col": 1,
+          "line": 1
+        }
+      },
+      "text": "grill 2026-11-06"
+    },
+    {
+      "kind": "item",
+      "span": {
+        "end": {
+          "col": 75,
+          "line": 4
+        },
+        "start": {
+          "col": 1,
+          "line": 3
+        }
+      },
+      "text": "G1 asked: what proves the parser never crashes? answered: the fuzz harness fed two thousand broken inputs — zero escapes"
+    },
+    {
+      "kind": "item",
+      "span": {
+        "end": {
+          "col": 79,
+          "line": 6
+        },
+        "start": {
+          "col": 1,
+          "line": 5
+        }
+      },
+      "text": "G2 asked: what does a golden mismatch mean? answered: the parser changed; the diff is reviewed before the snapshot lands"
+    },
+    {
+      "kind": "para",
+      "span": {
+        "end": {
+          "col": 14,
+          "line": 8
+        },
+        "start": {
+          "col": 1,
+          "line": 8
+        }
+      },
+      "text": "verdict: pass"
+    },
+    {
+      "kind": "heading",
+      "level": 2,
+      "span": {
+        "end": {
+          "col": 20,
+          "line": 10
+        },
+        "start": {
+          "col": 1,
+          "line": 10
+        }
+      },
+      "text": "grill 2026-11-07"
+    },
+    {
+      "kind": "item",
+      "span": {
+        "end": {
+          "col": 85,
+          "line": 13
+        },
+        "start": {
+          "col": 1,
+          "line": 12
+        }
+      },
+      "text": "G1 asked: what proves the parser never crashes? answered: conformance runs the harness on every build at a smaller iteration count"
+    },
+    {
+      "kind": "item",
+      "span": {
+        "end": {
+          "col": 84,
+          "line": 15
+        },
+        "start": {
+          "col": 1,
+          "line": 14
+        }
+      },
+      "text": "G2 asked: what does a golden mismatch mean? answered: the previous round failed review; the parser fix landed first this time"
+    },
+    {
+      "kind": "para",
+      "span": {
+        "end": {
+          "col": 14,
+          "line": 17
+        },
+        "start": {
+          "col": 1,
+          "line": 17
+        }
+      },
+      "text": "verdict: pass"
+    }
+  ],
+  "path": "grill-file.md"
+}

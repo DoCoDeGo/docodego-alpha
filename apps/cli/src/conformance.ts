@@ -15,6 +15,7 @@ import { recordFiles, profiles as bundledProfiles, cliVersion, specVersion } fro
 import { STREAM_README_PATHS } from "./record/streams.ts";
 import { COMMAND_HELP } from "./cli/help.ts";
 import { usageText } from "./cli/args.ts";
+import { COMPLETION_SHELLS } from "./cli/completions.ts";
 import { EXPLANATIONS, FAMILY_TITLES } from "./passes/explain.ts";
 
 const HERE = dirname(new URL(import.meta.url).pathname);
@@ -22,6 +23,7 @@ const MAIN = join(HERE, "main.ts");
 const REPO_ROOT = join(HERE, "..", "..", "..");
 const BUNDLE = join(REPO_ROOT, "apps", "cli", "scripts", "bundle.ts");
 const GEN_DOCS = join(REPO_ROOT, "apps", "cli", "scripts", "gen-docs.ts");
+const FUZZ = join(REPO_ROOT, "apps", "cli", "scripts", "fuzz.ts");
 
 let passed = 0;
 const failed: string[] = [];
@@ -135,6 +137,11 @@ check("grill fail records the failed round and exits 1", (() => {
 })(), 1, () => read(scratch, "01-document/01-discover/first-unit/grill.md").split("verdict").length >= 3);
 write(scratch, "answers.txt", Array.from({ length: count }, () => "yes — evidence in the unit test output").join("\n") + "\n");
 check("grill pass again — the last verdict wins", run(scratch, ["grill", "first-unit", "--answers", "answers.txt"]), 0);
+// --- grill: structured answers — GQ-keyed, multi-line-safe ---
+write(scratch, "structured.txt", "GQ-1: adds a retry with backoff to the webhook sender\nGQ-2: the unit test counts attempts; its output is recorded in proofs.md\nGQ-3: retry storms — capped at three attempts with jittered backoff\nGQ-4: queue persistence stays out of scope\nGQ-AC1: |\n  the unit test counts exactly three attempts on a failing send\nGQ-AC2: |-\n  the final warning log line is asserted in the same test\n");
+check("grill accepts a structured answers file", run(scratch, ["grill", "first-unit", "--answers", "structured.txt"]), 0, () => read(scratch, "01-document/01-discover/first-unit/grill.md").includes("counts exactly three attempts"));
+write(scratch, "unknown-gq.txt", "GQ-1: fine\nGQ-99: invented\n");
+check("structured answers with an unknown question id exit 2", run(scratch, ["grill", "first-unit", "--answers", "unknown-gq.txt"]), 2, (r) => r.stderr.includes("unknown question id 'GQ-99'"));
 
 // --- score: the floor prints, the breakdown lands, weak specs stay low ---
 check("score writes the breakdown and sets status", run(scratch, ["score", "first-unit"]), 0, () => {
@@ -168,6 +175,34 @@ check("lint --self-check validates the rule registry", run(scratch, ["lint", "--
 check("status renders the board", run(scratch, ["status"]), 0, (r) => r.stdout.includes("first-unit"));
 check("status --json is an envelope", run(scratch, ["status", "--json"]), 0, (r) => (JSON.parse(r.stdout) as { schema?: string }).schema === "docodego/status/v1");
 check("status --epic narrows to the rollup", run(scratch, ["status", "--epic", "epic-ride"]), 0, (r) => r.stdout.includes("first-unit"));
+
+// --- trace: one unit's recorded arc on one timeline ---
+check("trace replays the full arc", run(scratch, ["trace", "first-unit"]), 0, (r) =>
+  r.stdout.includes("created") && r.stdout.includes("grill") && r.stdout.includes("verdict: pass") &&
+  r.stdout.includes("score") && r.stdout.includes("delivered"));
+check("trace --json is an envelope", run(scratch, ["trace", "first-unit", "--json"]), 0, (r) => (JSON.parse(r.stdout) as { schema?: string }).schema === "docodego/trace/v1");
+check("trace of a bare draft shows just the created line", run(scratch, ["trace", "epic-ride"]), 0, (r) => r.stdout.includes("created") && !r.stdout.includes("grill"));
+check("trace of an unknown unit is a usage error", run(scratch, ["trace", "ghost"]), 2);
+check("trace without a unit name is a usage error", run(scratch, ["trace"]), 2);
+
+// --- doctor: standing triage over a healthy, an empty, and a broken record ---
+check("doctor is green on the healthy record", run(scratch, ["doctor"]), 0, (r) => r.stdout.includes("checks healthy") && !r.stdout.includes("SICK"));
+check("doctor --json is an envelope", run(scratch, ["doctor", "--json"]), 0, (r) => {
+  try {
+    return (JSON.parse(r.stdout) as { schema?: string }).schema === "docodego/doctor/v1";
+  } catch {
+    return false;
+  }
+});
+const dr = mkdtempSync(join(tmpdir(), "docodego-conformance-doctor-"));
+check("doctor on an empty dir exits 0 and reports the missing record", run(dr, ["doctor"]), 0, (r) => r.stdout.includes("SICK record layer") && r.stdout.includes("checks healthy"));
+check("doctor --json carries the absent check honestly", run(dr, ["doctor", "--json"]), 0, (r) => {
+  const parsed = JSON.parse(r.stdout) as { data?: { checks?: { name: string; ok: boolean }[] } };
+  return (parsed.data?.checks ?? []).some((c) => c.name === "record layer" && c.ok === false);
+});
+write(dr, ".docodego/.standard/manifest.json", "{ not json");
+check("a corrupt manifest is a failed check with exit 1 — never exit 3", run(dr, ["doctor"]), 1, (r) => r.stdout.includes("SICK manifest"));
+rmSync(dr, { recursive: true, force: true });
 check("upgrade reports the record current", run(scratch, ["upgrade"]), 0);
 check("upgrade --apply is additive and calm", run(scratch, ["upgrade", "--apply"]), 0);
 
@@ -182,6 +217,7 @@ rmSync(bare, { recursive: true, force: true });
 const bundledReadmes = Object.keys(recordFiles()).filter((p) => p.endsWith("/README.md") && p.includes("/") && !p.startsWith(".standard")).sort();
 fact("the bundle carries exactly the 16 stream READMEs", JSON.stringify(bundledReadmes) === JSON.stringify([...STREAM_README_PATHS].sort()));
 check("bundle drift gate: bundle --verify is clean", runRaw(REPO_ROOT, process.execPath, ["--experimental-strip-types", BUNDLE, "--verify"]), 0);
+check("parser fuzz: seeded broken input never crashes the parser and goldens match", runRaw(REPO_ROOT, process.execPath, ["--experimental-strip-types", FUZZ, "--iterations", "200"]), 0);
 check("self-application: the fresh CLI checks its own repo", run(REPO_ROOT, ["check"]), 0);
 check("self-application: the fresh CLI lints its own repo", run(REPO_ROOT, ["lint"]), 0);
 
@@ -254,7 +290,7 @@ rmSync(bf, { recursive: true, force: true });
 // --- v3: the contract surface — per-command --help, explain, generated docs ---
 // The planted AGENTS.md promises "run any command with --help for its own
 // contract"; these checks are that promise, enforced.
-const LAW_COMMANDS = ["init", "new", "sketch", "grill", "score", "check", "lint", "status", "deliver", "upgrade", "skill", "explain"];
+const LAW_COMMANDS = ["init", "new", "sketch", "grill", "score", "check", "lint", "status", "trace", "doctor", "deliver", "upgrade", "skill", "explain", "completions"];
 fact("every law command has a help page", JSON.stringify(Object.keys(COMMAND_HELP).sort()) === JSON.stringify([...LAW_COMMANDS].sort()));
 fact("the global usage lists every command", LAW_COMMANDS.every((c) => usageText().includes(c)));
 for (const c of LAW_COMMANDS) {
@@ -268,6 +304,13 @@ check("explain --list covers the codes with family headers", run(scratch, ["expl
 check("explain --json is an envelope", run(scratch, ["explain", "--json", "DG-U022"]), 0, (r) => (JSON.parse(r.stdout) as { schema?: string }).schema === "docodego/explain/v1");
 check("explain of an unknown code is a usage error", run(scratch, ["explain", "DG-ZZZ"]), 2);
 check("explain without a target is a usage error", run(scratch, ["explain"]), 2);
+// --- completions: generated from the help registry, one script per shell ---
+for (const shell of COMPLETION_SHELLS) {
+  check(`completions ${shell} emits a script naming real commands`, run(scratch, ["completions", shell]), 0, (r) =>
+    LAW_COMMANDS.every((c) => r.stdout.includes(c)) && (r.stdout.includes("--json") || r.stdout.includes("-l json")));
+}
+check("completions of an unknown shell is a usage error", run(scratch, ["completions", "powershell"]), 2);
+check("completions without a shell is a usage error", run(scratch, ["completions"]), 2);
 fact("the explanation registry covers every family", Object.keys(FAMILY_TITLES).every((f) => EXPLANATIONS.some((e) => e.code.startsWith(f))));
 fact("the explanation registry covers the whole emitted surface", EXPLANATIONS.length >= 55);
 check("generated docs match their registries", runRaw(REPO_ROOT, process.execPath, ["--experimental-strip-types", GEN_DOCS, "--verify"]), 0);

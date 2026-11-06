@@ -12,6 +12,7 @@
     "bundle:verify": "node --experimental-strip-types apps/cli/scripts/bundle.ts --verify",
     "docs": "node --experimental-strip-types apps/cli/scripts/gen-docs.ts",
     "docs:verify": "node --experimental-strip-types apps/cli/scripts/gen-docs.ts --verify",
+    "fuzz": "node --experimental-strip-types apps/cli/scripts/fuzz.ts",
     "build": "node --experimental-strip-types apps/cli/scripts/build.ts"
   }
 }

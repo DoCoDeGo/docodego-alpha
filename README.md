@@ -133,6 +133,9 @@ lockfile schema — is specified in
   runs on every build.
 - **No telemetry. Nothing phones home.** The only network request the CLI
   can ever make is an explicit `skill add --from <git-url>`.
+- **The parser is fuzzed on every build.** Thousands of seeded broken inputs
+  must recover with positioned diagnostics, never crash — and the parser's
+  output is pinned by a golden corpus, so parser changes are reviewed diffs.
 - **Plain text, by design.** Output carries no ANSI color codes — the same
   bytes serve humans, terminals without color, and agents parsing stdout.
   `NO_COLOR` needs no support because there is no color to suppress.

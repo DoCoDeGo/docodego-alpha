@@ -1,0 +1,112 @@
+{
+  "diags": [],
+  "front": {
+    "errors": [],
+    "fields": [
+      {
+        "key": "name",
+        "span": {
+          "end": {
+            "col": 120,
+            "line": 2
+          },
+          "start": {
+            "col": 1,
+            "line": 2
+          }
+        },
+        "value": "unclosed-fence"
+      },
+      {
+        "key": "type",
+        "span": {
+          "end": {
+            "col": 120,
+            "line": 3
+          },
+          "start": {
+            "col": 1,
+            "line": 3
+          }
+        },
+        "value": "unit"
+      },
+      {
+        "key": "status",
+        "span": {
+          "end": {
+            "col": 120,
+            "line": 4
+          },
+          "start": {
+            "col": 1,
+            "line": 4
+          }
+        },
+        "value": "draft"
+      }
+    ]
+  },
+  "nodes": [
+    {
+      "kind": "heading",
+      "level": 1,
+      "span": {
+        "end": {
+          "col": 17,
+          "line": 7
+        },
+        "start": {
+          "col": 1,
+          "line": 7
+        }
+      },
+      "text": "unclosed-fence"
+    },
+    {
+      "kind": "heading",
+      "level": 2,
+      "span": {
+        "end": {
+          "col": 10,
+          "line": 9
+        },
+        "start": {
+          "col": 1,
+          "line": 9
+        }
+      },
+      "text": "intent"
+    },
+    {
+      "kind": "para",
+      "span": {
+        "end": {
+          "col": 29,
+          "line": 12
+        },
+        "start": {
+          "col": 1,
+          "line": 11
+        }
+      },
+      "text": "A fence opened but never closed takes the rest of the file as one block and reports where it was opened."
+    },
+    {
+      "kind": "fence",
+      "lang": "ts",
+      "span": {
+        "end": {
+          "col": 4,
+          "line": 16
+        },
+        "start": {
+          "col": 1,
+          "line": 14
+        }
+      },
+      "text": "const never = closed;"
+    }
+  ],
+  "path": "unclosed-fence.md"
+}

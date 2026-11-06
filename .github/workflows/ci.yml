@@ -16,8 +16,10 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - name: install (workspaces + toolchain)
         run: npm install
-      - name: build — bundle → bump guard → drift verify → typecheck → conformance → smoke
+      - name: build — bundle → bump guard → drift verify → typecheck → smoke
         run: npm run build
+      - name: conformance — the CLI proves itself against scratch records
+        run: npm run conformance
       - name: generated docs match their registries
         run: npm run docs:verify
       - name: parser fuzz + ast goldens

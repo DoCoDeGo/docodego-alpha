@@ -1,12 +1,15 @@
 /** `grill <unit>` — the adversarial Q&A. Fixed gate questions plus one per
- * acceptance criterion. Interactive on a TTY; `--answers <file>` reads piped
- * answers (one line per question); `--json` without answers emits the
- * questions. Q&A + verdict append to grill.md; pass sets status `grilled`. */
+ * acceptance criterion. Interactive on a TTY; `--answers <file>` reads an
+ * answers file — one answer per line (legacy) or keyed by question id
+ * (structured: `GQ-1: text`, `|` blocks for multi-line); `--json` without
+ * answers emits the questions. Q&A + verdict append to grill.md; pass sets
+ * status `grilled`. */
 import { createInterface } from "node:readline/promises";
 import { join } from "node:path";
 import type { Args, Io } from "../types.ts";
 import { appendText, readText, today } from "../fsx.ts";
 import { loadRecord } from "../record/load.ts";
+import { parseAnswers } from "../record/answers.ts";
 import { grillBlock } from "../record/template-docs.ts";
 import { setStatus } from "../record/record-write.ts";
 import { grillQuestions, verdictFor } from "../passes/index.ts";
@@ -35,11 +38,12 @@ export async function run(args: Args, io: Io): Promise<number> {
     if (raw === null) {
       return complain(args.json, io, { severity: "error", code: "DG-U021", message: `answers file not readable: ${args.answers}` }, 2, "usage");
     }
-    answers = raw
-      .split(/\r?\n/)
-      .map((l) => l.trim())
-      .filter((l, i, all) => !(l === "" && i === all.length - 1));
-    while (answers.length < questions.length) answers.push("");
+    const parsed = parseAnswers(raw, questions.map((q) => q.id));
+    if (parsed.format === "structured" && parsed.errors.length > 0) {
+      const why = parsed.errors[0] ?? "unparseable";
+      return complain(args.json, io, { severity: "error", code: "DG-U081", message: "structured answers file: " + why }, 2, "usage");
+    }
+    answers = parsed.answers;
   } else if (process.stdin.isTTY) {
     answers = await askTty(questions);
   } else {

@@ -135,6 +135,43 @@ exit codes: 0 · 3 no record
 example:
   docodego status --epic delivery-reliability`,
   },
+  trace: {
+    usage: "docodego trace <unit> [--json]",
+    summary: "Everything recorded about one unit, replayed on one timeline.",
+    body: `reads the unit's own trail — spec, grill rounds and their verdicts,
+the score, the proofs that still exist, the deliveries — plus the
+tracker rows naming it, oldest first. read-only: trace writes nothing.
+
+an event the record holds no date for renders as '—' (created is one);
+a bare draft still shows its created line — that is honest.
+
+exit codes: 0 found · 2 unknown unit · 3 record corrupt
+
+example:
+  docodego trace retry-webhook
+  docodego trace retry-webhook --json`,
+  },
+  doctor: {
+    usage: "docodego doctor [--json]",
+    summary: "Support triage: environment, record health, lockfile, and version axes in one standing checklist.",
+    body: `checks: node (engines >=22.6) · git on PATH · record layer · manifest ·
+  record version vs the bundled spec · record check pass · lint · rule
+  registry self-check · skills lockfile (digests re-verified, as 'skill list'
+  does).
+
+doctor never demands a healthy record to run: a missing or corrupt record
+is reported as a failed check line, never a fatal exit — doctor never
+exits 3. a repo with no record layer yet is reported calmly and still
+exits 0; 'docodego init' plants one. an available record upgrade is
+information, not a finding — 'docodego upgrade' moves the record.
+
+exit codes: 0 all healthy (or only the record layer is missing) · 1 a check
+that ran failed · 2 usage
+
+example:
+  docodego doctor
+  docodego doctor --json`,
+  },
   deliver: {
     usage: "docodego deliver <unit>",
     summary: "The gate. Four decisions; only an all-green gate writes anything.",
@@ -201,6 +238,24 @@ exit codes: 0 · 2 unknown code
 
 example:
   docodego explain DG-F004`,
+  },
+  completions: {
+    usage: "docodego completions <bash|zsh|fish>",
+    summary: "Shell completion scripts for bash, zsh, and fish — generated from this registry.",
+    body: `prints the completion script for one shell, generated from the same
+registry that powers --help, so the scripts cannot drift from the contracts.
+each script opens with its own install instructions.
+
+install:
+  bash   add to ~/.bashrc:         source <(docodego completions bash)
+  zsh    before compinit:          docodego completions zsh > ~/.zfunc/_docodego
+                                   (and fpath=(~/.zfunc $fpath) in ~/.zshrc)
+  fish                              docodego completions fish > ~/.config/fish/completions/docodego.fish
+
+exit codes: 0 script on stdout · 2 unknown shell
+
+example:
+  docodego completions zsh > ~/.zfunc/_docodego`,
   },
 };
 

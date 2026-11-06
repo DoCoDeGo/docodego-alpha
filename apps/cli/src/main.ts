@@ -16,10 +16,13 @@ import * as score from "./commands/score.ts";
 import * as check from "./commands/check.ts";
 import * as lint from "./commands/lint.ts";
 import * as status from "./commands/status.ts";
+import * as trace from "./commands/trace.ts";
+import * as doctor from "./commands/doctor.ts";
 import * as deliver from "./commands/deliver.ts";
 import * as upgrade from "./commands/upgrade.ts";
 import * as skill from "./commands/skill.ts";
 import * as explain from "./commands/explain.ts";
+import * as completions from "./commands/completions.ts";
 
 type Run = (args: Args, io: Io) => number | Promise<number>;
 
@@ -32,10 +35,13 @@ const COMMANDS: Record<string, { run: Run; read: boolean }> = {
   check: { run: check.run, read: true },
   lint: { run: lint.run, read: true },
   status: { run: status.run, read: true },
+  trace: { run: trace.run, read: true },
+  doctor: { run: doctor.run, read: false },
   deliver: { run: deliver.run, read: false },
   upgrade: { run: upgrade.run, read: false },
   skill: { run: skill.run, read: false },
   explain: { run: explain.run, read: false },
+  completions: { run: completions.run, read: false },
 };
 
 const io: Io = {

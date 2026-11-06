@@ -6,6 +6,49 @@ semver) and the **record spec** (a strict integer — the contract version of
 the planted `.docodego/` layer). Users upgrade records, not just tools, so
 the record axis is the one to watch. Format: Keep a Changelog.
 
+## [0.4.0] — 2026-11-07 · record spec 3
+
+CLI only this release — the record spec stays 3; `docodego upgrade` has
+nothing to do.
+
+### Added
+
+- **`docodego doctor [--json]`.** Support triage in one command: node and
+  git, the record layer and manifest, the record version against the
+  bundled spec (an available upgrade is information, not a finding), the
+  check and lint passes, the rule registry self-check, and the skills
+  lockfile with digests re-verified. A missing or corrupt record is a
+  failed check line, never exit 3; a repo with no record layer yet exits 0
+  and says so. `--json` emits `docodego/doctor/v1`.
+- **`docodego trace <unit>`.** The traceability anchor made a command:
+  everything recorded about one unit — its scaffolded creation, grill
+  rounds and their verdicts, the ICS score, the proofs that still exist,
+  the deliveries — replayed on one timeline, with the tracker rows naming
+  it. Read-only; `--json` emits `docodego/trace/v1`.
+- **`docodego completions <bash|zsh|fish>`.** Shell completion scripts
+  generated at call time from the same registry that powers `--help` — the
+  scripts cannot drift from the contracts, and a new command flows into
+  every shell with no edit. Each script opens with its own install
+  instructions.
+- **Structured `--answers` files for `grill`.** An answers file may now key
+  answers by question id — `GQ-1: a single line`, or a `|` / `|-` block
+  scalar for a multi-line answer — so agent-generated answers are no longer
+  bound to one line per question. One file, one format, detected by
+  content: legacy one-answer-per-line files behave exactly as before. A
+  structured file that names an unknown question id, answers one twice, or
+  answers nothing is refused with a plain-English message
+  (`docodego explain DG-U081`).
+- **Parser fuzz + golden corpus.** `npm run fuzz` feeds the hand-rolled
+  markdown parser a seeded stream of broken input — truncations, unclosed
+  fences and frontmatter, invalid bytes, mixed CRLF, 100k lines,
+  mid-codepoint emoji — and fails the build if the parser ever throws or
+  emits a diagnostic span that isn't 1-based positive with start ≤ end. A
+  golden corpus of real record-shaped files pins the parser's full output
+  as reviewed diffs (`--update-goldens`); parser evolution can no longer
+  land silently. The conformance suite runs a round on every build.
+- New diagnostic pages: `explain DG-U050` (trace usage), `explain DG-U081`
+  (structured answers), `explain DG-U082` (completions usage).
+
 ## [0.3.0] — 2026-11-07 · record spec 3
 
 ### Added

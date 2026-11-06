@@ -1,0 +1,109 @@
+{
+  "diags": [],
+  "front": null,
+  "nodes": [
+    {
+      "kind": "heading",
+      "level": 1,
+      "span": {
+        "end": {
+          "col": 22,
+          "line": 1
+        },
+        "start": {
+          "col": 1,
+          "line": 1
+        }
+      },
+      "text": "sketch: parser-fuzz"
+    },
+    {
+      "kind": "heading",
+      "level": 2,
+      "span": {
+        "end": {
+          "col": 10,
+          "line": 3
+        },
+        "start": {
+          "col": 1,
+          "line": 3
+        }
+      },
+      "text": "intent"
+    },
+    {
+      "kind": "para",
+      "span": {
+        "end": {
+          "col": 71,
+          "line": 5
+        },
+        "start": {
+          "col": 1,
+          "line": 5
+        }
+      },
+      "text": "Feed the parser broken input on every build so a crash can never land."
+    },
+    {
+      "kind": "heading",
+      "level": 2,
+      "span": {
+        "end": {
+          "col": 23,
+          "line": 7
+        },
+        "start": {
+          "col": 1,
+          "line": 7
+        }
+      },
+      "text": "evidence-of-running"
+    },
+    {
+      "kind": "para",
+      "span": {
+        "end": {
+          "col": 78,
+          "line": 9
+        },
+        "start": {
+          "col": 1,
+          "line": 9
+        }
+      },
+      "text": "`npm run fuzz` exits 0 with two thousand mutated inputs and a golden compare."
+    },
+    {
+      "kind": "heading",
+      "level": 2,
+      "span": {
+        "end": {
+          "col": 11,
+          "line": 11
+        },
+        "start": {
+          "col": 1,
+          "line": 11
+        }
+      },
+      "text": "verdict"
+    },
+    {
+      "kind": "para",
+      "span": {
+        "end": {
+          "col": 5,
+          "line": 13
+        },
+        "start": {
+          "col": 1,
+          "line": 13
+        }
+      },
+      "text": "open"
+    }
+  ],
+  "path": "sketch-file.md"
+}

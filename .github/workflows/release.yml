@@ -39,7 +39,7 @@ jobs:
         if: steps.fresh.outputs.new == 'true'
         run: npm install
 
-      - name: build — bundle → bump guard → drift verify → typecheck → conformance → smoke
+      - name: build — bundle → bump guard → drift verify → typecheck → smoke
         if: steps.fresh.outputs.new == 'true'
         run: npm run build
 

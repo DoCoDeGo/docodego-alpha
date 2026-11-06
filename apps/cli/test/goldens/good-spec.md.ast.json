@@ -1,0 +1,263 @@
+{
+  "diags": [],
+  "front": {
+    "errors": [],
+    "fields": [
+      {
+        "key": "name",
+        "span": {
+          "end": {
+            "col": 120,
+            "line": 2
+          },
+          "start": {
+            "col": 1,
+            "line": 2
+          }
+        },
+        "value": "good-spec"
+      },
+      {
+        "key": "type",
+        "span": {
+          "end": {
+            "col": 120,
+            "line": 3
+          },
+          "start": {
+            "col": 1,
+            "line": 3
+          }
+        },
+        "value": "unit"
+      },
+      {
+        "key": "epic",
+        "span": {
+          "end": {
+            "col": 120,
+            "line": 4
+          },
+          "start": {
+            "col": 1,
+            "line": 4
+          }
+        },
+        "value": "parser-hardening"
+      },
+      {
+        "key": "status",
+        "span": {
+          "end": {
+            "col": 120,
+            "line": 5
+          },
+          "start": {
+            "col": 1,
+            "line": 5
+          }
+        },
+        "value": "draft"
+      }
+    ]
+  },
+  "nodes": [
+    {
+      "kind": "heading",
+      "level": 1,
+      "span": {
+        "end": {
+          "col": 12,
+          "line": 8
+        },
+        "start": {
+          "col": 1,
+          "line": 8
+        }
+      },
+      "text": "good-spec"
+    },
+    {
+      "kind": "heading",
+      "level": 2,
+      "span": {
+        "end": {
+          "col": 10,
+          "line": 10
+        },
+        "start": {
+          "col": 1,
+          "line": 10
+        }
+      },
+      "text": "intent"
+    },
+    {
+      "kind": "para",
+      "span": {
+        "end": {
+          "col": 74,
+          "line": 13
+        },
+        "start": {
+          "col": 1,
+          "line": 12
+        }
+      },
+      "text": "The record parser must survive any input: every problem becomes a positioned diagnostic and the parse continues, so passes always have an AST to walk."
+    },
+    {
+      "kind": "heading",
+      "level": 2,
+      "span": {
+        "end": {
+          "col": 9,
+          "line": 15
+        },
+        "start": {
+          "col": 1,
+          "line": 15
+        }
+      },
+      "text": "scope"
+    },
+    {
+      "kind": "para",
+      "span": {
+        "end": {
+          "col": 38,
+          "line": 18
+        },
+        "start": {
+          "col": 1,
+          "line": 17
+        }
+      },
+      "text": "In: the markdown parser and its span arithmetic. Out: the passes that consume the AST."
+    },
+    {
+      "kind": "heading",
+      "level": 2,
+      "span": {
+        "end": {
+          "col": 14,
+          "line": 20
+        },
+        "start": {
+          "col": 1,
+          "line": 20
+        }
+      },
+      "text": "acceptance"
+    },
+    {
+      "kind": "item",
+      "span": {
+        "end": {
+          "col": 52,
+          "line": 22
+        },
+        "start": {
+          "col": 1,
+          "line": 22
+        }
+      },
+      "text": "a truncated file yields a diagnostic, not a crash"
+    },
+    {
+      "kind": "item",
+      "span": {
+        "end": {
+          "col": 79,
+          "line": 23
+        },
+        "start": {
+          "col": 1,
+          "line": 23
+        }
+      },
+      "text": "every diagnostic cites a 1-based line and column, checkable against the file"
+    },
+    {
+      "kind": "heading",
+      "level": 2,
+      "span": {
+        "end": {
+          "col": 11,
+          "line": 25
+        },
+        "start": {
+          "col": 1,
+          "line": 25
+        }
+      },
+      "text": "threats"
+    },
+    {
+      "kind": "item",
+      "span": {
+        "end": {
+          "col": 98,
+          "line": 27
+        },
+        "start": {
+          "col": 1,
+          "line": 27
+        }
+      },
+      "text": "truncated multibyte characters break span arithmetic -> slice on code units and test with emoji"
+    },
+    {
+      "cells": [
+        "pass",
+        "max",
+        "scored"
+      ],
+      "kind": "table-row",
+      "span": {
+        "end": {
+          "col": 24,
+          "line": 29
+        },
+        "start": {
+          "col": 1,
+          "line": 29
+        }
+      }
+    },
+    {
+      "cells": [
+        "span sanity",
+        "10",
+        "10"
+      ],
+      "kind": "table-row",
+      "span": {
+        "end": {
+          "col": 26,
+          "line": 31
+        },
+        "start": {
+          "col": 1,
+          "line": 31
+        }
+      }
+    },
+    {
+      "kind": "fence",
+      "lang": "ts",
+      "span": {
+        "end": {
+          "col": 4,
+          "line": 35
+        },
+        "start": {
+          "col": 1,
+          "line": 33
+        }
+      },
+      "text": "const span: number = 1;"
+    }
+  ],
+  "path": "good-spec.md"
+}

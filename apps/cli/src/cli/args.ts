@@ -86,10 +86,13 @@ commands:
   check [--json]
   lint [--self-check]
   status [--json] [--epic E] [--story S]
+  trace <unit> [--json]
+  doctor [--json]
   deliver <unit>
   upgrade [--apply] [--branch]
   skill list [--json] | skill add <name> [--from <git-url>] [--force] | skill remove <name>
   explain <code|family> [--list]
+  completions <bash|zsh|fish>
 
 flags:
   --json     one JSON envelope on stdout (read commands); errors as JSON on stderr

@@ -6,7 +6,9 @@ One page per command, generated from the same registry that powers
 | command | what it does |
 |---|---|
 | [`docodego check`](./check.md) | Record integrity: statuses match markers, delivered units hold proofs, links resolve. |
+| [`docodego completions`](./completions.md) | Shell completion scripts for bash, zsh, and fish — generated from this registry. |
 | [`docodego deliver`](./deliver.md) | The gate. Four decisions; only an all-green gate writes anything. |
+| [`docodego doctor`](./doctor.md) | Support triage: environment, record health, lockfile, and version axes in one standing checklist. |
 | [`docodego explain`](./explain.md) | The page for a diagnostic code: what it means, the law behind it, how to fix it. |
 | [`docodego grill`](./grill.md) | The adversarial Q&A: fixed gate questions plus one per acceptance criterion. |
 | [`docodego init`](./init.md) | Plant the record layer, the law, agent presets, and skills — from the bundle this CLI carries. |
@@ -16,4 +18,5 @@ One page per command, generated from the same registry that powers
 | [`docodego sketch`](./sketch.md) | Capture an idea at near-zero ceremony: one file, three sections. |
 | [`docodego skill`](./skill.md) | The installed craft, audited: every skill recorded in skills-lock.json with its digest. |
 | [`docodego status`](./status.md) | The one-screen board: every unit, its stream and status, epic/story rollups. |
+| [`docodego trace`](./trace.md) | Everything recorded about one unit, replayed on one timeline. |
 | [`docodego upgrade`](./upgrade.md) | Move the record to this CLI's bundled record version — create-only, never rewriting yours. |

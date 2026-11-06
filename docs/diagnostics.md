@@ -304,6 +304,12 @@ prefix (`docodego explain DG-F`) prints every page in the family.
 - law: delivery is always the gate of a specific unit.
 - fix: 'docodego deliver <unit>'.
 
+**DG-U050 — usage: docodego trace <unit> [--json]**
+
+- meaning: 'trace' was invoked without exactly one unit name.
+- law: a trace is the replay of one unit's arc; without the name there is nothing to replay.
+- fix: 'docodego trace <unit>' — the name is the unit's directory name; 'docodego status' lists them all.
+
 **DG-U070 — usage: docodego skill list | add | remove**
 
 - meaning: 'skill' was invoked without a subcommand the CLI knows.
@@ -333,6 +339,18 @@ prefix (`docodego explain DG-F`) prints every page in the family.
 - meaning: the argument is not a diagnostic code, a family prefix, and --list was not passed.
 - law: explain pages exist only for codes the CLI can actually emit — an invented page would be documentation drift.
 - fix: run 'docodego explain --list' to see every code.
+
+**DG-U081 — structured answers file does not parse**
+
+- meaning: --answers named a GQ-keyed file with a problem in it: an id the unit never asks, an id answered twice, or no valid answer at all.
+- law: answers are the evidence of the grilling; entries keyed to questions the round did not ask would record answers to nothing.
+- fix: key each entry to a question id from 'docodego grill <unit> --json' — 'GQ-1: answer', quoted if it has to be, or a '|' / '|-' block for a multi-line answer; one answer per id.
+
+**DG-U082 — usage: docodego completions <bash|zsh|fish>**
+
+- meaning: 'completions' was invoked without a shell name, or with one the CLI does not generate.
+- law: a completion script is generated from the help registry — only the shells this CLI actually ships scripts for exist; an invented shell would be a silent lie.
+- fix: 'docodego completions bash' (or zsh, fish); each script carries its own install instructions in the header.
 
 ### DG-K — skills — supply chain and lockfile
 

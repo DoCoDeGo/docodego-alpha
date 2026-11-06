@@ -23,7 +23,7 @@ export interface Payload {
 
 export const PAYLOAD: Payload = {
   "specVersion": 3,
-  "cliVersion": "0.3.0",
+  "cliVersion": "0.4.0",
   "structureHash": "9ab7debed2bc5476bb4e515d12ddae6d043f730504339196ab951c81786409b7",
   "files": {
     ".agents/agents/docodego-researcher.md": "# docodego-researcher (agent topology preset)\n\nMandate: grounding research before any activity; sources recorded, not vibes.\nInputs: the activity question.\nOutputs: a grounding record with cited sources, appended under 01-document.\nScope: read-only beyond its own record; minimum one desk-research cycle per question; findings separated from recommendations.\n",
