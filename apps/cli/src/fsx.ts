@@ -1,0 +1,104 @@
+/** Thin fs layer — the only module that touches node:fs directly. */
+import {
+  appendFileSync,
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
+import { dirname, join } from "node:path";
+
+export const readText = (p: string): string | null => {
+  try {
+    return readFileSync(p, "utf8");
+  } catch {
+    return null;
+  }
+};
+
+export const exists = (p: string): boolean => existsSync(p);
+
+export const isDir = (p: string): boolean => {
+  try {
+    return statSync(p).isDirectory();
+  } catch {
+    return false;
+  }
+};
+
+export const isFile = (p: string): boolean => {
+  try {
+    return statSync(p).isFile();
+  } catch {
+    return false;
+  }
+};
+
+export function listDirs(p: string): string[] {
+  try {
+    return readdirSync(p)
+      .filter((e: string) => isDir(join(p, e)))
+      .sort();
+  } catch {
+    return [];
+  }
+}
+
+export function listFiles(p: string): string[] {
+  try {
+    return readdirSync(p)
+      .filter((e: string) => isFile(join(p, e)))
+      .sort();
+  } catch {
+    return [];
+  }
+}
+
+export const ensureDir = (p: string): void => {
+  mkdirSync(p, { recursive: true });
+};
+
+export const writeText = (p: string, s: string): void => {
+  ensureDir(dirname(p));
+  writeFileSync(p, s);
+};
+
+export const appendText = (p: string, s: string): void => {
+  ensureDir(dirname(p));
+  appendFileSync(p, s);
+};
+
+/** Recursive file walk; `skip` prunes directory names, `cap` bounds the walk. */
+export function walkFiles(root: string, skip: Set<string>, cap = 2000): string[] {
+  const out: string[] = [];
+  const visit = (dir: string): void => {
+    if (out.length >= cap) return;
+    let entries: string[] = [];
+    try {
+      entries = readdirSync(dir);
+    } catch {
+      return;
+    }
+    for (const e of entries.sort()) {
+      const p = join(dir, e);
+      let isDirectory = false;
+      try {
+        isDirectory = statSync(p).isDirectory();
+      } catch {
+        continue;
+      }
+      if (isDirectory) {
+        if (!skip.has(e)) visit(p);
+      } else {
+        out.push(p);
+      }
+      if (out.length >= cap) return;
+    }
+  };
+  visit(root);
+  return out;
+}
+
+export const today = (): string => new Date().toISOString().slice(0, 10);

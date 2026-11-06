@@ -1,0 +1,75 @@
+name: release
+
+# Build and release happen automatically on version changes: when a push to
+# main carries an apps/cli/package.json version whose v<version> tag does not
+# exist yet, the full gate chain runs and a GitHub release is published with
+# the zero-dependency JS artifact plus cross-compiled binaries.
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    if: github.repository == 'DoCoDeGo/docodego-alpha'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: oven-sh/setup-bun@v2
+
+      - id: version
+        run: echo "version=$(node -p "require('./apps/cli/package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: skip when this version is already released
+        id: fresh
+        run: |
+          if git ls-remote --tags origin "refs/tags/v${{ steps.version.outputs.version }}" | grep -q .; then
+            echo "new=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "new=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: install
+        if: steps.fresh.outputs.new == 'true'
+        run: npm install
+
+      - name: build — bundle → bump guard → drift verify → typecheck → conformance → smoke
+        if: steps.fresh.outputs.new == 'true'
+        run: npm run build
+
+      - name: cross-compile binaries from the built js
+        if: steps.fresh.outputs.new == 'true'
+        run: |
+          cd apps/cli/dist
+          for t in bun-linux-x64 bun-linux-arm64 bun-darwin-x64 bun-darwin-arm64 bun-windows-x64; do
+            bun build --compile --target="$t" docodego.js --outfile "docodego-${t#bun-}"
+          done
+          for f in docodego-windows-x64*; do mv "$f" "docodego-windows-x64.exe"; done
+
+      - name: checksums
+        if: steps.fresh.outputs.new == 'true'
+        run: |
+          cd apps/cli/dist
+          sha256sum docodego.js docodego-linux-x64 docodego-linux-arm64 docodego-darwin-x64 docodego-darwin-arm64 docodego-windows-x64.exe > sha256sums.txt
+
+      - name: publish the release
+        if: steps.fresh.outputs.new == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "v${{ steps.version.outputs.version }}" \
+            --title "docodego v${{ steps.version.outputs.version }}" \
+            --notes "docodego cli ${{ steps.version.outputs.version }} — see CHANGELOG.md for what changed. Assets: the zero-dependency docodego.js (any modern Node, no flags), self-contained binaries per platform, sha256sums.txt." \
+            apps/cli/dist/docodego.js \
+            apps/cli/dist/docodego-linux-x64 \
+            apps/cli/dist/docodego-linux-arm64 \
+            apps/cli/dist/docodego-darwin-x64 \
+            apps/cli/dist/docodego-darwin-arm64 \
+            apps/cli/dist/docodego-windows-x64.exe \
+            apps/cli/dist/sha256sums.txt

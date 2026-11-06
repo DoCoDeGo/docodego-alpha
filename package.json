@@ -1,0 +1,17 @@
+{
+  "name": "docodego",
+  "private": true,
+  "type": "module",
+  "workspaces": ["apps/*"],
+  "engines": { "node": ">=22.6" },
+  "devDependencies": { "typescript": "^7.0.2" },
+  "scripts": {
+    "typecheck": "tsc -p apps/cli/tsconfig.json --noEmit",
+    "conformance": "node --experimental-strip-types apps/cli/src/conformance.ts",
+    "bundle": "node --experimental-strip-types apps/cli/scripts/bundle.ts",
+    "bundle:verify": "node --experimental-strip-types apps/cli/scripts/bundle.ts --verify",
+    "docs": "node --experimental-strip-types apps/cli/scripts/gen-docs.ts",
+    "docs:verify": "node --experimental-strip-types apps/cli/scripts/gen-docs.ts --verify",
+    "build": "node --experimental-strip-types apps/cli/scripts/build.ts"
+  }
+}

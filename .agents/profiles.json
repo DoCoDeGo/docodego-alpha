@@ -1,0 +1,12 @@
+{
+  "index-version": 1,
+  "default": "product-team",
+  "note": "profiles are named default sets (pip-extras style); the bundler compiles this into the CLI's skill index; init --profile <name> installs a set, --all-skills installs everything",
+  "profiles": {
+    "minimal": ["docodego"],
+    "docs-only": ["docodego", "docodego-document", "docodego-finding", "docodego-grounding"],
+    "product-team": ["docodego", "docodego-loop", "docodego-document", "docodego-compose", "docodego-demonstrate", "docodego-govern"],
+    "platform-team": ["docodego", "docodego-loop", "docodego-document", "docodego-compose", "docodego-demonstrate", "docodego-govern", "docodego-finding", "docodego-grounding"],
+    "research": ["docodego", "docodego-finding", "docodego-grounding"]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "docodego",
+  "version": "0.3.0",
+  "description": "The intent-and-evidence CLI: bundles its own record, parses it once, runs pure passes, emits rustc-style diagnostics.",
+  "private": true,
+  "type": "module",
+  "bin": { "docodego": "./src/main.ts" },
+  "scripts": {
+    "bundle": "node --experimental-strip-types scripts/bundle.ts",
+    "bundle:verify": "node --experimental-strip-types scripts/bundle.ts --verify",
+    "docs": "node --experimental-strip-types scripts/gen-docs.ts",
+    "docs:verify": "node --experimental-strip-types scripts/gen-docs.ts --verify",
+    "typecheck": "tsc --noEmit",
+    "conformance": "node --experimental-strip-types src/conformance.ts",
+    "build": "node --experimental-strip-types scripts/build.ts"
+  }
+}
