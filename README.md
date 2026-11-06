@@ -50,8 +50,10 @@ Or install a self-contained binary:
 # installs to ~/.local/bin (override with PREFIX=…)
 curl -fsSL https://raw.githubusercontent.com/DoCoDeGo/docodego-alpha/main/install.sh | sh
 
-# macOS / Linux via Homebrew
+# macOS / Linux via Homebrew — one line, auto-taps
 brew install docodego/tap/docodego
+# optional one-time: brew trust docodego/tap
+#   → plain `brew install docodego` then resolves on your machine
 
 # Windows via Scoop
 scoop bucket add docodego https://github.com/DoCoDeGo/scoop-bucket

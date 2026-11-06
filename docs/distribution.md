@@ -84,9 +84,19 @@ door of the README quickstart.
 
 - **Tap**: [DoCoDeGo/homebrew-tap](https://github.com/DoCoDeGo/homebrew-tap)
   — `Formula/docodego.rb` with arm + intel stanzas and a livecheck block.
-- **Install**: `brew install docodego/tap/docodego`.
+- **Install**: `brew install docodego/tap/docodego` — one line, auto-taps.
 - **Proven**: full install + `brew test docodego` green on macOS arm64,
   v0.7.1.
+- **The bare-name question** (`brew install docodego`): verified on
+  Homebrew 7.0.12 — bare names resolve against homebrew-core plus the
+  user's own tapped taps. `docodego` is not in core, so fresh machines get
+  "No available formula"; machines that have the tap get a *trust refusal*:
+  Homebrew refuses to load a bare-name match from an untrusted third-party
+  tap (anti-typosquatting — any tapped tap could otherwise hijack a common
+  name). One-time fix per machine: `brew trust docodego/tap`, after which
+  plain `brew install docodego` installs (verified: trust → bare install →
+  0.7.1 runs). Universal bare-name installs would require homebrew-core
+  inclusion — a notability-gated milestone deliberately not chased yet.
 - **homebrew-core**: deliberately not pursued yet (notability bar); own-tap
   first is the standard indie-CLI path.
 
