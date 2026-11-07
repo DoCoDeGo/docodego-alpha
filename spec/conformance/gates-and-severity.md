@@ -24,13 +24,17 @@ judged beside it, never by the tool. The score is a gate, not a target — "a te
 numbers will raise its scores and skip the grilling. The score is a floor; the grilling reads
 for truth. Do both."
 
-> **Open conformance question (founder to rule, spec 7):** the canon carries two forms — this
-> four-dimension score (Guide G9.2; the canon receipt "score 78, threat 19"), and a five-pass
-> form in the tool appendix (completeness 25, unambiguity 25, testability 25, threat 15,
-> anti-gaming 10). This spec encodes the four-dimension form as normative, with
-> satisfiability admitted as a gate-level check (unsatisfiable criteria fail) rather than a
-> scored dimension. If the founder rules otherwise, this section is amended and the change
-> list records it.
+> **The ICS ruling (founder, 2026-11-08, verbatim):** asked whether the law
+> is the four-dimension form or the five-pass form, the founder declined to
+> pick and ruled: *"we should always strive to improve and do better,
+> nothing is set in stone. ICS in my opinion needs a significant uplift and
+> redesign. Same goes for other similar scorers grillers etc. We should be
+> willing to add more dimensions if they make sense responsibly."* The
+> redesign is commissioned as spec 7's ICS 2.0 track — dimensions that make
+> sense, added responsibly, with the grilling and the other gates under the
+> same scrutiny. Until a redesign is accepted, the four-dimension form
+> stays normative here; the tool's five-pass output is the incumbent being
+> redesigned, not the law.
 
 ### Exit codes and the envelope
 
