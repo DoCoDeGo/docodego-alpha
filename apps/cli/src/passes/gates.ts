@@ -67,12 +67,21 @@ function proofsGate(rec: RecordAst, unit: UnitAst): Gate {
   const raw = unit.markers.proofs === null ? null : readText(join(rec.root, unit.markers.proofs));
   if (raw === null) return { id: "G4", label: "at least one existing proof path", passed: false, detail: "no proofs.md" };
   const paths = proofPaths(parseMarkdown(unit.markers.proofs ?? "", raw));
-  if (paths.length === 0) return { id: "G4", label: "at least one existing proof path", passed: false, detail: "proofs.md holds no path entries" };
+  if (paths.length === 0)
+    return {
+      id: "G4",
+      label: "at least one existing proof path",
+      passed: false,
+      detail: "proofs.md holds no path entries — write list items like: - path/to/proof.txt — what ran",
+    };
   const existing = paths.filter((p) => proofResolves(rec, unit, p));
+  if (existing.length > 0) return { id: "G4", label: "at least one existing proof path", passed: true, detail: `proof: ${existing[0]}` };
+  const shown = paths.slice(0, 4).join(", ");
+  const more = paths.length > 4 ? ` +${paths.length - 4} more` : "";
   return {
     id: "G4",
     label: "at least one existing proof path",
-    passed: existing.length > 0,
-    detail: existing.length > 0 ? `proof: ${existing[0]}` : `none of ${paths.length} path(s) exist on disk`,
+    passed: false,
+    detail: `no proof path exists on disk — looked for: ${shown}${more} (paths resolve against the repo, the record root, and the unit folder)`,
   };
 }

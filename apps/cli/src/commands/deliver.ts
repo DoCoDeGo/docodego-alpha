@@ -1,14 +1,14 @@
 /** `deliver <unit>` — the gate. Four decisions from pure gate passes:
  * spec complete · score >= 60 · grill verdict pass · at least one proof path
- * that exists on disk. Pass: append delivered.md + tracker, set status
- * `delivered`, print the gate line. Fail: print failed gates, exit 1,
- * commit nothing. */
+ * that exists on disk. Pass: append delivered.md + tracker + delivery log,
+ * set status `delivered`, print the gate line. Fail: print failed gates,
+ * record the attempt in the tracker, exit 1 — the landing is never written. */
 import { join } from "node:path";
 import type { Args, Io } from "../types.ts";
 import { appendText, today } from "../fsx.ts";
 import { loadRecord } from "../record/load.ts";
 import { deliverGates } from "../passes/index.ts";
-import { appendTracker, setStatus } from "../record/record-write.ts";
+import { appendTracker, appendDeliveryLog, setStatus } from "../record/record-write.ts";
 import { complain, resolveUnitOrComplain, unitFile } from "./resolve.ts";
 import { envelope } from "../emit/json.ts";
 
@@ -27,11 +27,15 @@ export function run(args: Args, io: Io): number {
 
   if (failed.length > 0) {
     const table = gates.map((g) => `  ${g.passed ? "pass" : "FAIL"}  ${g.id}  ${g.label} — ${g.detail}`).join("\n");
+    // the attempt is recorded: a refused gate leaves one tracker line, so the
+    // record can reconstruct the attempts and not only the landings
+    const refusal = `${failed.map((g) => g.id).join(",")} failed — ${failed[0]?.detail ?? ""}`;
+    const trackerLine = appendTracker(rec, name, "gate-refused", refusal.length > 90 ? `${refusal.slice(0, 87)}...` : refusal);
     if (args.json) {
-      io.err(JSON.stringify(envelope("deliver", { unit: name, gates }, false), null, 2));
+      io.err(JSON.stringify(envelope("deliver", { unit: name, gates, tracker: trackerLine }, false), null, 2));
     } else {
       io.err(`gate review for ${name}:\n${table}`);
-      io.err(`GATE FAIL ${name} — ${failed.map((g) => g.id).join(", ")} failed; nothing committed`);
+      io.err(`GATE FAIL ${name} — ${failed.map((g) => g.id).join(", ")} failed; nothing committed (attempt recorded in the tracker)`);
     }
     return 1;
   }
@@ -39,14 +43,15 @@ export function run(args: Args, io: Io): number {
   const date = today();
   appendText(unitFile(rec, unit, "delivered.md"), `## delivered ${date}\n\n- gates: ${gates.map((g) => g.id).join(", ")} all passed\n- detail: ${gates.map((g) => g.detail).join("; ")}\n`);
   const trackerLine = appendTracker(rec, name, "delivered", `${unit.dir}/delivered.md`);
+  const logLine = appendDeliveryLog(rec, name, gates.map((g) => g.id).join(","), gates.find((g) => g.id === "G4")?.detail ?? "");
   setStatus(join(rec.root, unit.dir, "spec.md"), "delivered");
 
   const gateLine = `GATE PASS ${name} — delivered ${date} (${gates.map((g) => `${g.id} ${g.detail}`).join(" · ")})`;
   if (args.json) {
-    io.out(JSON.stringify(envelope("deliver", { unit: name, ok: true, gates, tracker: trackerLine }), null, 2));
+    io.out(JSON.stringify(envelope("deliver", { unit: name, ok: true, gates, tracker: trackerLine, deliveryLog: logLine }), null, 2));
   } else {
     io.out(gateLine);
-    io.err(`appended ${unit.dir}/delivered.md + tracker · status set to delivered`);
+    io.err(`appended ${unit.dir}/delivered.md + tracker + 04-govern/delivery-log.md · status set to delivered`);
   }
   return 0;
 }

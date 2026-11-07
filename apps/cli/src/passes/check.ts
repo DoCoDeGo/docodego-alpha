@@ -33,6 +33,10 @@ function checkUnit(rec: RecordAst, unit: UnitAst): Diagnostic[] {
       out.push({ severity: "error", code: "DG-C004", message: "status 'delivered' but delivered.md is missing", file: `${unit.dir}/delivered.md` });
     }
     out.push(...checkProofs(rec, unit));
+  } else if (unit.markers.proofs !== null) {
+    // a proofs.md that names only dead paths means the deliver gate WILL
+    // refuse — check and the gate must never disagree about that
+    out.push(...checkProofsAhead(rec, unit));
   }
   if (unit.markers.grill !== null) {
     const raw = readText(join(rec.root, unit.markers.grill)) ?? "";
@@ -68,22 +72,85 @@ function checkProofs(rec: RecordAst, unit: UnitAst): Diagnostic[] {
     out.push({ severity: "error", code: "DG-C001", message: "proofs.md holds no path entries", file: unit.markers.proofs });
     return out;
   }
-  for (const p of paths) {
-    if (!proofResolves(rec, unit, p)) {
-      out.push({ severity: "error", code: "DG-C002", message: `proof path does not exist: ${p}`, file: unit.markers.proofs });
+  // the gate's own law, enforced here: at least one proof path must exist —
+  // a delivered unit whose every proof has vanished is an unevidenced claim.
+  // Dead EXTRA paths are warnings, not errors: an honest proofs.md narrates
+  // its history (tried variants, retired proofs), and narration is not a
+  // broken claim.
+  const dead = paths.filter((p) => !proofResolves(rec, unit, p));
+  if (dead.length === paths.length) {
+    const listed = dead.slice(0, 3).join(", ") + (dead.length > 3 ? ` +${dead.length - 3} more` : "");
+    out.push({ severity: "error", code: "DG-C002", message: `no proof path in proofs.md exists on disk — the delivery claim is unevidenced (looked for: ${listed})`, file: unit.markers.proofs });
+  } else if (dead.length > 0) {
+    const listed = dead.slice(0, 3).join(", ") + (dead.length > 3 ? ` +${dead.length - 3} more` : "");
+    out.push({ severity: "warning", code: "DG-C002", message: `proof path(s) not on disk (quoted variants or stale entries): ${listed}`, file: unit.markers.proofs });
+  }
+  return out;
+}
+
+/** Pre-delivery proofs check: the gate's own resolution logic, run by `check`,
+ * so health and delivery can never disagree. Some dead paths warn; a proofs.md
+ * where NOTHING resolves is the exact shape `deliver` refuses, and says so. */
+function checkProofsAhead(rec: RecordAst, unit: UnitAst): Diagnostic[] {
+  const out: Diagnostic[] = [];
+  const raw = readText(join(rec.root, unit.markers.proofs ?? ""));
+  if (raw === null) return out;
+  const proofs = parseMarkdown(unit.markers.proofs ?? "", raw);
+  const paths = proofPaths(proofs);
+  if (paths.length === 0) return out;
+  const dead = paths.filter((p) => !proofResolves(rec, unit, p));
+  if (dead.length === 0) return out;
+  const listed = dead.slice(0, 3).join(", ") + (dead.length > 3 ? ` +${dead.length - 3} more` : "");
+  if (dead.length === paths.length) {
+    out.push({ severity: "error", code: "DG-C002", message: `no proof path in proofs.md exists on disk — deliver will refuse (looked for: ${listed})`, file: unit.markers.proofs ?? "" });
+  } else {
+    out.push({ severity: "warning", code: "DG-C002", message: `proof path(s) not on disk yet: ${listed}`, file: unit.markers.proofs ?? "" });
+  }
+  return out;
+}
+
+/** The path-like tokens in a proofs.md, in order, deduplicated.
+ *
+ * The grammar, documented because it is law: from every list item, take
+ * each backticked span and the item's first bare token; keep a candidate
+ * when it looks like a path — it carries a `/` or ends in a short file
+ * extension — after trailing punctuation is stripped. Candidates with
+ * inner whitespace are prose (a command, a sentence), never a path. An
+ * item that names no path contributes nothing: narration in a proofs.md
+ * is history, not evidence.
+ *
+ * Works for every honest writing shape:
+ *   - proof.txt — the unit test output          (bare first token)
+ *   - `01-document/x/proofs/run.txt`            (backticked span)
+ *   - AC1 — the suite ran: `01-document/x/run.txt`  (label first, path later)
+ */
+export function proofPaths(proofs: FileAst): string[] {
+  const out: string[] = [];
+  const seen = new Set<string>();
+  for (const node of proofs.nodes) {
+    if (node.kind !== "item") continue;
+    for (const candidate of candidatesOf(node.text)) {
+      const token = candidate.replace(/[.,;:)]+$/, "");
+      if (token === "" || seen.has(token) || !PATH_LIKE.test(token)) continue;
+      seen.add(token);
+      out.push(token);
     }
   }
   return out;
 }
 
-/** First path-like token of every list item in a parsed proofs.md. */
-export function proofPaths(proofs: FileAst): string[] {
+/** A path carries a separator or ends in a short file extension. */
+const PATH_LIKE = /[/\\]|\.[A-Za-z0-9]{1,8}$/;
+
+/** Backticked spans without inner whitespace, plus the item's first bare token. */
+function candidatesOf(item: string): string[] {
   const out: string[] = [];
-  for (const node of proofs.nodes) {
-    if (node.kind !== "item") continue;
-    const token = node.text.replace(/`/g, "").trim().split(/\s+/)[0] ?? "";
-    if (token !== "") out.push(token);
+  for (const m of item.matchAll(/`([^`]+)`/g)) {
+    const span = (m[1] ?? "").trim();
+    if (span !== "" && !/\s/.test(span)) out.push(span);
   }
+  const bare = item.replace(/`/g, "").trim().split(/\s+/)[0] ?? "";
+  if (bare !== "") out.push(bare);
   return out;
 }
 

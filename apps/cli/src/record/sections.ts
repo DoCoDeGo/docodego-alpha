@@ -42,12 +42,21 @@ export function findSection(file: FileAst, title: string): Section | undefined {
   return secs.find((s) => s.title === t) ?? secs.find((s) => s.title.startsWith(t));
 }
 
-/** The acceptance criteria: list items under an `acceptance` heading. */
+/** The acceptance criteria: list items under an `acceptance` heading.
+ * A criterion struck through (`~~…~~`) is superseded — the append law keeps
+ * it visible while retired, so the grill must not question dead text. */
 export function acceptance(file: FileAst): string[] {
-  return findSection(file, "acceptance")?.items ?? [];
+  return (findSection(file, "acceptance")?.items ?? []).filter((item) => !isStruck(item));
 }
 
-/** Word count of a section body, ignoring list bullets. */
+/** An item is struck when its substantive text is wrapped in `~~` pairs. */
+function isStruck(item: string): boolean {
+  return (item.match(/~~/g)?.length ?? 0) >= 2;
+}
+
+/** Word count of a section body, prose and list items alike (bullets ignored). */
 export function words(s: Section): number {
-  return s.text.split(/\s+/).filter((w) => w.length > 0).length;
+  return `${s.text}\n${s.items.join("\n")}`
+    .split(/\s+/)
+    .filter((w) => w.length > 0).length;
 }

@@ -5,7 +5,7 @@
  * answers emits the questions. Q&A + verdict append to grill.md; pass sets
  * status `grilled`. */
 import { createInterface } from "node:readline/promises";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import type { Args, Io } from "../types.ts";
 import { appendText, readText, today } from "../fsx.ts";
 import { loadRecord } from "../record/load.ts";
@@ -38,7 +38,7 @@ export async function run(args: Args, io: Io): Promise<number> {
 
   let answers: string[];
   if (args.answers !== undefined) {
-    const raw = readText(join(process.cwd(), args.answers));
+    const raw = readText(resolve(process.cwd(), args.answers));
     if (raw === null) {
       return complain(args.json, io, { severity: "error", code: "DG-U021", message: `answers file not readable: ${args.answers}` }, 2, "usage");
     }

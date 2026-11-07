@@ -1,14 +1,28 @@
-/** Tracker + spec status writes — the two sanctioned metadata updates. */
+/** Tracker, delivery log, and spec status writes — the sanctioned metadata updates. */
 import { join } from "node:path";
 import { appendText, readText, today, writeText } from "../fsx.ts";
-import { TRACKER_TEMPLATE } from "../bundled/index.ts";
+import { DELIVERY_LOG_TEMPLATE, TRACKER_TEMPLATE } from "../bundled/index.ts";
 import { TRACKER_REL, type RecordAst } from "./load.ts";
+
+/** The delivery log lives beside the tracker at the govern root: one row per
+ * delivered unit, appended by the gate itself, so the loop's last movement
+ * always holds the landing record. */
+export const DELIVERY_LOG_REL = "04-govern/delivery-log.md";
 
 /** Append one tracker line; creates the tracker (with its header) if absent. */
 export function appendTracker(rec: RecordAst, unit: string, event: string, evidence: string): string {
   const abs = join(rec.root, TRACKER_REL);
   if (readText(abs) === null) writeText(abs, TRACKER_TEMPLATE);
   const line = `| ${today()} | ${unit} | ${event} | ${evidence} |\n`;
+  appendText(abs, line);
+  return line.trim();
+}
+
+/** Append one delivery-log row; creates the log (with its header) if absent. */
+export function appendDeliveryLog(rec: RecordAst, unit: string, gates: string, proof: string): string {
+  const abs = join(rec.root, DELIVERY_LOG_REL);
+  if (readText(abs) === null) writeText(abs, DELIVERY_LOG_TEMPLATE);
+  const line = `| ${today()} | ${unit} | ${gates} | ${proof} |\n`;
   appendText(abs, line);
   return line.trim();
 }
