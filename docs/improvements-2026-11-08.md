@@ -158,7 +158,21 @@ demonstrate and govern are meaningful." Sweep of actual contents:
 |---|---|---|---|---|---|
 | R11-1 | 02 | Alive, deep in build: 13 dirty, `dist/` rebuilt minutes ago, organized 10-module src tree (pipeline, classifier, families, network-guard, self-hosted fonts). Big-bang shape: one unit, no deliveries until the whole passes the gate. Contrast: every other agent landed units incrementally; 02 carries the entire product on one delivery event. | D2 | **agent** (unit slicing) — session-shape risk, not a defect yet | — |
 
+### R12 — +60 min — 02 bodyarchetype completes; all five green
+
+| # | repo | observation | dim | attr | severity |
+|---|---|---|---|---|---|
+| R12-1 | 02 | **Complete**: single unit delivered whole (score 100, grill pass), 14 proof artifacts incl. guard-probe JSON — six live exfiltration attempts refused, counters exposed at `window.__bodyarchetypeGuard` — two byte-identical determinism runs, five screenshots, two real photos read to different families. Tone law honored by construction (architect's elevation; confidence bands, not percentages). Honest unfinished: payment client-side-only by recorded v0 scope; classifier never validated on a diverse real set — "confidence bands are honest precisely because this is unproven." | D2/D4/D5/D6 | healthy | — |
+| R12-2 | 02 | **Research had no legal home**: `01-discover/research/` linted as a broken unit (DG-F001); the agent moved it inside the unit folder to satisfy the checker. Resolves R0-4 — the folder I flagged at R0 was a law gap, not agent confusion. Research as a first-class record citizen needs a home. | D1/D3 | **law** — new: IMP-22 | G |
+| R12-3 | 02 | DG-C002 tokenization blunt (7th confirmation: `image_frame.cc`, URLs flagged as dead paths); the deliver gate's own G4 echo cited a source file as "proof" — the gate's heuristic imprecise in both directions. | D7 | **law** (IMP-5 confirmed; gate echo precision noted) | F |
+| R12-4 | 02 | Browser contention (IMP-20) forced hand-rolled headless drivers — which became permanent rerunnable proof scripts. The constraint produced better evidence. | D4 | healthy (silver lining of a real gap) | — |
+| R12-5 | all | **Final sweep: 5/5 products green** — `check` + `lint` exit 0 everywhere, 15 delivered units (2+4+1+5+3), one unit deliberately specced-never-delivered (03's price boundary), zero modified record files in any working tree (residuals: untracked lockfile cruft; 03 never committed a package.json — plumbing, runs type-stripped). | D3/D6 | healthy | — |
+
 ## Findings (deduplicated, ranked)
+
+- **IMP-22 (D1/D3, G, law)** — Research has no legal home: `01-discover/research/` lints as a broken unit (DG-F001), so 02 moved grounding material inside the unit folder to satisfy the checker. *Improvement:* bless grounding as a first-class citizen — either a planted `research/` convention the checker ignores as non-unit, or a named home in the document phase's README; grounding artifacts should not impersonate units to be legal.
+
+
 
 
 - **IMP-21 (D3/D7, G, law)** — Gate-written files have no committed home: `deliver` appends tracker/delivery-log/delivered.md *after* the unit's commit, so every delivery record rides the next commit; the law never says where they belong, and agents improvise differently. *Improvement:* the law states it — gate rows belong to the delivery commit (`deliver` stages and amends, or the unit commits first and the gate commit follows with its own type), one rule, everywhere the same.
@@ -233,13 +247,69 @@ demonstrate and govern are meaningful." Sweep of actual contents:
 
 ## Summary for founder review
 
-*(rewritten at the end of the run; rounds above are the evidence)*
+### Verdict: PASS — five products, five strangers, one law
 
-The round's name is now "the streams fork": the law's own prose offers a
-second unit home, agents take it legally, and the CLI's map (`status`) cannot
-see what its integrity layer (`check`) blesses — so a record can be valid and
-invisible at once. IMP-6 + IMP-7 are the round's headline fix; IMP-1
-(founder-absent gates) remains the deepest autonomous-run gap; hygiene
-(IMP-3) and canonical order (IMP-10) are cheap plants. One live agent-defect
-(03's grillless `scored` unit, DG-C003) — the checker caught it; watching
-whether the agent repairs it unprompted.
+Five fresh-context agents, given only a planted record, a product brief in
+essence form, and an explicit creativity mandate, each built a real, runnable,
+self-proving product — **15 units delivered through the gate** (2+4+1+5+3),
+one unit deliberately specced-never-delivered as a price boundary, zero
+fabricated statuses, zero record rewrites, zero paraphrased intent. Every
+final tree: `check` + `lint` exit 0. The two gate refusals that occurred (04's
+G4, recorded) were honored; the two record defects the checker caught
+(03's grillless `scored`, 01's scratch-in-record) were repaired by the agents
+themselves.
+
+| product | units | scores | proving | signature | honest-unfinished headline |
+|---|---|---|---|---|---|
+| 00 finessetry | 2/2 | 100, 100 | 22 engine tests, byte determinism, six stage screenshots | the Bloom (page becomes the verdict) | till unwired; synthetic faces only |
+| 01 swatchship | 4/4 | 99–100 | 43 tests + 44 headless checks; Stripe proven to the door | the fan + fitting-room light test | live test charge needs founder key; webhooks deferred |
+| 02 bodyarchetype | 1/1 | 100 | guard refused 6/6 live exfiltration attempts; byte-identical reruns | architect's elevation of your own landmarks | classifier never validated on diverse real set |
+| 03 grademyfit | 5/6 (+1 boundary) | 99–100 | 44 real-HTTP tests; walkthrough caught 2 bugs specs+tests missed | the graded paper | review-console auth; pro report deliberately unbuilt |
+| 04 planmyskin | 3/3 | 98–100 | 34 tests; network calls throw in tests; 19-token copy gate | the quiet mirror | payment stub; real-skin calibration |
+
+### What the round proves
+
+1. **The honesty spine carried everything.** Verbatim intent, decision logs,
+   gate refusals, proof paths, gate-written trails — the five artifacts the
+   previous review identified as load-bearing did all the work, across five
+   concurrent strangers, including one unprompted mid-run repair (03) and two
+   refusal-then-fix loops (04, 01).
+2. **Creative latitude survived the law.** Every product is visually and
+   conceptually distinct — bloom, fan, elevation, graded paper, mirror — and
+   every design call is recorded with its why. Withholding the prompts
+   improved the products.
+3. **Structure-forced-without-readers failed, again.** The streams forked
+   three of five records; `status` went blind to what `check` blessed;
+   demonstrate stayed an empty room in all five. IMP-15 (the integrity-map
+   design) is the round's headline fix, with IMP-6/7 merged into it.
+4. **The score is not truth, and the grill is not independence** — both
+   agents and orchestrator converged on this from three directions (IMP-12,
+   IMP-13, IMP-17). The gates' *refusals* are the honest part; the
+   *certifications* overclaim.
+
+### The ranked fix list (21 findings, condensed to themes)
+
+1. **IMP-15** — wire all four top-level rooms to gate-written artifacts
+   (compose-log, demo bundles) so the record's map is truthful and uniform.
+   *Record-spec-7 headline.*
+2. **IMP-1/13** — the founder-absent protocol + solo-grill honesty: name
+   what autonomous runs may decide, record what they cannot.
+3. **IMP-6/7** — one unit home (or full tooling coherence across homes).
+4. **IMP-11** — the hard/guidance split, marked in the law.
+5. **IMP-5/14** — proofs grammar: scoped to list items, format written down
+   (not discovered by refusal), warning classes marked.
+6. **IMP-12/17** — score semantics: hash-marked, satisfiability-checked,
+   grill demanded at scoring time.
+7. **IMP-3/19/21** — planted hygiene, sane tooling defaults, a commit home
+   for gate-written rows.
+8. **IMP-16/20/22** — post-delivery amendment rule, the evidence-type ladder
+   (visual claims), research's legal home.
+
+### Method note
+
+Every finding here was harvested live, attributed (agent vs law), and where
+provisional, confirmed or overturned against the record — including one
+orchestrator false positive (R0-5) and one commit-message misread (R1-1).
+The instrument (`docs/review-dimensions.md`) and the suite
+(`docs/agentic-tests/`) are rerunnable; the next law change should be proven
+by re-running it.
