@@ -152,7 +152,14 @@ demonstrate and govern are meaningful." Sweep of actual contents:
 | R10-9 | 03 | Founder-absent plan-approval waiver again (IMP-1's third occurrence); first commit bundled intent+cycles+specs before the rhythm formed — disclosed, kept per append-only. | D2 | **law** (IMP-1) / minor | F/G |
 | R10-10 | 02 | Last holdout: still 4 commits, dirty 12, 0 deliveries, ~75 min. Alive per R9 probe; one giant MediaPipe-pose unit carrying the whole session. | D2 | provisional **agent** | — |
 
+### R11 — +55 min (02 watch)
+
+| # | repo | observation | dim | attr | severity |
+|---|---|---|---|---|---|
+| R11-1 | 02 | Alive, deep in build: 13 dirty, `dist/` rebuilt minutes ago, organized 10-module src tree (pipeline, classifier, families, network-guard, self-hosted fonts). Big-bang shape: one unit, no deliveries until the whole passes the gate. Contrast: every other agent landed units incrementally; 02 carries the entire product on one delivery event. | D2 | **agent** (unit slicing) — session-shape risk, not a defect yet | — |
+
 ## Findings (deduplicated, ranked)
+
 
 - **IMP-21 (D3/D7, G, law)** — Gate-written files have no committed home: `deliver` appends tracker/delivery-log/delivered.md *after* the unit's commit, so every delivery record rides the next commit; the law never says where they belong, and agents improvise differently. *Improvement:* the law states it — gate rows belong to the delivery commit (`deliver` stages and amends, or the unit commits first and the gate commit follows with its own type), one rule, everywhere the same.
 
