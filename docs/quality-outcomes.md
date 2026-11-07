@@ -79,6 +79,13 @@ compensates. Decomposed into five quality axes:
    source-like files; the verify path requires a clean `git status` or a
    recorded ignore.
 
+6. **The visual evidence layer is an instrument, not a hope.** Founder: "the evidence layer is non-existent —
+   no screenshots, responsive checks." The `docodego-visual-proof` skill (bundled; record spec 7's first
+   payload) is the standard: headless Playwright — no visible pane, concurrent-safe, CI-capable — full-page
+   screenshots at 375/768/1280, console-error and horizontal-overflow gates, a reduced-motion pass, and a
+   transcript in the gate's own grammar. The launch gate consumes it; a screenshot proof names the committed
+   script that produced it, or it is not a proof.
+
 The one-sentence form: **docodego's next spec makes the record layer carry
 the ship test — the gate grades the product, the skills carry the craft, the
 rules leave no exceptions, and status shows which tier every product stands

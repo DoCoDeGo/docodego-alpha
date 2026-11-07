@@ -5,8 +5,8 @@
   "profiles": {
     "minimal": ["docodego"],
     "docs-only": ["docodego", "docodego-document", "docodego-finding", "docodego-grounding"],
-    "product-team": ["docodego", "docodego-loop", "docodego-document", "docodego-compose", "docodego-demonstrate", "docodego-govern"],
-    "platform-team": ["docodego", "docodego-loop", "docodego-document", "docodego-compose", "docodego-demonstrate", "docodego-govern", "docodego-finding", "docodego-grounding"],
+    "product-team": ["docodego", "docodego-loop", "docodego-document", "docodego-compose", "docodego-demonstrate", "docodego-govern", "docodego-visual-proof"],
+    "platform-team": ["docodego", "docodego-loop", "docodego-document", "docodego-compose", "docodego-demonstrate", "docodego-govern", "docodego-finding", "docodego-grounding", "docodego-visual-proof"],
     "research": ["docodego", "docodego-finding", "docodego-grounding"]
   }
 }

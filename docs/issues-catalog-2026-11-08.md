@@ -7,37 +7,125 @@ products, per the founder's directive. This file folds in the outputs of:
   product, graded against `docs/quality-audit-rubric.md`.
 - **One cross-product comparator** — the divergence matrix, the
   sibling-solved list, and what the method failed to standardize.
-- **One skills/rules infrastructure analyst** — the bundle/profile/
-  auto-add design and the rules-layer translation for product repos.
+- **One skills/rules infrastructure analyst** — dossier at
+  `docs/research/shelf-bundle-and-auto-add.md` (outer repo).
 
-Cross-links: every finding that also appeared in the live round's
-improvement log (`docs/improvements-2026-11-08.md`, IMP-1..22) is
-tagged with its IMP number. New findings get a Q-number (quality-audit
-series). Severity follows the rubric: **L** launch-blocking, **M**
-major, **m** minor, **p** praise.
+Cross-links: findings that appeared in the live round's improvement log
+(`docs/improvements-2026-11-08.md`, IMP-1..23) carry their IMP tag.
+Severity: **L** launch-blocking · **M** major · **m** minor · **p** praise.
 
-## Sections (filled as reports land)
+Headline so far: **five for five FAIL the ship test, each on exactly two
+blockers** — and the blockers are payment-integrity *bugs* and broken core
+paths, not just missing rails. The single most predictive individual choice
+in the fleet: whether the agent scripted a real-browser walkthrough.
 
-### 1. Product 00 — finessetry
-*(pending)*
+## Sections
 
-### 2. Product 01 — swatchship
-*(pending)*
+### 1. Product 00 — finessetry (audited: FAIL)
 
-### 3. Product 02 — bodyarchetype
-*(pending)*
+**Blockers (L)**
+1. **No purchase surface at all** — paywall says "$12, once" then demands a review code hardcoded in view-source (`DEMO_CODE = 'FINESSETRY-FOUNDER'`, `product/src/main.ts:10`); the tier is simultaneously unpurchasable and trivially bypassable. ADR 0004 records the boundary — signed by "founding agent," i.e. the agent signed its own boundary; no founder signature exists.
+2. **The share card prints a domain nobody owns** — `finessestry.com` (extra "s") vs the brief's owned `finessetry.com`, on the card *and* the download filename (`product/src/ui/copy.ts:43-44`); systemic (title, wordmark, package name, localStorage keys) and **the product's own verification tooling enforces the misspelling** (`grep-copy.mjs:26` requires it to pass). No record file ever names the brand.
+3. **The classifier has never seen a real face** — fixtures drawn from the engine's own Lab bands (`scripts/make-fixtures.mjs:4-6`): circular validation proving round-trips, not reading. No face detection at all (centered box assumed); an off-center selfie misreads silently. Determinism proven; *correctness* externally unverified.
+
+**Major (M)** — no typecheck anywhere in the verify path (`tsc --noEmit` passes today; nothing would catch the next error); capture button live before camera frames with silent `IndexSizeError` and no visitor feedback (`main.ts:210-217`, confirmed live); paywall's code field still visible after unlocking (`[hidden]` beaten by author CSS, `styles.css:265-267`); swatch names invisible on dark swatches (`mix-blend-mode: multiply`, black-on-`#16161A` — 4 of 6 free winter swatches unreadable; the paywall sells "named" colors).
+
+**Minor (m)** — two package managers sanctioned in README; `pnpm-workspace.yaml` (the reproducibility switch) untracked; `Verdict.ok` dead contract; corrupt localStorage crashes unlock; retake mid-reading overridden by a naked `setTimeout`; share-card buttons silently no-op; no OG/social meta; **the delivery gate's flagship proof (run-e2e.md) is prose + screenshots, not a committed replayable script**; ADR 0001's recorded CSP drifted from the shipped CSP (append-only note needed).
+
+**Praise (p)** — privacy rail exemplary and re-measured live: `connect-src 'none'` + 0 resource entries + 0 network requests through the whole funnel; determinism proven three ways (byte-equality, cross-invocation sha256, source-scan banning randomness); engine/shell split enforced by a test; the paywall copy refuses to lie in writing ("we will not pretend otherwise"); **the deploy artifact is genuinely launch-shaped** — one 228 kB self-contained HTML, works from `file://`, the rare audited artifact that could upload tomorrow.
+
+**Ship test:** FAIL — "v0 awaiting a signature it never asked for": checkout is signature-excusable; the wrong-domain card and the unvalidated classifier are defects no signature excuses. Siblings-better: 01's typecheck-in-build, 01's real payment rail, 04's no-input sample read.
+
+### 2. Product 01 — swatchship (audited: FAIL)
+
+**Blockers (L)**
+1. **Duplicate fulfillment rows on confirmation refresh** — `appendOrder` unconditional per confirm, no session-id dedupe, UI never clears `session_id`; proven by execution: one paid session → 2 order rows (`server/src/handlers.ts:116`). A payment-integrity bug in the standard refresh path.
+2. **375px layout break: fan overflows by 118px, cards clipped beyond reach** — hero `.swatch-card` right edge 493px on 375px viewport; left-clipped cards unreachable in LTR (`web/src/styles.css:248-280`). The repo's own 46-check verify never asserts zero overflow — green while broken.
+
+**Major (M)**
+3. Live Stripe round-trip never executed (invalid-key rejection only); unit reads `delivered` with no founder-signed boundary row in the tracker; `stripe.ts:25` blind-casts params, severing type safety at the only real-SDK seam.
+4. `npm run verify` is flaky (exit 1, 0, 0 across three runs) — `goto` + immediate `evaluate` races the async confirm (`scripts/visual-verify.ts:265-266`); the evidence instrument itself is intermittent.
+5. Two package managers touched the tree — tracked `package-lock.json` + untracked `pnpm-lock.yaml`.
+
+**Minor (m)** — no README anywhere (build must precede serve; `STRIPE_SECRET_KEY` documented only in source); missing page → 500 JSON not 404; keyboard focus drops to `<body>` on every quiz answer, fake radio semantics (3 tabbable, no arrow keys); mobile nav `display:none` below 900px with no replacement; zero og:/twitter:/canonical; no returns policy, no deploy recipe (PORT hardcoded); no security/cache headers; typecheck only in `build`, no aggregate gate.
+
+**Praise (p)** — determinism proven by 16,384-vector enumeration ×2; carry fuzz (27 hostile values → null) + DOM-write law; fail-closed at every seam (503 no-key → 402 unpaid; forged-id tests); zero identity fields on the origin page; reduced-motion collapses everything; strict TS with `noUncheckedIndexedAccess`.
+
+**Ship test:** FAIL — fix #1 + #2, founder-sign the four open rails (live charge, shipping list, webhooks/idempotency, deploy recipe) → legitimate v0.
+
+### 3. Product 02 — bodyarchetype (audited: FAIL)
+
+**Blockers (L)**
+1. **Paid tier bypassable by typing a URL** — `?purchase=success` sets `localStorage["bodyarchetype.unlocked.v1"]="1"` with zero verification (`src/main.ts:75-81`); full 22-entry ledger rendered without payment. UI actively advertises "the founder wires a Stripe payment link here, in one config line" (`src/copy.ts:59`) — that one line would ship a paywall any visitor defeats by sharing a link.
+2. **The brief's headline promise fails on its promised input** — "reads a full-body or waist-up photo": two real head-to-toe photos both misread as waist-up with the UI asserting a falsehood ("hips and legs sat outside the frame"); ankle-visibility < 0.5 demotes the frame with no geometric fallback (`src/lib/features.ts:85-92`). Both delivered fixtures were upper-frame; features `verticalLine`/`legTorso` never touched a real photo. Delivered proofs contain zero real full-body runs.
+
+**Major (M)**
+3. Stage shows "Reading your lines…" forever after success — never cleared, infinite animation spins beside the finished reading (`src/main.ts:128`).
+4. Signature elevation renders malformed (jagged, truncated, no head/legs) on real full-body photos — the delivered clean plate was an upper-frame fixture (`src/lib/drawing.ts:122-162`).
+5. Classifier externally unvalidated: two celebrity fixtures, hand-set ranges, **identical per-family weights for all five families** — "weighted scoring" is range-distance only (`src/lib/classifier.ts:49-93`); two unrelated real women both read Gamine.
+6. No typecheck in the verify path — strict tsconfig exists, orphaned; `tsc --noEmit` passes but no script runs it.
+
+**Minor (m)** — no-person branch unreachable (dead copy, wrong diagnosis shown); UI claims a second-family ledger that never renders; tone-lint scope overstates its README claim (card.ts + main.ts literals unscanned); 30 lines of shipped prose dead (`lineNotes[1..2]`); `capture="user"` forces front camera when guidance says frame head-to-toe; zero OG tags, no 404; elevation label clips outside its own viewBox mid-digit (violates the module's own "what the classifier sees is exactly what is on the wall"); guard is a 4-API allowlist while copy claims totality (Image/EventSource/RTC/form-nav unwrapped); **grill.md cites four proof files that don't exist; delivery rows cite `src/copy.ts` as evidence** (record-integrity defect — IMP-5 adjacent); audit scripts untyped `.mjs`; measured ratios live only in aria-hidden SVG (screen readers never hear them); accent contrast ≈4.4:1 borderline; TensorFlow INFO logs as console noise.
+
+**Praise (p)** — privacy guard: installs pre-analysis, origin-pinned GET-only, live counters; probe re-run by auditor: **6/6 exfiltration channels refused**; byte-identical end-to-end determinism reproduced by auditor across two headless runs; tests substantive (exact-ratio fixtures to 1e-6, lint meta-test plants violations to prove the net); tone law real in every shipped string; mobile clean (zero overflow, reduced-motion draw collapse).
+
+**Ship test:** FAIL — payment rail (or signed boundary naming the bypassable path) + the full-body defect (fix, or founder-approved reduction of the brief's first sentence).
 
 ### 4. Product 03 — grademyfit
-*(pending)*
+*(pending — auditor still running)*
 
-### 5. Product 04 — planmyskin
-*(pending)*
+### 5. Product 04 — planmyskin (audited: FAIL)
 
-### 6. Cross-product divergences & standardization gaps
-*(pending)*
+**Blockers (L)**
+1. **The $12.99 paywall takes nothing** — `action === "unlock"` → `store.unlock()` with zero provider (`src/main.ts:68-73`); one click grants the full paid tier. Labeled in UI and scoped in spec, but no founder-signed v0 boundary exists anywhere in the record.
+2. **Guard recovery is a dead end** — capture panel removed on scan; "Try again" scrolls to the detached node (`src/app.ts:113`, `src/main.ts:61-63`). A dark first photo — the most likely real-camera outcome — strands the user until reload.
 
-### 7. Skills / rules / agents infrastructure
-*(pending)*
+**Major (M)**
+3. Camera denial silent: no guard panel, no fallback to upload — the spec's promised fallback was never built; primary button does nothing (`src/main.ts:47-50`).
+4. **Camera stream never released** — no `getTracks/stop` anywhere; the lens stays hot after the read in a product whose pitch is "no upload, no server" — a trust defect in the privacy story itself (`src/camera.ts:26-35`).
+5. Score reveal fails WCAG: blush `#c08d7e` on porcelain = **2.56:1** on the hero moment (`.pm-top-name`, 40–64px) and the 12.5px lock-tags (`src/styles.css:134-138`).
+6. TypeScript checked nowhere — no typescript dep, no tsconfig; strip-types + esbuild transpile without checking.
+7. Copy-lint blind spot on its own criterion — scans 3 hand-listed files; user-facing strings in `render.ts` unscanned, spec's claim false for that file.
+8. Demo mode label built and never wired (`copy.capture.demoLabel` + CSS exist, zero render call sites) — live report shows "Your read" with no synthetic marker.
+9. Re-scan promise thin: no counter (9 scans stored 8 records, 5th never refused), history renders one comparison, not a 4-week arc.
+
+**Minor (m)** — disclaimer 13.5px muted gray (present, "prominent" questionable); band-coarse comparability (luma 105 vs 185 "comparable"); dead code set (`topConcernOf`, `demoLabel`, 3 CSS classes); full 76,800-sample pixel pass runs twice; non-image upload fails silently; favicon/OG/404 all absent; the 4-week plan is one week ×4 (`eveningSteps` computed once); no README.
+
+**Praise (p)** — privacy true by construction (fetch/XHR/WS/sendBeacon stubs throw in tests, dist scanned, live run zero external requests); deps minimal and purposeful (3, locked); edges hold (double-submit, dark upload, cross-band refusal, persistence, 375px clean); tests substantive, not tautologies.
+
+**Ship test:** FAIL — #1 + #2 not signature-excusable; with signature, payment/re-scan/demo/plan-thinness/polish could stand as free-tier v0; #2/#3/#4 are plain primary-path bugs.
+
+### 6. Cross-product divergences & standardization gaps (comparator: FAIL verdict pending per-product; 40 findings)
+
+**Matrix headline:** converged on record-layer mechanics (identical tracker/delivery-log/gate shape — the method's rules landed) and diverged on everything the rules didn't name — language (03: JS front-end beside TS server), typecheck (only 01), test realism (5 different meanings of "proven"), privacy enforcement (3 incompatible shapes of the same hard line), payment realism (5 answers), unit homes (2 of 5 wrong movement), runnability (2 of 5 unrunnable by a stranger).
+
+**Standardization gaps the method should have forced:**
+1. Stack standard: web ⇒ TS end-to-end + `tsc --noEmit` in the verify path — prevents the JS front-end, both missing tsconfigs, the orphaned strict config.
+2. Verify-path shape: every unit's proof is a **committed script** whose run exercises the built artifact — would have refused 04's skipped visual pass and 00's uncommitted driver at G4.
+3. Privacy enforcement pattern: one required shape (CSP where feasible + runtime guard + committed live probe with request log) — not CSP vs JS-guard vs test-stubs.
+4. Screenshot proofs name their producing script, or they aren't proofs (→ shipped as `docodego-visual-proof`).
+5. Two-tier done: `delivered` vs `launch-passed` vs founder-signed `v0 boundary`; "parked" vocabulary for units blocked on founder (03's `pro-fit-report` sits at `grilled` forever).
+6. Unit home semantics: streams unbound to work type; `check` passes build units in the discover movement (00, 02).
+7. Scorer saturation: 9×100, 4×99, 2×98, 1×90 across 16 specs — a gate that nearly always says 100 adds ceremony, not signal (IMP-12).
+8. One package manager, one lockfile, `engines` pinned — none of the five pin engines.
+9. Runbook required: 2 of 5 repos have no README at all (01, 04); record immaculate, product unstartable.
+10. Visitor-facing tier needs a test floor: 00's UI, 01's UI, 03's entire front-end have zero automated tests.
+
+**Gap catalog (condensed, evidence in comparator report):**
+L-class: 01 duplicate order rows; 01/02 375px breaks; 02 bypassable paywall + false full-body statement; 04 paywall-takes-nothing + stranded recovery.
+M-class: unproven Stripe round-trips (00/02/04 unpaid, 01 invalid-key only); classifier unvalidated (02, identical family weights); camera stream never released (04); silent camera denial (04); eternal loading status (02); malformed elevation on real full-body (02); typecheck absent (02/03/04, decorative in 00); copy-lint blind spots (02/04 — lint never sees `dist/` or full file sets); no tsconfig (03/04).
+Record-layer findings: grill citations to nonexistent proof files (02); delivery rows citing source files as evidence (02, gate echo — IMP-5 adjacent); ADRs in 1 of 5 repos and outside the record (00); gate refusals recorded in only 2 of 5 (silent otherwise — the law can't tell perfection from underrecording); parked-unit vocabulary missing; companion files ad hoc (only 04 grew deliverables.md); founder-waiver marker in only 1 of 5.
+Universal minors: no OG/share meta (all five), favicon/404 gaps (01/02/04), no `engines` field (all five), two lockfiles or untracked manifests (00/01/03), dead copy/code in every repo, a11y (focus loss 01, aria-hidden data 02, contrast 04).
+**`docodego status` cannot answer "could this ship"** — every tracker reads identically green while the material differences live in files status never reads (→ IMP-15 + launch gate).
+
+### 7. Skills / rules / agents infrastructure (analyst; full dossier: outer repo `docs/research/shelf-bundle-and-auto-add.md`)
+
+1. **Inventory:** 31 skills across four shelves (studio 26 · v2 CLI 8 · product family 5 · webrtc 23, read-only). The webrtc shelf's unique content was already harvested; the real un-ported craft is **visual-verify authoring** — now shipped as `docodego-visual-proof` (founder directive, same conclusion).
+2. **Bundle 21 / cut 10:** in = 8 method + `meaningful-tests`, `systematic-debugging`, `web-design-guidelines`, `chrome-extension-mv3`, both Vercel skills, `refactor`, `refactor-ratchet`, `uncle-bob`, `grill-me`, `launch-auditor`, `ux-strategy`, `domain-scout`; cut = `docodego-promote` (init ate it), `leaving`/`beyond`/`nurturing`, `never-repeat` (one law line beats one page), `code-comments`/`visualizing-solutions`/`reflect` (studio taste), `prompt-smith`/`context-forge` (hard-coded portfolio paths — remote pack).
+3. **Profiles:** minimal = locator; docs-only/research + `grill-me`; product-team = loop + `meaningful-tests` + `systematic-debugging` + `launch-auditor` (+ `visual-proof`, now bundled); platform adds refactor pair + `uncle-bob`. Stack-specific skills never plant — they auto-add.
+4. **Auto-add:** closed trigger registry in CLI code (self-checked like RULES; a trigger naming a missing bundled skill = self-check error). Detection at `new` (unit type, product class, stack files), `score` (acceptance keywords: payment/scan/a11y/domain/test), `deliver` (launch gate refuses without its instrument — auto-add is recovery, not bypass). Laws: bundled-only, tracker row before exit, deterministic, respects user removals forever, auto-not-asking (stderr → tracker → `skill list` marker). Three trigger-target skills must be authored first: tech-stack, payments, research-verify.
+5. **Rules layer:** 5 invariant rules plant per profile — `standard-stack-default`, `no-untracked-source`, `reduced-motion`, `privacy-at-network-layer`, `interruption-safety` — each with `reader/fails-when/enforced-by/paths` frontmatter; binding map becomes computed (`lint --self-check` verifies every enforced-by target; furniture listed in status, deletion human-confirmed). Verbatim-intent/append-only deliberately not duplicated as rules (already the AGENTS.md honesty law — never-repeat doctrine).
+6. **Gaps:** `vercel-react-best-practices` is client-only-trimmed (wrong for SSR); `refactor-ratchet` hard-codes studio furniture; agent presets planted but unemployed (the law must say when reviewer/tester are mandatory); rules not planted at all today; studio-vs-CLI shelf divergence needs a one-upstream law.
 
 ### 8. Consolidated ranked list
-*(pending — deduped, severity-sorted, IMP-cross-linked)*
+*(pending — completes when auditors 00 and 03 land; then dedupe, severity-sort, IMP-cross-link)*

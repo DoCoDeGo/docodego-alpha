@@ -1,7 +1,7 @@
 {
-  "specVersion": 6,
+  "specVersion": 7,
   "cliVersion": "0.8.0",
-  "structureHash": "9ab7debed2bc5476bb4e515d12ddae6d043f730504339196ab951c81786409b7",
+  "structureHash": "4806e95233b7481e3a6f313470b9e32736f129eaf1cc63b53474566fc6a2b49c",
   "files": {
     ".agents/agents/docodego-researcher.md": "dff87e487865ef57b0e6e786ba39dcf543d87a0eb81831aea8ec9b41a760a0b9",
     ".agents/agents/docodego-reviewer.md": "9e99827130a79966b02f10baedb4e3507a771e6a9c15e4ea49982f0b48fcc787",
@@ -15,8 +15,10 @@
     ".agents/skills/docodego-grounding/SKILL.md": "dbe6a96b728fd9d96a9211a183631be3a8fbb9b2cf338ed9b0c9032ad9740f63",
     ".agents/skills/docodego-grounding/questions.md": "49a6dd5d90a4a9dba102f2ee47faa432905f5c0cc8e01ba336d025d127faa76e",
     ".agents/skills/docodego-loop/SKILL.md": "3dda0c44b36d1a06e6b7730f2da3a24ef120603f3afd4ac8cc13b349e077e4af",
+    ".agents/skills/docodego-visual-proof/SKILL.md": "9bfc5138eccd58ac416539cd9fe8ef8ad378bc53b760acdddaf3af9d2fbb19f2",
+    ".agents/skills/docodego-visual-proof/visual-proof.mjs": "a2fb16ec74cc5b2df24783d3124a2a57e4e34c3894917e6dd2a2c4690a2560de",
     ".agents/skills/docodego/SKILL.md": "31accd8158ea96085eed7b594e5b09af33026c8a5735026f2a584ef26986b575",
-    ".docodego/.standard/manifest.json": "42a140745929850687c017692ce156122cac364f9d193adbe257b1256b5bb308",
+    ".docodego/.standard/manifest.json": "9aaedab5aef64aed28f245e13e5e3c6c8eba616f2475b00787633ad4050e22bb",
     ".docodego/.standard/statutes.md": "950faefc481f0276913c49c5e31b0535e5aa80f44e2f957cff771f28fdd00902",
     ".docodego/.standard/tech-radar.md": "6fdf71fac4037381fe8eef9ce5809867c208f99b760e78ede573bb56f8a9a3af",
     ".docodego/01-document/01-discover/README.md": "5f2b26255f4383c8b2070fcc2c13fb1a940b2be7db69bcaab9c3db6dc85d9597",

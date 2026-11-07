@@ -170,6 +170,7 @@ demonstrate and govern are meaningful." Sweep of actual contents:
 
 ## Findings (deduplicated, ranked)
 
+- **IMP-23 (D4/D5, F, law) — the visual evidence layer** *(founder directive; shipped same day)*. "UX quality is so bad and our evidence layer is non-existent — no screenshots, responsive checks." Confirmed by the fleet: only 2 of 5 products produced real visual evidence (improvised, not law); the one agent that scripted a page-walk found the only two live bugs recorded across five products; 04's final visual pass silently never happened and the gate passed anyway. *Fix shipped:* the `docodego-visual-proof` skill — headless Playwright (no visible pane: kills the browser contention 02 and 04 hit), full-page screenshots at 375/768/1280, console-error + horizontal-overflow gates, a reduced-motion pass, and a transcript in the gate's own grammar. Bundled as record spec 7's first payload change (guard forced the version declaration: hashes detect, humans declare); planted by product-team and platform-team profiles.
 - **IMP-22 (D1/D3, G, law)** — Research has no legal home: `01-discover/research/` lints as a broken unit (DG-F001), so 02 moved grounding material inside the unit folder to satisfy the checker. *Improvement:* bless grounding as a first-class citizen — either a planted `research/` convention the checker ignores as non-unit, or a named home in the document phase's README; grounding artifacts should not impersonate units to be legal.
 
 
