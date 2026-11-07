@@ -125,7 +125,23 @@ demonstrate and govern are meaningful." Sweep of actual contents:
 | R7-2 | 03 | Endgame with red `check`: dirty 2, DG-C003 unrepaired. The finish protocol ("check must pass") vs the missing grill.md — whichever way it resolves is evidence. | D4 | **agent** (live) | — |
 | R7-3 | 02/04 | Both ~55 min without commits. 02: 9 dirty, 0 deliveries, one giant unit (MediaPipe pose pipeline is heavy). 04: 24 dirty and growing — the big-bang pattern now firmly established. | D2 | provisional **agent** (unit slicing / session shape) | — |
 
+### R9 — +45 min — 04 planmyskin completes
+
+| # | repo | observation | dim | attr | severity |
+|---|---|---|---|---|---|
+| R9-1 | 04 | **Complete**: 3/3 units delivered (100/98/99), 34/34 tests, privacy enforced by making network calls *throw* in tests + built-dist scan (0 external refs), copy file behind a 19-token lint gate, closed allowlist ritual generator; grill caught a real dead-path defect (turmeric step unreachable) before build. Honest unfinished list: payment is a labeled stub, real-device camera unproven, real-skin calibration untested. | D2/D4/D5/D6 | healthy | — |
+| R9-2 | 04 | **IMP-16 confirmed first-person**: the copy gate banned a token *after* scan-engine delivered containing it; the agent made an honest amendment (fix commit + cycle entry) but "the law never says whether a delivered unit's proofs/spec may acknowledge post-delivery code changes. They now describe a key the code no longer contains." | D4 | **law** (IMP-16 upgraded: confirmed with the exact artifact-level defect) | **F** |
+| R9-3 | 04 | proofs.md's required format (`- <repo-relative-path> — description`) was "discovered by refusal, not written anywhere" — IMP-5's mechanism, now precise: the spec lives only in the gate's refusal text. | D7 | **law** (IMP-5 confirmed) | F |
+| R9-4 | 04 | no-TTY grill answering (`answers.txt`) reverse-engineered from gate source — the answers-file contract is folklore. | D7 | **law** (acceptance #8 recurring; fold into IMP-1's protocol work) | G |
+| R9-5 | 04 | **Visual evidence has no home**: live browser re-verification was contended by concurrent agents; the agent converted the claim into a deterministic test — stronger evidence, chosen unilaterally. The law recognizes file paths only and "a screenshot-vs-test substitution is a judgment call it doesn't adjudicate." | D4/D5 | **law** — new: IMP-20 (an evidence-type ladder for visual claims; also: concurrent agents contend for one browser) | G |
+| R9-6 | 03 | Fifth unit delivered (5 rows); dirty 1 — endgame. DG-C003 **still unrepaired** (`pro-fit-report/` = `score.md` + `spec.md` only). | D4 | **agent** (live) | — |
+| R9-7 | 02 | ~65 min without a commit; 10 dirty; 0 deliveries; `check` green. Now the lone giant-unit builder — alive (fresh dist last probe) but the session shape puts everything on one delivery event. | D2 | provisional **agent** | — |
+
 ## Findings (deduplicated, ranked)
+
+- **IMP-20 (D4/D5, G, law)** — Visual claims have no evidence ladder: the law recognizes file paths only, so "verify in the browser" either becomes an unadjudicated screenshot-vs-test substitution (04 chose the test, unilaterally) or goes unproven; concurrent agents also contend for one browser pane. *Improvement:* an evidence-type registry — screenshot paths, test-transcript paths, and recorded browser sessions are all legal evidence with declared strength; the demonstrate phase (IMP-15's `demo/<unit>/` bundles) is its natural home.
+
+
 
 
 
