@@ -65,6 +65,17 @@ law under test is the branch law, not a stale artifact.
 | R3-6 | 00 | `check` warning triage cost: no way to distinguish "prose drift" warnings from "real drift" warnings without `explain` per code. | D7 | **law** (warning classes not marked) | G |
 | R3-7 | 00 | Tracker/delivery rows stamped 2026-11-07 vs working date 11-08 — third independent confirmation of the two-calendars defect. | D3 | **law** (R2-5 confirmed) | F |
 
+### R4 — +20 min (timed snapshot; metric bug noted)
+
+| # | repo | observation | dim | attr | severity |
+|---|---|---|---|---|---|
+| R4-1 | 01 | **season-quiz delivered** — via commit "backtick proof paths so the gate reads them". The grammar friction now *shapes prose*: agents write stilted proofs to satisfy the parser. Third independent confirmation (acceptance #2, R3-5, now behavioral adaptation). | D4/D7 | **law** (IMP-5 confirmed at behavior level) | F |
+| R4-2 | 00 | Final state clean: 8 commits, 0 dirty, check exit 0; last commit is "clean proof grammar" — an end-of-run repair of the same friction. | D4 | healthy (repaired) with **law** root cause | — |
+| R4-3 | 03 | DG-C003 (grillless `scored` unit) **still unresolved** 30+ min after the checker caught it; agent active (5 dirty, new feat(feed) commit with NSFW blocklist + 8 tests). Watching whether the agent repairs unprompted. | D4 | **agent** (live) | — |
+| R4-4 | 02 | No commits since R0, 9 dirty — 30+ min in build on the single unit. Slowest mover; watch for stall. | — | — | — |
+| R4-5 | 04 | No commits since R0, 23 dirty — big-bang unit risk (report-experience). | D2 | provisional **agent** (unit slicing) | — |
+| R4-6 | obs | Orchestrator metric bug: `grep -c delivered delivery-log.md` matched a legend line, not data rows — final review counts real `| date |` rows. Recorded so the instrument stays honest. | — | orchestrator | — |
+
 **R0-5 overturned** — 04's "gate passes" was earned; the rows live at the
 stream tracker/home I didn't look in. Lesson recorded in the instrument: a
 provisional finding must locate the unit's home before judging, and
@@ -73,7 +84,22 @@ provisional finding must locate the unit's home before judging, and
 **R0-3 resolved** — 03's units were at `02-compose` (the streams prose), not
 hand-fabricated elsewhere; the top-level `docs/` remains a small D7 item.
 
+### R5 — +25 min — the integrity-map sweep (founder directive)
+
+Founder observation: the four top-level directories are the record's
+integrity summary — "we have to ensure all of the four document compose
+demonstrate and govern are meaningful." Sweep of actual contents:
+
+| # | repo | observation | dim | attr | severity |
+|---|---|---|---|---|---|
+| R5-1 | all | **03-demonstrate holds 4 files in every product — the stream READMEs.** Nobody ever wrote an artifact there. The phase is inert scaffolding. | D8/D1 | **law** (folder wired to no tooling, no artifact class, no reader) | **F** |
+| R5-2 | 00/02 | 02-compose: READMEs only (units live in 01-document). On 01/03/04: units' whole lifecycle inside compose/01-build. The same directory means "nothing" or "everything" depending on which prose the agent believed. | D1/D8 | **law** (IMP-6's fork, seen at map level) | **F** |
+| R5-3 | 04 | Invented the `knowledge/` growth path unprompted (`01-document/knowledge/`) — first live exercise of a growth path the law only names. | D3 | healthy | — |
+| R5-4 | design | Diagnosis: the unit lifecycle is a single-folder pipeline — units never migrate across phases — so top-level rooms only fill by agent improvisation, and improvisation diverges. The map summarizes which README the agent read, not the product. | — | **law** | — |
+
 ## Findings (deduplicated, ranked)
+
+- **IMP-15 (D1/D8, F, law) — the integrity-map design** *(founder directive; record-spec-7 candidate)*. The four top-level directories are the record's integrity summary, but two of the four rooms are inert: demonstrate holds only stream READMEs in all five products; compose means "nothing" or "everything" depending on which prose the agent believed. Root cause: units are born whole in one folder and never migrate, so rooms fill only by improvisation. *Fix:* each room gets one gate-written artifact class with a named reader — document: the why (intent, cycles, specs); **compose: `compose-log.md`, gate-appended at deliver (unit, spec hash, build summary, spec-vs-built deviations — reader: the handoff agent, the build-honesty auditor)**; **demonstrate: `demo/<unit>/` bundles written at deliver (run output, screenshots, how-to-run — reader: the founder's "show me it working", the launch auditor)**; govern: the trail. Anchored at `init`, so an empty room truthfully means "not there yet." Side benefit: the map goes uniform across products regardless of where unit working-folders live — the fork's worst harm dissolves, and unit placement becomes guidance (IMP-11) while the map stays law.
 
 - **IMP-1 (D2, F, law)** — No founder-absent protocol for human-approval
   gates. Compose requires plan approval by a human; an autonomous agent must
