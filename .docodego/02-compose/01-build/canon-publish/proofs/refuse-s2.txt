@@ -1,0 +1,2 @@
+spec error[SP-S002]: the spec tree is ahead of the delivered index — run canon build; publish ships what was delivered, not what is in progress
+s2 exit: 1

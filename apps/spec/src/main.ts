@@ -11,6 +11,7 @@ import * as coverage from "./commands/coverage.ts";
 import * as diff from "./commands/diff.ts";
 import * as amend from "./commands/amend.ts";
 import * as doctor from "./commands/doctor.ts";
+import * as publish from "./commands/publish.ts";
 import { stub } from "./commands/stubs.ts";
 
 const io: Io = {
@@ -26,7 +27,7 @@ const ROUTES: Record<string, (args: Args, io: Io) => number> = {
   diff: diff.run,
   amend: amend.run,
   doctor: doctor.run,
-  publish: stub("publish"),
+  publish: publish.run,
 };
 
 function usageText(): string {
@@ -67,6 +68,7 @@ function parseArgs(argv: string[]): Args | never {
     else if (tok === "--impact") args.impact = rest.shift();
     else if (tok === "--as") args.as = rest.shift();
     else if (tok === "--payload") args.payload = rest.shift();
+    else if (tok === "--site") args.site = rest.shift();
     else if (tok.startsWith("--")) {
       io.err(`canon: unknown flag '${tok}'\n\n${usageText()}`);
       return process.exit(2);

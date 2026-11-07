@@ -1,0 +1,2 @@
+spec error[SP-S003]: publish would move the site backwards — it currently delivers 9.9.9, the dist says 1.0.2; a downgrade is never a publish
+s3 exit: 1

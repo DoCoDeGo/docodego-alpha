@@ -1,0 +1,2 @@
+spec error[SP-S001]: no delivered manifest at 'apps/spec/fixtures/publish-scratch/empty-dist/manifest.json' — run canon build first; publish ships what was delivered
+s1 exit: 1

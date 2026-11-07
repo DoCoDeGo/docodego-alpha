@@ -1,0 +1,4 @@
+idempotence diff exit: 0 (0 = byte-identical)
+canon publish · 1.0.2 → apps/spec/fixtures/publish-scratch/site1 (v/1.0.2/, llms.txt, current.txt) · structure ba9b542a66c9…
+regen exit: 0
+current: 1.0.2

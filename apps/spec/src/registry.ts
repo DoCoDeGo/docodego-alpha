@@ -14,7 +14,7 @@ export const CANON_COMMANDS: Record<string, { delivered: boolean; summary: strin
   diff: { delivered: true, summary: "semantic law diff with a suggested bump class" },
   coverage: { delivered: true, summary: "the enforceability map as data: classification, weighted score, orphan gates, --impact" },
   doctor: { delivered: true, summary: "drift across spec/ ↔ build ↔ payload" },
-  publish: { delivered: false, summary: "version-directory site, llms.txt, verification badge" },
+  publish: { delivered: true, summary: "version-directory site, llms.txt, verification badge" },
 };
 
 /** Enforcers that are honest without being commands: some laws are enforced

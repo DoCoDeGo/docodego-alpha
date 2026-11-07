@@ -44,5 +44,6 @@ export interface Args {
   impact?: string;
   as?: string;
   payload?: string;
+  site?: string;
   help: boolean;
 }

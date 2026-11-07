@@ -1,0 +1,35 @@
+canon publish · 1.0.2 → apps/spec/fixtures/publish-scratch/site1 (v/1.0.2/, llms.txt, current.txt) · structure ba9b542a66c9…
+fresh exit: 0
+apps/spec/fixtures/publish-scratch/site1/current.txt
+apps/spec/fixtures/publish-scratch/site1/llms.txt
+apps/spec/fixtures/publish-scratch/site1/v/1.0.2/SPEC.md
+apps/spec/fixtures/publish-scratch/site1/v/1.0.2/law-index.json
+apps/spec/fixtures/publish-scratch/site1/v/1.0.2/manifest.json
+apps/spec/fixtures/publish-scratch/site1/v/1.0.2/verification.txt
+# verification — 1.0.2
+
+Delivered by canon build; verified by whoever reads it.
+
+version: 1.0.2
+structure: ba9b542a66c9bf196216e842a0b430bae2640f77976596791a3034d8db1fefa1
+law-count: 31
+files: SPEC.md, law-index.json, manifest.json
+
+Recompute the structure identity: sha256 each file above, fold the
+'<file> <hash>' lines (joined by newlines) and sha256 that text — it must
+equal the structure hash here. The manifest beside this badge carries
+every per-file checksum.
+--- llms.txt:
+# The DoCoDeGo System — specification
+
+The canon, published as plain files. Markdown and JSON are the payload;
+the badge in each version directory carries the structure hash and how to
+recompute it.
+
+## Versions
+
+- 1.0.2 — v/1.0.2/SPEC.md (current) · structure ba9b542a66c9…
+--- current.txt:
+current: 1.0.2
+structure: ba9b542a66c9bf196216e842a0b430bae2640f77976596791a3034d8db1fefa1
+law-count: 31

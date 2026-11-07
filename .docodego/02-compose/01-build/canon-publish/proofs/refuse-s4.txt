@@ -1,0 +1,2 @@
+spec error[SP-S004]: 1.0.2 is already published with structure deadbeef0000… but the dist now carries ba9b542a66c9… — move the version forward with an amendment; content is never republished under the same name
+s4 exit: 1

@@ -1,0 +1,2 @@
+{"schema":"docodego-spec/publish/v1","ok":true,"data":{"site":"apps/spec/fixtures/publish-scratch/site-json","version":"1.0.2","structureHash":"ba9b542a66c9bf196216e842a0b430bae2640f77976596791a3034d8db1fefa1","lawCount":31,"versions":["1.0.2"],"wrote":["v/1.0.2/","llms.txt","current.txt"],"diagnostics":[]}}
+json exit: 0

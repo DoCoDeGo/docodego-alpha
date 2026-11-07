@@ -1,0 +1,6 @@
+07cbc47c060063d3d4ffb87728da5a47c270d984d94d63d06ee1249c4572699a  apps/spec/fixtures/publish-scratch/site1/v/1.0.2/SPEC.md
+34802c5b994465e009e1bcdeda9656664f6dfdb830a5795545c11c3ed6485554  apps/spec/fixtures/publish-scratch/site1/llms.txt
+4c5b908e6cbb56ba755b26d625ac45d34cbbc0112a3dfca5b4e4c895d560d4b5  apps/spec/fixtures/publish-scratch/site1/current.txt
+657f89618781715499f47881ced8adc0a7dc6259f1bcde2396eb6216a67bc376  apps/spec/fixtures/publish-scratch/site1/v/1.0.2/manifest.json
+6fdaa43f029de1a5d39283deb53101fd983055ab29088a0d4726321841acc629  apps/spec/fixtures/publish-scratch/site1/v/1.0.2/verification.txt
+ea69a583f2a1175f116e50f83b8b92f4e7afc7ce38c1d0c746477f862d0196b4  apps/spec/fixtures/publish-scratch/site1/v/1.0.2/law-index.json

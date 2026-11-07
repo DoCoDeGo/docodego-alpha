@@ -16,7 +16,7 @@ at founder pace, the CLI at gate pace (ADR 0012).*
 | `diff` | yes | semantic law diff with a suggested bump class (tool suggests, human declares) |
 | `coverage` | no | the enforceability map, orphan gates, `--impact` |
 | `doctor` | yes | drift across spec ↔ build ↔ payload (gates rerun, mirror checked; exit 1 holds a payload release) |
-| `publish` | no | version-directory site, llms.txt, verification badge |
+| `publish` | yes | version-directory site, llms.txt, verification badge (refuses downgrades and silent republishes) |
 
 ## Running it
 
