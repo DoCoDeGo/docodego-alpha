@@ -6,6 +6,65 @@ semver) and the **record spec** (a strict integer — the contract version of
 the planted `.docodego/` layer). Users upgrade records, not just tools, so
 the record axis is the one to watch. Format: Keep a Changelog.
 
+## [0.8.0] — 2026-11-08
+
+The honesty-layer release: the loop's last movement closes, and the record
+speaks the dialect it plants. Record spec 5 → **6**.
+
+### Added
+
+- **The delivery log** — `04-govern/delivery-log.md`, one row per delivered
+  unit, appended by the gate itself (`date, unit, gates, proof`). The loop's
+  govern movement now holds the landing record; lessons feed forward as
+  appended follow-up rows, never edits.
+- **The founding intent, verbatim** — `01-document/01-discover/intent.md`,
+  planted by init and by the v5→v6 migration: the founder's brief recorded
+  exactly as given, with the reader contract stated in the file ("any
+  passage may be quoted as the founder's words").
+- **The cycle log** — `01-document/01-discover/cycles.md`: numbered,
+  dated, append-only, one entry per unit of research or work, with the
+  archiving pattern documented in its header.
+- **Refused attempts are recorded** — `deliver` on a red gate appends a
+  `gate-refused` line to the tracker. The README's "the attempt is
+  recorded, the landing is not" is now true for every gate refusal.
+
+### Changed
+
+- **The proof-path grammar is law, not folk wisdom** — G4 extracts path-like
+  candidates (backticked spans and the first bare token, carrying a `/` or a
+  file extension) from every list item, so any honest writing shape passes:
+  `- AC1 — the suite ran: \`proofs/run.txt\`` works, narration contributes
+  nothing. Documented in `deliver --help`, the DG-C002 page, and the
+  conformance suite.
+- **The G4 refusal names what it looked for** — `no proof path exists on
+  disk — looked for: …` instead of an anonymous count, and the no-entries
+  case teaches the shape.
+- **`check` exercises the gate's proof logic** — a proofs.md where nothing
+  resolves is a check error ("deliver will refuse") at any status; some dead
+  paths warn. Health and delivery can no longer disagree.
+- **Grill respects the append law** — struck-through (`~~…~~`) acceptance
+  criteria are superseded: the grill no longer questions dead text and the
+  gates no longer count it.
+- **Score reads list-shaped sections** — completeness counts prose and list
+  items alike; a bulleted scope no longer scores as "thin (<5 words)".
+- **The skills speak the planted dialect** — all eight bundled skills
+  rewritten (v2.0.0): every path they name exists in a fresh plant, the unit
+  contract teaches the scaffold's four-section spec with
+  assurance/deliverables as earned growth, statuses are the CLI-earned set,
+  and the Arc stays opt-in depth (finding/walk records live in the document
+  streams; Arc directories are a growth path, never planted obligation).
+- **AGENTS.md v3** — the loop is weighted to the work (never forced), the
+  honesty law is explicit (verbatim founder words, evidence is a path that
+  exists, failure is evidence, ephemeral artifacts delete themselves), and
+  the dangling `guidelines/pattern.md` reference is gone (that path was
+  bundle-excluded by law and could never be planted).
+
+### Fixed
+
+- README record-tree drift: the tracker's true path
+  (`04-govern/01-monitor/tracker.md`) and the four record roots are shown
+  as they are planted.
+
 ## [0.7.2] — 2026-11-07
 
 The release-engineering release: the npm channel goes live and every

@@ -148,7 +148,7 @@ earned — commands write the markers, never your hand:
 |---|---|
 | `grill` | status `grilled` — or a recorded failed round, which is evidence too |
 | `score` | status `scored` — the breakdown is public, in the unit's score.md |
-| `deliver` | status `delivered` — gates G1–G4 green, tracker line appended |
+| `deliver` | status `delivered` — gates G1–G4 green; tracker and delivery-log rows appended |
 
 ## Commands
 
@@ -164,7 +164,7 @@ earned — commands write the markers, never your hand:
 | `status` | the one-screen board, with epic/story rollups |
 | `trace` | everything recorded about one unit, on one timeline (read-only) |
 | `doctor` | support triage: environment, record health, lockfile, version axes |
-| `deliver` | the gate — writes only when all four gates are green |
+| `deliver` | the gate — the landing is written only when all four gates are green; a refusal records its attempt in the tracker |
 | `upgrade` | move the record forward — plan first, create-only, `--branch` |
 | `skill` | the installed craft, audited via the lockfile |
 | `explain` | the page for a diagnostic code: meaning, law, fix |
@@ -182,8 +182,12 @@ Every finding names its page: `docodego explain DG-F004`.
   03-demonstrate/ working proof, acceptance, release (01-demo … 04-deploy)
   04-govern/      the loop closed (01-monitor … 04-improve)
   .standard/      reference: statutes, tech radar (never edited in place)
-  tracker.md      the append-only event table
   skills-lock.json  installed craft, with sha256 digests
+
+01-document/01-discover/intent.md    the founding brief — verbatim
+01-document/01-discover/cycles.md    the numbered cycle log — append-only
+04-govern/01-monitor/tracker.md      the append-only event table
+04-govern/delivery-log.md            one row per delivered unit, by the gate
 ```
 
 The full contract — frontmatter vocabulary, marker files, statuses, the

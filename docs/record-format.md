@@ -13,16 +13,21 @@ frontmatter (`---` fenced, one `key: value` per line) at the top of a file.
 ```
 .docodego/
   README.md                     the front door — where things stand, what to read next
-  tracker.md                    the append-only event table
   skills-lock.json              installed craft, with digests (schema below)
   01-document/                  movement: intent sharpened into plans (DO)
-    01-discover/ 02-refine/ 03-validate/ 04-plan/
+    01-discover/                the record's roots live here:
+      intent.md                 the founding brief — verbatim, reader-contracted
+      cycles.md                 the numbered, append-only cycle log
+      02-refine/ 03-validate/ 04-plan/
   02-compose/                   movement: the increment, kept shippable (CO)
     01-build/ 02-integrate/ 03-enhance/ 04-maintain/
   03-demonstrate/               movement: working proof and release (DE)
     01-demo/ 02-accept/ 03-release/ 04-deploy/
   04-govern/                    movement: the loop closed (GO)
-    01-monitor/ 02-measure/ 03-retrospect/ 04-improve/
+    delivery-log.md             one row per delivered unit, appended by the gate
+    01-monitor/
+      tracker.md                the append-only event table
+    02-measure/ 03-retrospect/ 04-improve/
   .standard/                    reference, not record — never edited in place
     manifest.json               the record's self-description (schema below)
     statutes.md                 the sixteen statutes
@@ -33,7 +38,9 @@ frontmatter (`---` fenced, one `key: value` per line) at the top of a file.
 Each stream folder carries a `README.md` stating its producer-consumer
 contract. `<stream>/<unit>/` folders are units (below). Sketches live
 directly in a stream as `sketch-<kebab>.md`. Nothing else belongs in a
-stream — `DG-N003`.
+stream — `DG-N003` — with two engine-planted exceptions in
+`01-discover/`: `intent.md` and `cycles.md`, the record's roots (planted
+by `init` and `upgrade`, create-only, and never unit content).
 
 ## Movements and streams
 
@@ -118,12 +125,22 @@ and every epic/story link must name a real unit (`DG-C*`).
   floor: 60 — deliver refuses below the floor.
   ```
 
-- **`proofs.md`** — one file path per line; each must exist on disk at
+- **`proofs.md`** — list items naming proof files; the grammar (because it
+  is law): from each item, every backticked span and the first bare token
+  are candidates, and a candidate counts as a path when it carries a `/` or
+  ends in a file extension, with no inner whitespace. Narration contributes
+  nothing. At least one extracted path must exist on disk at
   `check`/`deliver` time (`DG-C001`, `DG-C002`). Paths resolve against the
-  record root and the unit folder.
+  repo root, the record root, and the unit folder. Any honest shape works:
+
+  ```markdown
+  - proof.txt — the unit test output
+  - AC1 — the suite ran: `01-document/01-discover/<unit>/proofs/run.txt`
+  ```
 
 - **`delivered.md`** — appended by `deliver` per landing: the gates that
-  passed and the details. Append-only.
+  passed and the details. Append-only. A red gate writes nothing here —
+  the refusal lands in the tracker instead.
 
 ### Sketches
 
@@ -131,15 +148,45 @@ and every epic/story link must name a real unit (`DG-C*`).
 `evidence-of-running`, `verdict:` (starts `open`). Graduated by
 `docodego new <unit> --from-sketch <name>`.
 
-## tracker.md
+## intent.md and cycles.md (`01-discover/`)
 
-The record's timeline. Appended, never rewritten; one row per event:
+The record's roots, planted by `init` and by the v5→v6 migration
+(create-only). **`intent.md`** is the founding brief, verbatim: nothing in
+it is paraphrased, and any passage may be quoted as the founder's words
+exactly as given. Superseded intent is struck, never deleted.
+**`cycles.md`** is the numbered, append-only log of research and decision —
+one dated entry per cycle (`## Cycle <n> — <name> (<date>)`), archived in
+batches to `cycles-archive-N.md` beside it when the live file grows. The
+CLI never writes either file; they are the human and agent record of *why*
+the work exists.
+
+## tracker.md (`04-govern/01-monitor/`)
+
+The record's timeline. Appended, never rewritten; one row per event —
+including refused gate attempts (`gate-refused`), so the record can
+reconstruct the attempts and not only the landings:
 
 ```markdown
 | date | unit | event | evidence |
 |---|---|---|---|
-| 2026-11-07 | retry-webhook | delivered | 02-compose/01-build/retry-webhook/delivered.md |
+| 2026-11-08 | retry-webhook | delivered | 02-compose/01-build/retry-webhook/delivered.md |
+| 2026-11-08 | retry-webhook | gate-refused | G4 failed — no proof path exists on disk… |
 ```
+
+## delivery-log.md (`04-govern/`)
+
+One row per delivered unit, appended by the gate itself — the loop's
+closing record:
+
+```markdown
+| date | unit | gates | proof |
+|---|---|---|---|
+| 2026-11-08 | retry-webhook | G1,G2,G3,G4 | proof: 02-compose/01-build/retry-webhook/proofs/run.txt |
+```
+
+Follow-up rows for the same unit record what was learned
+(`passed_first_attempt`, `human_correction`, the lesson) — appended, never
+edited.
 
 ## manifest.json (`.standard/`)
 

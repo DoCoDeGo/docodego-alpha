@@ -122,13 +122,13 @@ prefix (`docodego explain DG-F`) prints every page in the family.
 
 - meaning: status is 'delivered' but proofs.md is missing, unreadable, or holds no proof entries.
 - law: delivery without evidence is a claim, not a delivery — proofs.md is the unit's evidence-of-running.
-- fix: add proofs.md with one existing file path per line, or re-run 'docodego deliver <unit>' after the proof exists.
+- fix: add proofs.md with list items naming proof files, e.g. '- proof.txt — what ran', or re-run 'docodego deliver <unit>' after the proof exists.
 
 **DG-C002 — proof path does not exist**
 
-- meaning: proofs.md names a path that is not on disk.
+- meaning: proofs.md names a path that is not on disk (or names no path at all).
 - law: a proof is a file that exists; a dead path would let delivery claim what never ran.
-- fix: create the proof file, or correct the path (it resolves against the record root and the unit folder).
+- fix: create the proof file, or correct the path. The grammar: from each list item, every backticked span and the first bare token are candidates; a candidate counts when it carries a '/' or ends in a file extension, and paths resolve against the repo root, the record root, and the unit folder. Write items like: - AC1 — the suite ran: `01-document/x/unit/proofs/run.txt`.
 
 **DG-C003 — status claims a marker the record does not hold**
 

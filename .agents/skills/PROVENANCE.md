@@ -1,8 +1,8 @@
 ---
-version: 1.0.0
+version: 2.0.0
 status: vendored copy — read-only; the upstream governs every change
 upstream: the docodego project's skill family — the template source this seed was vendored from
-updated: 2026-11-03
+updated: 2026-11-08
 ---
 
 # Provenance — .agents/skills
@@ -20,6 +20,13 @@ upstream, read-only copies.
   a fresh plant never enters their phases. A project that needs a seed skill
   to say something different raises that against the upstream; it does not
   rewrite the seed in place.
+- **Version 2.0.0 (2026-11-08)** — the seed was synced to the planted record
+  v6 dialect: every path a skill names now exists in a fresh plant (the
+  document streams carry finding and walk records; the delivery log lives at
+  `04-govern/delivery-log.md`); the unit contract teaches the scaffold's
+  four-section spec with assurance/deliverables as earned growth; statuses
+  are the CLI-earned set (draft → grilled → scored → delivered). The Arc
+  remains opt-in depth: the locator routes to it, the loop governs fidelity.
 - **Version** — the frontmatter above identifies the snapshot. `docodego
   upgrade` refreshes this folder under the same law as the vendored
   references: files at the shipped version are never rewritten, an adopter's

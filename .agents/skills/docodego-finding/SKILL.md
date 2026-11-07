@@ -1,7 +1,7 @@
 ---
 name: docodego-finding
 description: Use when someone doesn't know what to build, feels lost or restless about direction, keeps returning to a theme, or wants to capture a noticing before it evaporates. Guardian of thought provenance — produces finding records, never evaluations.
-version: 1.0.0
+version: 2.0.0
 ---
 
 # docodego-finding — the Finding (of the thought)
@@ -29,7 +29,7 @@ Facilitation: ask, don't assess. Good questions: "What have you noticed three ti
 
 ## The finding record
 
-One file per recognised thought, in this repository's record layer: `.docodego/01-finding/finding.md`. An idea with no repository yet keeps its record wherever the maker keeps pre-repository ideas, until a repository exists to hold it.
+In a repository planted with the loop, finding records live in the discover stream: `.docodego/01-document/01-discover/`. `intent.md` there is the founding brief — verbatim, with its reader contract. A new recognised thought gets its own file beside it (`finding-<working-name>.md`, frontmatter `date`, `status`), and the decision to pursue it is one line in `cycles.md`. An idea with no repository yet keeps its record wherever the maker keeps pre-repository ideas, until a repository exists to hold it.
 
 ```markdown
 ---

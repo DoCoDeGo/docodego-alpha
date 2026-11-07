@@ -1,18 +1,18 @@
 ---
 name: docodego-grounding
 description: Use when deciding whether to commit to an idea — "is this worth doing?", "should I build this?". Facilitates the 36-question grounding walk in strict order, places the idea on the plane (a picture, never a score), and offers redesign moves before any kill.
-version: 1.0.0
+version: 2.0.0
 ---
 
 # docodego-grounding — the Grounding (between thought and thing)
 
-*Arc phase 2 — the only sequential phase. Integrity question: "Can you stand behind committing to this?" Questions: [questions.md](./questions.md) (vendored whole — the walk functions without any external source; the same questions also travel in the planted framework at `.docodego/.framework/questions.md`).*
+*Arc phase 2 — the only sequential phase. Integrity question: "Can you stand behind committing to this?" Questions: [questions.md](./questions.md) (vendored whole — the walk functions without any external source; the planted seed carries no second copy, this file is the questions' home).*
 
 The walk takes a thought and tests it against reality before commitment. It is spec-grilling at life scale — and exactly here the mode flips: **the output is a picture, never a verdict.** No score, no pass/fail, no recommendation disguised as a number. The human decides; the walk makes the decision honest.
 
 ## Prerequisites
 
-- A stated thought — ideally a finding record (`.docodego/01-finding/finding.md`); minimally a paragraph of intent.
+- A stated thought — ideally a finding record (`.docodego/01-document/01-discover/`, beside `intent.md`); minimally a paragraph of intent.
 - **A stated goal first.** Layer III (Viability) is goal-conditional: "sustain a lifestyle business" and "venture-scale outcome" walk the same questions to different answers. No goal, no walk.
 
 ## How to facilitate
@@ -35,7 +35,7 @@ The **five senses of sustainable** — financial, time, energy, social, mission 
 
 ## The walk record
 
-`.docodego/02-grounding/walk_YYYY-MM.md`: frontmatter (date, goal as stated, layer-V path chosen); all 36 answers (or declared-inapplicable with reasons); the placement with its *reasoning*; redesign moves considered; the integrity answer verbatim; links backward to `../01-finding/finding.md` and forward (filled when a repository is born). Re-walks are new files — never edit an old walk; the sequence of walks is itself the record of the idea maturing.
+`.docodego/01-document/02-refine/walk_YYYY-MM.md`: frontmatter (date, goal as stated, layer-V path chosen); all 36 answers (or declared-inapplicable with reasons); the placement with its *reasoning*; redesign moves considered; the integrity answer verbatim; links backward to the finding record in `../01-discover/` and forward (filled when a repository is born). Re-walks are new files — never edit an old walk; the sequence of walks is itself the record of the idea maturing.
 
 ## Rules
 
@@ -46,4 +46,4 @@ The **five senses of sustainable** — financial, time, energy, social, mission 
 
 ## Transition
 
-Solid ground (or an honest, eyes-open choice from another region) + the human's yes to the integrity question → the birth of a repository. The promotion ceremony is a lifecycle skill upstream of the planted seed; until it is loaded, begin the new repository's record layer with `docodego init` and record the walk's outcome in `01-finding/` and `02-grounding/`.
+Solid ground (or an honest, eyes-open choice from another region) + the human's yes to the integrity question → the birth of a repository. The promotion ceremony is a lifecycle skill upstream of the planted seed; until it is loaded, begin the new repository's record layer with `docodego init`, copy the founding intent verbatim into `01-document/01-discover/intent.md`, and record the walk's outcome beside it (`02-refine/` carries the walk; `cycles.md` gets the decision line).

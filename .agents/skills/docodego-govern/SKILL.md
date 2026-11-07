@@ -1,18 +1,18 @@
 ---
 name: docodego-govern
 description: Use for governance work — adversarial spec grilling, post-implementation validation, drift checks, the intent review, convention promotion, and measurement (AAR/GTR/SDL/DDL). Governance is an overlay across all phases, not a phase at the end.
-version: 1.0.0
+version: 2.0.0
 ---
 
 # docodego-govern — govern posture (GO)
 
-*Reference: the planted framework, [.docodego/.framework/](../../../.docodego/.framework/README.md).*
+*Reference: the record index, [.docodego/README.md](../../../.docodego/README.md), and the statutes it points to.*
 
 Standing posture: produce an auditable reasoning trace for every non-trivial decision — no black boxes. If you cannot produce one, say so rather than simulating one. Respect declared scope limits. Report confidence; pause below threshold rather than proceeding. The human holds kill-switch authority — respect a halt immediately and leave the system consistent.
 
 ## Grilling (pre-composition governance)
 
-Grill a spec directory adversarially after it passes the ICS gate, and record the round with `docodego grill <unit>`. The grilling reads the spec, its `Uses` foundations, and the actual code, then returns 10–15 pointed questions with "why it matters" — questions only, never fixes — adversarial by design (race conditions, state gaps, security surfaces, leaks, error propagation, integration risks, unstated assumptions, untestable criteria). The author answers every question, updates the files, and re-scores if `spec.md` changed. Cross-validation rule: **the author is never the sole scorer of their own spec.**
+Grill a unit adversarially after it passes the ICS gate, and record the round with `docodego grill <unit>`. The round returns pointed questions — the four gate questions plus one per acceptance criterion — with "why it matters": questions only, never fixes, adversarial by design (race conditions, state gaps, security surfaces, leaks, error propagation, integration risks, unstated assumptions, untestable criteria). The author answers every question, updates the files, and re-scores if `spec.md` changed. Cross-validation rule: **the author is never the sole scorer of their own spec.**
 
 ## Post-implementation validation
 
@@ -20,7 +20,7 @@ On request, after completion, or when revisiting a feature:
 
 1. Read the spec set; compare against the implementation.
 2. Flag divergences: behavior in code but not in spec → add to spec; behavior in spec but not in code → regression or intentional removal, name which; stale `Uses` references → fix.
-3. Spec updated → re-score, bump version, human approves.
+3. Spec updated → re-score (the gate reads the last round's verdict and the current score), human approves.
 
 ## The drift log and the intent review
 
@@ -36,11 +36,11 @@ No drift items and no refinements for weeks → governance is not looking hard e
 
 ## Measurement
 
-From the delivery log: acceptance-at-rate (AAR < 50% → pause and investigate; declining over three cycles → trigger regardless of value; GTR 0% for months at autonomy → governance asleep) and SDL/DDL trends (rising SDL → look for falling ICS two cycles back; high DDL → criteria weren't instrumented as monitors). *(Tooling note: the analyzer scripts are referenced designs, not yet adopted everywhere — compute the metrics from the delivery log directly until they are, and record them in the delivery record.)*
+From `04-govern/delivery-log.md` — the rows the gate appends, plus the follow-up rows humans and agents append with lessons: acceptance-at-rate (AAR < 50% → pause and investigate; declining over three cycles → trigger regardless of value; GTR 0% for months at autonomy → governance asleep) and SDL/DDL trends (rising SDL → look for falling ICS two cycles back; high DDL → criteria weren't instrumented as monitors). Compute the metrics from the log directly; record them in the tracker with their evidence.
 
 ## Convention promotion
 
-A pattern appearing in **3+ specs** may deserve promotion: project-wide laws → `.docodego/03-rising/system/foundation/<area>.md`; agent rules → [AGENTS.md](../../../AGENTS.md). Add the rule, replace inline occurrences with references, human approves. Not before three occurrences.
+A pattern appearing in **3+ units** may deserve promotion: project laws → [AGENTS.md](../../../AGENTS.md) (this dialect's law home — amend it deliberately, it is versioned); heavier systems work may grow a foundation practice (numbered, amendable law files) as the record earns it. Add the rule, replace inline occurrences with references, human approves. Not before three occurrences.
 
 ## Arc seam
 

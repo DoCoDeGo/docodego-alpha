@@ -1,12 +1,12 @@
 ---
 name: docodego-loop
 description: The standing DoCoDeGo workflow. Use for any non-trivial engineering task — it enforces the DO→CO→DE→GO loop by default, refuses specless generation, and routes to docodego-document (author), docodego-compose (implement), docodego-demonstrate (deliver), docodego-govern (oversee).
-version: 1.0.0
+version: 2.0.0
 ---
 
 # docodego-loop — the standing workflow
 
-*Reference: the planted framework, [.docodego/.framework/](../../../.docodego/.framework/README.md).*
+*Reference: the record index, [.docodego/README.md](../../../.docodego/README.md), and the statutes it points to.*
 
 For any non-trivial task, run the loop. Never generate implementation before a specification exists and has scored ICS ≥ 60 — the spec is the contract. When output fails an acceptance criterion, return to the spec and correct the intent; do not patch the output. After delivery, state plainly whether what shipped matches what was specified.
 
@@ -33,7 +33,21 @@ DO (document) → CO (compose) → DE (demonstrate) → GO (govern) ─┐
 
 ## Spec home and lifecycle
 
-Specs live at `.docodego/03-rising/new/<category>/<name>/` — categories `features/`, `improvements/`, `bugfix/`, `refactor/` (plus `knowledge/` for terse single-file library notes — not specs, never ICS-scored). Each spec is a directory: `explore.md` (scratchpad), `spec.md` (lean intent), `assurance.md` (verification contract), `deliverables.md` (execution contract), `plan.md` (ephemeral, deleted at completion). Status frontmatter: `draft → in-progress → implemented`. Implemented specs move to `.docodego/03-rising/system/behavioral/` as living documentation.
+Units live where the CLI puts them: `docodego new <name>` scaffolds
+`.docodego/01-document/01-discover/<name>/` (epics land there too, stories
+in `02-refine/`; `--stream` moves a unit to the stream where its work
+happens). The unit directory holds what the commands earn, nothing more:
+`spec.md` (the contract — intent, scope, acceptance, threats), `grill.md`,
+`score.md`, `proofs.md`, `delivered.md`. A complex unit may grow
+`assurance.md` and `deliverables.md` beside the spec (see
+`docodego-document`); `explore.md` and `plan.md` are scratch you may add —
+ephemeral, deleted at completion. A terse library fact belongs in a
+`knowledge/` note under `01-document/` — never a spec, never scored.
+
+Status is earned, never hand-written: `draft → grilled → scored → delivered`.
+Delivered units are the record of what the system does; a project that grows
+large may retire them into a `system/behavioral/` practice — named `a-*`
+behaviors, re-checked on touch — but nothing plants that on day one.
 
 ## Permitted deviations (document them or don't take them)
 

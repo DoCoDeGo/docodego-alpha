@@ -1,44 +1,45 @@
 ---
 name: docodego-document
-description: Use when authoring or revising specs for features, improvements, bugfixes, or refactors. Guides the multi-file spec (spec.md, assurance.md, deliverables.md), scores spec.md with the ICS scorer, iterates to the gate, then runs adversarial grilling.
-version: 1.0.0
+description: Use when authoring or revising specs for features, improvements, bugfixes, or refactors. Guides the unit contract (spec.md the scorer reads; assurance.md and deliverables.md when the work earns them), scores with the ICS scorer, iterates to the gate, then runs adversarial grilling.
+version: 2.0.0
 ---
 
 # docodego-document — specification discipline (DO)
 
-*Reference: the planted framework, [.docodego/.framework/](../../../.docodego/.framework/README.md); the unit shape the standard defines is vendored at [.docodego/.standard/](../../../.docodego/.standard/README.md).*
+*Reference: the record index, [.docodego/README.md](../../../.docodego/README.md); the unit shape is what `docodego new` scaffolds.*
 
 Author intent precisely enough for AI to act on. Specs describe WHAT the user experiences, never HOW the code works. You are a participant, not a scribe: push back, surface ambiguities the author hasn't noticed, replace vague qualifiers with measurable language, and propose failure modes the threat model missed.
 
 ## Before authoring
 
-1. Read the unit contract — `.docodego/03-rising/README.md` — and the phase's existing units; they are the laws every spec inherits.
+1. `docodego new <name>` scaffolds the unit (or graduate a sketch with `--from-sketch`). Read the record index and the neighboring units first — they are the conventions every spec inherits.
 2. Read neighboring specs for naming and dependency conventions.
-3. Unfamiliar domain or library? Write `explore.md` first (shared scratchpad, never a source of truth). For genuinely unknown territory: a time-boxed spike — throwaway code that feeds the spec, deleted before CO.
+3. Unfamiliar domain or library? Write `explore.md` in the unit folder first (shared scratchpad, never a source of truth, deleted before delivery). For genuinely unknown territory: a time-boxed spike — throwaway code that feeds the spec, deleted before CO.
 
-## Required documents by category
+## The unit contract — one scored file, growth when earned
 
-| Category | spec.md | assurance.md | deliverables.md |
-|---|---|---|---|
-| `features/` | required | required | required |
-| `improvements/` | required | required | required |
-| `bugfix/` | optional | required | optional |
-| `refactor/` | optional | required | required |
+Every unit carries `spec.md` — the file the scorer and the delivery gate read. A complex unit may grow `assurance.md` and `deliverables.md` beside it; a bugfix usually needs none of that, only a spec whose acceptance criterion proves the fix.
 
-Optional sections are included when triggered **or explicitly declared inapplicable — silence is not omission** (the Declared Omission Rule).
+| File | When | What it holds |
+|---|---|---|
+| `spec.md` | always, ICS-scored | intent · scope · acceptance · threats (the scaffold's four sections) |
+| `assurance.md` | when verification needs a strategy | test strategy · GIVEN/WHEN/THEN expansions · edge cases · integration assurance · regression signals |
+| `deliverables.md` | when delivery has units and order | delivery units · delivery rules · done-when |
 
-`knowledge/` is the fifth directory under `new/` — terse single-file factual notes about libraries and external APIs. Reference material, not intent: no spec structure, no ICS scoring.
+Growth is declared, not accidental: adding a companion file is a deliberate step when criteria multiply or delivery has real sequencing — never ceremony for its own sake.
+
+`knowledge/` notes under `01-document/` are the fifth kind — terse single-file factual notes about libraries and external APIs. Reference material, not intent: no spec structure, no ICS scoring.
 
 ## spec.md — lean intent (this file is ICS-scored)
 
-Frontmatter: `version`, `owner`, `status: draft`. Sections:
+Frontmatter: `name`, `type`, `status: draft` (the scaffold writes it; keep it true). The scaffold's four sections are the floor, and the scorer reads exactly these:
 
-- **Intent** — one paragraph, what and why, ≥ 50 words
-- **Uses** — bare references to existing files only; never invent
-- **Behavioral Flow** — user does X → Y happens
-- **Acceptance Criteria** — one line each, measurable: numbers, units, thresholds
-- **Failure Modes** — ≥ 3, each ≥ 15 words, each carrying a recovery keyword: falls back, retries, alerts, degrades, escalates, timeout, rollback, failover, rate limit…
-- **Out of Scope** — ≥ 50 words
+- **intent** — one paragraph, what and why (the scorer rewards ≥ 8 words; write enough that a stranger can verify it)
+- **scope** — In: what this unit covers · Out: what it deliberately leaves alone
+- **acceptance** — one criterion per list item, measurable: numbers, units, thresholds, at least two items
+- **threats** — each threat with its mitigation; recovery keywords score: falls back, retries, alerts, degrades, escalates, timeout, rollback, failover, rate limit…
+
+A complex unit may add earned sections — `Uses` (bare references to files that exist, never invented), `behavioral flow` (user does X → Y happens), failure-mode elaboration inside threats. Anything added must stay honest to the same law: measurable, falsifiable, user-facing.
 
 **Banned vague qualifiers** (the scorer penalizes them): fast, scalable, robust, should, appropriate, efficient, simple, easy, flexible, seamless, proper, handle, support, ensure, various, typically, may, might, could. Not "handles errors appropriately" but "returns HTTP 400 with error code `INVALID_INPUT` when the domain field is missing."
 
@@ -47,31 +48,31 @@ Frontmatter: `version`, `owner`, `status: draft`. Sections:
 | "Check localStorage for theme" | "Returning user sees saved preference" |
 | "Persist to localStorage" | "Choice remembered across sessions" |
 
-## assurance.md — the critical document
+## assurance.md and deliverables.md — the growth tier
 
-Sections: Test Strategy · Acceptance Criteria (each one-liner expanded to GIVEN/WHEN/THEN) · Edge Cases · Integration Assurance (what must not break) · Regression Signals (what to re-verify later).
+When a unit earns them:
+
+**assurance.md** — Sections: Test Strategy · Acceptance Criteria (each one-liner expanded to GIVEN/WHEN/THEN) · Edge Cases · Integration Assurance (what must not break) · Regression Signals (what to re-verify later).
 
 - Criteria are testable behaviors, not code: "theme persists across reloads," not "localStorage key set."
 - Structural checks (typecheck passes, directory removed) are **not** criteria — they belong in deliverables "Done When." The test: would you write a test for it (assurance) or run a CLI command (done-when)?
 - Bugfixes: the bug becomes a regression-test criterion. Refactors: characterization tests prove behavior preserved.
 
-## deliverables.md — the shortest file
-
-Delivery Units (what ships, not how) · Delivery Rules (one unit = one commit; commit format — process only, no tech prescriptions) · Done When (criteria checked, tests pass, structural gates). Implementation decisions happen during CO, never here.
+**deliverables.md** — the shortest file. Delivery Units (what ships, not how) · Delivery Rules (one unit = one commit; commit format — process only, no tech prescriptions) · Done When (criteria checked, tests pass, structural gates). Implementation decisions happen during CO, never here.
 
 ## The gate loop
 
 1. Score with the CLI:
 
    ```bash
-   docodego score <path-to-spec.md>
+   docodego score <unit>
    ```
 
 2. **Gate: overall ≥ 60, Threat Coverage ≥ 15, no dimension at 0.** Below → fix (thin sections expanded; numbers added for testability; recovery keywords added for threat; vague words replaced) and re-score. Never proceed on a failing spec. The author cannot be the sole scorer; solo practitioners treat 55–65 as "revise."
 
 3. **Re-measure every number in the spec before grilling.** The scorer checks grammar, never truth (see "What the score cannot see" below). For each figure in a criterion — a count, a line total, a workspace list, a percentage — run the command that produces it and paste the result into `explore.md` or the grilling record. **A number inherited from a research report, a prior spec, or a subagent's summary is not measured**; re-running it is the only thing that makes it so. Then check each criterion is falsifiable by naming, in one clause, the observation that would fail it. A criterion nothing can fail is scored as high as one that bites.
 
-4. Grill: run the grilling round on the unit and record it — `docodego grill <unit>`; the round reads the spec, its `Uses` foundations, and the actual code, then returns pointed questions with "why it matters". Answer every question, update the files, re-score if spec.md changed, and show the user the full Q&A.
+4. Grill: run the grilling round on the unit and record it — `docodego grill <unit>`; the round returns the four gate questions plus one pointed question per acceptance criterion, with "why it matters". Answer every question, update the files, re-score if spec.md changed, and show the user the full Q&A.
 5. Report: "Specs grilled, ICS <score>/100, files updated. Another grilling round, or move to compose?"
 
 ### What the score cannot see
@@ -93,7 +94,7 @@ So: **fix what the issues list names, then stop.** If a dimension only rises whe
 | Structural checks in assurance | Move to deliverables Done When |
 | Not pushing back | Add edge cases actively; grilling is mandatory |
 | Inventing Uses references | Reference only files that exist |
-| Full ceremony for a simple bugfix | A bugfix needs assurance (prove the fix), not a three-ring spec |
+| Full ceremony for a simple bugfix | A bugfix needs one provable acceptance criterion, not a three-file contract |
 | Skipping the scorer | Never declare a spec ready without the score |
 | Chasing 100/100 by rewording | The score measures phrasing; re-measure the numbers instead |
 | Quoting a figure from a report or an agent | Re-run the command that produces it before it enters a criterion |
