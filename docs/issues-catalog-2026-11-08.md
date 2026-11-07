@@ -14,10 +14,12 @@ Cross-links: findings that appeared in the live round's improvement log
 (`docs/improvements-2026-11-08.md`, IMP-1..23) carry their IMP tag.
 Severity: **L** launch-blocking · **M** major · **m** minor · **p** praise.
 
-Headline so far: **five for five FAIL the ship test, each on exactly two
-blockers** — and the blockers are payment-integrity *bugs* and broken core
-paths, not just missing rails. The single most predictive individual choice
-in the fleet: whether the agent scripted a real-browser walkthrough.
+Headline (final, all five audited): **five for five FAIL the ship test —
+twelve launch-blockers total** — payment-integrity *bugs*, broken core paths,
+agent-signed boundaries, and one record-layer verification contradicted by
+its own artifact. The single most predictive individual choice in the fleet:
+whether the agent scripted a real-browser walkthrough with committed,
+regenerable evidence.
 
 ## Sections
 
@@ -71,8 +73,27 @@ in the fleet: whether the agent scripted a real-browser walkthrough.
 
 **Ship test:** FAIL — payment rail (or signed boundary naming the bypassable path) + the full-body defect (fix, or founder-approved reduction of the brief's first sentence).
 
-### 4. Product 03 — grademyfit
-*(pending — auditor still running)*
+### 4. Product 03 — grademyfit (audited: FAIL)
+
+**Blockers (L)**
+1. **Every permalink renders an empty page** — `/f/<id>` rewrite makes `./js/fit.js` resolve to `/f/js/fit.js` → 404; the feed prints "permalink" links on every slip; a stranger clicking any share gets masthead, footer, nothing between (`web/fit.html:51`, `server/index.ts:192`, observed live). On a product whose brief is "the traffic engine of my portfolio."
+2. **Moderation console + API fully unauthenticated** — `curl -X POST /api/review/<id> -d '{"action":"dismiss"}'` → 200; queue with reporter reasons world-readable (`server/index.ts:139-148`). Loopback bind + README disclosure, but unshippable to any real domain, and unsigned.
+3. **No founder-signed v0 boundary** — the $9.99 pro report unbuilt (honestly), NSFW blocklist ships one demo hash (byte-exact match only), console-auth gap open — all agent-recorded, none founder-signed. `grep -ri founder .docodego/` finds no signature.
+
+**Major (M)**
+4. **The walkthrough recorded a PASS the shipped code contradicts** — step 12 claims the permalink "renders the single slip → PASS (no screenshot required)"; HEAD demonstrably renders nothing (finding 1's 404 was in fit.html's birth commit). Either regressed after the walkthrough or never executed — **no screenshot exists to arbitrate.** The fleet's flagship evidence instrument fails silently; proof that isn't regenerable can't arbitrate (`grade-reveal/proofs/walkthrough.md` step 12).
+5. Plain-JS front-end beside TS server (6 untyped modules) — the quality bar's named violation, confirmed; and the server itself doesn't compile clean: four standing strict-mode tsc errors (`index.ts:102-103,238`, `moderation.ts:55`), `reports!` papers over exactly the named error.
+6. **Posting has no double-submit defense** — no nonce on `POST /api/post` (vote/report have one), button never disabled: two concurrent posts with ≥100 credits → two identical fits, −100 credits. The credits economy's unguarded till.
+7. Reveal misfires in its most common state — first voter sees "the panel has spoken" + a stamped letter, then re-render to "1 of 3 votes": verdict claimed, stamped, retracted (`web/js/reveal.js:15`).
+8. Zero OG/share surface on all three pages; permalink title never personalized — the share card is the ad, and there is none.
+9. Untracked `package.json` is a scaffold stub (`"main": "index.js"` — no such file; `"test": "no test specified"` — contradicting 44 tests) + untracked lockfile + unignored `node_modules/`; every boot emits `MODULE_TYPELESS_PACKAGE_JSON`.
+10. Client re-implements server cutoffs in two places with no pinning test (drift by design); `reviewAction` dismiss resurrects removed posts (broken image in public feed).
+
+**Minor (m)** — email captured but no page ever calls the endpoint (stored, never used — against the brief's own data-minimization line); favicon is the `data:,` suppression trick; no robots/llms.txt; bare-text 404s; no deploy artifact or topology (runtime state beside code).
+
+**Praise (p)** — 44 tests, ~1.1s, all boot the real server against real SQLite, zero mocks, no tautologies; XSS title renders inert via `textContent`; zero third-party requests; reduced-motion genuinely collapses with the fix recorded; the zero-dependency server layer (HMAC + `timingSafeEqual`, nonces, magic-byte sniffing, traversal guards, injectable clock) is ownable tomorrow.
+
+**Ship test:** FAIL — permalink bug, unguarded till, false walkthrough PASS, reveal misfire are defects no signature excuses; pro report/blocklist/console-auth are signature-excusable rails.
 
 ### 5. Product 04 — planmyskin (audited: FAIL)
 
@@ -128,4 +149,23 @@ Universal minors: no OG/share meta (all five), favicon/404 gaps (01/02/04), no `
 6. **Gaps:** `vercel-react-best-practices` is client-only-trimmed (wrong for SSR); `refactor-ratchet` hard-codes studio furniture; agent presets planted but unemployed (the law must say when reviewer/tester are mandatory); rules not planted at all today; studio-vs-CLI shelf divergence needs a one-upstream law.
 
 ### 8. Consolidated ranked list
-*(pending — completes when auditors 00 and 03 land; then dedupe, severity-sort, IMP-cross-link)*
+
+**Fleet totals:** 103 product findings (00:22 · 01:17 · 02:23 · 03:21 · 04:20), 12 launch-blockers, 5/5 ship-test FAIL, plus 40 comparator divergences and 12 infra gaps. Raw ≈155, deduped below to the law-level fixes.
+
+**Tier 1 — the gates grade the wrong thing (law):**
+1. **Two-tier done + founder signature.** Five trackers read `delivered`; zero products pass the ship test; every boundary was agent-signed or absent (`grep -ri founder` → nothing in any of five records). Fix: `launch-passed` gate (launch-auditor as instrument) + `v0-boundary` status writable only by a recorded founder decision; `status` renders the tier. *(quality-outcomes mechanism 1; IMP-1's third act)*
+2. **Score ≠ truth, and the score is saturated anyway.** 9×100/4×99/2×98/1×90 across 16 specs while 12 launch-blockers shipped; 03's unsatisfiable spec scored 100; 02's false full-body statement passed a 100-scored spec. Fix: satisfiability check at scoring, hash-marked scores, grill demanded at scoring time. *(IMP-12/17)*
+3. **Self-reported verification is not verification.** 03's walkthrough PASS contradicted by HEAD; 04's final visual pass silently skipped, gate passed; 00's flagship proof is prose with no driver. Fix: the visual-proof instrument is mandatory for user-facing units — committed driver, screenshots, regenerable transcript; "no screenshot required" is an illegal phrase in a proof. *(IMP-20/23, shipped skill)*
+
+**Tier 2 — the standards that never existed (rules):**
+4. **Stack standard + typecheck.** 1 of 5 typechecks; 03 has four standing strict errors and a JS front-end; 02's strict tsconfig is orphaned. Fix: `standard-stack-default` rule (web ⇒ TS end-to-end, `tsc --noEmit` in verify) planted and enforced by lint.
+5. **VC completeness.** 03's stub package.json untracked with `node_modules/`; two lockfiles in 01/00; no `engines` anywhere. Fix: `no-untracked-source` rule + `check` warning on untracked source-like files.
+6. **Privacy pattern, one shape.** CSP (00, exemplary) / JS guard (02, 6/6 refused but 4 APIs of the surface) / throwing stubs (04, weakest enforcement with the strongest claim). Fix: `privacy-at-network-layer` rule requiring CSP where feasible + guard + committed live probe; copy may only claim what the mechanism enforces.
+7. **Runbook + share surface.** No OG meta in five for five; two repos unrunnable by a stranger; favicon/404 gaps in four. Fix: launch-gate checklist rows (OG, favicon, 404, README, deploy recipe or signed demo-real boundary).
+
+**Tier 3 — the craft layer (skills/agents):**
+8. **Bundle 21 / plant per profile / auto-add on trigger** (analyst §2–4): craft floors (`meaningful-tests`, `systematic-debugging`) fix tautological suites and honest-prototype stop-conditions; `ux-strategy` + `launch-auditor` + `visual-proof` plant with product-team; tech-stack/payments/research-verify skills authored, then triggers arm; tracker row before exit, user removals respected forever.
+9. **Agent topology mandatory where independence matters.** Reviewer preset runs grills in solo runs (IMP-13); testers run proofs; the law says when.
+10. **The integrity map (IMP-15)** — `status` must answer "could this ship": compose-log, demo bundles, launch tier in the map; the fork dissolved by gate-written uniform rooms.
+
+**The one-line verdict for the founder:** the honesty layer carried everything it was designed to carry — every gap recorded truthfully across five strangers — and that is exactly the problem: docodego produced five truthful records about five unfinished products. Record spec 7's job is to make the gates grade the product, make the evidence regenerable, and make the founder's signature the only thing that closes a rail.
