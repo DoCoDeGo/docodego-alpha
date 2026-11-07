@@ -7,7 +7,8 @@ import { existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { readText, writeText } from "../fsx.ts";
 import { emptyLock, writeLock, LOCK_REL } from "../skills/lock.ts";
-import { specVersion } from "../bundled/index.ts";
+import { DELIVERY_LOG_TEMPLATE, INTENT_TEMPLATE, CYCLES_TEMPLATE, specVersion } from "../bundled/index.ts";
+import { DELIVERY_LOG_REL } from "../record/record-write.ts";
 import { V1_README, V1_STATUTES, V1_TECH_RADAR, V1_TRACKER } from "./v1-scaffold.ts";
 
 export interface Migration {
@@ -77,6 +78,22 @@ export const MIGRATIONS: Migration[] = [
       "no record paths change; your words are yours — a documented no-op, the scaffold refresh stays create-only",
     ],
     steps: [],
+  },
+  {
+    from: 5,
+    to: 6,
+    notes: [
+      "the honesty layer is planted, create-only: 01-document/01-discover/intent.md (the founding brief, verbatim)",
+      "01-document/01-discover/cycles.md — the numbered, append-only cycle log",
+      "04-govern/delivery-log.md — one row per delivered unit, appended by the gate itself",
+      "the deliver gate now records refused attempts in the tracker; proof paths may sit anywhere in a list item",
+      "your words are never touched: every step is create-only and idempotent",
+    ],
+    steps: [
+      (root) => createOnly(root, "01-document/01-discover/intent.md", INTENT_TEMPLATE),
+      (root) => createOnly(root, "01-document/01-discover/cycles.md", CYCLES_TEMPLATE),
+      (root) => createOnly(root, DELIVERY_LOG_REL, DELIVERY_LOG_TEMPLATE),
+    ],
   },
 ];
 

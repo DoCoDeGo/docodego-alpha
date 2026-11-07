@@ -72,3 +72,52 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | date | unit | event | evidence |
 |---|---|---|---|
 `;
+
+/** The delivery log: one row per delivered unit, appended by the gate itself.
+ * Structured columns stay cheap; the proof column carries the path that was
+ * verified — the narrative of what was learned belongs in the unit's own
+ * records. */
+export const DELIVERY_LOG_TEMPLATE = `# Delivery log
+
+One row per delivered unit, appended at the gate — newest last. The landing
+is recorded here; what was learned lives in the unit's own records.
+
+| date | unit | gates | proof |
+|---|---|---|---|
+`;
+
+/** The founding-intent record: the founder's brief, verbatim. The reader
+ * contract is the point — anything quoted here may be cited as the
+ * founder's words exactly as given. */
+export const INTENT_TEMPLATE = `# Intent — the founding brief
+
+Verbatim record. Nothing here is paraphrased: any passage in this file may
+be quoted as the founder's words exactly as given. Superseded intent is
+struck, never deleted.
+
+## the brief
+
+<the founder's ask, in their words — what to build, for whom, and why now>
+
+## the becoming
+
+<who this work makes of the people doing it — one honest sentence>
+`;
+
+/** The cycle log: numbered, dated, append-only — one entry per unit of
+ * research or work, so the record can replay how the present was reached. */
+export const CYCLES_TEMPLATE = `# Cycles
+
+Numbered, append-only, newest last. One entry per unit of research or work:
+what was asked, what was found, what it changes. Archiving moves old cycles
+to \`cycles-archive-N.md\` beside this file and never deletes them.
+
+<!-- template:
+## Cycle <n> — <one-line name> (<date>)
+
+- asked: <the question>
+- found: <the evidence, each fact with its source path>
+- so: <what this changes or confirms>
+-->
+`;
+

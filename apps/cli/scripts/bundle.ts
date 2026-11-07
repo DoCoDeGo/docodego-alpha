@@ -27,11 +27,17 @@ const MANIFEST_JSON = join(ROOT, "apps", "cli", "src", "bundled", "manifest.json
  * - .docodego/.standard/guidelines/**  — authored research, provenance-local; never shipped.
  * - any .docodego folder containing a spec.md — unit folders are user state.
  * - .docodego/04-govern/01-monitor/tracker.md — planted fresh from a constant; our history is not their history.
+ * - .docodego/01-document/01-discover/intent.md + cycles.md and .docodego/04-govern/delivery-log.md —
+ *   engine-owned record roots (INTENT_TEMPLATE / CYCLES_TEMPLATE / DELIVERY_LOG_TEMPLATE),
+ *   planted fresh by init and the v5->v6 migration, for the same reason as the tracker.
  * - .agents/profiles.json — compiled into the payload's profiles field, not duplicated as a file.
  * (.docodego/.standard/manifest.json IS bundled as the manifest-field contract, but
  * init/upgrade never plant it — the engine owns that file in a user record.) */
 const EXCLUDE_FILES = new Set([
   ".docodego/04-govern/01-monitor/tracker.md",
+  ".docodego/01-document/01-discover/intent.md",
+  ".docodego/01-document/01-discover/cycles.md",
+  ".docodego/04-govern/delivery-log.md",
   ".agents/profiles.json",
 ]);
 const EXCLUDE_PREFIX = ".docodego/.standard/guidelines/";

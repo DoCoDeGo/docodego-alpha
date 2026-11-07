@@ -9,7 +9,8 @@ import type { Args, Io, Manifest, Mode } from "../types.ts";
 import { isDir, readText, today, writeText } from "../fsx.ts";
 import { detect } from "../record/detect.ts";
 import { MANIFEST_REL, RECORD_DIR, TRACKER_REL } from "../record/load.ts";
-import { agentsMd, recordFiles, specVersion, DEFAULT_PROFILE, PROFILES, profiles as profileMap, skillsIndex, TRACKER_TEMPLATE, vocabularyPack, VOCABULARY_NAMES } from "../bundled/index.ts";
+import { agentsMd, recordFiles, specVersion, DEFAULT_PROFILE, PROFILES, profiles as profileMap, skillsIndex, TRACKER_TEMPLATE, INTENT_TEMPLATE, CYCLES_TEMPLATE, DELIVERY_LOG_TEMPLATE, vocabularyPack, VOCABULARY_NAMES } from "../bundled/index.ts";
+import { DELIVERY_LOG_REL } from "../record/record-write.ts";
 import { applyMovementGlosses, renderVocabularyMd, type VocabularyPack } from "../record/vocabulary.ts";
 import { installBundledSkill, plantAgentPresets, writeLock, emptyLock, LOCK_REL } from "../skills/lock.ts";
 import { envelope } from "../emit/json.ts";
@@ -62,6 +63,11 @@ export function run(args: Args, io: Io): number {
     if (!ENGINE_OWNED.has(rel)) putNew(join(root, rel), body, `${RECORD_DIR}/${rel}`);
   }
   putNew(join(root, TRACKER_REL), TRACKER_TEMPLATE, `${RECORD_DIR}/${TRACKER_REL}`);
+  // the honesty layer: founding intent (verbatim), the cycle log, and the
+  // delivery log the gate will append to — engine-owned, like the tracker
+  putNew(join(root, "01-document/01-discover/intent.md"), INTENT_TEMPLATE, `${RECORD_DIR}/01-document/01-discover/intent.md`);
+  putNew(join(root, "01-document/01-discover/cycles.md"), CYCLES_TEMPLATE, `${RECORD_DIR}/01-document/01-discover/cycles.md`);
+  putNew(join(root, DELIVERY_LOG_REL), DELIVERY_LOG_TEMPLATE, `${RECORD_DIR}/${DELIVERY_LOG_REL}`);
   // the manifest is engine-owned metadata: refreshed on init, other keys preserved
   writeManifest(root, manifest);
   created.push(`${RECORD_DIR}/${MANIFEST_REL}`);
