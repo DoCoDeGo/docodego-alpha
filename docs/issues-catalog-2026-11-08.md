@@ -247,3 +247,25 @@ Harness-bridge decisions (H1 research; adoption pending founder review, then spe
 ### Fleet totals after cycle 2 (H1+H2, 2026-11-08)
 
 CLI law-implementation defects: 29 → **32** (BUG-V1..V3; §12). Bridge spec adopted pending founder review. H3 (research refresh + skills census) pending. Launch-blockers unchanged (12); ship test unchanged (5/5 FAIL).
+
+### 13. Cycle-2 research refresh — corrections & shelf decision (H3; full report: outer repo `docs/research/mitigation-research-2026-11-08.md`)
+
+Launch-narrative corrections (any doc/marketing text carrying the old figures must use these):
+
+- **EU AI Act:** high-risk (Annex III) obligations deferred to **Dec 2, 2027** (Digital Omnibus, 2026) — not Aug 2026. Correct framing: a hard, dated evidence deadline ~13 months out; docodego positions as evidence-readiness infrastructure.
+- **Attribution fixes:** 45% → **Veracode** 2025 GenAI Code Security Report (not CSA); 2.74× → **CodeRabbit** (Dec 17, 2025, XSS-specific); 82/94 → **New Relic** State of AI Coding (Jun 9, 2026), companion stat CloudBees 81/92 (May 2026); UTBoost → **ACL 2025** (not 2026); SWE-Bench Pro retraction → **mid-2026** (~late June/early July), not September; Sonar 96/48 → State of Code **2026**, published Jan 2026; SO trust 29% → **2025 survey**.
+- **Landscape:** Jules winds down **Dec 31, 2026** (announced Oct 29, 2026) — never cite as a live verifier product; its death is the position line: verification-as-product-feature is fragile, verification-as-method+record is durable. Kiro GA was **Nov 2025**, still AWS, 15,000+ community powers; add BMAD Method to the OSS poles; Tessl alive ($125M).
+- **New evidence:** DryRun Security — 87% of agentic PRs (26/30) introduced ≥1 vulnerability (Mar 2026); Arnica — agent rules cut AI coding errors ~2.7× (Oct 2026), direct support for the rules layer; ISO **9001:2026** published, 2015 withdrawn — a fresh, dated ceremonial-conformity exhibit.
+
+Shelf decision (adopted from census; §7 superseded on sizing):
+
+- **Bundle ~27** (21 existing + 6 new below); **author 9 total** (3 planned: tech-stack, payments, research-verify + 6 new). The founder's "only three skills?" concern inverts under the data: the market's failure mode is too many skills (half of 1M registry skills installed once; 0.04% capture 62% of installs), not too few. Volume punishes; trigger precision pays.
+- **6 new skills to author:** `security-baseline-for-ai-code` (Veracode-45%/Lovable failure patterns), `destructive-action-guard` (Replit-incident lesson), `reward-hacking-detection` (EvilGenie/emergent-misalignment), `supply-chain-evidence` (Trail of Bits cover-page discipline → records), `incident-record-writing` (append-only postmortems), `docs-publishing` (highest-demand undersupplied category).
+- **Hard rules from the census:** nothing bundled without a trigger-precise SKILL.md description; no agent dispatch sees more than ~5–8 skills at once (per-dispatch scoping); remote/optional packs (payments, security, data/ML, docs) install opt-in via the auto-add registry — payload never bloats.
+- **Distribution rides the Agent Skills open standard** (SKILL.md): OpenAI, Microsoft, Google + 20 agents on skills.sh share it — docodego's payload is portable by construction.
+
+**Spec-7 tie-in:** the 6 new skills ride spec 7's auto-add trigger registry (author at most the bundled core; packs install on demand). Launch-blocker narrative updates to the corrected figures above; ship test unchanged (5/5 FAIL).
+
+### Fleet totals after cycle 2 complete (H1+H2+H3, 2026-11-08)
+
+103 product findings (§§1–6) · 40 divergences · 12 infra gaps · **32 CLI law defects** (§9 + §12) · 9 record-violation classes (§10) · 16 security findings (§11) · §12: 3 versioning bugs + bridge decisions · §13: corrections + shelf decision (27 bundled / 9 authored). Launch-blockers unchanged (12); ship test unchanged (5/5 FAIL). Build order: §12 bug fixes first, then spec 7 (launch gate, founder-signed tiers, rules planting, 9-skill shelf, stack standard, satisfiability scorer, transition table, governance pass, proof semantics, status rails), then upgrade mechanism (H2 build order), then bridge planting (H1 spec), then the five-product acceptance protocol.
