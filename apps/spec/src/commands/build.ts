@@ -10,7 +10,7 @@ import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { loadSpec, walkMd } from "../laws.ts";
+import { cmpVersion, loadSpec, walkMd } from "../laws.ts";
 import { exitFor, emit } from "../errors.ts";
 import { countsOf } from "../emit.ts";
 import type { Args, Diagnostic, Io } from "../types.ts";
@@ -18,18 +18,6 @@ import type { Args, Diagnostic, Io } from "../types.ts";
 export const SCHEMA = "docodego-spec/build/v1";
 
 const sha256 = (data: string | Buffer): string => createHash("sha256").update(data).digest("hex");
-
-/** Compare two semver triples; -1 a<b, 0 equal, 1 a>b. */
-function cmpVersion(a: string, b: string): number {
-  const pa = a.split(".").map((n) => Number(n) || 0);
-  const pb = b.split(".").map((n) => Number(n) || 0);
-  for (let i = 0; i < 3; i++) {
-    const x = pa[i] ?? 0;
-    const y = pb[i] ?? 0;
-    if (x !== y) return x < y ? -1 : 1;
-  }
-  return 0;
-}
 
 /** The baseline a build may not silently supersede is the last DELIVERED
  * state — the manifest as committed — never the working tree, or iterating

@@ -1,0 +1,2 @@
+spec error[SP-A003]: scaffold already exists at amendments/1.0.1-ST-2.md — amend never overwrites; continue in that file
+exists exit: 1

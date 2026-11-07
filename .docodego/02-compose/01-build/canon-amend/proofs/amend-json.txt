@@ -1,0 +1,2 @@
+{"schema":"docodego-spec/amend/v1","ok":true,"data":{"root":"apps/spec/fixtures/diff-spec","law":"ST-2","proposed":"1.0.1","baselineHash":"fixture-baseline-3d6f0a1c2b4e5d7c8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f","diagnostics":[{"severity":"error","code":"SP-A003","message":"scaffold already exists at amendments/1.0.1-ST-2.md — amend never overwrites; continue in that file","file":"amendments/1.0.1-ST-2.md"}]}}
+json exit: 1

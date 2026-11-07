@@ -9,6 +9,7 @@ import * as verify from "./commands/verify.ts";
 import * as build from "./commands/build.ts";
 import * as coverage from "./commands/coverage.ts";
 import * as diff from "./commands/diff.ts";
+import * as amend from "./commands/amend.ts";
 import { stub } from "./commands/stubs.ts";
 
 const io: Io = {
@@ -22,7 +23,7 @@ const ROUTES: Record<string, (args: Args, io: Io) => number> = {
   build: build.run,
   coverage: coverage.run,
   diff: diff.run,
-  amend: stub("amend"),
+  amend: amend.run,
   doctor: stub("doctor"),
   publish: stub("publish"),
 };
@@ -44,6 +45,7 @@ flags:
   --cli <file>        the live CLI's help registry (default: <root>/../apps/cli/src/cli/help.ts)
   --record <dir>      the record layer coverage --impact walks (default: ./.docodego)
   --impact <law-id>   coverage: what loses enforcement if this law is repealed
+  --as <semver>       amend: the version the scaffold proposes
   --json              one envelope on stdout: docodego-spec/<command>/v1
   --help              this page
 
@@ -62,6 +64,7 @@ function parseArgs(argv: string[]): Args | never {
     else if (tok === "--dist") args.dist = rest.shift();
     else if (tok === "--record") args.record = rest.shift();
     else if (tok === "--impact") args.impact = rest.shift();
+    else if (tok === "--as") args.as = rest.shift();
     else if (tok.startsWith("--")) {
       io.err(`canon: unknown flag '${tok}'\n\n${usageText()}`);
       return process.exit(2);

@@ -16,3 +16,5 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-07 | canon-coverage | delivered | 02-compose/01-build/canon-coverage/delivered.md |
 | 2026-11-07 | canon-diff | new unit | 02-compose/01-build/canon-diff/spec.md |
 | 2026-11-07 | canon-diff | delivered | 02-compose/01-build/canon-diff/delivered.md |
+| 2026-11-07 | canon-amend | new unit | 02-compose/01-build/canon-amend/spec.md |
+| 2026-11-07 | canon-amend | delivered | 02-compose/01-build/canon-amend/delivered.md |

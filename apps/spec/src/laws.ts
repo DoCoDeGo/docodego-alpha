@@ -105,6 +105,19 @@ export function loadSpec(root: string): SpecRead {
   return { laws, diagnostics: diags, specVersion, lastAmendmentVersion };
 }
 
+/** Compare two semver triples; -1 a<b, 0 equal, 1 a>b. Shared by build
+ * (version sanity) and amend (the scaffold's proposed version). */
+export function cmpVersion(a: string, b: string): number {
+  const pa = a.split(".").map((n) => Number(n) || 0);
+  const pb = b.split(".").map((n) => Number(n) || 0);
+  for (let i = 0; i < 3; i++) {
+    const x = pa[i] ?? 0;
+    const y = pb[i] ?? 0;
+    if (x !== y) return x < y ? -1 : 1;
+  }
+  return 0;
+}
+
 /** A clause has a lead when it is written `lead — detail`. Leads split on
  * commas (`check, lint — rewrite detection` names two enforcers). Shared by
  * verify (known-lead check) and coverage (classification). */

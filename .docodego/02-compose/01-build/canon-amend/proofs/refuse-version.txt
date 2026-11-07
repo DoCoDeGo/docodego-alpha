@@ -1,0 +1,2 @@
+spec error[SP-A004]: proposed version must be greater than the current one — SPEC.md says 1.0.0, you proposed 1.0.0
+version exit: 1

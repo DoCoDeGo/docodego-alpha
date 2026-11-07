@@ -1,0 +1,10 @@
+{
+  "schema": "docodego-spec/manifest/v1",
+  "specVersion": "1.0.0",
+  "structureHash": "fixture-baseline-3d6f0a1c2b4e5d7c8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f",
+  "fileCount": 6,
+  "lawCount": 4,
+  "files": {
+    "SPEC.md": "0000000000000000000000000000000000000000000000000000000000000000"
+  }
+}
