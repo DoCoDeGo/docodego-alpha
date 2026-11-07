@@ -137,7 +137,26 @@ demonstrate and govern are meaningful." Sweep of actual contents:
 | R9-6 | 03 | Fifth unit delivered (5 rows); dirty 1 — endgame. DG-C003 **still unrepaired** (`pro-fit-report/` = `score.md` + `spec.md` only). | D4 | **agent** (live) | — |
 | R9-7 | 02 | ~65 min without a commit; 10 dirty; 0 deliveries; `check` green. Now the lone giant-unit builder — alive (fresh dist last probe) but the session shape puts everything on one delivery event. | D2 | provisional **agent** | — |
 
+### R10 — +50 min — 03 grademyfit completes; the repair loop closes
+
+| # | repo | observation | dim | attr | severity |
+|---|---|---|---|---|---|
+| R10-1 | 03 | **DG-C003 repaired unprompted**: `grill.md` now exists; `check` exit 0; tree clean; 5/6 units delivered, 44/44 real-HTTP tests. The checker caught the defect at R6, the agent kept working, the agent repaired it before finishing — the honesty loop closed with no orchestrator intervention. | D4 | healthy — **the round's strongest evidence** | — |
+| R10-2 | 03 | **The priced unit as a boundary**: pro-fit-report fully specced + grilled + scored, then *deliberately never delivered* — no fake pay button, zero price strings grep-verified as its one live AC. The loop's "weighted to the work, never forced" applied honestly. | D2/D6 | healthy — a pattern worth blessing in the law | — |
+| R10-3 | 03 | **The instrumented walkthrough caught two real bugs** that passed a 99/100 spec and a clean test suite (missing import crashing post-vote re-render; inline `opacity:0` making reduced-motion stamps invisible). "Only walking the real page caught them" — the record shows failure, fix, re-proven numbers. | D4/D5 | healthy — and evidence for IMP-15's demonstrate bundles + IMP-20's evidence ladder | — |
+| R10-4 | 03 | **'scored' was awardable without a grill** — the gate let pro-fit-report reach `scored` with no grill.md; the debt surfaced only later as DG-C003. Now with its mechanism: the scorer should demand the grill at scoring time. | D2/D4 | **law** — IMP-17 upgraded | F |
+| R10-5 | 03 | **The scorer passed an unsatisfiable spec** (100/100 naming a payment processor that does not exist): "the score measures vagueness, not satisfiability." | D4 | **law** — IMP-12 upgraded with mechanism | F |
+| R10-6 | 03 | Agent reworded its proofs prose to fit the path scanner (a CSS color, a glob, a directory mention flagged as "missing" files). | D7 | **law** (IMP-5, 6th confirmation, behavioral cost named) | F |
+| R10-7 | 03 | **Gate-written files have no committed home**: `deliver` appends tracker/log/delivered.md *after* the unit's commit, so every delivery record rides the *next* commit. The law doesn't say where they belong. | D3/D7 | **law** — new: IMP-21 | G |
+| R10-8 | 03 | UTC dates + "the law forbids hand-fixing records, so the wrong date stands" — the append-only law preserves the CLI's clock defect permanently. 7th confirmation. | D3 | **law** (R2-5 confirmed; only the CLI can fix it) | F |
+| R10-9 | 03 | Founder-absent plan-approval waiver again (IMP-1's third occurrence); first commit bundled intent+cycles+specs before the rhythm formed — disclosed, kept per append-only. | D2 | **law** (IMP-1) / minor | F/G |
+| R10-10 | 02 | Last holdout: still 4 commits, dirty 12, 0 deliveries, ~75 min. Alive per R9 probe; one giant MediaPipe-pose unit carrying the whole session. | D2 | provisional **agent** | — |
+
 ## Findings (deduplicated, ranked)
+
+- **IMP-21 (D3/D7, G, law)** — Gate-written files have no committed home: `deliver` appends tracker/delivery-log/delivered.md *after* the unit's commit, so every delivery record rides the next commit; the law never says where they belong, and agents improvise differently. *Improvement:* the law states it — gate rows belong to the delivery commit (`deliver` stages and amends, or the unit commits first and the gate commit follows with its own type), one rule, everywhere the same.
+
+
 
 - **IMP-20 (D4/D5, G, law)** — Visual claims have no evidence ladder: the law recognizes file paths only, so "verify in the browser" either becomes an unadjudicated screenshot-vs-test substitution (04 chose the test, unilaterally) or goes unproven; concurrent agents also contend for one browser pane. *Improvement:* an evidence-type registry — screenshot paths, test-transcript paths, and recorded browser sessions are all legal evidence with declared strength; the demonstrate phase (IMP-15's `demo/<unit>/` bundles) is its natural home.
 
