@@ -105,6 +105,22 @@ export function loadSpec(root: string): SpecRead {
   return { laws, diagnostics: diags, specVersion, lastAmendmentVersion };
 }
 
+/** A clause has a lead when it is written `lead — detail`. Leads split on
+ * commas (`check, lint — rewrite detection` names two enforcers). Shared by
+ * verify (known-lead check) and coverage (classification). */
+export function enforcerLeads(enforcedBy: string): string[] {
+  const leads: string[] = [];
+  for (const clause of enforcedBy.split(";")) {
+    const dash = clause.indexOf(" — ");
+    if (dash === -1) continue;
+    for (const piece of clause.slice(0, dash).split(",")) {
+      const lead = piece.trim();
+      if (lead !== "") leads.push(lead);
+    }
+  }
+  return leads;
+}
+
 /** Every .md file under a root, as sorted paths relative to it. Shared by
  * lint (structure rules) and verify (link/anchor walks). */
 export function walkMd(root: string): string[] {

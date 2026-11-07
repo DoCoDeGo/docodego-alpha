@@ -3,7 +3,7 @@ id: EL-25
 title: Provenance without attribution by default
 pillar: record
 severity: veto
-enforced-by: lint — every act records person or agent; tool and model names opt-in
+enforced-by: direction — every act records person or agent, tool and model names opt-in; growth: the provenance field linted
 introduced-in: 1.0.0
 status: active
 ---

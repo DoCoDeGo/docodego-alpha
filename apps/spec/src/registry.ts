@@ -12,7 +12,7 @@ export const CANON_COMMANDS: Record<string, { delivered: boolean; summary: strin
   build: { delivered: true, summary: "SPEC.md bundle + law-index.json + manifest with structure hash" },
   amend: { delivered: false, summary: "scaffold an amendment record; the founder signs via docodego sign" },
   diff: { delivered: false, summary: "semantic law diff with a suggested bump class" },
-  coverage: { delivered: false, summary: "the enforceability map, orphan gates, --impact" },
+  coverage: { delivered: true, summary: "the enforceability map as data: classification, weighted score, orphan gates, --impact" },
   doctor: { delivered: false, summary: "drift across spec/ ↔ build ↔ payload" },
   publish: { delivered: false, summary: "version-directory site, llms.txt, verification badge" },
 };

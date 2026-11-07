@@ -6,6 +6,7 @@
  * good as the reproducibility underneath them. Version sanity before bytes:
  * no build moves the spec backwards, and no content change lands under an
  * unchanged version. Hashes detect, humans declare (EL-20). */
+import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
@@ -30,6 +31,32 @@ function cmpVersion(a: string, b: string): number {
   return 0;
 }
 
+/** The baseline a build may not silently supersede is the last DELIVERED
+ * state — the manifest as committed — never the working tree, or iterating
+ * inside one delivery unit would be impossible. A committed, unmodified
+ * manifest is its own baseline; anything else defers to HEAD. */
+function baselineManifest(manifestPath: string): { specVersion?: string; structureHash?: string } | undefined {
+  const dirty = spawnSync("git", ["status", "--porcelain", "-uno", manifestPath], { encoding: "utf8" });
+  const isDirty = (dirty.stdout ?? "").trim() !== ""; // git failing yields "" — non-repos parse the file as before
+  if (existsSync(manifestPath) && !isDirty) {
+    try {
+      return JSON.parse(readFileSync(manifestPath, "utf8"));
+    } catch {
+      return { specVersion: "unreadable" };
+    }
+  }
+  const ls = spawnSync("git", ["ls-files", "--full-name", manifestPath], { encoding: "utf8" });
+  const tracked = (ls.stdout ?? "").trim().split("\n")[0] ?? "";
+  if (tracked === "") return undefined;
+  const show = spawnSync("git", ["show", `HEAD:${tracked}`], { encoding: "utf8", maxBuffer: 10 * 1024 * 1024 });
+  if (show.status !== 0) return undefined;
+  try {
+    return JSON.parse(show.stdout ?? "");
+  } catch {
+    return undefined;
+  }
+}
+
 export function run(args: Args, io: Io): number {
   const root = args.root ?? "spec";
   const dist = args.dist ?? "apps/spec/dist";
@@ -50,34 +77,31 @@ export function run(args: Args, io: Io): number {
     });
   }
 
-  // version sanity against the manifest this build would supersede
+  // version sanity against the last delivered state (the committed manifest)
   const manifestPath = join(dist, "manifest.json");
-  if (existsSync(manifestPath)) {
-    try {
-      const prev = JSON.parse(readFileSync(manifestPath, "utf8")) as {
-        specVersion?: string;
-        structureHash?: string;
-      };
-      const c = cmpVersion(prev.specVersion ?? "0.0.0", specVersion ?? "0.0.0");
-      if (c > 0) {
-        diags.push({
-          severity: "error", code: "SP-B001",
-          message: `build would move the spec backwards — dist says ${prev.specVersion}, source says ${specVersion}; a downgrade is never a migration`,
-          file: "SPEC.md", span: { start: { line: 5, col: 1 }, end: { line: 5, col: 120 } },
-        });
-      } else if (c === 0 && prev.structureHash !== undefined && prev.structureHash !== structureHash) {
-        diags.push({
-          severity: "error", code: "SP-B002",
-          message: `the law set changed but the version did not — ${specVersion} is already built with a different structure`,
-          file: "SPEC.md", span: { start: { line: 5, col: 1 }, end: { line: 5, col: 120 } },
-        });
-      }
-    } catch {
+  const prev = baselineManifest(manifestPath);
+  if (prev !== undefined) {
+    if (prev.specVersion === "unreadable") {
       diags.push({
         severity: "error", code: "SP-B004",
         message: `existing manifest at ${manifestPath} is not valid JSON — fix it or delete the dist folder`,
         file: "apps/spec/dist/manifest.json",
       });
+    } else {
+      const c = cmpVersion(prev.specVersion ?? "0.0.0", specVersion ?? "0.0.0");
+      if (c > 0) {
+        diags.push({
+          severity: "error", code: "SP-B001",
+          message: `build would move the spec backwards — the delivered state says ${prev.specVersion}, source says ${specVersion}; a downgrade is never a migration`,
+          file: "SPEC.md", span: { start: { line: 5, col: 1 }, end: { line: 5, col: 120 } },
+        });
+      } else if (c === 0 && prev.structureHash !== undefined && prev.structureHash !== structureHash) {
+        diags.push({
+          severity: "error", code: "SP-B002",
+          message: `the law set changed but the version did not — ${specVersion} was already delivered with a different structure`,
+          file: "SPEC.md", span: { start: { line: 5, col: 1 }, end: { line: 5, col: 120 } },
+        });
+      }
     }
   }
 

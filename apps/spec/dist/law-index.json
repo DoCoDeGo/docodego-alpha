@@ -1,6 +1,6 @@
 {
   "schema": "docodego-spec/law-index/v1",
-  "specVersion": "1.0.0",
+  "specVersion": "1.0.1",
   "lawCount": 31,
   "laws": [
     {
@@ -228,7 +228,7 @@
       "title": "Verifiable by a stranger",
       "pillar": "demonstrate",
       "severity": "veto",
-      "enforced-by": "proofs record what ran and what came back, with the recorded command re-run by anyone",
+      "enforced-by": "check — proofs record what ran and what came back; growth: the recorded command beside the output, re-runnable by anyone",
       "introduced-in": "1.0.0",
       "status": "active",
       "file": "laws/23-verifiable-by-a-stranger.md"
@@ -248,7 +248,7 @@
       "title": "Provenance without attribution by default",
       "pillar": "record",
       "severity": "veto",
-      "enforced-by": "lint — every act records person or agent; tool and model names opt-in",
+      "enforced-by": "direction — every act records person or agent, tool and model names opt-in; growth: the provenance field linted",
       "introduced-in": "1.0.0",
       "status": "active",
       "file": "laws/25-provenance-without-attribution.md"
@@ -288,7 +288,7 @@
       "title": "Bounded and indexed",
       "pillar": "record",
       "severity": "warn",
-      "enforced-by": "lint — size thresholds; an index that says what is where",
+      "enforced-by": "direction — size thresholds and an index that says what is where; growth: lint warns at the thresholds",
       "introduced-in": "1.0.0",
       "status": "active",
       "file": "laws/29-bounded-and-indexed.md"

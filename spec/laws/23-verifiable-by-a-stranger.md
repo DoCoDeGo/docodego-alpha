@@ -3,7 +3,7 @@ id: EL-23
 title: Verifiable by a stranger
 pillar: demonstrate
 severity: veto
-enforced-by: proofs record what ran and what came back, with the recorded command re-run by anyone
+enforced-by: check — proofs record what ran and what came back; growth: the recorded command beside the output, re-runnable by anyone
 introduced-in: 1.0.0
 status: active
 ---

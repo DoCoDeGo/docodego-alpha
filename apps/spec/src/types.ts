@@ -40,5 +40,7 @@ export interface Args {
   root?: string;
   cli?: string;
   dist?: string;
+  record?: string;
+  impact?: string;
   help: boolean;
 }

@@ -6,7 +6,7 @@
  * in the build order, and nothing they build is trusted until this passes. */
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
-import { loadSpec, walkMd } from "../laws.ts";
+import { loadSpec, enforcerLeads, walkMd } from "../laws.ts";
 import { CANON_COMMANDS, GATE_TOKENS, NON_TOOL_ENFORCERS } from "../registry.ts";
 import { exitFor, emit } from "../errors.ts";
 import { countsOf } from "../emit.ts";
@@ -35,19 +35,6 @@ function cliCommands(cliPath: string, diags: Diagnostic[]): Set<string> {
 
 /** A clause has a lead when it is written `lead — detail`. Leads split on
  * commas (`check, lint — rewrite detection` names two enforcers). */
-function enforcerLeads(enforcedBy: string): string[] {
-  const leads: string[] = [];
-  for (const clause of enforcedBy.split(";")) {
-    const dash = clause.indexOf(" — ");
-    if (dash === -1) continue;
-    for (const piece of clause.slice(0, dash).split(",")) {
-      const lead = piece.trim();
-      if (lead !== "") leads.push(lead);
-    }
-  }
-  return leads;
-}
-
 export function run(args: Args, io: Io): number {
   const root = args.root ?? "spec";
   const cliPath = args.cli ?? join(root, "..", "apps", "cli", "src", "cli", "help.ts");

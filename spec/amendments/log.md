@@ -15,5 +15,6 @@ Procedure: [meta/how-to-amend.md](../meta/how-to-amend.md)
 | Version | Date | What changed and why | Words before → after |
 |---|---|---|---|
 | 1.0.0 | 2026-11-08 | First version: sixteen statutes (published words, † completions, honest limits), fifteen engine laws (EL-17…EL-31), the loop, the trail, gates and severity, the enforceability map, terminology, how-to-amend, the document standard. Accepted by the founder per ADR 0012 (name: the DoCoDeGo System; canon: this repo; placement: top-level `spec/` + the canon CLI). | — (first) |
+| 1.0.1 | 2026-11-08 | Enforced-by bindings aligned with what actually enforces each law (found by `canon coverage`'s first run): EL-23 gains its `check` lead; EL-25 and EL-29 move their lead from `lint` to `direction` — lint does not check provenance or size thresholds today, and saying otherwise was the gap the map already recorded. Frontmatter bindings only; no normative text touched, no duty added or removed. | — (bindings only) |
 
 *Changes to published words are rare, and each is recorded word for word.*

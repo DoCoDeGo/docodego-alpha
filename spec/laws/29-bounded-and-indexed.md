@@ -3,7 +3,7 @@ id: EL-29
 title: Bounded and indexed
 pillar: record
 severity: warn
-enforced-by: lint — size thresholds; an index that says what is where
+enforced-by: direction — size thresholds and an index that says what is where; growth: lint warns at the thresholds
 introduced-in: 1.0.0
 status: active
 ---
