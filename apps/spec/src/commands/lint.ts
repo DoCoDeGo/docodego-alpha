@@ -6,7 +6,7 @@
  * resented lint is evaded (the law behind this is EL-30's test). */
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { loadSpec, walkMd } from "../laws.ts";
+import { loadSpec, walkMd, type SpecRead } from "../laws.ts";
 import { PILLARS, SEVERITIES, STATUS_ACTIVE, STATUS_LATER } from "../registry.ts";
 import { exitFor, emit } from "../errors.ts";
 import { countsOf } from "../emit.ts";
@@ -48,10 +48,12 @@ function checkTitleAndPurpose(lines: string[], file: string, diags: Diagnostic[]
   }
 }
 
-export function run(args: Args, io: Io): number {
-  const root = args.root ?? "spec";
-  const read = loadSpec(root);
-  const diags: Diagnostic[] = [...read.diagnostics];
+/** The lint finding core, shared by the command and the doctor: every
+ * document-standard rule the standard declares mechanical, over one spec
+ * tree. Loader diagnostics are NOT included — the caller carries them once
+ * (run) or alongside (doctor), so no finding prints twice. */
+export function lintFindings(root: string, read: SpecRead): { diags: Diagnostic[]; files: string[] } {
+  const diags: Diagnostic[] = [];
   const seenIds = new Map<string, string>(); // id -> first file carrying it
 
   const files = walkMd(root);
@@ -142,6 +144,15 @@ export function run(args: Args, io: Io): number {
       }
     }
   }
+
+  return { diags, files };
+}
+
+export function run(args: Args, io: Io): number {
+  const root = args.root ?? "spec";
+  const read = loadSpec(root);
+  const { diags: found, files } = lintFindings(root, read);
+  const diags: Diagnostic[] = [...read.diagnostics, ...found];
 
   const counts = countsOf(diags);
   emit(io, args.json, SCHEMA, { root, files: files.length, laws: read.laws.length, diagnostics: diags });

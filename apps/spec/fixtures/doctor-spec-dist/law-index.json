@@ -1,0 +1,17 @@
+{
+  "schema": "docodego-spec/law-index/v1",
+  "specVersion": "1.0.0",
+  "lawCount": 1,
+  "laws": [
+    {
+      "id": "ST-1",
+      "title": "Fixture Law",
+      "pillar": "document",
+      "severity": "veto",
+      "enforced-by": "lint — the fixture gate",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/01-fixture-law.md"
+    }
+  ]
+}

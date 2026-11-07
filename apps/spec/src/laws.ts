@@ -11,6 +11,9 @@ export interface Law {
   id: string;
   title: string;
   pillar: string;
+  /** Statutes carry the arc stream they govern (ST-1 → validate); engine
+   * laws leave it empty. Doctor's payload-mirror check reads it. */
+  stream: string;
   severity: string;
   enforcedBy: string;
   introducedIn: string;
@@ -40,7 +43,7 @@ function readLines(path: string): string[] {
 function readLaw(file: string, abs: string, diags: Diagnostic[]): Law {
   const lines = readLines(abs);
   let law: Law = {
-    id: "", title: "", pillar: "", severity: "", enforcedBy: "", introducedIn: "", status: "", file,
+    id: "", title: "", pillar: "", stream: "", severity: "", enforcedBy: "", introducedIn: "", status: "", file,
   };
   if (lines[0]?.trim() !== "---") return law; // no frontmatter: lint reports it, loader moves on
   const close = lines.findIndex((l, i) => i > 0 && l.trim() === "---");
@@ -58,6 +61,7 @@ function readLaw(file: string, abs: string, diags: Diagnostic[]): Law {
     id: field(fm, "id") ?? "",
     title: field(fm, "title") ?? "",
     pillar: field(fm, "pillar") ?? "",
+    stream: field(fm, "stream") ?? "",
     severity: field(fm, "severity") ?? "",
     enforcedBy: field(fm, "enforced-by") ?? "",
     introducedIn: field(fm, "introduced-in") ?? "",

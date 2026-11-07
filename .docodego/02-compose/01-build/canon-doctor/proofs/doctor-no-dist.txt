@@ -1,0 +1,4 @@
+spec error[SP-F004]: no delivered manifest at 'apps/spec/fixtures/empty-dist/manifest.json' — run canon build first; drift has no baseline to answer to
+canon doctor · 1 error(s), 0 warning(s) · mirror: 1 mirror statutes vs 1 tree statutes · first drift: n/a
+axes (side by side, never inferred): payload specVersion 1 · cli 0.8.0 · spec/ 1.0.0 · delivered ?
+no-dist exit: 1

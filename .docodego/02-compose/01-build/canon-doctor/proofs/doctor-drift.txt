@@ -1,0 +1,6 @@
+spec error[SP-F001]: the spec tree is ahead of the delivered index — tree 68d72d889eb3… vs delivered 675515445cf6… — run canon build
+spec error[SP-F002]: the delivered manifest says 9.9.9 but SPEC.md says 1.0.0 — artifacts and source must name the same version
+spec error[SP-F003]: the index counts 99 laws but the tree carries 1 — rebuild so the index answers to the tree
+canon doctor · 3 error(s), 0 warning(s) · mirror: 1 mirror statutes vs 1 tree statutes · first drift: n/a
+axes (side by side, never inferred): payload specVersion 1 · cli 0.8.0 · spec/ 1.0.0 · delivered 9.9.9
+drift exit: 1

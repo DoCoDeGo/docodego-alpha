@@ -23,7 +23,7 @@ const sha256 = (data: string | Buffer): string => createHash("sha256").update(da
  * state — the manifest as committed — never the working tree, or iterating
  * inside one delivery unit would be impossible. A committed, unmodified
  * manifest is its own baseline; anything else defers to HEAD. */
-function baselineManifest(manifestPath: string): { specVersion?: string; structureHash?: string } | undefined {
+export function baselineManifest(manifestPath: string): { specVersion?: string; structureHash?: string } | undefined {
   const dirty = spawnSync("git", ["status", "--porcelain", "-uno", manifestPath], { encoding: "utf8" });
   const isDirty = (dirty.stdout ?? "").trim() !== ""; // git failing yields "" — non-repos parse the file as before
   if (existsSync(manifestPath) && !isDirty) {
@@ -45,16 +45,24 @@ function baselineManifest(manifestPath: string): { specVersion?: string; structu
   }
 }
 
+/** The tree's structure identity: every markdown file with its checksum,
+ * folded into one hash. Shared by build (writing the manifest) and doctor
+ * (drift detection) so the two cannot disagree about what a tree is. */
+export function treeStructure(root: string): { files: string[]; checksums: Record<string, string>; structureHash: string } {
+  const files = walkMd(root);
+  const checksums: Record<string, string> = {};
+  for (const file of files) checksums[file] = sha256(readFileSync(join(root, file)));
+  const structureHash = sha256(files.map((f) => `${f} ${checksums[f] ?? ""}`).join("\n"));
+  return { files, checksums, structureHash };
+}
+
 export function run(args: Args, io: Io): number {
   const root = args.root ?? "spec";
   const dist = args.dist ?? "apps/spec/dist";
   const read = loadSpec(root);
   const diags: Diagnostic[] = [...read.diagnostics];
 
-  const files = walkMd(root);
-  const checksums: Record<string, string> = {};
-  for (const file of files) checksums[file] = sha256(readFileSync(join(root, file)));
-  const structureHash = sha256(files.map((f) => `${f} ${checksums[f] ?? ""}`).join("\n"));
+  const { files, checksums, structureHash } = treeStructure(root);
   const specVersion = read.specVersion;
 
   if (specVersion === undefined) {

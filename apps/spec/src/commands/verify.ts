@@ -6,7 +6,7 @@
  * in the build order, and nothing they build is trusted until this passes. */
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
-import { loadSpec, enforcerLeads, walkMd } from "../laws.ts";
+import { loadSpec, enforcerLeads, walkMd, type SpecRead } from "../laws.ts";
 import { CANON_COMMANDS, GATE_TOKENS, NON_TOOL_ENFORCERS } from "../registry.ts";
 import { exitFor, emit } from "../errors.ts";
 import { countsOf } from "../emit.ts";
@@ -33,13 +33,12 @@ function cliCommands(cliPath: string, diags: Diagnostic[]): Set<string> {
   return new Set([...src.matchAll(CLI_COMMAND)].map((m) => m[1] ?? ""));
 }
 
-/** A clause has a lead when it is written `lead — detail`. Leads split on
- * commas (`check, lint — rewrite detection` names two enforcers). */
-export function run(args: Args, io: Io): number {
-  const root = args.root ?? "spec";
-  const cliPath = args.cli ?? join(root, "..", "apps", "cli", "src", "cli", "help.ts");
-  const read = loadSpec(root);
-  const diags: Diagnostic[] = [...read.diagnostics];
+/** The verify finding core, shared by the command and the doctor:
+ * referential integrity over one spec tree — links, anchors, gate refs,
+ * enforced-by leads against the live CLI registry, the version circle.
+ * Loader diagnostics are NOT included — the caller carries them once. */
+export function verifyFindings(root: string, read: SpecRead, cliPath: string): { diags: Diagnostic[]; files: string[]; cli: Set<string> } {
+  const diags: Diagnostic[] = [];
   const cli = cliCommands(cliPath, diags);
 
   const known = new Set<string>([...cli, ...Object.keys(CANON_COMMANDS), ...NON_TOOL_ENFORCERS, ...GATE_TOKENS]);
@@ -137,6 +136,16 @@ export function run(args: Args, io: Io): number {
       file: "SPEC.md", span: { start: { line: 5, col: 1 }, end: { line: 5, col: 120 } },
     });
   }
+
+  return { diags, files, cli };
+}
+
+export function run(args: Args, io: Io): number {
+  const root = args.root ?? "spec";
+  const cliPath = args.cli ?? join(root, "..", "apps", "cli", "src", "cli", "help.ts");
+  const read = loadSpec(root);
+  const { diags: found, files, cli } = verifyFindings(root, read, cliPath);
+  const diags: Diagnostic[] = [...read.diagnostics, ...found];
 
   const counts = countsOf(diags);
   emit(io, args.json, SCHEMA, {

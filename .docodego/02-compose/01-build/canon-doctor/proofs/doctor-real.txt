@@ -1,0 +1,4 @@
+spec error[SP-F005]: the payload's statutes mirror aligns 0/16 with the spec tree — statute 1 binds '01-discover, 03-validate' but ST-1 carries title 'Intent Is Absolute' and stream 'validate' — the mirrors are behind the spec; the statutes recompile lands this
+canon doctor · 1 error(s), 0 warning(s) · mirror: 16 mirror statutes vs 16 tree statutes · first drift: statute 1 binds '01-discover, 03-validate' but ST-1 carries title 'Intent Is Absolute' and stream 'validate'
+axes (side by side, never inferred): payload specVersion 8 · cli 0.8.0 · spec/ 1.0.2 · delivered 1.0.2
+real exit: 1

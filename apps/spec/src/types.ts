@@ -43,5 +43,6 @@ export interface Args {
   record?: string;
   impact?: string;
   as?: string;
+  payload?: string;
   help: boolean;
 }

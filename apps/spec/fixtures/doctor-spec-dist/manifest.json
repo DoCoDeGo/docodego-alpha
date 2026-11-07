@@ -1,0 +1,12 @@
+{
+  "schema": "docodego-spec/manifest/v1",
+  "specVersion": "1.0.0",
+  "structureHash": "675515445cf6ed4f57bf1bf75b2403a333d8229ee3603993a8d2079dde7e96d5",
+  "fileCount": 3,
+  "lawCount": 1,
+  "files": {
+    "SPEC.md": "f071000bd3ccac3b853b26b23e8a8bbc29cb6111fc89e8c02622fc3af2cff47b",
+    "amendments/log.md": "b16c7e2bd9729bd5d50ce4c9211185c3119ec0989f69a235cc8fa3e157fb0565",
+    "laws/01-fixture-law.md": "c5dbba37a879f693a34838f1219390d0a4e25676bf1921de28b4819984fa39fa"
+  }
+}
