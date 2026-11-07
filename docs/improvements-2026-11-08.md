@@ -97,9 +97,22 @@ demonstrate and govern are meaningful." Sweep of actual contents:
 | R5-3 | 04 | Invented the `knowledge/` growth path unprompted (`01-document/knowledge/`) — first live exercise of a growth path the law only names. | D3 | healthy | — |
 | R5-4 | design | Diagnosis: the unit lifecycle is a single-folder pipeline — units never migrate across phases — so top-level rooms only fill by agent improvisation, and improvisation diverges. The map summarizes which README the agent read, not the product. | — | **law** | — |
 
+### R6 — +30 min
+
+| # | repo | observation | dim | attr | severity |
+|---|---|---|---|---|---|
+| R6-1 | 01 | Third delivery (3 rows); checkout under construction (17 dirty). `check` still green at the stream home. | D2 | healthy | — |
+| R6-2 | 03 | Moderation landed (report button, review queue, audit log, 7 tests); dirty down to 1. But **DG-C003 persists** — `pro-fit-report/` holds only `score.md` + `spec.md`, still claiming `scored`. If it finishes red, the finish protocol ("check must pass") collides with the missing-artifact fact. | D4 | **agent** (live) | — |
+| R6-3 | 02 | Alive, not stalled: fresh `dist/` build, sources newer than package.json. But `node_modules/` untracked-**unignored** — IMP-3 recurring; risk of repeating 01's late history-rewrite. | D7 | **law** (IMP-3, second live recurrence) | G |
+| R6-4 | 04 | **Post-delivery edits to a delivered unit**: `src/scan/engine.ts` and `src/scan/types.ts` modified while building `report-experience`. Scan-engine's gate passed at commit time; the current tree may no longer satisfy its recorded proofs. The acceptance's finding #4 (no supersession rule for delivered code) recurring live. | D4/D2 | **law** (no post-delivery-edit rule; the gate is silent about staleness) | **F** |
+
 ## Findings (deduplicated, ranked)
 
+
+
 - **IMP-15 (D1/D8, F, law) — the integrity-map design** *(founder directive; record-spec-7 candidate)*. The four top-level directories are the record's integrity summary, but two of the four rooms are inert: demonstrate holds only stream READMEs in all five products; compose means "nothing" or "everything" depending on which prose the agent believed. Root cause: units are born whole in one folder and never migrate, so rooms fill only by improvisation. *Fix:* each room gets one gate-written artifact class with a named reader — document: the why (intent, cycles, specs); **compose: `compose-log.md`, gate-appended at deliver (unit, spec hash, build summary, spec-vs-built deviations — reader: the handoff agent, the build-honesty auditor)**; **demonstrate: `demo/<unit>/` bundles written at deliver (run output, screenshots, how-to-run — reader: the founder's "show me it working", the launch auditor)**; govern: the trail. Anchored at `init`, so an empty room truthfully means "not there yet." Side benefit: the map goes uniform across products regardless of where unit working-folders live — the fork's worst harm dissolves, and unit placement becomes guidance (IMP-11) while the map stays law.
+
+- **IMP-16 (D4/D2, F, law)** — Post-delivery staleness: 04 modified delivered-unit code (`scan/engine.ts`) while building a later unit; the unit's recorded proofs passed at delivery time but say nothing about the current tree. *Improvement:* a post-delivery edit rule — either the gate re-verifies affected units on `check` (stale-proofs warning), or the law requires a recorded supersession row (like 01's re-score) when delivered code changes.
 
 - **IMP-1 (D2, F, law)** — No founder-absent protocol for human-approval
   gates. Compose requires plan approval by a human; an autonomous agent must
