@@ -10,6 +10,8 @@ status: active
 
 # Engine law 26 — Gates near the machine, pictures near the person
 
+*Pillar: govern — machines gate the work; people judge it.*
+
 ## The law
 
 The tool's gates apply to the work — tests, proofs, the integrity of the record — never to a

@@ -10,6 +10,8 @@ status: active
 
 # Engine law 21 — The tool witnesses
 
+*Pillar: demonstrate — proof differs from assertion by a witness.*
+
 ## The law
 
 Evidence counts as proof only if the tool ran it and recorded its output. Pasted output is a

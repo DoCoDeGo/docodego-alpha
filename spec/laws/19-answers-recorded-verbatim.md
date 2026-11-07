@@ -10,6 +10,8 @@ status: active
 
 # Engine law 19 — Answers recorded verbatim
 
+*Pillar: record — decisions stay durable because they stay exact.*
+
 ## The law
 
 When a decision belongs to someone else, ask it with a recommendation: options briefly,

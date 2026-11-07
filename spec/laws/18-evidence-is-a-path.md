@@ -10,6 +10,8 @@ status: active
 
 # Engine law 18 — Evidence is a path
 
+*Pillar: record — a claim is only as good as the file it points at.*
+
 ## The law
 
 Every claim on the trail points at its evidence — a file that holds it. A claim with no

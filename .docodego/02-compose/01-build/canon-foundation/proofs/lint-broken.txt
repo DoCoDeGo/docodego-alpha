@@ -1,0 +1,12 @@
+spec error[SP-P001]: malformed frontmatter line skipped — expected 'key: value', found: title "Parse Recovery" — this line has no colon, so it must 
+  --> laws/04-parse.md:3:1
+spec error[SP-L001]: no H1 title — the document standard wants one title, naming the thing
+  --> laws/01-no-title.md:1:1
+spec error[SP-L004]: severity 'fatal' is not one of veto | warn
+  --> laws/02-bad-enum.md:6:1
+spec error[SP-L007]: duplicate law id 'ST-3' — first carried by laws/03-dup-a.md; anchors are forever, ids are unique
+  --> laws/03-dup-b.md:2:1
+spec error[SP-L003]: frontmatter missing required key(s): title
+  --> laws/04-parse.md:1:1
+canon lint · 5 file(s) · 5 law(s) · 5 error(s), 0 warning(s)
+lint broken-spec exit: 1

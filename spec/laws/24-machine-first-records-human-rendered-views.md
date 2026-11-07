@@ -10,6 +10,8 @@ status: active
 
 # Engine law 24 — Machine-first records, human-rendered views
 
+*Pillar: record — one truth on disk, rendered many ways.*
+
 ## The law
 
 The trail is append-only plain files the team owns. Readable views — boards, summaries,

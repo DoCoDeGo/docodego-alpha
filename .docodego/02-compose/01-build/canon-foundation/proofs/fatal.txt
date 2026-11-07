@@ -1,0 +1,4 @@
+canon: spec root not found at '/nonexistent'
+  remediation: run from the repository root, or pass --root <dir> (the folder holding SPEC.md and laws/)
+  doc: spec/SPEC.md
+fatal exit: 3

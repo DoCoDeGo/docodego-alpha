@@ -10,6 +10,8 @@ status: active
 
 # Engine law 17 — Records append
 
+*Pillar: record — the trail grows by adding, never by rewriting.*
+
 ## The law
 
 The record grows by adding, never by rewriting. When a spec changes, the new version is

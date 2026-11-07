@@ -1,0 +1,3 @@
+nothing to report
+canon verify · 41 file(s) · 31 law(s) · 15 live CLI command(s) · 0 error(s), 0 warning(s)
+verify spec exit: 0

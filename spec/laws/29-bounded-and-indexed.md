@@ -10,6 +10,8 @@ status: active
 
 # Engine law 29 — Bounded and indexed
 
+*Pillar: record — the record must stay readable to stay honest.*
+
 ## The law
 
 A record can fail by being too big as easily as too small. Keep the trail bounded: short

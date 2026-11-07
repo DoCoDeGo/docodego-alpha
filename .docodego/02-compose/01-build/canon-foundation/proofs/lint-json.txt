@@ -1,0 +1,2 @@
+{"schema":"docodego-spec/lint/v1","ok":true,"data":{"root":"spec","files":41,"laws":31,"diagnostics":[]}}
+json exit: 0

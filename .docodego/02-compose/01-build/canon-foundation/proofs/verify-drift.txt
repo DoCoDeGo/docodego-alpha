@@ -1,0 +1,8 @@
+spec error[SP-V001]: enforced-by names 'deploy', which no command registers (live CLI: check, completions, deliver, doctor, explain, grill, init, lint, new, score, sketch, skill, status, trace, upgrade; canon: lint, verify, build, amend, diff, coverage, doctor, publish)
+  --> laws/01-drift.md:7:1
+spec error[SP-V004]: the front door is missing — no SPEC.md with a Version stamp
+  --> SPEC.md:1:1
+spec error[SP-V004]: the amendment trail is missing — no amendments/log.md row
+  --> amendments/log.md:1:1
+canon verify · 1 file(s) · 1 law(s) · 15 live CLI command(s) · 3 error(s), 0 warning(s)
+verify drift exit: 1

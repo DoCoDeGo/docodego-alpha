@@ -1,0 +1,24 @@
+canon: no command 'nope'.
+
+canon — the spec workbench for the DoCoDeGo System (bin docodego-spec)
+
+usage: canon <command> [flags]
+
+commands:
+  lint      document-standard conformance over the spec tree
+  verify    referential integrity: enforced-by, links, anchors, versions
+  build     SPEC.md bundle + law-index.json + payload mirrors + manifest   (not built yet)
+  amend     scaffold an amendment record; the founder signs via docodego sign   (not built yet)
+  diff      semantic law diff with a suggested bump class   (not built yet)
+  coverage  the enforceability map, orphan gates, --impact   (not built yet)
+  doctor    drift across spec/ ↔ build ↔ payload   (not built yet)
+  publish   version-directory site, llms.txt, verification badge   (not built yet)
+
+flags:
+  --root <dir>   the spec tree (default: ./spec)
+  --cli <file>   the live CLI's help registry (default: <root>/../apps/cli/src/cli/help.ts)
+  --json         one envelope on stdout: docodego-spec/<command>/v1
+  --help         this page
+
+exit codes: 0 ok · 1 gate/lint/verify failure · 2 usage / not built yet · 3 spec missing or corrupt
+usage exit: 2

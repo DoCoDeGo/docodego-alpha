@@ -10,6 +10,8 @@ status: active
 
 # Engine law 27 — The mode invariants
 
+*Pillar: govern — what holds in every mode, hands-on through auto.*
+
 ## The law
 
 Four things hold in every mode — hands-on, guided, review, auto:

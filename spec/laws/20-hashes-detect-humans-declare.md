@@ -10,6 +10,8 @@ status: active
 
 # Engine law 20 — Hashes detect, humans declare
 
+*Pillar: govern — the version axes move only when a person says so.*
+
 ## The law
 
 Hashes detect change; humans declare what it means. A hash match proves content is

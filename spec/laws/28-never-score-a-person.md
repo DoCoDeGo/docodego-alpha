@@ -10,6 +10,8 @@ status: active
 
 # Engine law 28 — Never score a person
 
+*Pillar: govern — measures serve the work; they never rank people.*
+
 ## The law
 
 The measures are for learning about the work. They never rank, score or compare people or

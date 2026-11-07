@@ -10,6 +10,8 @@ status: active
 
 # Engine law 30 — The Anti-Complexity Principle
 
+*Pillar: govern — the test every addition to the System must pass.*
+
 ## The law
 
 No addition may increase net ceremony unless the increase is proportional to demonstrated

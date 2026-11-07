@@ -10,6 +10,8 @@ status: active
 
 # Engine law 25 — Provenance without attribution by default
 
+*Pillar: record — the record outlives every tool that wrote it.*
+
 ## The law
 
 The record says whether a person or an agent did each thing — because only a person can

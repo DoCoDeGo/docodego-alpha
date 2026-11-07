@@ -10,6 +10,8 @@ status: active
 
 # Engine law 31 — Owner-only decisions go to the owner
 
+*Pillar: govern — some questions only the owner of the work answers.*
+
 ## The law
 
 Some decisions belong to the owner of the work and to nobody else: what the product is for,

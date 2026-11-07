@@ -10,6 +10,8 @@ status: active
 
 # Engine law 23 — Verifiable by a stranger
 
+*Pillar: demonstrate — a stranger can re-run the proof and see the same thing.*
+
 ## The law
 
 A proof on the trail can be re-run by someone who does not trust the author: an auditor, a
