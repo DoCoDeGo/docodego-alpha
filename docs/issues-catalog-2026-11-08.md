@@ -36,6 +36,11 @@ regenerable evidence.
 
 **Praise (p)** — privacy rail exemplary and re-measured live: `connect-src 'none'` + 0 resource entries + 0 network requests through the whole funnel; determinism proven three ways (byte-equality, cross-invocation sha256, source-scan banning randomness); engine/shell split enforced by a test; the paywall copy refuses to lie in writing ("we will not pretend otherwise"); **the deploy artifact is genuinely launch-shaped** — one 228 kB self-contained HTML, works from `file://`, the rare audited artifact that could upload tomorrow.
 
+**Post-audit instrument sweep (visual-proof driver's first honest run):**
+- **[new] [M] 375px horizontal overflow confirmed on the built artifact — the auditor's "375px clean" verdict corrected.** Full-page capture is 400px wide on a 375px viewport (+25px bleed; `first-load-mobile.png`, transcript `visual-proof.md`). Real horizontal scroll on the dominant shopping-adjacent viewport; less severe than 01's 118px clip, mechanically proven where the prose claim failed. The culprit is the palette/gradient strip bleeding past the right padding edge.
+- **[evidence] Brand mutation confirmed live in the built artifact** — page title reads `finessestry — find your colors, keep your photo`, footer `FINESSETRY.COM`, wordmark `Finessestry` (screenshot + title tag). Strengthens blocker #2/#3: the misspelling ships in the build, not just source.
+- **[instrument] Driver self-test findings fixed same-day:** refused `file://` with the fix named (it silently produced garbage verdicts on a CORS-blocked page — the exact "error names the fix" standard); overflow now reported as a measured delta (`+25px`), not a bare boolean. Instrument disagreement (driver vs auditor prose) was adjudicable only because the evidence is a committed file — the Tier-1 lesson proven on the instrument itself.
+
 **Ship test:** FAIL — "v0 awaiting a signature it never asked for": checkout is signature-excusable; the wrong-domain card and the unvalidated classifier are defects no signature excuses. Siblings-better: 01's typecheck-in-build, 01's real payment rail, 04's no-input sample read.
 
 ### 2. Product 01 — swatchship (audited: FAIL)

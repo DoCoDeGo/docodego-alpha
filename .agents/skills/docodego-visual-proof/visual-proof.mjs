@@ -22,6 +22,11 @@ if (!base) {
   console.error("usage: node scripts/visual-proof.mjs <base-url> [--states states.json] [--out dir]");
   process.exit(2);
 }
+if (base.startsWith("file://")) {
+  console.error("refused: file:// blocks module scripts (CORS), so the verdict would describe a broken page, not the build.");
+  console.error("fix: serve the production build first — e.g. `python3 -m http.server 4173` in dist/ — then pass the http URL.");
+  process.exit(2);
+}
 const flag = (name) => {
   const i = args.indexOf(name);
   return i >= 0 ? args[i + 1] : null;
@@ -66,7 +71,7 @@ async function capture(browser, { label, path, actions = [], viewport, reducedMo
       else if (step.wait) await page.waitForTimeout(step.wait);
     }
     overflow = await page.evaluate(
-      () => document.documentElement.scrollWidth > window.innerWidth + 1,
+      () => document.documentElement.scrollWidth - window.innerWidth,
     );
     title = await page.title();
     shot = join(outDir, `${label}.png`);
@@ -90,7 +95,7 @@ try {
         reducedMotion: "no-preference", // the matrix shows the real look
       });
       const problems = [...r.errors];
-      if (r.overflow) problems.push("horizontal overflow at viewport");
+      if (r.overflow > 1) problems.push(`horizontal overflow +${r.overflow}px at viewport`);
       if (!r.title) problems.push("empty <title>");
       if (!r.shot) problems.push("screenshot failed");
       if (problems.length) failures++;
