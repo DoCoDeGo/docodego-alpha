@@ -76,6 +76,17 @@ law under test is the branch law, not a stale artifact.
 | R4-5 | 04 | No commits since R0, 23 dirty — big-bang unit risk (report-experience). | D2 | provisional **agent** (unit slicing) | — |
 | R4-6 | obs | Orchestrator metric bug: `grep -c delivered delivery-log.md` matched a legend line, not data rows — final review counts real `| date |` rows. Recorded so the instrument stays honest. | — | orchestrator | — |
 
+### R8 — +40 min — 01 swatchship completes
+
+| # | repo | observation | dim | attr | severity |
+|---|---|---|---|---|---|
+| R8-1 | 01 | **Complete**: 4/4 units delivered at stream homes, scores 99–100, 43 unit tests + 44 headless browser checks, `check`+`lint` exit 0, tree clean. Stripe wiring proven to the door (503→502→402 ladder over real stripe-node, gate proven both ways); a live test charge honestly named as needing the founder's key. Webhook gap stated, not hidden. Render honesty as a design element. | D2/D4/D5/D6 | healthy — full-loop pass on the stream path | — |
+| R8-2 | obs | **R1-1 overturned**: history was never rewritten — hashes continuous (`f79965f → 85ddfd1 → cc27c82`); the "untrack toolchain from history" commit was a follow-up tree-untrack with a misleading message. Instrument lesson recorded: commit messages can lie; verify hashes before attributing destructive acts. IMP-3's substance (no planted hygiene) stands regardless. | — | orchestrator | — |
+| R8-3 | 01 | **`grill` flips spec status `scored` → `grilled`, silently dropping the score below the gate** until `score` re-runs. Cost a re-score; predictable but silent. The status machine fights its own canonical order. | D2/D7 | **law** — new: IMP-17 | F |
+| R8-4 | 01 | `deliver`'s error (DG-U013) doesn't name the stream-path shape; the agent **read CLI source** to proceed. | D7 | **law** — IMP-18 (error messages must carry the fix) | F |
+| R8-5 | 01 | Verify scratch defaulted *into `.docodego/`*; lint (DG-S005) caught it — the law held, the default was wrong. Fixed to `var/visual`. | D3/D7 | **law** — IMP-19 (tooling defaults must never point into the record root) | G |
+| R8-6 | 01 | Grammar (4th independent confirmation: backtick-only G4) + UTC dates (5th). | D7 | **law** (IMP-5, R2-5 confirmed) | F |
+
 **R0-5 overturned** — 04's "gate passes" was earned; the rows live at the
 stream tracker/home I didn't look in. Lesson recorded in the instrument: a
 provisional finding must locate the unit's home before judging, and
@@ -106,7 +117,16 @@ demonstrate and govern are meaningful." Sweep of actual contents:
 | R6-3 | 02 | Alive, not stalled: fresh `dist/` build, sources newer than package.json. But `node_modules/` untracked-**unignored** — IMP-3 recurring; risk of repeating 01's late history-rewrite. | D7 | **law** (IMP-3, second live recurrence) | G |
 | R6-4 | 04 | **Post-delivery edits to a delivered unit**: `src/scan/engine.ts` and `src/scan/types.ts` modified while building `report-experience`. Scan-engine's gate passed at commit time; the current tree may no longer satisfy its recorded proofs. The acceptance's finding #4 (no supersession rule for delivered code) recurring live. | D4/D2 | **law** (no post-delivery-edit rule; the gate is silent about staleness) | **F** |
 
+### R7 — +35 min
+
+| # | repo | observation | dim | attr | severity |
+|---|---|---|---|---|---|
+| R7-1 | 01 | **All four units delivered** (storefront, season-quiz, season-carry, checkout), tree clean, `check` green. Checkout: Stripe test-mode with fail-closed confirm + secret-key build gate — the no-accounts/privacy hard lines shaped the design. | D2/D6 | healthy — first likely-complete product on the stream path | — |
+| R7-2 | 03 | Endgame with red `check`: dirty 2, DG-C003 unrepaired. The finish protocol ("check must pass") vs the missing grill.md — whichever way it resolves is evidence. | D4 | **agent** (live) | — |
+| R7-3 | 02/04 | Both ~55 min without commits. 02: 9 dirty, 0 deliveries, one giant unit (MediaPipe pose pipeline is heavy). 04: 24 dirty and growing — the big-bang pattern now firmly established. | D2 | provisional **agent** (unit slicing / session shape) | — |
+
 ## Findings (deduplicated, ranked)
+
 
 
 
@@ -114,6 +134,9 @@ demonstrate and govern are meaningful." Sweep of actual contents:
 
 - **IMP-16 (D4/D2, F, law)** — Post-delivery staleness: 04 modified delivered-unit code (`scan/engine.ts`) while building a later unit; the unit's recorded proofs passed at delivery time but say nothing about the current tree. *Improvement:* a post-delivery edit rule — either the gate re-verifies affected units on `check` (stale-proofs warning), or the law requires a recorded supersession row (like 01's re-score) when delivered code changes.
 
+- **IMP-17 (D2/D7, F, law)** — The status machine fights its own order: `grill` flips a spec `scored` → `grilled`, which drops the recorded score below the gate until `score` re-runs — silent, and it cost 01 a re-score. *Improvement:* grill preserves `scored` (or the gate accepts `grilled+scored`); statuses move forward, never sideways.
+- **IMP-18 (D7, F, law)** — `deliver`'s DG-U013 error doesn't name the stream-path shape it wants; 01's agent read CLI source to proceed. *Improvement:* diagnostics carry the concrete fix (expected path form), per `explain`'s own standard.
+- **IMP-19 (D3/D7, G, law)** — Tooling defaults pointed scratch into the record root (lint DG-S005 caught it — the law held, the default was wrong). *Improvement:* tool-generated scratch defaults to `var/` outside `.docodego/`.
 - **IMP-1 (D2, F, law)** — No founder-absent protocol for human-approval
   gates. Compose requires plan approval by a human; an autonomous agent must
   either stop or self-waive. 01 self-waived in the first 15 minutes. Will
@@ -139,11 +162,8 @@ demonstrate and govern are meaningful." Sweep of actual contents:
   at `04-plan` because the prose let it). *Improvement:* one line in AGENTS.md
   naming where decisions live (cycles log, optional blessed ADR pattern), and
   what streams are *for* — or remove stream placement from the prose.
-- **IMP-3 (D7, G, law)** — Repo hygiene rediscovered by every agent from
-  scratch; 01's fix was a git history rewrite on a record-carrying repo, a
-  destructive act no planted rule gates. *Improvement:* planted `.gitignore`
-  (node_modules, dist, .env, OS cruft) from `init`; one law line: after the
-  record exists, history rewrite requires the inventory-and-recover ritual.
+- **IMP-3 (D7, G, law)** — Repo hygiene rediscovered by every agent from scratch; 01's fix was a follow-up untrack commit (its message misleadingly said "from history" — verified: hashes continuous, no rewrite). *Improvement:* planted `.gitignore`
+  (node_modules, dist, .env, OS cruft) from `init`; and commit messages in record repos state facts, not drama.
 - **IMP-10 (D7, G, law)** — Canonical status/order ambiguity: 01 had to
   re-score after grilling to fix "canonical status order", and repaired a
   lost cycles.md header — append-only held, via repair. *Improvement:* the
