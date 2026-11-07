@@ -4,9 +4,9 @@
  * internal link; checks every cited law anchor; closes the version circle
  * SPEC.md ↔ amendments/log.md. Verify only reads — the writers come later
  * in the build order, and nothing they build is trusted until this passes. */
-import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
-import { loadSpec } from "../laws.ts";
+import { loadSpec, walkMd } from "../laws.ts";
 import { CANON_COMMANDS, GATE_TOKENS, NON_TOOL_ENFORCERS } from "../registry.ts";
 import { exitFor, emit } from "../errors.ts";
 import { countsOf } from "../emit.ts";
@@ -31,20 +31,6 @@ function cliCommands(cliPath: string, diags: Diagnostic[]): Set<string> {
   }
   const src = readFileSync(cliPath, "utf8");
   return new Set([...src.matchAll(CLI_COMMAND)].map((m) => m[1] ?? ""));
-}
-
-/** Every .md file under the spec root, as paths relative to it. */
-function walkMd(root: string): string[] {
-  const out: string[] = [];
-  const walk = (rel: string): void => {
-    for (const name of readdirSync(join(root, rel), { withFileTypes: true })) {
-      const r = rel === "" ? name.name : `${rel}/${name.name}`;
-      if (name.isDirectory()) walk(r);
-      else if (name.name.endsWith(".md")) out.push(r);
-    }
-  };
-  walk("");
-  return out.sort();
 }
 
 /** A clause has a lead when it is written `lead — detail`. Leads split on

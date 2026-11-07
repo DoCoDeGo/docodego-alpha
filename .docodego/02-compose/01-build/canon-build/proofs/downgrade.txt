@@ -1,0 +1,3 @@
+spec error[SP-B001]: build would move the spec backwards — dist says 1.0.0, source says 0.9.0; a downgrade is never a migration
+canon build · refused — nothing written (1 error(s))
+downgrade exit: 1

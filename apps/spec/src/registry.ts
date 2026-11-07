@@ -9,7 +9,7 @@
 export const CANON_COMMANDS: Record<string, { delivered: boolean; summary: string }> = {
   lint: { delivered: true, summary: "document-standard conformance over the spec tree" },
   verify: { delivered: true, summary: "referential integrity: enforced-by, links, anchors, versions" },
-  build: { delivered: false, summary: "SPEC.md bundle + law-index.json + payload mirrors + manifest" },
+  build: { delivered: true, summary: "SPEC.md bundle + law-index.json + manifest with structure hash" },
   amend: { delivered: false, summary: "scaffold an amendment record; the founder signs via docodego sign" },
   diff: { delivered: false, summary: "semantic law diff with a suggested bump class" },
   coverage: { delivered: false, summary: "the enforceability map, orphan gates, --impact" },

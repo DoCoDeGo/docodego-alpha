@@ -1,0 +1,10 @@
+{
+  "schema": "docodego-spec/manifest/v1",
+  "specVersion": "1.0.0",
+  "structureHash": "stale-this-hash-does-not-match-the-current-tree",
+  "fileCount": 1,
+  "lawCount": 1,
+  "files": {
+    "SPEC.md": "0000000000000000000000000000000000000000000000000000000000000000"
+  }
+}

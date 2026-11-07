@@ -6,6 +6,7 @@ import { CANON_COMMANDS } from "./registry.ts";
 import { errorEnvelope, renderFatal, SpecFatal } from "./errors.ts";
 import * as lint from "./commands/lint.ts";
 import * as verify from "./commands/verify.ts";
+import * as build from "./commands/build.ts";
 import { stub } from "./commands/stubs.ts";
 
 const io: Io = {
@@ -16,7 +17,7 @@ const io: Io = {
 const ROUTES: Record<string, (args: Args, io: Io) => number> = {
   lint: lint.run,
   verify: verify.run,
-  build: stub("build"),
+  build: build.run,
   amend: stub("amend"),
   diff: stub("diff"),
   coverage: stub("coverage"),
@@ -37,6 +38,7 @@ ${cmds}
 
 flags:
   --root <dir>   the spec tree (default: ./spec)
+  --dist <dir>   where build writes (default: ./apps/spec/dist)
   --cli <file>   the live CLI's help registry (default: <root>/../apps/cli/src/cli/help.ts)
   --json         one envelope on stdout: docodego-spec/<command>/v1
   --help         this page
@@ -53,6 +55,7 @@ function parseArgs(argv: string[]): Args | never {
     else if (tok === "--help" || tok === "-h") args.help = true;
     else if (tok === "--root") args.root = rest.shift();
     else if (tok === "--cli") args.cli = rest.shift();
+    else if (tok === "--dist") args.dist = rest.shift();
     else if (tok.startsWith("--")) {
       io.err(`canon: unknown flag '${tok}'\n\n${usageText()}`);
       return process.exit(2);

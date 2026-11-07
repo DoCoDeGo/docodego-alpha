@@ -1,0 +1,317 @@
+{
+  "schema": "docodego-spec/law-index/v1",
+  "specVersion": "1.0.0",
+  "lawCount": 31,
+  "laws": [
+    {
+      "id": "ST-1",
+      "title": "Intent Is Absolute",
+      "pillar": "document",
+      "severity": "veto",
+      "enforced-by": "deliver — G1; the receipt cites the spec version; lint — an emergency patch opens a spec-debt line",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/01-intent-is-absolute.md"
+    },
+    {
+      "id": "ST-2",
+      "title": "The Spec Is the Contract",
+      "pillar": "document",
+      "severity": "veto",
+      "enforced-by": "deliver — G1, G2, G3 (build refuses a spec below the floor or not approved)",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/02-the-spec-is-the-contract.md"
+    },
+    {
+      "id": "ST-3",
+      "title": "Quality Through Context",
+      "pillar": "document",
+      "severity": "veto",
+      "enforced-by": "check — evidence links resolve; lint — assumptions marked assumed or evidenced",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/03-quality-through-context.md"
+    },
+    {
+      "id": "ST-4",
+      "title": "Simplicity of Spec",
+      "pillar": "document",
+      "severity": "veto",
+      "enforced-by": "lint — a size limit per unit; criteria pointing at different decisions flagged as a likely split",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/04-simplicity-of-spec.md"
+    },
+    {
+      "id": "ST-5",
+      "title": "Code Is Regenerable",
+      "pillar": "compose",
+      "severity": "veto",
+      "enforced-by": "lint — the spec version changes first; check — regenerated work re-runs every original acceptance test",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/05-code-is-regenerable.md"
+    },
+    {
+      "id": "ST-6",
+      "title": "Resilience Over Robustness",
+      "pillar": "compose",
+      "severity": "veto",
+      "enforced-by": "lint — a fix cites its spec change; every deployed unit has a rollback path",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/06-resilience-over-robustness.md"
+    },
+    {
+      "id": "ST-7",
+      "title": "Architecture Before Generation",
+      "pillar": "compose",
+      "severity": "veto",
+      "enforced-by": "lint — a build unit points at a declared, signed structure; radar rings checked",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/07-architecture-before-generation.md"
+    },
+    {
+      "id": "ST-8",
+      "title": "Comprehension Is Non-Negotiable",
+      "pillar": "compose",
+      "severity": "veto",
+      "enforced-by": "check — reviewer and author differ; the review names a person; an explain-back is present",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/08-comprehension-is-non-negotiable.md"
+    },
+    {
+      "id": "ST-9",
+      "title": "Zero-Latency Evolution",
+      "pillar": "demonstrate",
+      "severity": "veto",
+      "enforced-by": "check — time from acceptance to deployment measured; a unit waiting with no stated reason flagged",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/09-zero-latency-evolution.md"
+    },
+    {
+      "id": "ST-10",
+      "title": "Feedback Closes the Loop",
+      "pillar": "demonstrate",
+      "severity": "veto",
+      "enforced-by": "lint — every demo record states what it taught; every feedback item has an owner",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/10-feedback-closes-the-loop.md"
+    },
+    {
+      "id": "ST-11",
+      "title": "Observability Is Non-Negotiable",
+      "pillar": "demonstrate",
+      "severity": "veto",
+      "enforced-by": "lint — each deployed unit declares its signal and its watcher",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/11-observability-is-non-negotiable.md"
+    },
+    {
+      "id": "ST-12",
+      "title": "Atomic Delivery",
+      "pillar": "demonstrate",
+      "severity": "veto",
+      "enforced-by": "check — each release item maps to one accepted unit and its receipt",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/12-atomic-delivery.md"
+    },
+    {
+      "id": "ST-13",
+      "title": "The Human as Governor",
+      "pillar": "govern",
+      "severity": "veto",
+      "enforced-by": "deliver — every receipt signed by a named person, in every mode; the halt exercised",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/13-the-human-as-governor.md"
+    },
+    {
+      "id": "ST-14",
+      "title": "Transparent Reasoning",
+      "pillar": "govern",
+      "severity": "veto",
+      "enforced-by": "lint — every tracker claim carries a path to its evidence; every act records person or agent",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/14-transparent-reasoning.md"
+    },
+    {
+      "id": "ST-15",
+      "title": "Security by Design",
+      "pillar": "govern",
+      "severity": "veto",
+      "enforced-by": "deliver — G1 (a threat section in every spec); G2 (threat coverage meets its floor)",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/15-security-by-design.md"
+    },
+    {
+      "id": "ST-16",
+      "title": "Alignment Before Demonstration",
+      "pillar": "govern",
+      "severity": "veto",
+      "enforced-by": "deliver — G4 (witnessed proofs); required checks follow the recorded mode",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/16-alignment-before-demonstration.md"
+    },
+    {
+      "id": "EL-17",
+      "title": "Records append",
+      "pillar": "record",
+      "severity": "veto",
+      "enforced-by": "check, lint — rewrite detection; superseded text archived, never deleted",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/17-records-append.md"
+    },
+    {
+      "id": "EL-18",
+      "title": "Evidence is a path",
+      "pillar": "record",
+      "severity": "veto",
+      "enforced-by": "check — evidence links resolve; lint — claims carry paths",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/18-evidence-is-a-path.md"
+    },
+    {
+      "id": "EL-19",
+      "title": "Answers recorded verbatim",
+      "pillar": "record",
+      "severity": "veto",
+      "enforced-by": "human review — decisions asked with a recommendation, recorded exactly as given",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/19-answers-recorded-verbatim.md"
+    },
+    {
+      "id": "EL-20",
+      "title": "Hashes detect, humans declare",
+      "pillar": "govern",
+      "severity": "veto",
+      "enforced-by": "upgrade — payload verified by structure-hash and content-checksums before vendoring; build — version-sanity refusal",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/20-hashes-detect-humans-declare.md"
+    },
+    {
+      "id": "EL-21",
+      "title": "The tool witnesses",
+      "pillar": "demonstrate",
+      "severity": "veto",
+      "enforced-by": "deliver — G4; growth: the tool runs the proof and records its output",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/21-the-tool-witnesses.md"
+    },
+    {
+      "id": "EL-22",
+      "title": "Proof is bound to the exact work it proves",
+      "pillar": "demonstrate",
+      "severity": "veto",
+      "enforced-by": "deliver — G4; the receipt cites the spec version and the exact state the proof ran against",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/22-proof-is-bound-to-the-exact-work.md"
+    },
+    {
+      "id": "EL-23",
+      "title": "Verifiable by a stranger",
+      "pillar": "demonstrate",
+      "severity": "veto",
+      "enforced-by": "proofs record what ran and what came back, with the recorded command re-run by anyone",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/23-verifiable-by-a-stranger.md"
+    },
+    {
+      "id": "EL-24",
+      "title": "Machine-first records, human-rendered views",
+      "pillar": "record",
+      "severity": "warn",
+      "enforced-by": "design law — views are rendered from the record, never hand-maintained beside it",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/24-machine-first-records-human-rendered-views.md"
+    },
+    {
+      "id": "EL-25",
+      "title": "Provenance without attribution by default",
+      "pillar": "record",
+      "severity": "veto",
+      "enforced-by": "lint — every act records person or agent; tool and model names opt-in",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/25-provenance-without-attribution.md"
+    },
+    {
+      "id": "EL-26",
+      "title": "Gates near the machine, pictures near the person",
+      "pillar": "govern",
+      "severity": "warn",
+      "enforced-by": "design law — gates are exit codes and envelopes; what people see are pictures, not verdicts",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/26-gates-near-the-machine.md"
+    },
+    {
+      "id": "EL-27",
+      "title": "The mode invariants",
+      "pillar": "govern",
+      "severity": "veto",
+      "enforced-by": "deliver — a named signer on every receipt; the halt tested and recorded on the trail",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/27-the-mode-invariants.md"
+    },
+    {
+      "id": "EL-28",
+      "title": "Never score a person",
+      "pillar": "govern",
+      "severity": "veto",
+      "enforced-by": "human review — the tool carries no per-person metrics; the Anti-Surveillance Distinction",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/28-never-score-a-person.md"
+    },
+    {
+      "id": "EL-29",
+      "title": "Bounded and indexed",
+      "pillar": "record",
+      "severity": "warn",
+      "enforced-by": "lint — size thresholds; an index that says what is where",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/29-bounded-and-indexed.md"
+    },
+    {
+      "id": "EL-30",
+      "title": "The Anti-Complexity Principle",
+      "pillar": "govern",
+      "severity": "warn",
+      "enforced-by": "human review — the test every addition must pass",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/30-the-anti-complexity-principle.md"
+    },
+    {
+      "id": "EL-31",
+      "title": "Owner-only decisions go to the owner",
+      "pillar": "govern",
+      "severity": "warn",
+      "enforced-by": "human review — asked with a recommendation, answered by the owner of the work",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/31-owner-only-decisions.md"
+    }
+  ]
+}

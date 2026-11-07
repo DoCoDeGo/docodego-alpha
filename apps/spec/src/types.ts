@@ -39,5 +39,6 @@ export interface Args {
   json: boolean;
   root?: string;
   cli?: string;
+  dist?: string;
   help: boolean;
 }

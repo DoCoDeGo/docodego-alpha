@@ -4,9 +4,9 @@
  * frontmatter schema, enums, id/filename agreement. Prose quality is never
  * scored by the tool — a lint that judges prose breeds resentment, and a
  * resented lint is evaded (the law behind this is EL-30's test). */
-import { readdirSync, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { loadSpec } from "../laws.ts";
+import { loadSpec, walkMd } from "../laws.ts";
 import { PILLARS, SEVERITIES, STATUS_ACTIVE, STATUS_LATER } from "../registry.ts";
 import { exitFor, emit } from "../errors.ts";
 import { countsOf } from "../emit.ts";
@@ -20,20 +20,6 @@ const NORMATIVE = /\b(?:MUST|NEVER|REQUIRED|SHALL)\b/;
 const REQUIRED_KEYS = ["id", "title", "pillar", "severity", "enforced-by", "introduced-in", "status"];
 
 const at = (line: number) => ({ start: { line, col: 1 }, end: { line, col: 120 } });
-
-/** Every .md file under the spec root, as paths relative to it. */
-function walkMd(root: string): string[] {
-  const out: string[] = [];
-  const walk = (dir: string, rel: string): void => {
-    for (const name of readdirSync(join(root, rel), { withFileTypes: true })) {
-      const r = rel === "" ? name.name : `${rel}/${name.name}`;
-      if (name.isDirectory()) walk(dir, r);
-      else if (name.name.endsWith(".md")) out.push(r);
-    }
-  };
-  walk(root, "");
-  return out.sort();
-}
 
 const isLawFile = (file: string): RegExpExecArray | null => LAW_FILE.exec(file);
 

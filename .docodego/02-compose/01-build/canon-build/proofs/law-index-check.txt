@@ -1,0 +1,1 @@
+laws: 31, specVersion: 1.0.0, first: ST-1, last: EL-31

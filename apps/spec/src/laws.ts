@@ -7,7 +7,6 @@ import { join } from "node:path";
 import { field, parseFrontmatter } from "./frontmatter.ts";
 import { SPEC_ROOT_MISSING, SpecFatal } from "./errors.ts";
 import type { Diagnostic } from "./types.ts";
-
 export interface Law {
   id: string;
   title: string;
@@ -104,4 +103,19 @@ export function loadSpec(root: string): SpecRead {
   }
 
   return { laws, diagnostics: diags, specVersion, lastAmendmentVersion };
+}
+
+/** Every .md file under a root, as sorted paths relative to it. Shared by
+ * lint (structure rules) and verify (link/anchor walks). */
+export function walkMd(root: string): string[] {
+  const out: string[] = [];
+  const walk = (rel: string): void => {
+    for (const name of readdirSync(join(root, rel), { withFileTypes: true })) {
+      const r = rel === "" ? name.name : `${rel}/${name.name}`;
+      if (name.isDirectory()) walk(r);
+      else if (name.name.endsWith(".md")) out.push(r);
+    }
+  };
+  walk("");
+  return out.sort();
 }

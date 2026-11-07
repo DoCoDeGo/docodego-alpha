@@ -1,0 +1,1 @@
+shasum diff exit (0 = identical): 0
