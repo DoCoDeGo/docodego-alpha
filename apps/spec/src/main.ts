@@ -8,6 +8,7 @@ import * as lint from "./commands/lint.ts";
 import * as verify from "./commands/verify.ts";
 import * as build from "./commands/build.ts";
 import * as coverage from "./commands/coverage.ts";
+import * as diff from "./commands/diff.ts";
 import { stub } from "./commands/stubs.ts";
 
 const io: Io = {
@@ -20,8 +21,8 @@ const ROUTES: Record<string, (args: Args, io: Io) => number> = {
   verify: verify.run,
   build: build.run,
   coverage: coverage.run,
+  diff: diff.run,
   amend: stub("amend"),
-  diff: stub("diff"),
   doctor: stub("doctor"),
   publish: stub("publish"),
 };

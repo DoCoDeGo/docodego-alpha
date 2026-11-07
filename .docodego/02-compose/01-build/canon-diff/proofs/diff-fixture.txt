@@ -1,0 +1,9 @@
+AMENDED  ST-2   Beta  (PATCH)
+    enforced-by: lint — the old binding → direction — the honest lead, changed from the index's lint
+AMENDED  ST-3   Gamma  (MAJOR)
+    severity: veto → warn
+REPEALED ST-4   Delta  (MAJOR)
+ADDED    ST-5   Epsilon  (MINOR)
+
+suggested bump: MAJOR — the tool suggests, a human declares (EL-20)
+fixture exit: 0

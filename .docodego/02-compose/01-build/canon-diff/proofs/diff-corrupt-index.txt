@@ -1,0 +1,3 @@
+spec error[SP-D002]: the delivered index at 'apps/spec/fixtures/corrupt-dist/law-index.json' is not valid JSON — rebuild with canon build
+canon diff · nothing to compare — no index, no tree
+corrupt exit: 1

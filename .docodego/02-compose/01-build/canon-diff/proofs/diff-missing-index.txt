@@ -1,0 +1,3 @@
+spec error[SP-D001]: no delivered index at 'apps/spec/fixtures/downgrade-spec/dist/law-index.json' — run canon build first
+canon diff · nothing to compare — no index, no tree
+missing exit: 1

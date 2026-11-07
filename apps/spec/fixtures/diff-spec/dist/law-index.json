@@ -1,0 +1,47 @@
+{
+  "schema": "docodego-spec/law-index/v1",
+  "specVersion": "1.0.0",
+  "lawCount": 4,
+  "laws": [
+    {
+      "id": "ST-1",
+      "title": "Alpha",
+      "pillar": "document",
+      "severity": "veto",
+      "enforced-by": "deliver — the fixture gate",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/01-alpha.md"
+    },
+    {
+      "id": "ST-2",
+      "title": "Beta",
+      "pillar": "document",
+      "severity": "veto",
+      "enforced-by": "lint — the old binding",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/02-beta.md"
+    },
+    {
+      "id": "ST-3",
+      "title": "Gamma",
+      "pillar": "document",
+      "severity": "veto",
+      "enforced-by": "deliver — the fixture gate",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/03-gamma.md"
+    },
+    {
+      "id": "ST-4",
+      "title": "Delta",
+      "pillar": "govern",
+      "severity": "veto",
+      "enforced-by": "deliver — the fixture gate",
+      "introduced-in": "1.0.0",
+      "status": "active",
+      "file": "laws/04-delta.md"
+    }
+  ]
+}

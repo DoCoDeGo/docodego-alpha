@@ -1,0 +1,2 @@
+{"schema":"docodego-spec/diff/v1","ok":true,"data":{"root":"spec","dist":"apps/spec/dist","indexSpecVersion":"1.0.2","changes":[],"suggestedBump":"none","declaredBy":"human — the tool suggests, a person declares (EL-20)","diagnostics":[]}}
+json exit: 0
