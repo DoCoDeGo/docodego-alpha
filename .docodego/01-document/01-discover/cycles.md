@@ -562,3 +562,21 @@ machinery, so it is a deliberated act, not a quick one.
   three sites, the hop paid once. The dedup unit itself stays
   unopened tonight (a mapped, scoped next move beats a stranded
   half-built one).
+## Cycle 11 — the outstanding-work rulings (2026-11-09, via chat — verbatim)
+
+> yes for all including ruling and recommendations - resolve all
+> outstanding work and discomfort
+
+**What this rules** (each held item, resolved): the founder-tier
+marker ruling lands as option C — the vocabulary marker — riding the
+payload hop, as recommended; the spec-folder discomfort resolves as
+the rename the founder's cycle-8 words point at ("not comfortable
+calling that folder spec if it represents DoCoDeGo System") — the
+folder becomes `canon/` (the machinery's own verb: canon publish,
+canon rebuild — the system's law tree, not a "spec"); the sequence
+question adopts the research recommendation — unit numbers stay
+pure build order, no range conventions, no third encoding in the
+folder name; SW-023 (mapped, cycle 10) lands with SW-080 folding in
+per its own ruling ("held for a chain-owing batch" — the v28 hop is
+that batch). Execution order: the rename first (590-canon-rename),
+then the dedup+marker run (600), then drift housekeeping (610).
