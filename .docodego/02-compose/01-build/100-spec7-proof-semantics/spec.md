@@ -1,7 +1,7 @@
 ---
 name: 100-spec7-proof-semantics
 type: unit
-status: scored
+status: delivered
 epic: 010-canon-spec-7
 ---
 

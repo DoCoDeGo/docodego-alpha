@@ -47,9 +47,11 @@ export function baselineManifest(manifestPath: string): { specVersion?: string; 
 
 /** The tree's structure identity: every markdown file with its checksum,
  * folded into one hash. Shared by build (writing the manifest) and doctor
- * (drift detection) so the two cannot disagree about what a tree is. */
+ * (drift detection) so the two cannot disagree about what a tree is.
+ * Draft amendments are excluded — a pending proposal is not the delivered
+ * surface; the flip (signed, version bumped) brings it into the hash. */
 export function treeStructure(root: string): { files: string[]; checksums: Record<string, string>; structureHash: string } {
-  const files = walkMd(root);
+  const files = walkMd(root).filter((f) => !(f.startsWith("amendments/") && /^status:\s*draft\s*$/m.test(readFileSync(join(root, f), "utf8"))));
   const checksums: Record<string, string> = {};
   for (const file of files) checksums[file] = sha256(readFileSync(join(root, file)));
   const structureHash = sha256(files.map((f) => `${f} ${checksums[f] ?? ""}`).join("\n"));

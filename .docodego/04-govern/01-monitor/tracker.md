@@ -67,3 +67,4 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | setback-conformance-stale | response: system/behavioral/a-setback-ledger/proofs/conformance.txt — re-anchored after the unit retired to the second home | 04-govern/01-monitor/setbacks.md |
 | 2026-11-08 | record | audit: 0 failing checks, 0 with warnings — checklist updated | 04-govern/01-monitor/checklist.md |
 | 2026-11-08 | 150-retire | delivered | 02-compose/01-build/150-retire/delivered.md |
+| 2026-11-08 | 100-spec7-proof-semantics | delivered | 02-compose/01-build/100-spec7-proof-semantics/delivered.md |

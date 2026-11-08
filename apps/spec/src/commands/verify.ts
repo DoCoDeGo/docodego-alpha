@@ -75,8 +75,12 @@ export function verifyFindings(root: string, read: SpecRead, cliPath: string): {
     }
   }
 
-  // cited law anchors resolve to active laws — citations never rot
+  // cited law anchors resolve to active laws — citations never rot.
+  // Draft amendments are exempt: proposing an anchor that does not
+  // exist yet is their entire purpose; the flip, the log row, and the
+  // law file land together, and the chain rules cover the landing.
   for (const { file, text } of allText) {
+    if (file.startsWith("amendments/") && /^status:\s*draft\s*$/m.test(text)) continue;
     for (const m of text.matchAll(LAW_ANCHOR)) {
       const anchor = m[0];
       if (!lawIds.has(anchor)) {

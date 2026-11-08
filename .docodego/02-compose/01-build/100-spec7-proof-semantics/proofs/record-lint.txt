@@ -1,0 +1,2 @@
+lint: nothing to report.
+exit 0
