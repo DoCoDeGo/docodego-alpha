@@ -18,7 +18,7 @@ import { checkPass } from "../passes/index.ts";
 import { renderDiagnostics } from "../emit/diagnostics.ts";
 import { migrationsFor } from "../versioning/migrations.ts";
 import { applyPlan, computePlan, renderPlan, type PlanEntry } from "../versioning/plan.ts";
-import { agentsMd, agentPresets, recordFiles, skillFiles, skillsIndex, specVersion, DEFAULT_PROFILE, profiles as profileMap, vocabularyPack } from "../bundled/index.ts";
+import { agentsMd, agentPresets, introductions, recordFiles, skillFiles, skillsIndex, specVersion, DEFAULT_PROFILE, profiles as profileMap, vocabularyPack } from "../bundled/index.ts";
 import { appendTrackerLine, plantSkill, readLock } from "../skills/lock.ts";
 import { readText, writeText } from "../fsx.ts";
 import { envelope } from "../emit/json.ts";
@@ -54,7 +54,7 @@ export function run(args: Args, io: Io): number {
   }
   const migrations = migrationsFor(current, target);
   const notes = migrations.flatMap((m) => m.notes.map((n) => `v${m.from}->v${m.to}: ${n}`));
-  const plan = computePlan(bundledFiles(rec), process.cwd());
+  const plan = computePlan(bundledFiles(rec), process.cwd(), introductions(), current);
   const conflicts = plan.filter((e) => e.action === "conflict").length;
   if (!args.apply) {
     const planText = `plan: record v${current} -> bundled spec v${target}\n${notes.map((n) => `  migration: ${n}`).join("\n") || "  migration: none"}\nfiles:\n${renderPlan(plan)}\nskills: ${skillSummary(rec.root)}`;

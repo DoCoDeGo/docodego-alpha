@@ -1,5 +1,5 @@
 {
-  "specVersion": 11,
+  "specVersion": 12,
   "cliVersion": "0.8.0",
   "structureHash": "4806e95233b7481e3a6f313470b9e32736f129eaf1cc63b53474566fc6a2b49c",
   "files": {
@@ -18,7 +18,7 @@
     ".agents/skills/docodego-visual-proof/SKILL.md": "9bfc5138eccd58ac416539cd9fe8ef8ad378bc53b760acdddaf3af9d2fbb19f2",
     ".agents/skills/docodego-visual-proof/visual-proof.mjs": "1256893e55eb330d2079fad8775505aa848b34b3c1f023dd597da03902d4bb6c",
     ".agents/skills/docodego/SKILL.md": "31accd8158ea96085eed7b594e5b09af33026c8a5735026f2a584ef26986b575",
-    ".docodego/.standard/manifest.json": "dd45afe7dc6ca6e6767287397891088af3d021994e2ba7aa979ca21ac897b181",
+    ".docodego/.standard/manifest.json": "a35fb64a189bf52b2d4a6e0ef4b485d8eb3ad2d1b396fd4c5843820c15e4df05",
     ".docodego/.standard/statutes.md": "770e570c911333d0d21221485bcd739cd145b1fef3bf008efcd02334850f3e3b",
     ".docodego/.standard/tech-radar.md": "6fdf71fac4037381fe8eef9ce5809867c208f99b760e78ede573bb56f8a9a3af",
     ".docodego/01-document/01-discover/README.md": "5f2b26255f4383c8b2070fcc2c13fb1a940b2be7db69bcaab9c3db6dc85d9597",
@@ -38,6 +38,6 @@
     ".docodego/04-govern/03-retrospect/README.md": "ebc281dbb57424f9f1d411f72036ac04fbd709cc8a9477866cd60798350e92a3",
     ".docodego/04-govern/04-improve/README.md": "2f39b0cf2b98e55ec5c49461109330c2c3c1b4e94f0858a525ca0d962a21c95e",
     ".docodego/README.md": "fad04d563564c48f4fab5b0626c7d505c53cf473c4e8c1a644f707d3d0e63883",
-    "AGENTS.md": "fca5a9bb7c621e55d38bb1e30831f4d94b0d6a889b68f4543d826dd3718296b4"
+    "AGENTS.md": "3e6506461c689d58b8f99b2720d419bfd50b42d3d353ee61e9d331dcf2d2f9e4"
   }
 }

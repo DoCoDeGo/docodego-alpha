@@ -1,5 +1,4 @@
 ---
-version: 3.0.0
 status: planted by docodego init — the agent's entry point to this repository's record layer
 ---
 

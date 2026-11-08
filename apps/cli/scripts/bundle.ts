@@ -35,17 +35,28 @@ const MANIFEST_JSON = join(ROOT, "apps", "cli", "src", "bundled", "manifest.json
  *   planted fresh by init and the v5->v6 migration, for the same reason as the tracker.
  * - .agents/profiles.json — compiled into the payload's profiles field, not duplicated as a file.
  * (.docodego/.standard/manifest.json IS bundled as the manifest-field contract, but
- * init/upgrade never plant it — the engine owns that file in a user record.) */
-const EXCLUDE_FILES = new Set([
-  ".docodego/04-govern/01-monitor/tracker.md",
-  ".docodego/04-govern/01-monitor/checklist.md",
-  ".docodego/04-govern/01-monitor/setbacks.md",
-  ".docodego/01-document/01-discover/intent.md",
-  ".docodego/01-document/01-discover/cycles.md",
-  ".docodego/04-govern/delivery-log.md",
-  ".agents/profiles.json",
-]);
-const EXCLUDE_PREFIX = ".docodego/.standard/guidelines/";
+ * init/upgrade never plant it — the engine owns that file in a user record.)
+ *
+ * THE ALLOWLIST INVERSION (160-spec7-bundling, ruled 2026-11-08) retires the
+ * denylist above: apps/cli/bundle.manifest.json names exactly which files are
+ * product; everything unnamed is studio-private and never embeds. A named-but-
+ * missing file fails the bundle loudly — the boundary is a contract. The count
+ * of unnamed files is printed honestly at every bundle run. */
+const ALLOWLIST_PATH = join(ROOT, "apps", "cli", "bundle.manifest.json");
+
+interface BundleAllowlist {
+  allowlistVersion: number;
+  productFiles: string[];
+  introducedIn?: Record<string, number>;
+}
+
+function readAllowlist(): BundleAllowlist {
+  const parsed = JSON.parse(readFileSync(ALLOWLIST_PATH, "utf8")) as BundleAllowlist;
+  if (typeof parsed.allowlistVersion !== "number" || !Array.isArray(parsed.productFiles)) {
+    throw new Error(`${relative(ROOT, ALLOWLIST_PATH)}: the boundary law needs { allowlistVersion: number, productFiles: string[] }`);
+  }
+  return parsed;
+}
 
 const sha256 = (s: string): string => createHash("sha256").update(s).digest("hex");
 
@@ -59,37 +70,23 @@ function walk(dir: string, acc: string[] = []): string[] {
   return acc;
 }
 
-function collect(): Map<string, string> {
+function collect(): { files: Map<string, string>; privateCount: number } {
+  const allow = readAllowlist();
   const files = new Map<string, string>();
-  const roots = [join(ROOT, ".docodego"), join(ROOT, ".agents")];
-  for (const root of roots) {
+  for (const rel of allow.productFiles) {
+    const abs = join(ROOT, rel);
+    if (!existsSync(abs)) throw new Error(`allowlisted file missing: ${rel} — the boundary is a contract; fix the allowlist or restore the file`);
+    files.set(rel, readFileSync(abs, "utf8"));
+  }
+  // the honesty count: studio files the allowlist never considered
+  let privateCount = 0;
+  for (const root of [join(ROOT, ".docodego"), join(ROOT, ".agents")]) {
     for (const abs of walk(root)) {
       const rel = relative(ROOT, abs).split("\\").join("/");
-      if (rel.startsWith(EXCLUDE_PREFIX) || EXCLUDE_FILES.has(rel)) continue;
-      // a folder containing a spec.md is a unit — user state, never bundled.
-      // The check walks ancestors: unit folders grow subfolders (proofs/,
-      // and friends), and a proof file's own directory carries no spec.md —
-      // the shallow check leaked unit internals into the payload.
-      if (rel.startsWith(".docodego/")) {
-        let dir = dirname(abs);
-        const recordRoot = join(ROOT, ".docodego");
-        let inUnit = false;
-        while (dir.startsWith(recordRoot) && dir !== recordRoot) {
-          if (existsSync(join(dir, "spec.md"))) {
-            inUnit = true;
-            break;
-          }
-          dir = dirname(dir);
-        }
-        if (inUnit) continue;
-      }
-      files.set(rel, readFileSync(abs, "utf8"));
+      if (!files.has(rel)) privateCount += 1;
     }
   }
-  const agentsMd = join(ROOT, "AGENTS.md");
-  if (!existsSync(agentsMd)) throw new Error("AGENTS.md missing at repo root — it is part of the bundle");
-  files.set("AGENTS.md", readFileSync(agentsMd, "utf8"));
-  return new Map([...files].sort(([a], [b]) => (a < b ? -1 : 1)));
+  return { files, privateCount };
 }
 
 /** sha256 over the sorted relative paths — the record's shape, content-blind. */
@@ -113,8 +110,29 @@ function frontmatter(src: string, key: string): string {
   return line === undefined ? "" : line.slice(key.length + 1).trim();
 }
 
-function buildPayload(): Payload {
-  const files = collect();
+/** The honesty count from the last collect — printed by both run modes. */
+let lastPrivateCount = 0;
+
+const STATUTES_REL = ".docodego/.standard/statutes.md";
+
+/** One-time seed: sha256 of every statutes.md generation the payload ever
+ * shipped, recovered once from the payload's git history (v3..v8 shipped
+ * 950faefc…; v9 onward 770e570c… — the old hand-copied V8_STATUTES constant
+ * hashed to the first exactly, which is how the recovery was cross-checked).
+ * Carried forward from the committed payload afterwards: each recompile
+ * unions the committed payload's own generation, so the next canon change
+ * pairs with the mirror refresh automatically — no constants to remember. */
+const STATUTES_SHIPPED_SEED: string[] = [
+  "950faefc481f0276913c49c5e31b0535e5aa80f44e2f957cff771f28fdd00902",
+  "770e570c911333d0d21221485bcd739cd145b1fef3bf008efcd02334850f3e3b",
+];
+
+function buildPayload(old: Payload | null): Payload {
+  const { files: collected, privateCount } = collect();
+  lastPrivateCount = privateCount;
+  // canonical order: the structure hash and the emitted object are
+  // order-sensitive; the boundary contract's row order must not matter
+  const files = new Map([...collected].sort(([a], [b]) => (a < b ? -1 : 1)));
   const paths = [...files.keys()];
   const hashes: Record<string, string> = {};
   for (const [p, body] of files) hashes[p] = sha256(body);
@@ -138,12 +156,24 @@ function buildPayload(): Payload {
   const declared = JSON.parse(files.get(".docodego/.standard/manifest.json") ?? "{}") as { recordVersion?: number };
   const cli = JSON.parse(readFileSync(join(ROOT, "apps", "cli", "package.json"), "utf8")) as { version?: string };
   if (typeof declared.recordVersion !== "number") throw new Error("the record versions itself: .docodego/.standard/manifest.json needs a numeric recordVersion");
+  const allow = readAllowlist();
   return {
     specVersion: declared.recordVersion,
     cliVersion: cli.version ?? "0.0.0",
     structureHash: structureHashOf(paths),
+    allowlistVersion: allow.allowlistVersion,
     files: Object.fromEntries(files),
     hashes,
+    // when each path became product: declared explicitly for the rows the
+    // git history recovered; a new allowlist row stamps at the version
+    // that adds it — upgrade reads this to tell create from restore
+    introducedIn: Object.fromEntries(paths.map((p) => [p, allow.introducedIn?.[p] ?? declared.recordVersion])),
+    statutesShippedHashes: (() => {
+      const shipped = [...(old?.statutesShippedHashes ?? STATUTES_SHIPPED_SEED)];
+      const prev = old?.hashes?.[STATUTES_REL];
+      if (prev !== undefined && !shipped.includes(prev)) shipped.push(prev);
+      return shipped;
+    })(),
     skills,
     profiles,
     vocabularies: loadVocabularies(),
@@ -162,8 +192,11 @@ interface Payload {
   specVersion: number;
   cliVersion: string;
   structureHash: string;
+  allowlistVersion: number;
   files: Record<string, string>;
   hashes: Record<string, string>;
+  introducedIn: Record<string, number>;
+  statutesShippedHashes: string[];
   skills: SkillIndexEntry[];
   profiles: Record<string, string[]>;
   vocabularies: VocabularyPack[];
@@ -277,11 +310,12 @@ function driftReport(oldP: Payload, newP: Payload): { changes: [string, Bump, st
 
 async function main(): Promise<number> {
   const verify = process.argv.includes("--verify");
-  const fresh = buildPayload();
+  const old = await oldPayload();
+  const fresh = buildPayload(old);
+  const honesty = `${lastPrivateCount} studio file(s) stayed private under the boundary (allowlist v${fresh.allowlistVersion})`;
   // the ladder check: a behind record must find every migration step
   // between where it is and the version this bundle ships (spec 7)
   assertContiguous(fresh.specVersion);
-  const old = await oldPayload();
   if (verify) {
     if (old === null) {
       process.stderr.write("verify: no committed bundle — run scripts/bundle.ts first\n");
@@ -291,7 +325,7 @@ async function main(): Promise<number> {
     const manifestOk = JSON.stringify(JSON.parse(readFileSync(MANIFEST_JSON, "utf8"))) ===
       JSON.stringify({ specVersion: old.specVersion, cliVersion: old.cliVersion, structureHash: old.structureHash, files: old.hashes });
     if (changes.length === 0 && manifestOk) {
-      process.stdout.write(`bundle verify: clean — ${Object.keys(fresh.files).length} files, spec ${fresh.specVersion}, structure ${fresh.structureHash.slice(0, 12)}\n`);
+      process.stdout.write(`bundle verify: clean — ${Object.keys(fresh.files).length} files, spec ${fresh.specVersion}, structure ${fresh.structureHash.slice(0, 12)} — ${honesty}\n`);
       return 0;
     }
     process.stderr.write(`bundle drift: ${changes.length} change(s)${manifestOk ? "" : " + manifest.json out of sync with payload.ts"}\n`);
@@ -310,9 +344,9 @@ async function main(): Promise<number> {
       process.stderr.write("bump recordVersion in .docodego/.standard/manifest.json (hashes detect, humans declare) and re-run.\n");
       return 1;
     }
-    process.stdout.write(`bundle: ${changes.length} change(s), minimum bump ${minBump}, declared specVersion ${fresh.specVersion} (committed ${old.specVersion})\n`);
+    process.stdout.write(`bundle: ${changes.length} change(s), minimum bump ${minBump}, declared specVersion ${fresh.specVersion} (committed ${old.specVersion}) — ${honesty}\n`);
   } else {
-    process.stdout.write(`bundle: first run — baseline emitted at specVersion ${fresh.specVersion} (guard skipped)\n`);
+    process.stdout.write(`bundle: first run — baseline emitted at specVersion ${fresh.specVersion} (guard skipped) — ${honesty}\n`);
   }
   const ts = `/** Generated by apps/cli/scripts/bundle.ts from the LIVE folders — do not edit.
  * The single source of truth is the repo's own .docodego/, AGENTS.md, .agents/.
@@ -334,8 +368,11 @@ export interface Payload {
   specVersion: number;
   cliVersion: string;
   structureHash: string;
+  allowlistVersion: number;
   files: Record<string, string>;
   hashes: Record<string, string>;
+  introducedIn: Record<string, number>;
+  statutesShippedHashes: string[];
   skills: SkillIndexEntry[];
   profiles: Record<string, string[]>;
   vocabularies: VocabularyPack[];
@@ -346,7 +383,7 @@ export const PAYLOAD: Payload = ${JSON.stringify(fresh, null, 2)};
   mkdirSync(dirname(PAYLOAD_TS), { recursive: true });
   writeFileSync(PAYLOAD_TS, ts);
   writeFileSync(MANIFEST_JSON, `${JSON.stringify({ specVersion: fresh.specVersion, cliVersion: fresh.cliVersion, structureHash: fresh.structureHash, files: fresh.hashes }, null, 2)}\n`);
-  process.stdout.write(`bundle: wrote payload.ts + manifest.json — ${Object.keys(fresh.files).length} files, structure ${fresh.structureHash.slice(0, 12)}, ${fresh.skills.length} skills\n`);
+  process.stdout.write(`bundle: wrote payload.ts + manifest.json — ${Object.keys(fresh.files).length} files, structure ${fresh.structureHash.slice(0, 12)}, ${fresh.skills.length} skills, boundary v${fresh.allowlistVersion}, ${lastPrivateCount} studio file(s) stayed private\n`);
   return 0;
 }
 

@@ -68,3 +68,8 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | record | audit: 0 failing checks, 0 with warnings — checklist updated | 04-govern/01-monitor/checklist.md |
 | 2026-11-08 | 150-retire | delivered | 02-compose/01-build/150-retire/delivered.md |
 | 2026-11-08 | 100-spec7-proof-semantics | delivered | 02-compose/01-build/100-spec7-proof-semantics/delivered.md |
+| 2026-11-08 | 160-spec7-bundling | new unit | 01-document/01-discover/160-spec7-bundling/spec.md |
+| 2026-11-08 | 160-spec7-bundling | new unit | 02-compose/01-build/160-spec7-bundling/spec.md |
+| 2026-11-08 | 160-spec7-bundling | gate-refused | G4 failed — no proof path exists on disk — looked for: <path>.new (paths resolve agains... |
+| 2026-11-08 | 160-spec7-bundling | gate-refused | G4 failed — no proof path exists on disk — looked for: README.md.new (paths resolve aga... |
+| 2026-11-08 | 160-spec7-bundling | delivered | 02-compose/01-build/160-spec7-bundling/delivered.md |

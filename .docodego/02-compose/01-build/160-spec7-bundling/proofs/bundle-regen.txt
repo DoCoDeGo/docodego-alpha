@@ -1,0 +1,7 @@
+
+> docodego@0.8.0 bundle
+> node --experimental-strip-types scripts/bundle.ts
+
+bundle: 2 change(s), minimum bump major, declared specVersion 12 (committed 11) — 283 studio file(s) stayed private under the boundary (allowlist v1)
+bundle: wrote payload.ts + manifest.json — 36 files, structure 4806e95233b7, 9 skills, boundary v1, 283 studio file(s) stayed private
+bundle exit: 0

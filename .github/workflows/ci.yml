@@ -34,6 +34,12 @@ jobs:
         run: npm install
       - name: build — bundle → bump guard → drift verify → typecheck → smoke
         run: npm run build
+      - name: statutes mirror matches the canon (linux only — the mirror is byte-exact)
+        if: runner.os == 'Linux'
+        run: node --experimental-strip-types apps/cli/scripts/compile-statutes.ts --check
+      - name: canon integrity — doctor (linux only — the tree is platform-blind)
+        if: runner.os == 'Linux'
+        run: node --experimental-strip-types apps/spec/src/main.ts doctor
       - name: conformance — the CLI proves itself against scratch records
         run: npm run conformance
       - name: generated docs match their registries (linux only — the registries are platform-blind)

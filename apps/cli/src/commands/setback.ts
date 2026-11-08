@@ -129,7 +129,8 @@ export function run(args: Args, io: Io): number {
   const stat = stats.get(cls) ?? { lifetime: 0, sinceResponse: 0, lastResponse: null };
   const isRespond = respond !== undefined;
   const count = isRespond ? 0 : stat.sinceResponse + 1;
-  const text = (isRespond ? respond : bite).replace(/\|/g, "\\|").replace(/\r?\n/g, " ");
+  // the usage gate above guarantees respond XOR bite is a non-empty string
+  const text = (respond ?? bite ?? "").replace(/\|/g, "\\|").replace(/\r?\n/g, " ");
   const abs = join(rec.root, SETBACKS_REL);
   appendText(abs, `| ${today()} | ${cls} | ${count} | ${text} |\n`);
   const trackerLine = appendTracker(rec, `setback-${cls}`, isRespond ? `response: ${text}` : `bite ${count}: ${text}`, SETBACKS_REL);

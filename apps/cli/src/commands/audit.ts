@@ -113,8 +113,9 @@ function chsFindings(rec: RecordAst): Finding[] {
     if (!abs.endsWith(".md")) continue;
     const raw = readText(abs) ?? "";
     for (const m of raw.matchAll(/<!--([\s\S]*?)-->/g)) {
-      if (m[1].length > COMMENT_LIMIT) {
-        out.push(warn(`${abs.slice(rec.root.length + 1)} carries a comment block of ${m[1].length} chars (limit ${COMMENT_LIMIT}) — say it once, in prose`));
+      const body = m[1] ?? "";
+      if (body.length > COMMENT_LIMIT) {
+        out.push(warn(`${abs.slice(rec.root.length + 1)} carries a comment block of ${body.length} chars (limit ${COMMENT_LIMIT}) — say it once, in prose`));
         break;
       }
     }
@@ -152,7 +153,7 @@ function splitLedger(raw: string): { head: string[]; rows: number[] } | null {
   if (sep === -1) return null;
   const rows: number[] = [];
   for (let i = sep + 1; i < lines.length; i++) {
-    if (TABLE_ROW.test(lines[i])) rows.push(i);
+    if (TABLE_ROW.test(lines[i] ?? "")) rows.push(i);
   }
   return { head: lines.slice(0, sep + 1), rows };
 }
@@ -174,7 +175,7 @@ function rotateLedger(rec: RecordAst, rel: string, base: string, dir: string): s
   // the archive carries the table header too: a header-less table is
   // invisible to the parsers (trace must see what it archives)
   const headTail = ledger.head.slice(-2);
-  const moveText = headTail.concat(moveIdx.map((i) => lines[i])).join("\n") + "\n";
+  const moveText = headTail.concat(moveIdx.map((i) => lines[i] ?? "")).join("\n") + "\n";
   const existing = readdirSync(join(rec.root, dir)).filter((f) => f.startsWith(`${base}-archive-`) && f.endsWith(".md")).sort();
   const archiveRel = `${dir}/${base}-archive-${existing.length + 1}.md`;
   const preamble = `# ${base} archive ${existing.length + 1}\n\nRows moved verbatim (byte-identical) from ${rel} on ${today()} under\nthe append-only law: archived, never deleted. Trace scans archives.\n\n`;
@@ -188,7 +189,7 @@ function rotateLedger(rec: RecordAst, rel: string, base: string, dir: string): s
   const keepIdx = ledger.rows.slice(ledger.rows.length - ROTATE_KEEP_ROWS);
   // unconditional single trailing newline — a ledger row glued onto its
   // neighbor corrupts the table grammar
-  const live = ledger.head.concat(keepIdx.map((i) => lines[i])).join("\n") + "\n";
+  const live = ledger.head.concat(keepIdx.map((i) => lines[i] ?? "")).join("\n") + "\n";
   writeText(abs, live);
   const hash = createHash("sha256").update(moveText).digest("hex").slice(0, 12);
   const tomb = `| ${today()} | ${base} | archived ${moveIdx.length} rows to ${archiveRel} (byte-identical, sha256:${hash}) | ${archiveRel} |\n`;

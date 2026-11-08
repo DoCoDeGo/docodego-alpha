@@ -4,10 +4,11 @@
  * remove user-owned content. Each step is idempotent (it checks before it
  * writes) so an interrupted upgrade resumes cleanly. */
 import { existsSync, rmSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { dirname, join } from "node:path";
 import { readText, writeText } from "../fsx.ts";
 import { emptyLock, writeLock, LOCK_REL } from "../skills/lock.ts";
-import { DELIVERY_LOG_TEMPLATE, INTENT_TEMPLATE, CYCLES_TEMPLATE, specVersion, recordFiles, agentsMd } from "../bundled/index.ts";
+import { DELIVERY_LOG_TEMPLATE, INTENT_TEMPLATE, CYCLES_TEMPLATE, specVersion, recordFiles, agentsMd, statutesShippedHashes } from "../bundled/index.ts";
 import { DELIVERY_LOG_REL } from "../record/record-write.ts";
 import { V1_README, V1_STATUTES, V1_TECH_RADAR, V1_TRACKER } from "./v1-scaffold.ts";
 
@@ -140,6 +141,16 @@ export const MIGRATIONS: Migration[] = [
     ],
     steps: [teachRetirement],
   },
+  {
+    from: 11,
+    to: 12,
+    notes: [
+      "AGENTS.md drops the decorative frontmatter version line: it implied a binding no reader could check (it never moved across shipped versions); the record manifest is the version a reader can verify (spec7-bundling)",
+      "upgrade's plan tells create from restore by the payload's introducedIn map: a path the record's version already saw but that is absent on disk re-appears only as <path>.new — owed a merge, never silently re-created in place",
+      "the statutes mirror refresh recognizes engine-owned bytes by the payload's accumulated shipped-hash set (derived from the committed chain, seeded once from git history) — the hand-copied byte constant is gone",
+    ],
+    steps: [dropAgentsVersion],
+  },
 ];
 
 /** The registry must cover [0..target] contiguously — Terraform's ladder
@@ -177,49 +188,15 @@ function appendTraceDoctorCompletions(root: string): string {
   return "updated AGENTS.md (trace, doctor, completions appended after explain)";
 }
 
-/** The statutes mirror exactly as record v8 shipped it. A mirror carrying
- * these bytes is engine property, not user content — v9 replaces it in
- * place. Anything else is the adopter's own words and is never touched. */
-const V8_STATUTES = `# the sixteen statutes
-
-Source: docodego.com, "Sixteen principles. Four pillars. One discipline."
-Recorded verbatim, 2026-11-06. The site's own enforcement claim: each
-principle is violable in a specific way; each violation is observable.
-
-## DO — document · the Author (statutes 1–4)
-1. Intent Is Absolute — binds 01-discover, 03-validate
-2. The Spec Is the Contract — binds 04-spec, 03-validate
-3. Quality Through Context — binds 02-research
-4. Simplicity of Spec — binds 04-spec
-
-## CO — compose · the Architect (statutes 5–8)
-5. Code Is Regenerable — binds 02-develop, 04-maintain
-6. Resilience Over Robustness — binds 03-enhance, 04-maintain
-7. Architecture Before Generation — binds 01-grill
-8. Comprehension Is Non-Negotiable — binds 01-grill
-
-## DE — demonstrate · the Gatekeeper (statutes 9–12)
-9. Zero-Latency Evolution — binds 03-deploy
-10. Feedback Closes the Loop — binds 01-demo
-11. Observability Is Non-Negotiable — binds 04-scale, 02-e2e
-12. Atomic Delivery — binds 02-e2e, 03-deploy
-
-## GO — govern · the Governor (statutes 13–16)
-13. The Human as Governor — binds 03-decide, 04-handover
-14. Transparent Reasoning — binds 02-retrospect, 03-decide
-15. Security by Design — binds 01-observe (and the grill's threat floor)
-16. Alignment Before Demonstration — binds 01-observe, 03-decide
-
-Companion doctrine, verbatim from the site: the DoCoDeGo Axiom — "Intent is
-the primary artefact. Implementation is a compiled derivative. Governance is
-earned through the loop." IRAF — Intent → Reasoning → Action → Feedback —
-replaces the sprint and the release.
-`;
-
 /** v8 -> v9: the statutes mirror recompiled from the spec (arc Appendix B
- * stream bindings, † completions). Shipped-v8 bytes are recognized and
- * refreshed in place; genuinely edited mirrors are kept — the bundled copy
- * rides the plan as `.new` for the adopter to reconcile. */
+ * stream bindings, † completions). A mirror whose bytes hash to any
+ * generation the payload ever shipped is engine property, not user
+ * content — recognized and refreshed in place. Anything else is the
+ * adopter's own words and is never touched; the bundled copy rides the
+ * plan as `.new`. The shipped generations come from the payload's own
+ * accumulated `statutesShippedHashes` (seeded from git archaeology,
+ * self-maintaining thereafter) — the pairing is derived, never a
+ * hand-copied constant to remember. */
 function refreshStatutesMirror(root: string): string {
   const rel = ".standard/statutes.md";
   const fresh = recordFiles()[rel];
@@ -227,7 +204,8 @@ function refreshStatutesMirror(root: string): string {
   if (current === null) return "kept statutes mirror (absent)";
   if (fresh === undefined) return "kept statutes mirror (bundled copy unavailable)";
   if (current === fresh) return "kept statutes mirror (already current)";
-  if (current !== V8_STATUTES) {
+  const prior = createHash("sha256").update(current).digest("hex");
+  if (!statutesShippedHashes().includes(prior)) {
     return "kept statutes mirror (your edits preserved; bundled copy rides the plan as .new)";
   }
   writeText(join(root, rel), fresh);
@@ -237,7 +215,7 @@ function refreshStatutesMirror(root: string): string {
     // with the mirror refreshed in place it is the engine's own duplicate
     rmSync(stray);
   }
-  return "refreshed statutes mirror in place (shipped v8 bytes recognized)";
+  return "refreshed statutes mirror in place (shipped bytes recognized)";
 }
 
 /** The migrations to run to move `from` -> target, in order, any skip-distance. */
@@ -304,6 +282,34 @@ function teachRetirement(root: string): string {
   const taught = raw.replace(RETIRE_ANCHOR, RETIRE_TAUGHT);
   writeText(abs, taught);
   let note = "updated AGENTS.md (retire verb inserted into the growth paragraph)";
+  const twin = join(repoRoot, "AGENTS.md.new");
+  if (existsSync(twin) && (readText(twin) ?? "") === taught) {
+    rmSync(twin);
+    note += " — AGENTS.md.new removed (now identical to the refreshed file)";
+  }
+  return note;
+}
+
+/** v11 -> v12: drop the decorative frontmatter `version:` line from
+ * AGENTS.md — it implies a binding no reader can check (it has drifted
+ * across every shipped version); the record manifest is the version a
+ * reader can verify. Same conservative contract: a copy still carrying
+ * the line in a shipped-shaped frontmatter loses it in place; anything
+ * else is kept, the refreshed copy riding the plan as .new. */
+function dropAgentsVersion(root: string): string {
+  const repoRoot = dirname(root);
+  const abs = join(repoRoot, "AGENTS.md");
+  if (!existsSync(abs)) return "kept AGENTS.md (absent — nothing to drop)";
+  const raw = readText(abs) ?? "";
+  if (!raw.startsWith("---")) return "kept AGENTS.md (no frontmatter — nothing to drop)";
+  if (!/^version:\s*\S+.*\n/m.test(raw.slice(0, raw.indexOf("---", 3)))) {
+    return "kept AGENTS.md (frontmatter carries no version line)";
+  }
+  const head = raw.slice(0, raw.indexOf("---", 3));
+  const dropped = head.replace(/^version:\s*\S+.*\n/m, "");
+  const taught = dropped + raw.slice(raw.indexOf("---", 3));
+  writeText(abs, taught);
+  let note = "updated AGENTS.md (decorative frontmatter version line dropped — the record manifest is the version)";
   const twin = join(repoRoot, "AGENTS.md.new");
   if (existsSync(twin) && (readText(twin) ?? "") === taught) {
     rmSync(twin);

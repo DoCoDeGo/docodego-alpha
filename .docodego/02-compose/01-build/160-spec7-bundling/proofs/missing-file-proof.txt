@@ -1,0 +1,22 @@
+
+> docodego@0.8.0 bundle
+> node --experimental-strip-types scripts/bundle.ts
+
+file:///Users/code/Documents/private/docodego/docodego-reinvented/temp/final/v2/apps/cli/scripts/bundle.ts:78
+    if (!existsSync(abs)) throw new Error(`allowlisted file missing: ${rel} — the boundary is a contract; fix the allowlist or restore the file`);
+                                ^
+
+Error: allowlisted file missing: AGENTS.md — the boundary is a contract; fix the allowlist or restore the file
+    at collect (file:///Users/code/Documents/private/docodego/docodego-reinvented/temp/final/v2/apps/cli/scripts/bundle.ts:78:33)
+    at buildPayload (file:///Users/code/Documents/private/docodego/docodego-reinvented/temp/final/v2/apps/cli/scripts/bundle.ts:131:46)
+    at main (file:///Users/code/Documents/private/docodego/docodego-reinvented/temp/final/v2/apps/cli/scripts/bundle.ts:314:17)
+
+Node.js v24.20.0
+npm error Lifecycle script `bundle` failed with error:
+npm error code 1
+npm error path /Users/code/Documents/private/docodego/docodego-reinvented/temp/final/v2/apps/cli
+npm error workspace docodego@0.8.0
+npm error location /Users/code/Documents/private/docodego/docodego-reinvented/temp/final/v2/apps/cli
+npm error command failed
+npm error command sh -c node --experimental-strip-types scripts/bundle.ts
+bundle exit: 1 (nonzero = failed loudly, expected)

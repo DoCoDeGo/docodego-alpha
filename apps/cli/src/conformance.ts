@@ -351,6 +351,17 @@ check("re-upgrade with a conflict exits 0", run(fixture, ["upgrade", "--apply"])
 fact("user-modified README.md NOT overwritten", read(fixture, "README.md").includes("MY OWN EDIT"));
 fact("bundled version landed side-by-side as README.md.new", existsSync(join(fixture, ".docodego", "README.md.new")) && readFileSync(join(fixture, ".docodego", "README.md.new"), "utf8").includes("01-discover"));
 
+// --- v12: restore law — a deleted engine file is never silently re-created ---
+// a record at the bundled version that LOST a planted file gets the copy
+// back as `<path>.new` (owed a merge — the deletion may have been
+// deliberate), same twin law as a conflict; never written in place.
+rmSync(join(fixture, ".docodego", "README.md"));
+rmSync(join(fixture, ".docodego", "README.md.new"));
+check("restore plan exits 0 and names the restore", run(fixture, ["upgrade"]), 0, (r) => r.stdout.includes("R restore") && r.stdout.includes("owed a merge"));
+check("restore upgrade --apply exits 0", run(fixture, ["upgrade", "--apply"]), 0);
+fact("deleted README.md NOT re-created in place", !existsSync(join(fixture, ".docodego", "README.md")));
+fact("restored copy waits as README.md.new", existsSync(join(fixture, ".docodego", "README.md.new")) && readFileSync(join(fixture, ".docodego", "README.md.new"), "utf8").includes("01-discover"));
+
 // --- v2: forward-compat — a newer record is refused politely ---
 const newer = mkdtempSync(join(tmpdir(), "docodego-conformance-fwd-"));
 write(newer, ".docodego/.standard/manifest.json", `{\n  "recordVersion": 99\n}\n`);

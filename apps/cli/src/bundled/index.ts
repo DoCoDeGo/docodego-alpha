@@ -26,6 +26,14 @@ export function recordFiles(): Record<string, string> {
 
 /** The bundled law file, planted at the user's repo root. */
 export const agentsMd = (): string => PAYLOAD.files["AGENTS.md"] ?? "";
+/** The payload version each shipped path first appeared — upgrade reads it
+ * to tell a record that never saw a file (create) from one that lost it
+ * (restore). Paths absent from the map stamp at the current version. */
+export const introductions = (): Record<string, number> => PAYLOAD.introducedIn ?? {};
+/** Every statutes.md generation the payload chain ever shipped — the
+ * mirror-refresh migration recognizes engine-owned bytes by membership,
+ * never by a hand-copied constant. */
+export const statutesShippedHashes = (): string[] => PAYLOAD.statutesShippedHashes ?? [];
 
 /** Agent topology presets, relative to `.agents/`. */
 export function agentPresets(): Record<string, string> {
