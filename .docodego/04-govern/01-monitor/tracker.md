@@ -47,3 +47,4 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | setback-new-duplicate-suffix | response: apps/cli/src/commands/new.ts — identity guard: DG-U012 refuses a second unit of the same name in one stream | 04-govern/01-monitor/setbacks.md |
 | 2026-11-08 | record | audit: 0 failing checks, 0 with warnings — checklist updated | 04-govern/01-monitor/checklist.md |
 | 2026-11-08 | 140-setback-ledger | delivered | 02-compose/01-build/140-setback-ledger/delivered.md |
+| 2026-11-08 | 150-retire | new unit | 02-compose/01-build/150-retire/spec.md |
