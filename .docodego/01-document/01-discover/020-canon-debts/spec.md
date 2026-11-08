@@ -92,7 +92,7 @@ land; a row never sits silently between states.
 | 1 | fleet launch-blockers (12 L items) | the five product records own their bugs; the founder owns the boundary ceremonies — the instruments shipped (launch 190, sign/tiers 200, coherence 220); open there, not here |
 | 2 | go-public execution | founder-owned (name decision — EL-32 reserved — org name, commit identity swap) plus the studio install story; near-launch sequencing |
 | 3 | improvement-log remainders | disposed below by 230-debt-improvement-dispositions; the unowned rows name their homes |
-| 4 | cli debt cluster | open here — next child to scaffold: the record-integrity + cli-law audits, the dogfood proof-path refusal tokens, the stale markers in docs/record-format.md, architecture.md, review-dimensions.md |
+| 4 | cli debt cluster | done — 240-cli-debt-cluster (cc08584): the status machine lands teeth — terminal landings, grill-required scores bound by spec-sha, recomputed gates, DG-C015 vocabulary, dynamic board counts, absolute-path teaching, the doubled-210 repair; the deep remainder named: item 9 to the ICS 2.0 proposal (180), strikes (11) and proof classification (4/5/19b) to future children, rails (21/29) to the EL-33 draft |
 | 5 | reference-doc TODOs | open here — child after 4: distribution.md (41), skills.md (7), vocabulary-packs.md (10), enhancements.md (20), triaged ship-now / launch-gate / decline-with-reason |
 | 6 | two calendars | done — 170-two-calendars (canon-spec-7 epic) |
 
