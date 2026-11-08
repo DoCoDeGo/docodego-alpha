@@ -124,7 +124,11 @@ is now:
    scans DG-C008/009/010), record v14. The honest remainder, recorded:
    the thirteen craft-skill ports toward the decided 27, the auto-add
    trigger machinery, and the packs registry ride a later pass.
-   11. spec7-governance-pass (was 7).
+   11. spec7-governance-pass (was 7) — ✅ delivered (2f213ca): the
+   governance pass in `check` — tracker, delivery-log, and
+   latest-verdict coherence (DG-C011..C014), the verdict detector shared
+   with audit's GOV-003, the law in the gates doc (spec/ 1.0.5).
+   Spec 7 is complete: all eleven children delivered.
 
 The original children list above stands as the commissioning record;
 this section supersedes its order only.
