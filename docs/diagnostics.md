@@ -72,10 +72,10 @@ prefix (`docodego explain DG-F`) prints every page in the family.
 - law: the folder is the unit's identity; frontmatter restates it and must agree, or links break.
 - fix: make the name: field match the folder name exactly.
 
-**DG-F004 — status is not one of draft|grilled|scored|delivered**
+**DG-F004 — status is not one of the legal states**
 
-- meaning: the status: field holds a value outside the four legal states (or type: is outside unit|epic|story).
-- law: statuses are earned by commands, not invented by hand: grill sets 'grilled', score sets 'scored', deliver sets 'delivered'.
+- meaning: the status: field holds a value outside the legal states (draft, grilled, scored, delivered, launch-passed, founder-signed) — or type: is outside unit|epic|story.
+- law: statuses are earned by commands, never invented by hand: grill sets 'grilled', score sets 'scored', deliver sets 'delivered', launch sets 'launch-passed', sign sets 'founder-signed'.
 - fix: set status to a legal value — or better, run the command that earns it.
 
 **DG-F005 — an epic must live in 01-discover; a story in 02-refine**
@@ -376,11 +376,29 @@ prefix (`docodego explain DG-F`) prints every page in the family.
 - law: scoring always targets a specific spec.
 - fix: 'docodego score <unit>'.
 
+**DG-U031 — the score rides a grilled unit**
+
+- meaning: the unit has no grill.md record, and score refuses to grade an ungrilled spec.
+- law: cli-law 13: the score grades a spec an adversarial round has already tested; a score without a grilling would certify whatever the spec claims, unchallenged.
+- fix: run 'docodego grill <unit>' first — a self-grilled round with written answers counts; score reads the recorded verdict.
+
+**DG-U032 — score cannot unland what the gate landed**
+
+- meaning: the unit's status is delivered-class (delivered, launch-passed, founder-signed), and the status machine refuses the move back to scored.
+- law: cli-law 14: a delivered unit's score is history; re-scoring cannot demote a landing the gate made, and the landing's score block stays bound to the spec it graded.
+- fix: nothing to re-score — the recorded number certifies the delivered content. Work that would change the spec belongs in a new unit.
+
 **DG-U040 — usage: docodego deliver <unit>**
 
 - meaning: 'deliver' was invoked without exactly one unit name.
 - law: delivery is always the gate of a specific unit.
 - fix: 'docodego deliver <unit>'.
+
+**DG-U041 — this delivery has already landed**
+
+- meaning: the unit's status is delivered-class — the gate's landing rows already stand, and deliver refuses to append a second landing.
+- law: statuses are earned once at gates; a second delivery row for one act would be the record agreeing with itself twice.
+- fix: see 'docodego trace <unit>' for the standing landing; further work on the same intent belongs in a new unit.
 
 **DG-U050 — usage: docodego trace <unit> [--json]**
 
@@ -417,6 +435,30 @@ prefix (`docodego explain DG-F`) prints every page in the family.
 - meaning: a skill name may only carry letters, digits, '.', '_' and '-' (63 characters max) — this one contains a path separator, traversal, or other character that could wear a skill's clothes.
 - law: a skill installs into .agents/skills/<name>/ and nowhere else; the name is validated at the CLI boundary and re-checked at the filesystem boundary, so no traversal can masquerade as craft.
 - fix: use a plain name. Remote skills whose SKILL.md frontmatter declares a traversing name are refused the same way — check the source repo.
+
+**DG-U110 — usage: docodego launch <unit>**
+
+- meaning: 'launch' was invoked without exactly one unit name.
+- law: the launch gate re-audits one delivered unit's evidence; without the name there is nothing to audit.
+- fix: 'docodego launch <unit>'.
+
+**DG-U111 — usage: docodego sign <unit> --by "<legal name>"**
+
+- meaning: 'sign' was invoked without a unit name, or without --by naming the signatory.
+- law: an act receipt attests a named person's judgment — an anonymous signature would be furniture wearing accountability's clothes.
+- fix: 'docodego sign <unit> --by "<legal name>"' — --role optionally names the hat the person signs in.
+
+**DG-U112 — sign refused — the tiers are strict**
+
+- meaning: the unit is not launch-passed, and sign refuses to bypass the launch gate.
+- law: the tiers are earned in order: delivered, then launch-passed (the evidence re-audited), then founder-signed — no bypass exists, because a signature over unaudited evidence signs nothing.
+- fix: 'docodego launch <unit>' first; once it passes, sign.
+
+**DG-U113 — already founder-signed**
+
+- meaning: the unit carries an act receipt, and a second sign would rewrite an act the record keeps once.
+- law: an act receipt is unique: the record holds one signature per act, and the append law means the first signature stands — nothing is appended over it.
+- fix: nothing to do — the signature stands; 'docodego trace <unit>' shows who signed, when, and against which law hash.
 
 **DG-U075 — unsupported --from source**
 

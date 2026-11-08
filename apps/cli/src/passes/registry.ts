@@ -20,7 +20,7 @@ export const RULES: Rule[] = [
   { id: "DG-F001", scope: "frontmatter", severity: "error", summary: "a unit folder has no spec.md" },
   { id: "DG-F002", scope: "frontmatter", severity: "error", summary: "spec frontmatter misses required fields (name, type)" },
   { id: "DG-F003", scope: "frontmatter", severity: "error", summary: "frontmatter name does not match the unit folder" },
-  { id: "DG-F004", scope: "frontmatter", severity: "error", summary: "status is not one of draft|grilled|scored|delivered" },
+  { id: "DG-F004", scope: "frontmatter", severity: "error", summary: "status is not one of the legal states" },
   { id: "DG-F005", scope: "frontmatter", severity: "error", summary: "an epic must live in 01-discover; a story in 02-refine" },
   { id: "DG-F006", scope: "frontmatter", severity: "warning", summary: "epic/story link must be a kebab-case unit name" },
   { id: "DG-F007", scope: "frontmatter", severity: "error", summary: "frontmatter lines failed to parse" },

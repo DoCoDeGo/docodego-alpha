@@ -22,10 +22,10 @@ can read, and the CLI is the set of gates that keep it true.
 - **A record layer** — `.docodego/`: four movements (document · compose ·
   demonstrate · govern), sixteen streams, one append-only tracker. Plain
   files, plain markdown, frontmatter where machines need fields.
-- **A CLI** — fifteen commands that plant, walk, gate, and version the
-  record, with compiler-passes discipline: parse the record once, run pure
-  passes, emit rustc-style diagnostics with `file:line:col` and a stable
-  code for every finding.
+- **A CLI** — the commands the help registry owns (`docodego --help` lists
+  them) plant, walk, gate, and version the record, with compiler-passes
+  discipline: parse the record once, run pure passes, emit rustc-style
+  diagnostics with `file:line:col` and a stable code for every finding.
 - **Bundled craft** — `.agents/skills/`: the method's skills, planted per
   profile at `init`, every install recorded in a lockfile with sha256
   integrity.

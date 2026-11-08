@@ -12,7 +12,7 @@
  *
  * Run: node --experimental-strip-types scripts/gen-docs.ts [--verify]
  */
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { COMMAND_HELP } from "../src/cli/help.ts";
@@ -131,13 +131,21 @@ if (verify) {
     }
     if (current !== body) stale.push(rel);
   }
-  if (stale.length > 0 || missing.length > 0) {
+  // orphan check the other direction: a committed page no registry owns
+  // (a command renamed or deleted without its docs page following) is
+  // drift too — the registries are the only authors these pages have.
+  const committed = existsSync(COMMANDS_DIR)
+    ? readdirSync(COMMANDS_DIR).filter((f) => f.endsWith(".md")).map((f) => `commands/${f}`)
+    : [];
+  const orphans = committed.filter((rel) => !files.has(rel));
+  if (stale.length > 0 || missing.length > 0 || orphans.length > 0) {
     for (const f of missing) console.error(`missing: docs/${f}`);
     for (const f of stale) console.error(`stale:  docs/${f}`);
+    for (const f of orphans) console.error(`orphan: docs/${f} — no registry entry generates it`);
     console.error("docs drift from the help/explain registries — run 'npm run docs'");
     process.exit(1);
   }
-  console.log(`docs fresh — ${files.size} generated files verified`);
+  console.log(`docs fresh — ${files.size} generated files verified, 0 orphans`);
 } else {
   mkdirSync(COMMANDS_DIR, { recursive: true });
   for (const [rel, body] of files) writeFileSync(join(DOCS_DIR, rel), body);

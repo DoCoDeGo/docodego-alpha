@@ -91,10 +91,10 @@ commands:
   new <unit> [--type unit|epic|story] [--epic E] [--story S] [--stream <stream>] [--from-sketch <name>]
   sketch <name>
   setback <class> <text> | setback <class> --respond <text> | setback --list
-  grill <unit> [--answers <file>] [--scaffold <file>] [--json]
+  grill <unit> [--answers <file>] [--scaffold <file>] [--by <who>] [--json]
   score <unit> [--json]
   check [--json]
-  lint [--self-check]
+  lint [--self-check] [--json]
   audit [--rotate] [--json]
   status [--json] [--epic E] [--story S]
   trace <unit> [--json]
