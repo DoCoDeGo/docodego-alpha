@@ -19,7 +19,7 @@ export function run(args: Args, io: Io): number {
   if (args.json) {
     emitJson(io, "check", { findings }, code === 0);
   } else {
-    io.out(findings.length === 0 ? "check: record holds together." : renderDiagnostics(findings));
+    io.out(findings.length === 0 ? `check: record holds together — ${rec.units.length} unit(s) walked, 0 findings.` : renderDiagnostics(findings));
     io.err(code === 0 ? "exit 0" : "exit 1 — errors above name the files");
   }
   return code;

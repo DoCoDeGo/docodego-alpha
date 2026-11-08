@@ -1,0 +1,12 @@
+{
+  "mode": "review",
+  "codeState": "growing",
+  "pattern": "compiler-passes",
+  "ring": "stable",
+  "recordVersion": 27,
+  "detect": {
+    "gitDepth": 170,
+    "tests": false,
+    "ci": false
+  }
+}

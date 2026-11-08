@@ -102,7 +102,7 @@ export function run(args: Args, io: Io): number {
   if (args.json) {
     emitJson(io, "new", { unit: unitName, type: docType, stream, spec: specRel, tracker: trackerLine });
   } else {
-    io.out(specRel);
+    io.out(`unit ${unitName} scaffolded — spec: ${specRel}`);
     io.err(`tracker: ${trackerLine}`);
   }
   // immediate lint of the fresh unit — the new file is parsed once, checks run, narration only

@@ -84,7 +84,7 @@ export function renderBoard(rec: RecordAst): string {
   const lines: string[] = [];
   lines.push(`docodego — ${d.pattern} · mode ${d.mode} · record v${d.recordVersion} · code state ${d.codeState}`);
   lines.push(
-    `units ${d.counts.units} · draft ${d.counts.draft} · grilled ${d.counts.grilled} · scored ${d.counts.scored} · delivered ${d.counts.delivered} · launch-passed ${d.counts.launchPassed} · founder-signed ${d.counts.founderSigned} · other ${d.counts.other} · sketches ${d.counts.sketches}`,
+    `units ${d.counts.units} — by current status: draft ${d.counts.draft} · grilled ${d.counts.grilled} · scored ${d.counts.scored} · delivered ${d.counts.delivered} · launch-passed ${d.counts.launchPassed} · founder-signed ${d.counts.founderSigned} · other ${d.counts.other} · sketches ${d.counts.sketches}`,
   );
   for (const m of d.movements) {
     lines.push("", `${m.movement}`);

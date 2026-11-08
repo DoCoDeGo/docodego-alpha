@@ -134,7 +134,9 @@ export function run(args: Args, io: Io): number {
     io.err(`skills installed: ${installed.length ? installed.join(", ") : "(none)"}`);
     if (pack !== undefined) io.err(`vocabulary: ${pack.name} — words change, the contract does not`);
     io.err(`detected: ${detectionLine}`);
-    io.err(`planted ${created.length} file(s); existing files were kept (create-only law)`);
+    const recordCount = created.filter((l) => l.startsWith(`${RECORD_DIR}/`)).length;
+    const agentCount = created.length - recordCount;
+    io.err(`planted ${recordCount} record file(s) under ${RECORD_DIR}/ + ${agentCount} agent file(s) · skills installed: ${installed.length} — existing files were kept (create-only law)`);
   }
   return 0;
 }

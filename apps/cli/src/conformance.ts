@@ -80,6 +80,12 @@ const scratch = mkdtempSync(join(tmpdir(), "docodego-conformance-"));
 
 // --- init: plant, refuse, force-fill ---
 check("init plants the record", run(scratch, ["init"]), 0, () => existsSync(join(scratch, ".docodego", "README.md")));
+{
+  const ag = mkdtempSync(join(tmpdir(), "docodego-conformance-init-split-"));
+  const r = runRaw(ag, process.execPath, [MAIN, "init"]);
+  fact("the planted line names record files, agent files, and skills separately", /planted \d+ record file\(s\) under \.docodego\/ \+ \d+ agent file\(s\) · skills installed: \d+/.test(r.stderr) && !/planted \d+ file\(s\);/.test(r.stderr));
+  rmSync(ag, { recursive: true, force: true });
+}
 check("init refuses over an existing record", run(scratch, ["init"]), 1);
 check("init --force fills without overwriting", run(scratch, ["init", "--force"]), 0, () => read(scratch, "README.md").includes("01-discover"));
 fact("init planted AGENTS.md at the repo root", existsSync(join(scratch, "AGENTS.md")));
@@ -92,6 +98,7 @@ fact("planted skills live in .agents/skills", existsSync(join(scratch, ".agents"
 // --- sketch + graduation ---
 check("sketch plants an idea file", run(scratch, ["sketch", "idea-x"]), 0, () => existsSync(join(scratch, ".docodego", "01-document", "01-discover", "sketch-idea-x.md")));
 check("new --from-sketch graduates the sketch", run(scratch, ["new", "010-first-unit", "--from-sketch", "idea-x"]), 0, () => existsSync(join(scratch, ".docodego", "01-document", "01-discover", "010-first-unit", "spec.md")));
+check("new's line names the scaffolded unit beside its spec path (570)", run(scratch, ["new", "015-named-scaffold", "--type", "story"]), 0, (r) => r.stdout.includes("unit 015-named-scaffold scaffolded — spec:") && r.stdout.includes("spec.md"));
 
 // --- typed documents: epics and stories are types, never folders ---
 check("new --type epic lands in 01-discover", run(scratch, ["new", "020-epic-ride", "--type", "epic"]), 0, () => read(scratch, "01-document/01-discover/020-epic-ride/spec.md").includes("type: epic"));
@@ -189,9 +196,11 @@ fact("an undeclared deviation lands as none recorded in the live record", compos
 
 // --- the read commands over the finished record ---
 check("check holds the record together", run(scratch, ["check"]), 0);
+check("check's green line states its verified scope (570)", run(scratch, ["check"]), 0, (r) => r.stdout.includes("record holds together") && r.stdout.includes("unit(s) walked") && r.stdout.includes("0 findings"));
 check("lint reports nothing", run(scratch, ["lint"]), 0);
 check("lint --self-check validates the rule registry", run(scratch, ["lint", "--self-check"]), 0);
 check("status renders the board", run(scratch, ["status"]), 0, (r) => r.stdout.includes("010-first-unit"));
+check("status's counter line is labeled by current status (570)", run(scratch, ["status"]), 0, (r) => r.stdout.includes("by current status: draft"));
 check("status --json is an envelope", run(scratch, ["status", "--json"]), 0, (r) => (JSON.parse(r.stdout) as { schema?: string }).schema === "docodego/status/v1");
 check("status --epic narrows to the rollup", run(scratch, ["status", "--epic", "020-epic-ride"]), 0, (r) => r.stdout.includes("010-first-unit"));
 

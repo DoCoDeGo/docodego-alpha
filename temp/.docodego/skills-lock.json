@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "recordSpecVersion": 27,
+  "installed": [
+    {
+      "name": "docodego",
+      "version": "2.0.0",
+      "source": "bundled",
+      "integrity": "sha256:e27522d0c9cd45f30f4cdeaf50c25dfe01f103b19c2d66e20a99bd95193b46c0"
+    },
+    {
+      "name": "docodego-loop",
+      "version": "2.0.0",
+      "source": "bundled",
+      "integrity": "sha256:49fa8b4bcbb251795f3387572d1218b0971e168eb27dd519489a2d6c959ea1a8"
+    },
+    {
+      "name": "docodego-document",
+      "version": "2.0.0",
+      "source": "bundled",
+      "integrity": "sha256:ccc9b8aafc7dd9b2a4630d59d5adf6ace7b803e39da815df7455ec72af124e15"
+    },
+    {
+      "name": "docodego-compose",
+      "version": "2.0.0",
+      "source": "bundled",
+      "integrity": "sha256:5e094f269bdaf40907e5fcb16a8f4c2401413c62755398d1071a267cf600bdd0"
+    },
+    {
+      "name": "docodego-demonstrate",
+      "version": "2.0.0",
+      "source": "bundled",
+      "integrity": "sha256:ed348a8d0f9f861a510cb1633efb3b8095b304c86dbae050d7090fdf1f01252d"
+    },
+    {
+      "name": "docodego-govern",
+      "version": "2.0.0",
+      "source": "bundled",
+      "integrity": "sha256:2397e2aab31a3d566852cdb270b6551776dbebdd4b7fce124cd3f55dd4dca951"
+    },
+    {
+      "name": "docodego-visual-proof",
+      "version": "1.0.1",
+      "source": "bundled",
+      "integrity": "sha256:a1e60ab14e49b10b9f217ce69956d5f02791c300a3d9624fc174e355ac9c713b"
+    }
+  ]
+}
