@@ -78,3 +78,64 @@ to `cycles-archive-N.md` beside this file and never deletes them.
   the full loop before implementation; this cycle entry exists so the
   founder's deciding sentences live in this record layer, not only in
   the studio's.
+
+## Cycle 4 — the founder package: four directives, prepared for answering (2026-11-08)
+
+- asked: the founder said "finish everything". Everything lawfully the
+  agent's is now done — IMP-15 (380-compose-log, 010-demo-bundles) and
+  IMP-20 (390-evidence-ladder) landed this day; record contract 19 → 22,
+  spec tree 1.0.10 → 1.0.13, boundary untouched. What remains is four
+  items the law reserves to the founder. This entry prepares each: the
+  finding, the recommendation, and the question — answers recorded
+  verbatim below when they come.
+- found:
+  - **IMP-1 — plan approval, founder-absent** (audit :197; third
+    occurrence R9-4/R10-9). Compose requires human plan approval; an
+    autonomous agent must stop or self-waive — 01 self-waived in the
+    first 15 minutes of the audit run. The tracker row `plan-approval:`
+    is the ready recorded form.
+  - **IMP-11 — the hard/guidance split** (audit :229, founder directive
+    plus converging evidence). The law does not mark its rules as
+    invariants (verbatim intent, append-only, records-before-claims,
+    earned statuses, real proof paths, honored refusals) or guidance
+    (unit home, artifact layout, ADR pattern, phases' depth, score as a
+    checklist). Guidance deviations would take one recorded line
+    (`deviation: <what> — <why>`) — the form this record already used
+    live at 390's delivery (compose-log row, verbatim).
+  - **EL-33 / EL-34 — the 1.1.0 law drafts** (`spec/amendments/
+    1.1.0-EL-33-new.md`, `1.1.0-EL-34-new.md`): status draft, proposed
+    1.1.0, baseline-hash stamped; the spec tree lints clean with them
+    present (canon lint · 46 files · 0 errors, at 1.0.13). They move
+    only on founder acceptance and signature.
+  - **R10-5 — scorer satisfiability** (audit :148): the scorer passed an
+    unsatisfiable spec 100/100 ("the score measures vagueness, not
+    satisfiability"). Cycle 2's ruling commissioned the ICS 2.0
+    redesign; this thread has no mechanism designed and none invented
+    solo.
+- recommendation:
+  - IMP-1: adopt the audit's shape — `plan-approval: auto` recorded in
+    the tracker with rationale, bounded to a named class of low-risk
+    compose work (docs-only and record-side units), verified by `check`
+    whenever compose ran agent-only. What belongs in the bounded class
+    is the founder's line to draw.
+  - IMP-11: adopt the two-register split with the audit's lists as the
+    starting text — invariants and guidance as quoted at :229, guidance
+    deviations recorded in one line.
+  - EL-33/EL-34: the drafts are ready for review and signature; no
+    further agent work is owed on them.
+  - R10-5: fold into the ICS 2.0 redesign's scope as a named requirement
+    (satisfiability, not only vagueness), so the redesign's spec owns it.
+- founder questions (answers verbatim, please — each numbered answer is
+  recorded as given):
+  1. IMP-1: may compose run `plan-approval: auto`, and what bounded
+     class of work may it cover? (Or: must compose always stop for a
+     human, and the tracker row only records the human's grant?)
+  2. IMP-11: do you accept the two-register split — invariants vs
+     guidance, guidance deviations recorded as one `deviation:` line —
+     with the audit's lists as the starting text?
+  3. EL-33/EL-34: do you accept the two 1.1.0 drafts for signature?
+  4. R10-5: does the ICS 2.0 redesign own scorer satisfiability as a
+     named requirement?
+
+*(awaiting founder answers — nothing in this entry is decided; the
+agent's recommendations above are research output, not law.)*
