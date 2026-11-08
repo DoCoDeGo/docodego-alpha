@@ -162,6 +162,20 @@ contract 22 → 23, spec tree 1.2.0, boundary untouched. IMP-1's first
 live use rides the same unit: the tracker's plan-approval row (auto,
 bounded, rationale, repo-only).
 
+**Addendum (appended 2026-11-08, unit 420):** the founder-directed
+sign-off tool landed — `docodego sign-off <amendment> --quote` derives
+the identity (typed --by, else git config, else system), scans the
+words for secret shapes and refuses with nothing stored, and fills the
+pending block with the quote verbatim beside the law file's sha256 and
+the attestation limit. How-to-amend step 3 now names the command that
+actually runs; spec tree 1.2.1, cli 0.9.0, record contract unmoved at
+23. Every founder answer from Cycle 4 now has its landing: IMP-1's
+first live use (410's tracker row), IMP-11's registers (410), EL-33/
+EL-34 in law (400), R10-5 named in the ICS 2.0 epic, and the signer
+tool the fifth answer commissioned (420). The demo bundle
+`demo/420-sign-off/how-to-run.md` is filled; nothing from Cycle 4
+remains lawfully walkable without the founder's next word.
+
 **Addendum (appended 2026-11-08, "finish everything"):** the founder
 reopened the stay-out rows, and the lawfully walkable ones re-entered.
 IMP-15 is the founder's own commissioned design (the audit specifies it
