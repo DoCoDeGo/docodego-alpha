@@ -33,3 +33,4 @@ delivered through this room yet.
 | 2026-11-09 | 570-message-nits | d49a73b17b5ee47f | none recorded |
 | 2026-11-09 | 580-conformance-split | 6c12865c12bce041 | none recorded |
 | 2026-11-09 | 590-canon-rename | ff4dd21d098b8542 | the folder name `canon/` was chosen by delegation — the founder ruled the rename ("resolve all discomfort"); the record's own verb (canon publish, canon rebuild) names the tree, and no founder time was spent on a name they had already described precisely ("represents DoCoDeGo System") |
+| 2026-11-09 | 600-twin-text-founder-marker | 26fdc7be156d68d2 | none recorded |

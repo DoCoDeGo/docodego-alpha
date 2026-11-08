@@ -19,3 +19,4 @@ signature.md.
 | 2026-11-09 | 570-message-nits | enc:v1:Y29kZUBhZG1pbnMtTUJQLm5ibg== (the system identity of the environment, encoded) | founder | founder-signed |
 | 2026-11-09 | 580-conformance-split | enc:v1:Y29kZUBhZG1pbnMtTUJQLm5ibg== (the system identity of the environment, encoded) | founder | founder-signed |
 | 2026-11-09 | 590-canon-rename | enc:v1:Y29kZUBhZG1pbnMtTUJQLm5ibg== (the system identity of the environment, encoded) | founder | founder-signed |
+| 2026-11-09 | 600-twin-text-founder-marker | enc:v1:Y29kZUBhZG1pbnMtTUJQLm5ibg== (the system identity of the environment, encoded) | founder (provisional — a derived identity signed; the confirming act is a named-person founder signature) | founder-signed |

@@ -1,7 +1,7 @@
 ---
 name: 600-twin-text-founder-marker
 type: unit
-status: scored
+status: founder-signed
 ---
 
 # 600-twin-text-founder-marker

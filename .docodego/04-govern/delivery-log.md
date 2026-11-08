@@ -78,3 +78,4 @@ is recorded here; what was learned lives in the unit's own records.
 | 2026-11-09 | 570-message-nits | G1,G2,G3,G4 | proof: apps/cli/src/commands/init.ts |
 | 2026-11-09 | 580-conformance-split | G1,G2,G3,G4 | proof: 02-compose/01-build/580-conformance-split/proofs/labels-before.txt |
 | 2026-11-09 | 590-canon-rename | G1,G2,G3,G4 | proof: canon/SPEC.md · warning: 1 path-like span(s) do not resolve (docodego-spec/*) — launch will refuse if they are proof paths |
+| 2026-11-09 | 600-twin-text-founder-marker | G1,G2,G3,G4 | proof: canon/record/version-transition.md |

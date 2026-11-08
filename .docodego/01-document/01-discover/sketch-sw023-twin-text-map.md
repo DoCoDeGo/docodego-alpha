@@ -58,3 +58,19 @@ is the price of the dedup, paid once.
   four.
 - No unit opened yet — this sketch is the map; the dedup unit
   scaffolds from it with the scope already cut.
+
+## Close-out (2026-11-09, unit 600)
+
+All three sites resolved. Site 1 (transition-table twins): the
+registry's notes are the single authored source; the canon rows
+mirror them byte-identically and the a2 pin enforces the mirror
+word for word — drift is mechanically refused, no renderer needed.
+Site 2 (the vocabulary sentence): one shared constant,
+VOCABULARY_MOTTO, spoken by help and init. Site 3 (the
+sign-identity clause): VERIFIED ALREADY SINGLE-SOURCED at
+build time — identity.ts builds the line once and every surface
+consumes it; the suite's byte assertions pin, they do not twin.
+The map's site-3 premise was stale at build time; recorded here
+rather than inventing a dedup for a twin that does not exist.
+SW-080 (the bump-chain batch) retires here: the chain ran
+end-to-end in 590 (v28) and again in 600 (v29).

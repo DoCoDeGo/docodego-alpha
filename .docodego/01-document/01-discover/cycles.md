@@ -580,3 +580,15 @@ folder name; SW-023 (mapped, cycle 10) lands with SW-080 folding in
 per its own ruling ("held for a chain-owing batch" — the v28 hop is
 that batch). Execution order: the rename first (590-canon-rename),
 then the dedup+marker run (600), then drift housekeeping (610).
+
+**Cycle 11 close-out (2026-11-09).** Every ruled item landed:
+590-canon-rename resolved the cycle-8 naming discomfort (the law
+tree is canon/, payload v28); 600-twin-text-founder-marker closed
+SW-023 (one authored text for the hop prose; one constant for the
+vocabulary sentence; site 3 verified single-sourced), landed the
+founder-tier marker (option C — derived founder signings marked
+provisional, payload v29), and retired SW-080 (the bump chain ran
+twice). The two pre-existing drift warnings (160/200) cleared in
+590's sanctioned proof recapture — check reports 0 errors, 0
+warnings after both units. No outstanding work or discomfort
+remains; nothing is held for a founder ruling.
