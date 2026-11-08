@@ -14,7 +14,7 @@ import { appendTracker } from "../record/record-write.ts";
 import { isKebab } from "../passes/registry.ts";
 import { SETBACKS_TEMPLATE } from "../bundled/index.ts";
 import { complain } from "./resolve.ts";
-import { envelope } from "../emit/json.ts";
+import { emitJson } from "../emit/json.ts";
 
 export const SETBACKS_REL = "04-govern/01-monitor/setbacks.md";
 export const MONITOR_DIR = "04-govern/01-monitor";
@@ -135,7 +135,7 @@ export function run(args: Args, io: Io): number {
   appendText(abs, `| ${today()} | ${cls} | ${count} | ${text} |\n`);
   const trackerLine = appendTracker(rec, `setback-${cls}`, isRespond ? `response: ${text}` : `bite ${count}: ${text}`, SETBACKS_REL);
   if (args.json) {
-    io.out(JSON.stringify(envelope("setback", { class: cls, count, response: isRespond, ledger: `.docodego/${SETBACKS_REL}`, tracker: trackerLine }), null, 2));
+    emitJson(io, "setback", { class: cls, count, response: isRespond, ledger: `.docodego/${SETBACKS_REL}`, tracker: trackerLine });
   } else {
     io.out(`.docodego/${SETBACKS_REL} — ${cls} ${isRespond ? "response recorded, count reset" : `bite ${count} recorded`}`);
     io.err(`tracker: ${trackerLine}`);
@@ -150,7 +150,7 @@ function listClasses(args: Args, io: Io): number {
   const names = [...stats.keys()].sort();
   if (args.json) {
     const classes = names.map((cls) => ({ class: cls, ...stats.get(cls) }));
-    io.out(JSON.stringify(envelope("setback", { ledger: `.docodego/${SETBACKS_REL}`, classes }), null, 2));
+    emitJson(io, "setback", { ledger: `.docodego/${SETBACKS_REL}`, classes });
     return 0;
   }
   if (names.length === 0) io.out(`.docodego/${SETBACKS_REL} — no setbacks recorded`);

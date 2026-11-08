@@ -17,7 +17,7 @@ import { parseMarkdown } from "../record/markdown.ts";
 import { isKebab } from "../passes/registry.ts";
 import { proofPaths, proofResolves } from "../passes/check.ts";
 import { complain, resolveUnitOrComplain } from "./resolve.ts";
-import { envelope } from "../emit/json.ts";
+import { emitJson } from "../emit/json.ts";
 
 /** The second home for delivered units, record-root relative. */
 export const BEHAVIORAL_REL = "system/behavioral";
@@ -135,7 +135,7 @@ export function run(args: Args, io: Io): number {
       readdress: readdress,
     };
     if (args.json) {
-      io.out(JSON.stringify(envelope("retire", plan), null, 2));
+      emitJson(io, "retire", plan);
     } else {
       io.out([
         `retire ${unit.name} (dry run — nothing moved)`,
@@ -190,7 +190,7 @@ export function run(args: Args, io: Io): number {
   appendDeliveryLog(rec, tombName, "retired", tombRel);
 
   if (args.json) {
-    io.out(JSON.stringify(envelope("retire", { unit: unit.name, from: unit.dir, to: tombRel, behavior, files: files.length, readdressed: corrected, tracker: trackerLine }), null, 2));
+    emitJson(io, "retire", { unit: unit.name, from: unit.dir, to: tombRel, behavior, files: files.length, readdressed: corrected, tracker: trackerLine });
   } else {
     io.out(`${unit.dir} → ${tombRel} (${files.length} files${corrected.length > 0 ? `, re-addressed ${corrected.join(" + ")}` : ""})`);
     io.err(`tracker: ${trackerLine}`);

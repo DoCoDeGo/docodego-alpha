@@ -15,7 +15,7 @@ import { appendTracker } from "../record/record-write.ts";
 import { isKebab } from "../passes/registry.ts";
 import { ALL_STREAMS, DEFAULT_STREAM, TYPE_HOME } from "../record/streams.ts";
 import { complain } from "./resolve.ts";
-import { envelope } from "../emit/json.ts";
+import { emitJson } from "../emit/json.ts";
 
 export function run(args: Args, io: Io): number {
   const name = args.pos[0];
@@ -95,7 +95,7 @@ export function run(args: Args, io: Io): number {
   const event = `new ${docType}` + (args.fromSketch !== undefined ? ` (from sketch ${args.fromSketch})` : "");
   const trackerLine = appendTracker(rec, unitName, event, specRel);
   if (args.json) {
-    io.out(JSON.stringify(envelope("new", { unit: unitName, type: docType, stream, spec: specRel, tracker: trackerLine }), null, 2));
+    emitJson(io, "new", { unit: unitName, type: docType, stream, spec: specRel, tracker: trackerLine });
   } else {
     io.out(specRel);
     io.err(`tracker: ${trackerLine}`);

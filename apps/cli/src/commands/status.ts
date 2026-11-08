@@ -4,7 +4,7 @@ import type { Args, Io } from "../types.ts";
 import { loadRecord } from "../record/load.ts";
 import { retiredCount } from "./retire.ts";
 import { renderBoard, statusData } from "../emit/board.ts";
-import { envelope } from "../emit/json.ts";
+import { emitJson } from "../emit/json.ts";
 
 export function run(args: Args, io: Io): number {
   const rec = loadRecord(process.cwd());
@@ -19,7 +19,7 @@ export function run(args: Args, io: Io): number {
       .flatMap((m) => m.units)
       .filter((u) => (key === "epic" ? u.epic : u.story) === wanted);
     if (args.json) {
-      io.out(JSON.stringify(envelope("status", { filter: { [key]: wanted }, units: rows }), null, 2));
+      emitJson(io, "status", { filter: { [key]: wanted }, units: rows });
     } else {
       const shown = rows.map((u) => `  ${u.stream}  ${u.name} (${u.status})`).join("\n");
       io.out(`rollup ${key} ${wanted}: ${rows.length} unit(s)\n${shown}`);
@@ -27,7 +27,7 @@ export function run(args: Args, io: Io): number {
     return 0;
   }
   if (args.json) {
-    io.out(JSON.stringify(envelope("status", data), null, 2));
+    emitJson(io, "status", data);
   } else {
     io.out(renderBoard(rec));
     const retired = retiredCount(rec);

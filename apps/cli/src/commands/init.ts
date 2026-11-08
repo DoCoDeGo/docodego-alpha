@@ -13,7 +13,7 @@ import { agentsMd, recordFiles, ruleFiles, specVersion, COMPOSE_LOG_TEMPLATE, DE
 import { COMPOSE_LOG_REL, DEMO_DIR_REL, DELIVERY_LOG_REL } from "../record/record-write.ts";
 import { applyMovementGlosses, renderVocabularyMd, type VocabularyPack } from "../record/vocabulary.ts";
 import { installBundledSkill, plantAgentPresets, writeLock, emptyLock, LOCK_REL } from "../skills/lock.ts";
-import { envelope } from "../emit/json.ts";
+import { emitJson } from "../emit/json.ts";
 
 /** The engine owns these: written fresh by init, never copied from the bundle. */
 const ENGINE_OWNED = new Set([MANIFEST_REL, TRACKER_REL]);
@@ -127,7 +127,7 @@ export function run(args: Args, io: Io): number {
     `tests ${detection.detect.tests}, ci ${detection.detect.ci} -> ${detection.codeState}`;
   const profileName = args.allSkills ? "all-skills" : (args.profile ?? DEFAULT_PROFILE);
   if (args.json) {
-    io.out(JSON.stringify(envelope("init", { created, manifest, profile: profileName, skills: installed, detection: detectionLine, date: today(), ...(pack !== undefined ? { vocabulary: pack.name } : {}) }), null, 2));
+    emitJson(io, "init", { created, manifest, profile: profileName, skills: installed, detection: detectionLine, date: today(), ...(pack !== undefined ? { vocabulary: pack.name } : {}) });
   } else {
     const vocabNote = pack !== undefined ? `, vocabulary ${pack.name}` : "";
     io.out(`${RECORD_DIR}/ ready — mode ${mode}, code state ${detection.codeState}, record v${specVersion()}, profile ${profileName}${vocabNote}`);

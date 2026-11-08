@@ -19,7 +19,7 @@ import { appendTracker, setStatus } from "../record/record-write.ts";
 import { grillQuestions, verdictFor } from "../passes/index.ts";
 import { vocabularyPack } from "../bundled/index.ts";
 import { complain, resolveUnitOrComplain, unitFile } from "./resolve.ts";
-import { envelope } from "../emit/json.ts";
+import { emitJson } from "../emit/json.ts";
 
 export async function run(args: Args, io: Io): Promise<number> {
   const name = args.pos[0];
@@ -39,7 +39,7 @@ export async function run(args: Args, io: Io): Promise<number> {
     const body = scaffoldFor(unit.name, questions);
     writeText(resolve(process.cwd(), args.scaffold), body);
     if (args.json) {
-      io.out(JSON.stringify(envelope("grill", { unit: unit.name, scaffold: args.scaffold, count: questions.length, questions }, true), null, 2));
+      emitJson(io, "grill", { unit: unit.name, scaffold: args.scaffold, count: questions.length, questions }, true);
     } else {
       io.out(`scaffold written: ${args.scaffold} — ${questions.length} questions (four fixed + one per acceptance criterion)`);
       io.err(`fill one answer per GQ id, then: docodego grill ${unit.name} --answers ${args.scaffold}`);
@@ -48,7 +48,7 @@ export async function run(args: Args, io: Io): Promise<number> {
   }
 
   if (args.json && args.answers === undefined) {
-    io.out(JSON.stringify(envelope("grill", { unit: name, questions }), null, 2));
+    emitJson(io, "grill", { unit: name, questions });
     return 0;
   }
 
@@ -90,7 +90,7 @@ export async function run(args: Args, io: Io): Promise<number> {
 
   const empty = questions.map((q, i) => (answers[i]?.trim() === "" ? q.id : null)).filter((s) => s !== null);
   if (args.json) {
-    io.out(JSON.stringify(envelope("grill", { unit: unit.name, verdict, answers, recorded: grillPath, expected: questions.length, empty }, verdict === "pass"), null, 2));
+    emitJson(io, "grill", { unit: unit.name, verdict, answers, recorded: grillPath, expected: questions.length, empty }, verdict === "pass");
   } else {
     io.out(`verdict: ${verdict}`);
     if (verdict === "fail" && empty.length > 0) {

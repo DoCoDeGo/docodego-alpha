@@ -15,7 +15,7 @@ import { launchGates } from "../passes/index.ts";
 import { appendTracker, setStatus, scaffoldDemoHowTo, DEMO_DIR_REL, DEMO_HOWTO_NAME } from "../record/record-write.ts";
 import { complain, resolveUnitOrComplain, unitFile } from "./resolve.ts";
 import { unitStatus } from "../record/load.ts";
-import { envelope } from "../emit/json.ts";
+import { emitJson, emitJsonErr } from "../emit/json.ts";
 
 export function run(args: Args, io: Io): number {
   const name = args.pos[0];
@@ -30,7 +30,7 @@ export function run(args: Args, io: Io): number {
   const status = unitStatus(unit);
   if (status === "launch-passed" || status === "founder-signed") {
     const line = `${name} is already ${status} — nothing to re-earn, nothing rewritten`;
-    if (args.json) io.out(JSON.stringify(envelope("launch", { unit: name, ok: true, already: true, status }, true), null, 2));
+    if (args.json) emitJson(io, "launch", { unit: name, ok: true, already: true, status }, true);
     else io.out(line);
     return 0;
   }
@@ -48,7 +48,7 @@ export function run(args: Args, io: Io): number {
     const refusal = `${failed.map((g) => g.id).join(",")} failed — ${failed[0]?.detail ?? ""}`;
     const trackerLine = appendTracker(rec, name, "launch-refused", refusal.length > 90 ? `${refusal.slice(0, 87)}...` : refusal);
     if (args.json) {
-      io.err(JSON.stringify(envelope("launch", { unit: name, gates, tracker: trackerLine, ...(scaffoldNote !== null ? { scaffold: scaffoldNote } : {}) }, false), null, 2));
+      emitJsonErr(io, "launch", { unit: name, gates, tracker: trackerLine, ...(scaffoldNote !== null ? { scaffold: scaffoldNote } : {}) });
     } else {
       io.err(`launch gate review for ${name}:`);
       if (scaffoldNote !== null) io.err(`  note — ${scaffoldNote}`);
@@ -65,7 +65,7 @@ export function run(args: Args, io: Io): number {
 
   const gateLine = `LAUNCH PASS ${name} — launch-passed ${date} (${gates.map((g) => `${g.id} ${g.detail}`).join(" · ")})`;
   if (args.json) {
-    io.out(JSON.stringify(envelope("launch", { unit: name, ok: true, gates, tracker: trackerLine }), null, 2));
+    emitJson(io, "launch", { unit: name, ok: true, gates, tracker: trackerLine });
   } else {
     io.out(gateLine);
     io.err(`appended ${unit.dir}/launch.md + tracker row · status set to launch-passed — the next tier is a person: docodego sign ${name} --by "<legal name>"`);

@@ -8,7 +8,7 @@ import { scoreSpec } from "../passes/index.ts";
 import { scoreReport } from "../record/template-docs.ts";
 import { assertTransition, setStatus } from "../record/record-write.ts";
 import { complain, resolveUnitOrComplain, unitFile } from "./resolve.ts";
-import { envelope } from "../emit/json.ts";
+import { emitJson } from "../emit/json.ts";
 
 export function run(args: Args, io: Io): number {
   const name = args.pos[0];
@@ -47,7 +47,7 @@ export function run(args: Args, io: Io): number {
   writeText(scorePath, existing === null ? block : `${existing.replace(/\n+$/, "")}\n\n${block}`);
 
   if (args.json) {
-    io.out(JSON.stringify(envelope("score", { ...result, written: scoreRel, status: "scored" }), null, 2));
+    emitJson(io, "score", { ...result, written: scoreRel, status: "scored" });
   } else {
     const rows = result.lines.map((l) => `  ${l.pass.padEnd(14)} ${String(l.got).padStart(3)}/${l.max}`).join("\n");
     io.out(`score ${unit.name}\n${rows}\n  ${"total".padEnd(14)} ${String(result.total).padStart(3)}/100`);

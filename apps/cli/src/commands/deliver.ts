@@ -12,7 +12,7 @@ import { field } from "../record/frontmatter.ts";
 import { deliverGates } from "../passes/index.ts";
 import { assertTransition, appendTracker, appendDeliveryLog, appendComposeLog, scaffoldDemoHowTo, DEMO_DIR_REL, DEMO_HOWTO_NAME, setStatus } from "../record/record-write.ts";
 import { complain, resolveUnitOrComplain, unitFile } from "./resolve.ts";
-import { envelope } from "../emit/json.ts";
+import { emitJson, emitJsonErr } from "../emit/json.ts";
 
 export function run(args: Args, io: Io): number {
   const name = args.pos[0];
@@ -42,7 +42,7 @@ export function run(args: Args, io: Io): number {
     const refusal = `${failed.map((g) => g.id).join(",")} failed — ${failed[0]?.detail ?? ""}`;
     const trackerLine = appendTracker(rec, name, "gate-refused", refusal.length > 90 ? `${refusal.slice(0, 87)}...` : refusal);
     if (args.json) {
-      io.err(JSON.stringify(envelope("deliver", { unit: name, gates, tracker: trackerLine }, false), null, 2));
+      emitJsonErr(io, "deliver", { unit: name, gates, tracker: trackerLine });
     } else {
       io.err(`gate review for ${name}:\n${table}`);
       io.err(`GATE FAIL ${name} — ${failed.map((g) => g.id).join(", ")} failed; nothing committed (attempt recorded in the tracker)`);
@@ -68,7 +68,7 @@ export function run(args: Args, io: Io): number {
 
   const gateLine = `GATE PASS ${name} — delivered ${date} (${gates.map((g) => `${g.id} ${g.detail}`).join(" · ")})`;
   if (args.json) {
-    io.out(JSON.stringify(envelope("deliver", { unit: name, ok: true, gates, tracker: trackerLine, deliveryLog: logLine, composeLog: composeLine, demoScaffold: scaffolded }), null, 2));
+    emitJson(io, "deliver", { unit: name, ok: true, gates, tracker: trackerLine, deliveryLog: logLine, composeLog: composeLine, demoScaffold: scaffolded });
   } else {
     io.out(gateLine);
     io.err(`appended ${unit.dir}/delivered.md + tracker + 04-govern/delivery-log.md + 02-compose/compose-log.md + ${DEMO_DIR_REL}/${name}/${DEMO_HOWTO_NAME} · status set to delivered`);

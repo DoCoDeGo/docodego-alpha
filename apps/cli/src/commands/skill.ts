@@ -17,7 +17,7 @@ import { loadRecord, RecordFatal } from "../record/load.ts";
 import { PROFILES, profiles as profileMap, ruleFiles, skillFiles, skillsIndex } from "../bundled/index.ts";
 import { digestFiles, digestSkillDir, emptyLock, LOCK_REL, plantSkill, readLock, SKILL_NAME_OK, verifyInstalled, writeLock } from "../skills/lock.ts";
 import { complain } from "./resolve.ts";
-import { envelope } from "../emit/json.ts";
+import { emitJson } from "../emit/json.ts";
 
 export function run(args: Args, io: Io): number {
   const sub = args.pos[0];
@@ -48,7 +48,7 @@ function list(args: Args, io: Io): number {
   }
   const index = skillsIndex().map((s) => ({ name: s.name, version: s.version, installed: lock.installed.some((e) => e.name === s.name), defaultFor: s.defaultFor, autoAdd: s.autoAdd === true }));
   if (args.json) {
-    io.out(JSON.stringify(envelope("skill", { index, installed: lock.installed, profiles: profileMap() }), null, 2));
+    emitJson(io, "skill", { index, installed: lock.installed, profiles: profileMap() });
   } else {
     io.out(index.map((s) => `  ${s.installed ? "[installed]" : s.autoAdd ? "[auto-add ]" : "[          ]"} ${s.name} v${s.version}${s.defaultFor.length > 0 ? `  (${s.defaultFor.join(", ")})` : ""}`).join("\n"));
     io.err(`profiles: ${PROFILES.join(" · ")} — installed: ${lock.installed.map((e) => e.name).join(", ") || "(none)"}`);
@@ -76,7 +76,7 @@ function add(args: Args, io: Io): number {
   const alreadyOnDisk = isDir(skillDir);
   const recorded = lock.installed.find((e) => e.name === name);
   if (alreadyOnDisk && digestSkillDir(skillDir) === incoming.integrity) {
-    if (args.json) io.out(JSON.stringify(envelope("skill", { installed: entry, changed: false }), null, 2));
+    if (args.json) emitJson(io, "skill", { installed: entry, changed: false });
     else io.out(`${name} v${incoming.version} already installed, unchanged`);
     return 0;
   }
@@ -89,7 +89,7 @@ function add(args: Args, io: Io): number {
   lock.installed = lock.installed.filter((e) => e.name !== name);
   lock.installed.push(entry);
   writeLock(rec.root, lock);
-  if (args.json) io.out(JSON.stringify(envelope("skill", { installed: entry, changed: true }), null, 2));
+  if (args.json) emitJson(io, "skill", { installed: entry, changed: true });
   else io.out(`installed ${name} v${incoming.version} (source ${incoming.source}, ${incoming.integrity.slice(0, 19)}…)`);
   return 0;
 }
@@ -110,7 +110,7 @@ function remove(args: Args, io: Io): number {
   lock.installed = lock.installed.filter((e) => e.name !== name);
   writeLock(rec.root, lock);
   rmSync(join(rec.root, "..", ".agents", "skills", name), { recursive: true, force: true });
-  if (args.json) io.out(JSON.stringify(envelope("skill", { removed: name }), null, 2));
+  if (args.json) emitJson(io, "skill", { removed: name });
   else io.out(`removed ${name} (folder + lockfile entry)`);
   return 0;
 }

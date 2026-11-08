@@ -14,7 +14,7 @@ import { checkPass, frontmatterPass, namingPass, RULES, selfCheck, structurePass
 import { MANIFEST_REL, RECORD_DIR, RecordFatal, loadRecord, type RecordAst } from "../record/load.ts";
 import { LOCK_REL, verifyInstalled } from "../skills/lock.ts";
 import { isDir, readText } from "../fsx.ts";
-import { envelope } from "../emit/json.ts";
+import { emitJson } from "../emit/json.ts";
 
 /** One triage line. `absent` marks a sickness caused only by the record
  * layer not existing — reported honestly, but never enough to fail the run. */
@@ -49,7 +49,7 @@ export function run(args: Args, io: Io): number {
     // the envelope's ok is literal all-healthy — the checks array carries the
     // truth; the exit code alone is calmer about a merely-absent record layer
     const lines = checks.map(({ name, ok, detail }) => ({ name, ok, detail }));
-    io.out(JSON.stringify(envelope("doctor", { checks: lines }, healthy === checks.length), null, 2));
+    emitJson(io, "doctor", { checks: lines }, healthy === checks.length);
     return code;
   }
   const width = Math.max(...checks.map((c) => c.name.length));

@@ -10,7 +10,7 @@ import { sketchTemplate } from "../record/template-docs.ts";
 import { appendTracker } from "../record/record-write.ts";
 import { isKebab } from "../passes/registry.ts";
 import { complain } from "./resolve.ts";
-import { envelope } from "../emit/json.ts";
+import { emitJson } from "../emit/json.ts";
 
 export function run(args: Args, io: Io): number {
   const name = args.pos[0];
@@ -29,7 +29,7 @@ export function run(args: Args, io: Io): number {
   writeText(abs, sketchTemplate(name));
   const trackerLine = appendTracker(rec, `sketch-${name}`, "sketch opened", rel);
   if (args.json) {
-    io.out(JSON.stringify(envelope("sketch", { sketch: name, path: rel, tracker: trackerLine }), null, 2));
+    emitJson(io, "sketch", { sketch: name, path: rel, tracker: trackerLine });
   } else {
     io.out(rel);
     io.err(`tracker: ${trackerLine} · graduate it with: docodego new <unit> --from-sketch ${name}`);

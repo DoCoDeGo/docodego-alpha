@@ -11,7 +11,7 @@ import { proofResolves } from "../passes/check.ts";
 import { buildTimeline } from "../passes/trace.ts";
 import { findRetired, tombFiles, type Tomb } from "./retire.ts";
 import { complain, resolveUnitOrComplain, unitFile } from "./resolve.ts";
-import { envelope } from "../emit/json.ts";
+import { emitJson } from "../emit/json.ts";
 
 export function run(args: Args, io: Io): number {
   const name = args.pos[0];
@@ -56,7 +56,7 @@ export function run(args: Args, io: Io): number {
       story: field(unit.spec?.front ?? null, "story"),
       events,
     };
-    io.out(JSON.stringify(envelope("trace", data, true), null, 2));
+    emitJson(io, "trace", data, true);
     return 0;
   }
   const rows = events.map((e) => `  ${e.date.padEnd(10)} ${e.kind.padEnd(12)} ${e.detail}`).join("\n");
@@ -90,7 +90,7 @@ function traceRetired(rec: RecordAst, tomb: Tomb, args: Args, io: Io): number {
   const status = `retired${tomb.retiredOn === null ? "" : ` (${tomb.retiredOn})`}`;
   if (args.json) {
     const data = { unit: tomb.name, status, home: tomb.rel, events };
-    io.out(JSON.stringify(envelope("trace", data, true), null, 2));
+    emitJson(io, "trace", data, true);
     return 0;
   }
   const rows = events.map((e) => `  ${e.date.padEnd(10)} ${e.kind.padEnd(12)} ${e.detail}`).join("\n");

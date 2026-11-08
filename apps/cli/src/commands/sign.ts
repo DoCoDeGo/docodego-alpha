@@ -15,7 +15,7 @@ import { appendText, readText, today, writeText } from "../fsx.ts";
 import { loadRecord, unitStatus } from "../record/load.ts";
 import { appendSignature, appendTracker, setStatus } from "../record/record-write.ts";
 import { complain, resolveUnitOrComplain, unitFile } from "./resolve.ts";
-import { envelope } from "../emit/json.ts";
+import { emitJson } from "../emit/json.ts";
 
 const sha256 = (abs: string): string | null => {
   const raw = readText(abs);
@@ -58,7 +58,7 @@ export function run(args: Args, io: Io): number {
 
   const line = `SIGNED ${name} — founder-signed ${date} · by ${signer} (${role}) · receipt ${unit.dir}/signature.md`;
   if (args.json) {
-    io.out(JSON.stringify(envelope("sign", { unit: name, ok: true, by: signer, role, date, receipt: `${unit.dir}/signature.md`, ledger: ledgerLine, tracker: trackerLine }), null, 2));
+    emitJson(io, "sign", { unit: name, ok: true, by: signer, role, date, receipt: `${unit.dir}/signature.md`, ledger: ledgerLine, tracker: trackerLine });
   } else {
     io.out(line);
     io.err(`appended ${unit.dir}/signature.md + signatures ledger row + tracker row · status set to founder-signed`);

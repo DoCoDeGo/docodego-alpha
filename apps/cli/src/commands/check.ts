@@ -10,14 +10,14 @@ import { governanceFindings } from "../passes/governance.ts";
 import { treeFindings } from "../passes/tree.ts";
 import { renderDiagnostics } from "../emit/diagnostics.ts";
 import { exitFor } from "../emit/exit.ts";
-import { envelope } from "../emit/json.ts";
+import { emitJson } from "../emit/json.ts";
 
 export function run(args: Args, io: Io): number {
   const rec = loadRecord(process.cwd());
   const findings = [...rec.loadDiags, ...checkPass(rec), ...governanceFindings(rec), ...treeFindings(process.cwd())];
   const code = exitFor(findings);
   if (args.json) {
-    io.out(JSON.stringify(envelope("check", { findings }, code === 0), null, 2));
+    emitJson(io, "check", { findings }, code === 0);
   } else {
     io.out(findings.length === 0 ? "check: record holds together." : renderDiagnostics(findings));
     io.err(code === 0 ? "exit 0" : "exit 1 — errors above name the files");

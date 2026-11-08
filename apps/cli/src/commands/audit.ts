@@ -21,7 +21,7 @@ import { DELIVERY_LOG_REL, appendTracker } from "../record/record-write.ts";
 import { CHECKLIST_TEMPLATE } from "../bundled/index.ts";
 import { SETBACKS_REL, MONITOR_DIR, classStats, escalationHint, responseResolves } from "./setback.ts";
 import { appendText, isDir, readText, today, walkFiles, writeText } from "../fsx.ts";
-import { envelope } from "../emit/json.ts";
+import { emitJson } from "../emit/json.ts";
 
 const CHECKLIST_REL = "04-govern/01-monitor/checklist.md";
 const BOUNDS: Array<[string, number]> = [
@@ -224,7 +224,7 @@ export function run(args: Args, io: Io): number {
     rotated.push(rotateLedger(rec, SETBACKS_REL, "setbacks", MONITOR_DIR));
   }
   if (args.json) {
-    io.out(JSON.stringify(envelope("audit", { results, rotated, checklist: `.docodego/${CHECKLIST_REL}`, ok: fails === 0 }), null, 2));
+    emitJson(io, "audit", { results, rotated, checklist: `.docodego/${CHECKLIST_REL}`, ok: fails === 0 });
   } else {
     for (const r of results) {
       const mark = r.status === "pass" ? "pass" : r.status === "warn" ? "warn" : "FAIL";
@@ -243,7 +243,7 @@ export function auditSafe(args: Args, io: Io): number {
     return run(args, io);
   } catch (e) {
     if (e instanceof RecordFatal) {
-      if (args.json) io.out(JSON.stringify(envelope("audit", { ok: false, fatal: String(e.message) }), null, 2));
+      if (args.json) emitJson(io, "audit", { ok: false, fatal: String(e.message) });
       else io.err(`error: ${String(e.message)}`);
       return 1;
     }

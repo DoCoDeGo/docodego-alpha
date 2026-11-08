@@ -21,7 +21,7 @@ import { applyPlan, computePlan, renderPlan, type PlanEntry } from "../versionin
 import { agentsMd, agentPresets, introductions, recordFiles, ruleFiles, skillFiles, skillsIndex, specVersion, DEFAULT_PROFILE, profiles as profileMap, vocabularyPack } from "../bundled/index.ts";
 import { appendTrackerLine, plantSkill, readLock } from "../skills/lock.ts";
 import { readText, writeText } from "../fsx.ts";
-import { envelope } from "../emit/json.ts";
+import { emitJson } from "../emit/json.ts";
 
 /** The files an upgrade may plant, repo-root-relative. The engine-owned
  * manifest and lockfile are written by the engine, never copied. When the
@@ -158,6 +158,6 @@ function commit(repoRoot: string, from: number, to: number, io: Io): void {
 }
 
 function say(io: Io, json: boolean, data: object, human: string): void {
-  if (json) io.out(JSON.stringify(envelope("upgrade", data), null, 2));
+  if (json) emitJson(io, "upgrade", data);
   else io.out(human);
 }

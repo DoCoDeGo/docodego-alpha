@@ -17,7 +17,7 @@ import { spawnSync } from "node:child_process";
 import type { Args, Io } from "../types.ts";
 import { readText, today, writeText } from "../fsx.ts";
 import { complain } from "./resolve.ts";
-import { envelope } from "../emit/json.ts";
+import { emitJson } from "../emit/json.ts";
 
 /** The secret shapes the scan knows. Short, named, exported for the
  * conformance fixture that pins them: a false positive refuses loudly
@@ -134,7 +134,7 @@ export function run(args: Args, io: Io): number {
 
   const line = `SIGNED-OFF ${target} — ${date} · ${identity.kind} identity · law sha256 ${lawHash.slice(0, 12)}… · pending block replaced`;
   if (args.json) {
-    io.out(JSON.stringify(envelope("sign-off", { ok: true, amendment: target, law: lawRel, lawSha256: lawHash, identity: identity.line, identityKind: identity.kind, role, date, quote }), null, 2));
+    emitJson(io, "sign-off", { ok: true, amendment: target, law: lawRel, lawSha256: lawHash, identity: identity.line, identityKind: identity.kind, role, date, quote });
   } else {
     io.out(line);
     io.err(`sign-off recorded in ${target} — quote verbatim, law hash, scan clean, attestation limit stated`);
