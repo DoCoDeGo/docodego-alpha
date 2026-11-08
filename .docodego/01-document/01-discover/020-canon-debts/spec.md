@@ -110,7 +110,7 @@ land; a row never sits silently between states.
 | 10 canonical event order + repair rule | landed | 310-event-order: the loop paragraph names the status events (new → grill → score → deliver) and the refused-gate path (attempt recorded, re-enter at the refused step, repaired forward) — record contract 17, taught in place |
 | 11 hard/guidance registers | unowned | founder directive, large; candidate: its own law child ahead of the 1.1.0 amendment batch |
 | 12 score hash + reuse warning | unowned | score writes no hash (commands/score.ts); adjacent to the ICS 2.0 proposal (180-spec7-ics-2) but not inside it |
-| 13 solo-grill honesty | unowned | grill records rounds but marks no self-grilled flag; candidate: a grill-law child |
+| 13 solo-grill honesty | landed | 340-grill-mode: every grill round names its mode — self-grilled by default, --by <who> for a named answerer; the form of independence is never recorded as the fact of it |
 | 14 warning drift/prose classes | unowned | check warnings carry no triage class; candidate: a small check child (with the node --test nit for the prove docs) |
 | 15 integrity map (compose-log, demo bundles) | drafted | the status-rails draft (EL-33, reserved 1.1.0) owns "status answers could-this-ship"; the compose-log and demo-bundle mechanics ride a later child |
 | 16 post-delivery staleness | landed | 320-stale-proofs: check warns DG-C017 when a delivered unit's cited evidence carries commits after the delivery day (commit dates, clone-safe; the unit's own folder excluded; git-absent records skip) |

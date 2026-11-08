@@ -1,0 +1,2 @@
+docs/commands/grill.md:8:docodego grill <unit> [--answers <file>] [--scaffold <file>] [--by <who>] [--json]
+docs/diagnostics.md:143:- fix: run the command that earns the status ('docodego grill <unit>' / 'docodego score <unit>') — or set status back to what the record actually evidences.

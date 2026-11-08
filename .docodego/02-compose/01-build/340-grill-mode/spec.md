@@ -2,7 +2,7 @@
 name: 340-grill-mode
 type: unit
 epic: 020-canon-debts
-status: scored
+status: delivered
 ---
 
 # 340-grill-mode
