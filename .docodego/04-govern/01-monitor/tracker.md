@@ -138,3 +138,4 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 420-sign-off | delivered | 02-compose/01-build/420-sign-off/delivered.md |
 | 2026-11-08 | 430-refactor-sweep | new unit | 02-compose/01-build/430-refactor-sweep/spec.md |
 | 2026-11-08 | 430-refactor-sweep | delivered | 02-compose/01-build/430-refactor-sweep/delivered.md |
+| 2026-11-08 | 430-refactor-sweep | launch-passed | 02-compose/01-build/430-refactor-sweep/launch.md |
