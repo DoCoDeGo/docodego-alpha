@@ -612,6 +612,23 @@ fact("the payload's AGENTS.md states the event order and the repair rule", agent
   rmSync(gh, { recursive: true, force: true });
 }
 
+// --- v2i: the reuse warning — a score certifies what it graded (350) ---
+{
+  const rh = mkdtempSync(join(tmpdir(), "docodego-conformance-reuse-"));
+  check("reuse: init", run(rh, ["init"]), 0);
+  check("reuse: new", run(rh, ["new", "scored-unit"]), 0);
+  write(rh, "ans.txt", "GQ-1: holds\nGQ-2: by proofs\nGQ-3: none\nGQ-4: none\nGQ-AC1: captured\nGQ-AC2: same\n");
+  check("reuse: grill", run(rh, ["grill", "010-scored-unit", "--answers", "ans.txt"]), 0);
+  check("reuse: score", run(rh, ["score", "010-scored-unit"]), 0);
+  const quiet = run(rh, ["check"]);
+  fact("check is quiet while the score binds the living spec", !quiet.stdout.includes("DG-C018"));
+  const body = read(rh, join("01-document", "01-discover", "010-scored-unit", "spec.md"));
+  write(rh, join(".docodego", "01-document", "01-discover", "010-scored-unit", "spec.md"), body.replace("## intent", "## intent (revised materially after scoring)"));
+  const warned = run(rh, ["check"]);
+  fact("check warns DG-C018 when the spec moves past its recorded score", warned.stdout.includes("DG-C018") && warned.stdout.includes("re-run 'docodego score'"));
+  rmSync(rh, { recursive: true, force: true });
+}
+
 // --- v5: vocabulary packs — words change, the contract does not ---
 // The pack law, enforced at every layer: embedded packs pass the validator,
 // cover exactly the canonical keys, keep ids and paths intact, init applies

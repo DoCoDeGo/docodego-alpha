@@ -220,6 +220,12 @@ prefix (`docodego explain DG-F`) prints every page in the family.
 - law: a delivery's evidence is a claim about a moment; when the tree moves past that moment the claim goes stale, and silence about the drift is the defect (IMP-16). Commit dates decide, never file times — clones must not lie.
 - fix: recapture the proof against the current tree and update proofs.md, or record the supersession row that says the evidence describes an older tree on purpose.
 
+**DG-C018 — the recorded score binds an older spec**
+
+- meaning: score.md's spec hash no longer matches the spec's current content — the score was written for words that have since changed.
+- law: a score certifies the spec it graded, by content hash; a materially revised spec inherits nothing — silence about the drift would let the old number stand guard over content it never read (IMP-12). The same last-block-wins extraction the deliver gate reads, so the light and the gate can never disagree.
+- fix: re-run 'docodego score <unit>' so the number binds the spec as it now stands — or revert the spec edit if the change was not meant to stand.
+
 ### DG-P — parse — recoverable markdown events
 
 **DG-P002 — malformed frontmatter line skipped**

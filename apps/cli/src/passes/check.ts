@@ -6,7 +6,7 @@ import { spawnSync } from "node:child_process";
 import { STATUS_VALUES, type Diagnostic } from "../types.ts";
 import { vocabularyPack, VOCABULARY_NAMES } from "../bundled/index.ts";
 import { field } from "../record/frontmatter.ts";
-import { isDir, isFile, readText } from "../fsx.ts";
+import { isDir, isFile, readText, sha16 } from "../fsx.ts";
 import { parseMarkdown, type FileAst } from "../record/markdown.ts";
 import { unitStatus, type RecordAst, type UnitAst } from "../record/load.ts";
 
@@ -43,6 +43,24 @@ function checkUnit(rec: RecordAst, unit: UnitAst): Diagnostic[] {
   }
   if (claimsScore && unit.markers.score === null) {
     out.push({ severity: "error", code: "DG-C003", message: `status '${status}' claims a score but score.md is missing`, file: `${unit.dir}/score.md` });
+  }
+  // IMP-12: the reuse warning. The score binds the spec it graded by
+  // content hash (score.md's last spec-sha line — the same extraction the
+  // G2 gate reads); when the spec's current hash moves past the binding,
+  // the number certifies content it never graded. A standing light on
+  // check, for scored and delivered units alike.
+  if (claimsScore && unit.markers.score !== null && unit.spec !== null) {
+    const scoreRaw = readText(join(rec.root, unit.markers.score));
+    if (scoreRaw !== null) {
+      const shas = [...scoreRaw.matchAll(/^spec-sha:\s*([0-9a-f]{16})\s*$/gim)];
+      const bound = shas.length === 0 ? null : shas[shas.length - 1]?.[1] ?? null;
+      if (bound !== null) {
+        const current = sha16(readText(join(rec.root, unit.dir, "spec.md")) ?? "");
+        if (bound !== current) {
+          out.push({ severity: "warning", code: "DG-C018", message: `the recorded score binds an older spec (sha ${bound}, the spec is now ${current}) — the number certifies content it never graded; re-run 'docodego score'`, file: unit.markers.score });
+        }
+      }
+    }
   }
   if (status === "delivered") {
     if (unit.markers.delivered === null) {
