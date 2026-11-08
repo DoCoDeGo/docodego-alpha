@@ -2,6 +2,5 @@ nothing to report
 canon lint · 46 file(s) · 31 law(s) · 0 error(s), 0 warning(s)
 nothing to report
 canon verify · 46 file(s) · 31 law(s) · 20 live CLI command(s) · 0 error(s), 0 warning(s)
-spec error[SP-F001]: the spec tree is ahead of the delivered index — tree 12589efb9b3b… vs delivered 20fc7c6a5845… — run canon build
-canon doctor · 1 error(s), 0 warning(s) · mirror: 16 mirror statutes vs 16 tree statutes · first drift: n/a
-axes (side by side, never inferred): payload specVersion 15 · cli 0.8.0 · spec/ 1.0.5 · delivered 1.0.5
+canon doctor · no drift — lint+verify rerun clean, structure ok, index ok, version pair ok, mirror aligned (16 mirror statutes vs 16 tree statutes)
+axes (side by side, never inferred): payload specVersion 15 · cli 0.8.0 · spec/ 1.0.6 · delivered 1.0.6

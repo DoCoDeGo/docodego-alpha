@@ -26,3 +26,11 @@
 
 Deliverable commit: 2a36afb (fix(cli): the planted prose names only
 shipped paths — the sweep is a gate); this record commit follows it.
+
+Post-delivery heals (recorded for the honest trail): the transition row
+moved the spec tree, so the spec version moved with it — 1.0.6 declared
+in SPEC.md, the amendment row added (the version circle), canon build
+rerun — `proofs/canon.txt` holds the green capture at the new pair
+(spec/ 1.0.6 · delivered 1.0.6). The record contract had already moved
+14 → 15 for the same reason on the payload side (the bump guard). Two
+gates, same law: hashes detect, humans declare.
