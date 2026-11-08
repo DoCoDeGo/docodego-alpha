@@ -1,0 +1,1 @@
+| 2026-11-08 | 420-sign-off | plan-approval: auto — the task is record-side engine work (the founder-directed sign-off tool: identity derivation, secret scan, one command), bounded per the founder's IMP-1 ruling (repo-only); no human present, the judgment recorded here | 01-document/01-discover/cycles.md |

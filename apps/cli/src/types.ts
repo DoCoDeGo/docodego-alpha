@@ -100,6 +100,7 @@ export interface Args {
   from?: string;
   vocabulary?: string;
   as?: string;
+  quote?: string | boolean;
   dryRun?: boolean;
   by?: string | boolean;
   role?: string | boolean;

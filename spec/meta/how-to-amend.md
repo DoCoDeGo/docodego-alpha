@@ -14,10 +14,15 @@ place.*
    questions from someone other than its author, every question answered. An amendment
    that cannot survive its own grilling does not proceed.
 
-3. **The owner signs.** `docodego sign` records the decision. The sign-off is quoted
-   verbatim in the amendment (EL-19) beside the hash of the exact text signed. A form that
-   lets work ship without a named person's signature is not a form of the System — and an
-   amendment is the highest-stakes work the System ships.
+3. **The owner signs.** `docodego sign-off` records the decision — the words
+   verbatim, beside the sha256 of the exact text signed (EL-19), with the
+   identity derived from git or system details (or a typed `--by`), and the
+   words scanned for secrets before anything is stored (a secret-shaped
+   match refuses the act — verbatim text is stored whole or not at all).
+   A form that lets work ship without a named person's signature is not a
+   form of the System — and an amendment is the highest-stakes work the
+   System ships. (`docodego sign` signs a delivery unit at the launch
+   tier; amendment sign-offs are this command's act.)
 
 4. **Two sides flip.** The amended law's file gains the new version with `amended-in` (or
    `withdrawn-in`), keeping its anchor forever; the old text moves to the amendment file,

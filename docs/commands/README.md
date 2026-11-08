@@ -20,6 +20,7 @@ One page per command, generated from the same registry that powers
 | [`docodego score`](./score.md) | Five ICS-lite passes over the spec; the visible breakdown lands in score.md. |
 | [`docodego setback`](./setback.md) | Document a failing behavior the moment it bites; the audit escalates repeats. |
 | [`docodego sign`](./sign.md) | The last tier: a named person signs the act — an attestation, honestly bounded. |
+| [`docodego sign-off`](./sign-off.md) | The amendment sign-off: identity derived, secrets scanned, the pending block filled — the founder's act, one command. |
 | [`docodego sketch`](./sketch.md) | Capture an idea at near-zero ceremony: one file, three sections. |
 | [`docodego skill`](./skill.md) | The installed craft, audited: every skill recorded in skills-lock.json with its digest. |
 | [`docodego status`](./status.md) | The one-screen board: every unit, its stream and status, epic/story rollups. |

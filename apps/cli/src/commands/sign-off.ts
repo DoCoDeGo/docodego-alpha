@@ -1,0 +1,143 @@
+/** `sign-off <amendment-file> --quote "<words verbatim>"` — how-to-amend
+ * step 3, mechanized: the owner's sign-off recorded with the words
+ * verbatim beside the sha256 of the exact text signed. The founder
+ * directed the form (2026-11-08, recorded verbatim in the record's
+ * cycle 4): identity derived from git or system details, the stored
+ * words scanned for secrets before anything is recorded, the whole act
+ * as easy as one command. The scanner refuses rather than redacts —
+ * verbatim text is stored whole or not at all (EL-19), and the receipt
+ * always states the attestation limit: it witnesses the act, it does
+ * not prove identity. Pass: the amendment's pending block replaced. A
+ * second sign-off rewrites an act the record keeps once — refused. */
+import { createHash } from "node:crypto";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { hostname, userInfo } from "node:os";
+import { dirname, join, relative, resolve } from "node:path";
+import { spawnSync } from "node:child_process";
+import type { Args, Io } from "../types.ts";
+import { readText, today, writeText } from "../fsx.ts";
+import { complain } from "./resolve.ts";
+import { envelope } from "../emit/json.ts";
+
+/** The secret shapes the scan knows. Short, named, exported for the
+ * conformance fixture that pins them: a false positive refuses loudly
+ * (the human rewords — nothing is mangled silently); a miss is the
+ * scanner's honest limit, stated in the help body. */
+export const SECRET_PATTERNS: { name: string; re: RegExp }[] = [
+  { name: "OpenAI-style key (sk-…)", re: /\bsk-[A-Za-z0-9_-]{20,}\b/ },
+  { name: "GitHub token (ghp_/gho_/github_pat_…)", re: /\b(?:ghp|gho|ghu|ghs|ghr)_[A-Za-z0-9]{20,}\b|\bgithub_pat_[A-Za-z0-9_]{20,}\b/ },
+  { name: "AWS access key (AKIA…)", re: /\bAKIA[0-9A-Z]{16}\b/ },
+  { name: "Slack token (xox…)", re: /\bxox[baprs]-[A-Za-z0-9-]{10,}\b/ },
+  { name: "private key block", re: /-----BEGIN [A-Z ]*PRIVATE KEY-----/ },
+  { name: "key assignment (api key / secret / token / password = …)", re: /\b(?:api[_-]?key|secret|token|password|passwd)\b\s*[:=]\s*["']?[^\s"']{12,}/i },
+];
+
+export function scanForSecrets(text: string): string | null {
+  for (const p of SECRET_PATTERNS) if (p.re.test(text)) return p.name;
+  return null;
+}
+
+const gitConfig = (key: string): string | null => {
+  const r = spawnSync("git", ["config", "--get", key], { encoding: "utf8" });
+  const v = (r.stdout ?? "").trim();
+  return r.status === 0 && v !== "" ? v : null;
+};
+
+type Identity = { line: string; kind: "typed" | "git" | "system" };
+
+const deriveIdentity = (by?: string): Identity => {
+  if (by !== undefined && by !== "") return { line: `${by} (a typed legal name)`, kind: "typed" };
+  const name = gitConfig("user.name");
+  if (name !== null) {
+    const email = gitConfig("user.email");
+    return { line: email === null ? `${name} (the git identity of the environment)` : `${name} <${email}> (the git identity of the environment)`, kind: "git" };
+  }
+  try {
+    const u = userInfo();
+    return { line: `${u.username}@${hostname()} (the system identity of the environment)`, kind: "system" };
+  } catch {
+    return { line: "unresolvable (no typed name, no git identity, no system user)", kind: "system" };
+  }
+};
+
+/** The law file the amendment signs: the proposed-law-file heading for a
+ * new-law draft (laws/<file>.md under the amendment's spec root), else
+ * the law whose frontmatter id matches the amendment's `law:` field. */
+const resolveLawFile = (amenAbs: string, raw: string): string | null => {
+  const root = dirname(dirname(amenAbs)); // <spec-root>/amendments/<file>
+  const proposed = /^## Proposed law file: (laws\/[^\s)]+)$/m.exec(raw);
+  if (proposed !== null && proposed[1] !== undefined) {
+    const p = join(root, proposed[1]);
+    return existsSync(p) ? p : null;
+  }
+  const lawId = /^law:\s*([A-Z]+-\d+)\s*$/m.exec(raw)?.[1];
+  if (lawId !== undefined) {
+    const dir = join(root, "laws");
+    if (existsSync(dir)) {
+      for (const f of readdirSync(dir)) {
+        if (!f.endsWith(".md") || f === "README.md") continue;
+        const t = readFileSync(join(dir, f), "utf8");
+        if (new RegExp(`^id:\\s*${lawId}\\s*$`, "m").test(t)) return join(dir, f);
+      }
+    }
+  }
+  return null;
+};
+
+export function run(args: Args, io: Io): number {
+  const target = args.pos[0];
+  const quote = typeof args.quote === "string" ? args.quote : "";
+  if (target === undefined || target === "" || quote === "") {
+    return complain(args.json, io, { severity: "error", code: "DG-U117", message: 'usage: docodego sign-off <amendment-file> --quote "<the acceptance words, verbatim>" [--by "<legal name>"] [--role <role>]' }, 2, "usage");
+  }
+  const amenAbs = resolve(process.cwd(), target);
+  const raw = readText(amenAbs);
+  if (raw === null) {
+    return complain(args.json, io, { severity: "error", code: "DG-U117", message: `amendment file not readable: ${target}` }, 2, "usage");
+  }
+
+  // the scan runs first and stores nothing: the words are checked before
+  // the act is written anywhere (the founder's directive, verbatim in
+  // cycle 4: "detect security risks like API keys and avoid storing that")
+  const scanned = scanForSecrets(quote) ?? (typeof args.by === "string" ? scanForSecrets(args.by) : null) ?? (typeof args.role === "string" ? scanForSecrets(args.role) : null);
+  if (scanned !== null) {
+    return complain(args.json, io, { severity: "error", code: "DG-U114", message: `the words carry a secret shape (${scanned}) — nothing stored; reword the quote and run again (verbatim text is stored whole or not at all)` }, 1, "sign-off-refused");
+  }
+
+  const PENDING = /^Signed: \(pending[\s\S]*?\)\n/m;
+  if (!PENDING.test(raw)) {
+    return complain(args.json, io, { severity: "error", code: "DG-U115", message: `${target} carries no pending sign-off — already signed, or not a scaffolded amendment; a second sign-off rewrites an act the record keeps once (nothing changed)` }, 1, "sign-off-refused");
+  }
+  const lawAbs = resolveLawFile(amenAbs, raw);
+  if (lawAbs === null) {
+    return complain(args.json, io, { severity: "error", code: "DG-U116", message: `${target} names no resolvable law file — no "## Proposed law file:" heading and no law: field that matches a law under laws/; pass a scaffolded amendment` }, 1, "sign-off-refused");
+  }
+  const lawRaw = readText(lawAbs);
+  if (lawRaw === null) {
+    return complain(args.json, io, { severity: "error", code: "DG-U116", message: `the law file named by ${target} is not readable` }, 1, "sign-off-refused");
+  }
+
+  const identity = deriveIdentity(typeof args.by === "string" && args.by !== "" ? args.by : undefined);
+  const role = typeof args.role === "string" && args.role !== "" ? args.role : "founder";
+  const date = today();
+  const lawHash = createHash("sha256").update(lawRaw).digest("hex");
+  const lawRel = relative(dirname(amenAbs), lawAbs);
+  const receipt = [
+    `Signed: ${date}. The founder's acceptance words, recorded verbatim: "${quote}"`,
+    `Identity: ${identity.line}; role: ${role}.`,
+    `Evidence: the exact text signed is \`${lawRel}\`, sha256 \`${lawHash}\`.`,
+    "The stored words were scanned for secrets before recording — clean.",
+    "The attestation limit: this record witnesses the act; it does not cryptographically prove identity.",
+    "",
+  ].join("\n");
+  writeText(amenAbs, raw.replace(PENDING, receipt));
+
+  const line = `SIGNED-OFF ${target} — ${date} · ${identity.kind} identity · law sha256 ${lawHash.slice(0, 12)}… · pending block replaced`;
+  if (args.json) {
+    io.out(JSON.stringify(envelope("sign-off", { ok: true, amendment: target, law: lawRel, lawSha256: lawHash, identity: identity.line, identityKind: identity.kind, role, date, quote }), null, 2));
+  } else {
+    io.out(line);
+    io.err(`sign-off recorded in ${target} — quote verbatim, law hash, scan clean, attestation limit stated`);
+  }
+  return 0;
+}

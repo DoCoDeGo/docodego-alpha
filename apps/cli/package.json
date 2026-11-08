@@ -1,6 +1,6 @@
 {
   "name": "docodego",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "The intent-and-evidence CLI: bundles its own record, parses it once, runs pure passes, emits rustc-style diagnostics.",
   "license": "MIT",
   "type": "module",

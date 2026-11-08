@@ -25,6 +25,7 @@ import { COMPLETION_SHELLS } from "./cli/completions.ts";
 import { today, sha16 } from "./fsx.ts";
 import { appendComposeLog } from "./record/record-write.ts";
 import { MIGRATIONS } from "./versioning/migrations.ts";
+import { createHash } from "node:crypto";
 import { EXPLANATIONS, FAMILY_TITLES } from "./passes/explain.ts";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -599,6 +600,40 @@ fact("the payload's AGENTS.md carries the two registers with the accepted lists"
   rmSync(ag, { recursive: true, force: true });
   rmSync(custom, { recursive: true, force: true });
 }
+// --- v24: the sign-off tool (420) ---
+{
+  const so = mkdtempSync(join(tmpdir(), "docodego-conformance-signoff-"));
+  const specRoot = join(so, "spec");
+  mkdirSync(join(specRoot, "amendments"), { recursive: true });
+  mkdirSync(join(specRoot, "laws"), { recursive: true });
+  const lawBody = "---\nid: EL-35\ntitle: The demo law\n---\n\n# Engine law 35 — The demo law\n";
+  writeFileSync(join(specRoot, "laws", "35-the-demo-law.md"), lawBody);
+  const amendment = (id: string, lawHeading: string): string => `---\nid: AMEND-NEW-${id}-1.3.0\nlaw: (new) ${id} — demo\nproposed-version: 1.3.0\nstatus: draft\n---\n\n# New law ${id}\n\n## Proposed law file: ${lawHeading}\n\n> demo text\n\n## The founder's sign-off\n\nSigned: (pending — \`docodego sign-off\` records the decision; EL-19 keeps the words verbatim, beside the hash of the exact text signed)\n`;
+  const amen1 = join(specRoot, "amendments", "1.3.0-EL-35-new.md");
+  writeFileSync(amen1, amendment("EL-35", "laws/35-the-demo-law.md"));
+  check("sign-off fills the pending block — quote verbatim, hash, derivation named, limit stated", run(so, ["sign-off", amen1, "--quote", "Accept it", "--by", "Ada Lovelace"]), 0, (r) => {
+    const body = readFileSync(amen1, "utf8");
+    const lawHash = createHash("sha256").update(lawBody).digest("hex");
+    return body.includes('"Accept it"') && !body.includes("(pending") && body.includes("a typed legal name") && body.includes(lawHash) && body.includes("scanned for secrets") && body.includes("witnesses the act");
+  });
+  check("a second sign-off of the same act is refused — nothing changed", run(so, ["sign-off", amen1, "--quote", "Accept it again"]), 1, (r) => r.stderr.includes("DG-U115"));
+  const amen2 = join(specRoot, "amendments", "1.3.0-EL-36-new.md");
+  writeFileSync(amen2, amendment("EL-36", "laws/36-not-landed-yet.md"));
+  const before2 = readFileSync(amen2, "utf8");
+  check("a secret-shaped quote is refused and stores nothing", run(so, ["sign-off", amen2, "--quote", "sure thing sk-abcdef1234567890abcdef123456"]), 1, (r) => {
+    const after = readFileSync(amen2, "utf8");
+    return r.stderr.includes("DG-U114") && after === before2;
+  });
+  check("an unresolvable law file is refused (DG-U116)", run(so, ["sign-off", amen2, "--quote", "Accept it"]), 1, (r) => r.stderr.includes("DG-U116"));
+  check("sign-off without --quote is a usage error", run(so, ["sign-off", amen2]), 2, (r) => r.stderr.includes("DG-U117"));
+  const amen3 = join(specRoot, "amendments", "1.3.0-EL-37-new.md");
+  writeFileSync(amen3, amendment("EL-37", "laws/35-the-demo-law.md"));
+  check("without --by the receipt names the derivation kind (git or system) and the limit", run(so, ["sign-off", amen3, "--quote", "Accept it"]), 0, (r) => {
+    const body = readFileSync(amen3, "utf8");
+    return /identity of the environment\)/.test(body) && body.includes("witnesses the act");
+  });
+  rmSync(so, { recursive: true, force: true });
+}
 // the detector, over a real delivered unit: an unknown declaration fails
 // check naming the registry; a declared one passes; the demo bundle is
 // scanned with its own path named
@@ -869,7 +904,7 @@ rmSync(bf, { recursive: true, force: true });
 // --- v3: the contract surface — per-command --help, explain, generated docs ---
 // The planted AGENTS.md promises "run any command with --help for its own
 // contract"; these checks are that promise, enforced.
-const LAW_COMMANDS = ["init", "new", "sketch", "setback", "grill", "score", "audit", "check", "lint", "status", "trace", "doctor", "deliver", "launch", "sign", "retire", "upgrade", "skill", "explain", "completions"];
+const LAW_COMMANDS = ["init", "new", "sketch", "setback", "grill", "score", "audit", "check", "lint", "status", "trace", "doctor", "deliver", "launch", "sign", "sign-off", "retire", "upgrade", "skill", "explain", "completions"];
 fact("every law command has a help page", JSON.stringify(Object.keys(COMMAND_HELP).sort()) === JSON.stringify([...LAW_COMMANDS].sort()));
 fact("the global usage lists every command", LAW_COMMANDS.every((c) => usageText().includes(c)));
 for (const c of LAW_COMMANDS) {

@@ -8,7 +8,7 @@ export type { VocabularyPack, Payload, SkillIndexEntry };
 
 export const PAYLOAD: Payload = {
   "specVersion": 23,
-  "cliVersion": "0.8.0",
+  "cliVersion": "0.9.0",
   "structureHash": "84668fbecc0531d8cabc241dc4a917b55ef6dec23c35ff9f6154a47737611e61",
   "allowlistVersion": 2,
   "files": {

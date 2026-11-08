@@ -28,6 +28,7 @@ import * as explain from "./commands/explain.ts";
 import * as completions from "./commands/completions.ts";
 import * as launch from "./commands/launch.ts";
 import * as sign from "./commands/sign.ts";
+import * as signOff from "./commands/sign-off.ts";
 
 type Run = (args: Args, io: Io) => number | Promise<number>;
 
@@ -47,6 +48,7 @@ const COMMANDS: Record<string, { run: Run; read: boolean }> = {
   deliver: { run: deliver.run, read: false },
   launch: { run: launch.run, read: false },
   sign: { run: sign.run, read: false },
+  "sign-off": { run: signOff.run, read: false },
   retire: { run: retire.run, read: false },
   upgrade: { run: upgrade.run, read: false },
   skill: { run: skill.run, read: false },

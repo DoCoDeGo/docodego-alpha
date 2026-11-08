@@ -1,6 +1,6 @@
 {
   "specVersion": 23,
-  "cliVersion": "0.8.0",
+  "cliVersion": "0.9.0",
   "structureHash": "84668fbecc0531d8cabc241dc4a917b55ef6dec23c35ff9f6154a47737611e61",
   "files": {
     ".agents/agents/docodego-researcher.md": "dff87e487865ef57b0e6e786ba39dcf543d87a0eb81831aea8ec9b41a760a0b9",

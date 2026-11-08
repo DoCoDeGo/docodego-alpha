@@ -3,7 +3,7 @@ import { MODES, type Args, type DocType, type Mode } from "../types.ts";
 import { DOC_TYPES } from "../types.ts";
 
 const BOOL_FLAGS = new Set(["--json", "--force", "--self-check", "--apply", "--branch", "--all-skills", "--version", "--help", "--list", "--rotate", "--dry-run"]);
-const VALUE_FLAGS = new Set(["--mode", "--answers", "--scaffold", "--type", "--epic", "--story", "--stream", "--from-sketch", "--profile", "--from", "--vocabulary", "--respond", "--as", "--by", "--role"]);
+const VALUE_FLAGS = new Set(["--mode", "--answers", "--scaffold", "--type", "--epic", "--story", "--stream", "--from-sketch", "--profile", "--from", "--vocabulary", "--respond", "--as", "--by", "--role", "--quote"]);
 
 export type ParsedArgs = { ok: true; args: Args } | { ok: false; message: string };
 
@@ -60,6 +60,7 @@ export function parseArgs(argv: string[]): ParsedArgs {
       else if (tok === "--scaffold") args.scaffold = value;
       else if (tok === "--respond") args.respond = value;
       else if (tok === "--as") args.as = value;
+      else if (tok === "--quote") args.quote = value;
       else if (tok === "--by") args.by = value;
       else if (tok === "--role") args.role = value;
       else if (tok === "--type") {
@@ -102,6 +103,7 @@ commands:
   deliver <unit>
   launch <unit>
   sign <unit> --by "<legal name>" [--role <role>]
+  sign-off <amendment-file> --quote "<the acceptance words, verbatim>" [--by "<legal name>"]
   retire <unit> [--as <behavior>] [--dry-run] [--json]
   upgrade [--apply] [--branch]
   skill list [--json] | skill add <name> [--from <git-url>] [--force] | skill remove <name>

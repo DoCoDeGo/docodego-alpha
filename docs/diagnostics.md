@@ -484,6 +484,30 @@ prefix (`docodego explain DG-F`) prints every page in the family.
 - law: a tomb is final: the second home is the living record of what the system does now, and two units claiming one behavior would make it unread.
 - fix: if the re-retire is a corrected re-landing, move the old tomb aside first (it is history — archive it, do not delete it), or retire under a different --as name.
 
+**DG-U114 — the sign-off words carry a secret shape**
+
+- meaning: the --quote (or --by/--role) matched a secret-shaped pattern — an API key, a token, a private key block, or a key assignment.
+- law: the founder's directive (recorded verbatim, cycle 4): detect security risks like API keys and avoid storing that — verbatim text is stored whole or not at all, never redacted; the act is refused and nothing is written.
+- fix: reword the quote so it carries no secret-shaped material, then run sign-off again; 'docodego explain DG-U114' always lists the shapes in the command's help body.
+
+**DG-U115 — no pending sign-off to fill**
+
+- meaning: the amendment file carries no 'Signed: (pending' block — it was already signed off, or it is not a scaffolded amendment.
+- law: a sign-off is an act the record keeps once: filling an absent pending block would rewrite an existing signature or fabricate a place to sign.
+- fix: check the amendment file: if its sign-off section is already filled, the act is done; if the file is not an amendment, this command does not apply.
+
+**DG-U116 — the amendment names no resolvable law file**
+
+- meaning: no '## Proposed law file:' heading was found and no law: field matched a law file under laws/ (or the named file is missing).
+- law: the sign-off records the hash of the exact text signed — a receipt beside nothing would attest to air.
+- fix: pass a scaffolded amendment (canon amend creates one) whose proposed law file exists; a same-version sibling whose law has not landed yet will resolve once it lands.
+
+**DG-U117 — usage: docodego sign-off <amendment-file> --quote**
+
+- meaning: 'sign-off' was invoked without an amendment file, without --quote, or the amendment file was not readable.
+- law: the contract is exact: one amendment path plus the verbatim words — a sign-off without the words would forge the quote.
+- fix: 'docodego sign-off spec/amendments/<file>.md --quote "<the acceptance words verbatim>"' — 'docodego sign-off --help' shows the full contract.
+
 ### DG-K — skills — supply chain and lockfile
 
 **DG-K001 — skill integrity mismatch**

@@ -133,3 +133,6 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 410-register-split | new unit | 02-compose/01-build/410-register-split/spec.md |
 | 2026-11-08 | 410-register-split | plan-approval: auto — the task is record-side law work (registers teaching + teach migration + bump chain), bounded per the founder's IMP-1 ruling of 2026-11-08 (repo-only); no human present, the judgment recorded here | 01-document/01-discover/cycles.md |
 | 2026-11-08 | 410-register-split | delivered | 02-compose/01-build/410-register-split/delivered.md |
+| 2026-11-08 | 420-sign-off | new unit | 02-compose/01-build/420-sign-off/spec.md |
+| 2026-11-08 | 420-sign-off | plan-approval: auto — the task is record-side engine work (the founder-directed sign-off tool: identity derivation, secret scan, one command), bounded per the founder's IMP-1 ruling (repo-only); no human present, the judgment recorded here | 01-document/01-discover/cycles.md |
+| 2026-11-08 | 420-sign-off | delivered | 02-compose/01-build/420-sign-off/delivered.md |

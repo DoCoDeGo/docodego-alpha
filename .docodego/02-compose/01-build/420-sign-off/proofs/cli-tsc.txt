@@ -1,0 +1,1 @@
+cli tsc exit=0
