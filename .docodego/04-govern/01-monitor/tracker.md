@@ -144,3 +144,5 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 440-sign-flow | ~~new unit~~ — struck: this row guessed the build stream would reuse 440; it does not (numbers are never reused) | ~~02-compose/01-build/440-sign-flow/spec.md~~ |
 | 2026-11-08 | 450-sign-flow | new unit | 02-compose/01-build/450-sign-flow/spec.md |
 | 2026-11-08 | 450-sign-flow | delivered | 02-compose/01-build/450-sign-flow/delivered.md |
+| 2026-11-08 | 450-sign-flow | launch-passed | 02-compose/01-build/450-sign-flow/launch.md |
+| 2026-11-08 | 430-refactor-sweep | founder-signed | 02-compose/01-build/430-refactor-sweep/signature.md |
