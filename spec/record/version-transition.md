@@ -69,6 +69,7 @@ compares the two, so this table cannot drift from the engine.
 | v17 | v18 | research's legal home: the checker exempts `01-discover/research/` as a first-class non-unit and the stream README names the home; no transforms — the line rides birth copies, the exemption carries the law |
 | v18 | v19 | the record's machine artifacts leave git: `.docodego/.gitignore` joins the boundary (var/ the scratch home, *.new the upgrade's conflict copies); the row rides the plan's create-only copy |
 | v19 | v20 | the compose room's integrity artifact: `.docodego/02-compose/compose-log.md` — one row per delivered unit (date, unit, delivered spec hash, declared deviations), appended by the deliver gate; readers named in the header (the handoff agent, the build-honesty auditor); planted by one create-only step, engine-owned like the delivery log |
+| v20 | v21 | the demonstrate room's bundles: `demo/<unit>/` — how-to-run.md scaffolded create-only at deliver, filled by the agent before launch; the launch gate refuses the unfilled scaffold (L5 — "show me it working" is never answered with an unfilled form); the room anchor (demo/README.md) rides one create-only step, the scaffolds are the gates' own writes |
 ## Conformance
 
 Enforced today: the bundle guard asserts registry contiguity on every

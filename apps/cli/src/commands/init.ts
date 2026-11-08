@@ -9,8 +9,8 @@ import type { Args, Io, Manifest, Mode } from "../types.ts";
 import { isDir, readText, today, writeText } from "../fsx.ts";
 import { detect } from "../record/detect.ts";
 import { MANIFEST_REL, RECORD_DIR, TRACKER_REL } from "../record/load.ts";
-import { agentsMd, recordFiles, ruleFiles, specVersion, COMPOSE_LOG_TEMPLATE, DEFAULT_PROFILE, PROFILES, profiles as profileMap, skillsIndex, TRACKER_TEMPLATE, INTENT_TEMPLATE, CYCLES_TEMPLATE, DELIVERY_LOG_TEMPLATE, vocabularyPack, VOCABULARY_NAMES } from "../bundled/index.ts";
-import { COMPOSE_LOG_REL, DELIVERY_LOG_REL } from "../record/record-write.ts";
+import { agentsMd, recordFiles, ruleFiles, specVersion, COMPOSE_LOG_TEMPLATE, DEMO_README_TEMPLATE, DEFAULT_PROFILE, PROFILES, profiles as profileMap, skillsIndex, TRACKER_TEMPLATE, INTENT_TEMPLATE, CYCLES_TEMPLATE, DELIVERY_LOG_TEMPLATE, vocabularyPack, VOCABULARY_NAMES } from "../bundled/index.ts";
+import { COMPOSE_LOG_REL, DEMO_DIR_REL, DELIVERY_LOG_REL } from "../record/record-write.ts";
 import { applyMovementGlosses, renderVocabularyMd, type VocabularyPack } from "../record/vocabulary.ts";
 import { installBundledSkill, plantAgentPresets, writeLock, emptyLock, LOCK_REL } from "../skills/lock.ts";
 import { envelope } from "../emit/json.ts";
@@ -74,6 +74,10 @@ export function run(args: Args, io: Io): number {
   // empty compose room truthfully means "not there yet" — the gate appends
   // its first row at this record's first delivery
   putNew(join(root, COMPOSE_LOG_REL), COMPOSE_LOG_TEMPLATE, `${RECORD_DIR}/${COMPOSE_LOG_REL}`);
+  // the demonstrate room's door (IMP-15): demo/ holds one bundle per
+  // delivered unit; the anchor names the convention so an empty room
+  // truthfully means "not there yet"
+  putNew(join(root, DEMO_DIR_REL, "README.md"), DEMO_README_TEMPLATE, `${RECORD_DIR}/${DEMO_DIR_REL}/README.md`);
   // the manifest is engine-owned metadata: refreshed on init, other keys
   // preserved — and never stamped backwards (writeManifest returns the
   // surviving stamp; a record ahead of this CLI stays ahead)

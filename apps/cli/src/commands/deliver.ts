@@ -10,7 +10,7 @@ import { appendText, readText, sha16, today } from "../fsx.ts";
 import { loadRecord, unitStatus } from "../record/load.ts";
 import { field } from "../record/frontmatter.ts";
 import { deliverGates } from "../passes/index.ts";
-import { assertTransition, appendTracker, appendDeliveryLog, appendComposeLog, setStatus } from "../record/record-write.ts";
+import { assertTransition, appendTracker, appendDeliveryLog, appendComposeLog, scaffoldDemoHowTo, DEMO_DIR_REL, DEMO_HOWTO_NAME, setStatus } from "../record/record-write.ts";
 import { complain, resolveUnitOrComplain, unitFile } from "./resolve.ts";
 import { envelope } from "../emit/json.ts";
 
@@ -61,13 +61,17 @@ export function run(args: Args, io: Io): number {
   setStatus(join(rec.root, unit.dir, "spec.md"), "delivered");
   const specSha = sha16(readText(join(rec.root, unit.dir, "spec.md")) ?? "");
   const composeLine = appendComposeLog(rec, name, specSha, field(unit.spec?.front ?? null, "deviations"));
+  // the demonstrate room's bundle (IMP-15): scaffolded create-only at
+  // deliver, filled by the agent before launch — the launch auditor
+  // refuses the unfilled form
+  const scaffolded = scaffoldDemoHowTo(rec, name);
 
   const gateLine = `GATE PASS ${name} — delivered ${date} (${gates.map((g) => `${g.id} ${g.detail}`).join(" · ")})`;
   if (args.json) {
-    io.out(JSON.stringify(envelope("deliver", { unit: name, ok: true, gates, tracker: trackerLine, deliveryLog: logLine, composeLog: composeLine }), null, 2));
+    io.out(JSON.stringify(envelope("deliver", { unit: name, ok: true, gates, tracker: trackerLine, deliveryLog: logLine, composeLog: composeLine, demoScaffold: scaffolded }), null, 2));
   } else {
     io.out(gateLine);
-    io.err(`appended ${unit.dir}/delivered.md + tracker + 04-govern/delivery-log.md + 02-compose/compose-log.md · status set to delivered`);
+    io.err(`appended ${unit.dir}/delivered.md + tracker + 04-govern/delivery-log.md + 02-compose/compose-log.md + ${DEMO_DIR_REL}/${name}/${DEMO_HOWTO_NAME} · status set to delivered`);
   }
   return 0;
 }

@@ -12,7 +12,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, 
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { recordFiles, agentsMd, profiles as bundledProfiles, cliVersion, specVersion, skillsIndex, ruleFiles, vocabularies, VOCABULARY_NAMES, vocabularyPack, COMPOSE_LOG_TEMPLATE } from "./bundled/index.ts";
+import { recordFiles, agentsMd, profiles as bundledProfiles, cliVersion, specVersion, skillsIndex, ruleFiles, vocabularies, VOCABULARY_NAMES, vocabularyPack, COMPOSE_LOG_TEMPLATE, DEMO_README_TEMPLATE, DEMO_HOWTO_TEMPLATE } from "./bundled/index.ts";
 import { treeFindings } from "./passes/tree.ts";
 import { governanceFindings } from "./passes/governance.ts";
 import { loadRecord } from "./record/load.ts";
@@ -420,8 +420,12 @@ check("deliver passes on the fixture", run(fixture, ["deliver", "kept-unit"]), 0
 check("sign refused before launch (DG-U112)", run(fixture, ["sign", "kept-unit", "--by", "Testy Founder"]), 1, (r) => r.stdout.includes("DG-U112") || r.stderr.includes("DG-U112"));
 rmSync(join(fixture, ".docodego", "01-document", "01-discover", "kept-unit", "proofs", "run.txt"));
 check("launch refused on vanished evidence (exit 1)", run(fixture, ["launch", "kept-unit"]), 1, (r) => r.stdout.includes("vanished") || r.stderr.includes("vanished"));
+// L5 (010-demo-bundles): the launch repairs forward — the pre-bundles unit's
+// missing scaffold is written beside the refusal, and the refusal names it
+check("launch repairs forward: the missing demo bundle scaffolded beside the refusal", run(fixture, ["launch", "kept-unit"]), 1, (r) => (r.stdout + r.stderr).includes("scaffold") && existsSync(join(fixture, ".docodego", "03-demonstrate", "demo", "kept-unit", "how-to-run.md")));
+write(fixture, ".docodego/03-demonstrate/demo/kept-unit/how-to-run.md", "# how to run\n\nFilled: the suite is the demo — the conformance suite walks kept-unit's tier flow end to end.\n");
 write(fixture, ".docodego/01-document/01-discover/kept-unit/proofs/run.txt", "proof run output restored\n");
-check("launch passes on restored evidence", run(fixture, ["launch", "kept-unit"]), 0);
+check("launch passes on restored evidence + filled bundle", run(fixture, ["launch", "kept-unit"]), 0, (r) => r.stdout.includes("L5 how-to-run.md filled"));
 check("sign passes with a named person", run(fixture, ["sign", "kept-unit", "--by", "Testy Founder"]), 0);
 const ledgerBefore = read(fixture, "04-govern/signatures.md").split("\n").length;
 check("second signature refused (DG-U113)", run(fixture, ["sign", "kept-unit", "--by", "Testy Founder"]), 1, (r) => r.stdout.includes("DG-U113") || r.stderr.includes("DG-U113"));
@@ -540,6 +544,12 @@ fact("the compose log template names its readers and its grammar", COMPOSE_LOG_T
   fact("a lost log is recreated with its header on the next append", read(cl, "02-compose/compose-log.md").startsWith("# Compose log"));
   rmSync(cl, { recursive: true, force: true });
 }
+
+// --- v2m: the demonstrate room's bundles (010-demo-bundles) ---
+fact("the demo room anchor names its readers and the not-there-yet truth", DEMO_README_TEMPLATE.includes("show me it working") && DEMO_README_TEMPLATE.includes("launch auditor") && DEMO_README_TEMPLATE.includes("not there yet"));
+fact("the demo scaffold carries the three fill sections and the honesty line", DEMO_HOWTO_TEMPLATE.includes("## see it work") && DEMO_HOWTO_TEMPLATE.includes("## run output") && DEMO_HOWTO_TEMPLATE.includes("## visual evidence") && DEMO_HOWTO_TEMPLATE.includes("paths, not pasted binaries"));
+fact("init plants the demo room anchor", existsSync(join(scratch, ".docodego", "03-demonstrate", "demo", "README.md")) && read(scratch, "03-demonstrate/demo/README.md") === DEMO_README_TEMPLATE);
+fact("deliver scaffolded the delivered unit's bundle — byte-identical to the template, all sections present", read(scratch, "03-demonstrate/demo/010-first-unit/how-to-run.md") === DEMO_HOWTO_TEMPLATE);
 
 // --- v2d: the gate-rows law ships and teaches (300) ---
 fact("the payload's AGENTS.md teaches the gate-rows law", agentsMd().includes("Gate rows ride the unit's commit"));

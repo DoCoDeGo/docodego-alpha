@@ -8,8 +8,8 @@ import { createHash } from "node:crypto";
 import { dirname, join } from "node:path";
 import { readText, writeText } from "../fsx.ts";
 import { emptyLock, writeLock, LOCK_REL } from "../skills/lock.ts";
-import { COMPOSE_LOG_TEMPLATE, DELIVERY_LOG_TEMPLATE, INTENT_TEMPLATE, CYCLES_TEMPLATE, specVersion, recordFiles, agentsMd, statutesShippedHashes } from "../bundled/index.ts";
-import { COMPOSE_LOG_REL, DELIVERY_LOG_REL } from "../record/record-write.ts";
+import { COMPOSE_LOG_TEMPLATE, DEMO_README_TEMPLATE, DELIVERY_LOG_TEMPLATE, INTENT_TEMPLATE, CYCLES_TEMPLATE, specVersion, recordFiles, agentsMd, statutesShippedHashes } from "../bundled/index.ts";
+import { COMPOSE_LOG_REL, DEMO_DIR_REL, DELIVERY_LOG_REL } from "../record/record-write.ts";
 import { V1_README, V1_STATUTES, V1_TECH_RADAR, V1_TRACKER } from "./v1-scaffold.ts";
 
 export interface Migration {
@@ -225,6 +225,15 @@ export const MIGRATIONS: Migration[] = [
       "one create-only step plants the log: engine-owned like the delivery log (a file that grows at every delivery would drift an embedded copy), so it is a migration step, not a boundary row — a record that already keeps its own compose-log.md keeps it",
     ],
     steps: [(root) => createOnly(root, COMPOSE_LOG_REL, COMPOSE_LOG_TEMPLATE)],
+  },
+  {
+    from: 20,
+    to: 21,
+    notes: [
+      "the demonstrate room gets its gate-written artifact class: demo/<unit>/ bundles — how-to-run.md scaffolded create-only at deliver, filled by the agent before launch; the launch gate refuses the unfilled scaffold (L5), because the founder's 'show me it working' is never answered with an unfilled form (020-canon-debts/010-demo-bundles)",
+      "one create-only step plants the room's anchor (demo/README.md, naming both readers and the not-there-yet truth); the per-unit scaffolds are written by the gates themselves — a delivered unit from before the bundles scaffolds at its next launch attempt, the repair always forward",
+    ],
+    steps: [(root) => createOnly(root, `${DEMO_DIR_REL}/README.md`, DEMO_README_TEMPLATE)],
   },
 ];
 

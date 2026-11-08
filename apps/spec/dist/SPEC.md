@@ -2,7 +2,7 @@
 
 **Dual Operating Composition Demonstration and Governance System**
 
-**Version:** 1.0.11 · **Status:** Canonical · **Licence:** CC BY 4.0
+**Version:** 1.0.12 · **Status:** Canonical · **Licence:** CC BY 4.0
 
 The DoCoDeGo System is the operating model for building products when machines do the
 making. It does not do the work. It keeps the work in order: an intent written precisely

@@ -21,6 +21,10 @@ delivered unit's evidence still holding under a fresh audit:
   L3  the record's own check pass is error-clean
   L4  the tracker + delivery-log rows exist — a delivery the record
       cannot reconstruct did not happen
+  L5  the demo bundle is filled — demo/<unit>/how-to-run.md exists and
+      is no longer the scaffold; "show me it working" is never answered
+      with an unfilled form (a missing scaffold is scaffolded beside the
+      refusal, the repair always forward)
 
 pass: appends launch.md + a tracker row, sets status 'launch-passed'.
 fail: prints the failed gates, records the attempt in the tracker, exit 1 —

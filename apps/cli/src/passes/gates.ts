@@ -8,6 +8,8 @@ import { acceptance, findSection } from "../record/sections.ts";
 import { lastVerdict } from "./grillq.ts";
 import { proofPaths, proofResolves, checkPass } from "./check.ts";
 import { scoreSpec } from "./score.ts";
+import { DEMO_HOWTO_TEMPLATE } from "../bundled/index.ts";
+import { demoHowToPath, DEMO_DIR_REL, DEMO_HOWTO_NAME } from "../record/record-write.ts";
 import { parseMarkdown } from "../record/markdown.ts";
 import type { RecordAst, UnitAst } from "../record/load.ts";
 import { TRACKER_REL } from "../record/load.ts";
@@ -31,7 +33,7 @@ export function deliverGates(rec: RecordAst, unit: UnitAst): Gate[] {
  * the record's own check pass is error-clean, and the delivery rows are
  * on file. */
 export function launchGates(rec: RecordAst, unit: UnitAst): Gate[] {
-  return [receiptGate(unit), proofsStillGate(rec, unit), checkCleanGate(rec), deliveryRowsGate(rec, unit)];
+  return [receiptGate(unit), proofsStillGate(rec, unit), checkCleanGate(rec), deliveryRowsGate(rec, unit), demoBundleGate(rec, unit)];
 }
 
 function receiptGate(unit: UnitAst): Gate {
@@ -72,6 +74,19 @@ function deliveryRowsGate(rec: RecordAst, unit: UnitAst): Gate {
     passed: ok,
     detail: ok ? "both rows present" : `missing: ${inTracker ? "" : "tracker row "}${inLog ? "" : "delivery-log row"} — a delivery the record cannot reconstruct did not happen`,
   };
+}
+
+/** L5 — the demo bundle is filled (IMP-15): the founder's "show me it
+ * working" has a home at demo/<unit>/, scaffolded at deliver, and this
+ * gate refuses the unfilled form — bytes still identical to the template
+ * mean nobody has said how to see the unit work. The pass stays pure:
+ * the scaffold for a missing bundle is written by the launch command
+ * before the gates run (repair forward), never by this pass. */
+function demoBundleGate(rec: RecordAst, unit: UnitAst): Gate {
+  const raw = readText(demoHowToPath(rec, unit.name));
+  if (raw === null) return { id: "L5", label: "demo bundle filled", passed: false, detail: `no demo bundle at ${DEMO_DIR_REL}/${unit.name}/ — the scaffold should be beside this refusal; fill how-to-run.md (one honest line suffices) and re-run launch` };
+  if (raw === DEMO_HOWTO_TEMPLATE) return { id: "L5", label: "demo bundle filled", passed: false, detail: `${DEMO_DIR_REL}/${unit.name}/${DEMO_HOWTO_NAME} is still the unfilled scaffold — say how to see it work (one honest line suffices), then re-run launch` };
+  return { id: "L5", label: "demo bundle filled", passed: true, detail: "how-to-run.md filled — the show exists" };
 }
 
 function specGate(unit: UnitAst): Gate {

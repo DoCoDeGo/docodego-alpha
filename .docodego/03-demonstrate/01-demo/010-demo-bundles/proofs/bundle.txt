@@ -1,0 +1,4 @@
+bundle drift: 2 change(s) + manifest.json out of sync with payload.ts
+  AGENTS.md — major — AGENTS.md rule line(s) removed/rewritten: 1
+  specVersion (declared) — none — declared 20 -> 21
+exit=1

@@ -70,7 +70,7 @@ founding brief, `cycles.md` the numbered log of research and decisions.
 - `docodego lint` — the rule tree over the record (`--self-check` validates the rules).
 - `docodego status` — where the work stands.
 - `docodego deliver <unit>` — the gate: four checks, then delivered.md + tracker + delivery-log rows.
-- `docodego launch <unit>` — the launch gate: the delivered unit's evidence re-audited (proofs still resolve, record check clean) — status launch-passed.
+- `docodego launch <unit>` — the launch gate: the delivered unit's evidence re-audited (proofs still resolve, record check clean, the demo bundle filled) — status launch-passed.
 - `docodego sign <unit> --by "<legal name>"` — the last tier: a named person's attestation, recorded as an act receipt — status founder-signed.
 - `docodego upgrade` — plan the record's move to the CLI's bundled record version (`--apply`, `--branch`).
 - `docodego skill list|add|remove` — the installed craft, audited via the lockfile.

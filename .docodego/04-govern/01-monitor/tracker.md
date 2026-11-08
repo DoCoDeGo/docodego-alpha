@@ -124,3 +124,5 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 370-planted-ignore | delivered | 02-compose/01-build/370-planted-ignore/delivered.md |
 | 2026-11-08 | 380-compose-log | new unit | 02-compose/01-build/380-compose-log/spec.md |
 | 2026-11-08 | 380-compose-log | delivered | 02-compose/01-build/380-compose-log/delivered.md |
+| 2026-11-08 | 010-demo-bundles | new unit | 03-demonstrate/01-demo/010-demo-bundles/spec.md |
+| 2026-11-08 | 010-demo-bundles | delivered | 03-demonstrate/01-demo/010-demo-bundles/delivered.md |

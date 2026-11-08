@@ -1,7 +1,7 @@
 /** Tracker, delivery log, and spec status writes — the sanctioned metadata updates. */
 import { join } from "node:path";
 import { appendText, readText, today, writeText } from "../fsx.ts";
-import { COMPOSE_LOG_TEMPLATE, DELIVERY_LOG_TEMPLATE, SIGNATURES_TEMPLATE, TRACKER_TEMPLATE } from "../bundled/index.ts";
+import { COMPOSE_LOG_TEMPLATE, DEMO_HOWTO_TEMPLATE, DELIVERY_LOG_TEMPLATE, SIGNATURES_TEMPLATE, TRACKER_TEMPLATE } from "../bundled/index.ts";
 import { TRACKER_REL, type RecordAst } from "./load.ts";
 
 /** The delivery log lives beside the tracker at the govern root: one row per
@@ -59,6 +59,27 @@ export function appendComposeLog(rec: RecordAst, unit: string, specSha: string, 
   const line = `| ${today()} | ${unit} | ${specSha} | ${declared} |\n`;
   appendText(abs, line);
   return line.trim();
+}
+
+/** The demo room: each delivered unit's bundle lives at
+ * `03-demonstrate/demo/<unit>/`, scaffolded by the deliver gate, filled
+ * by the agent before launch (IMP-15). Engine-owned templates — the
+ * folders are user state and never a boundary row. */
+export const DEMO_DIR_REL = "03-demonstrate/demo";
+export const DEMO_HOWTO_NAME = "how-to-run.md";
+
+/** Absolute path of a unit's demo scaffold inside the record. */
+export function demoHowToPath(rec: RecordAst, unit: string): string {
+  return join(rec.root, DEMO_DIR_REL, unit, DEMO_HOWTO_NAME);
+}
+
+/** Write the unit's demo scaffold — create-only: a bundle the agent
+ * already filled (or scaffolded earlier) is never rewritten. */
+export function scaffoldDemoHowTo(rec: RecordAst, unit: string): boolean {
+  const abs = demoHowToPath(rec, unit);
+  if (readText(abs) !== null) return false;
+  writeText(abs, DEMO_HOWTO_TEMPLATE);
+  return true;
 }
 
 /** The status machine — the transitions the writers may mint. Forward moves

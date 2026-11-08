@@ -12,3 +12,4 @@ delivered through this room yet.
 | date | unit | spec | deviations |
 |---|---|---|---|
 | 2026-11-08 | 380-compose-log | 4793bc85ed127838 | none recorded |
+| 2026-11-08 | 010-demo-bundles | ce751c8ccba6df2a | none recorded |
