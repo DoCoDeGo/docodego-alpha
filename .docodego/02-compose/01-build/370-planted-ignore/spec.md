@@ -2,7 +2,7 @@
 name: 370-planted-ignore
 type: unit
 epic: 020-canon-debts
-status: scored
+status: delivered
 ---
 
 # 370-planted-ignore

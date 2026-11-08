@@ -102,7 +102,7 @@ land; a row never sits silently between states.
 |---|---|---|
 | 1 plan-approval protocol | founder | nothing ships until the founder bounds what an agent may auto-approve; the source doc's `plan-approval:` tracker row is the ready form |
 | 2 decisions home | landed | the planted AGENTS.md names cycles.md "the numbered log of research and decisions" (AGENTS.md, decisions line) |
-| 3 planted .gitignore | unowned | no .gitignore in the payload boundary (bundle.manifest.json); candidate: the cluster-4 child |
+| 3 planted .gitignore | landed | 370-planted-ignore: .docodego/.gitignore joins the boundary (52nd row, allowlist v2) — var/ the scratch home, *.new the upgrade's conflict copies, the comments teaching both; record contract 19 |
 | 4 gate-row fraud claim | declined | overturned by the source doc itself — the rows were gate-written, no fraud; lesson recorded there |
 | 5 structure improvisation | declined | resolved into IMP-6 by the source doc (03's structure was the streams prose, not improvisation) |
 | 6 streams fork, canonical home | landed | the type home is the one home: TYPE_HOME / DEFAULT_STREAM (record/streams.ts), `new` plants there (commands/new.ts), one scanner renders any home |
