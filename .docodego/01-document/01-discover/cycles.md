@@ -169,3 +169,30 @@ annotation, not the founder's words.
 - R10-5: scorer satisfiability becomes a named requirement of the
   ICS 2.0 redesign — recorded in that redesign's spec, not invented
   as a mechanism here.
+
+### The sign-off form (2026-11-08, via popup — recorded verbatim)
+
+Moving EL-33/EL-34 into law needs the owner's sign-off recorded in each
+amendment file. Asked how the sign-off sections should record it, the
+founder answered:
+
+> We can use their git or system details or similar. Quoting someone
+> verbatim is find until they accidentally say something they should
+> not. Also we need to be able to detect security risks like API keys
+> and avoid storing that. Probably a tool can aid with this. We need to
+> make it as easy as possible for the founder.
+
+**What this sets in motion** (recorded same day):
+
+- The sign-off's identity may be derived from git or system details of
+  the environment the acceptance came from — the founder does not type
+  a legal name for the act. The attestation limit applies as EL-34's
+  own text states it: the record witnesses, it does not prove identity.
+- Verbatim quoting stays the rule, with a guard: text is scanned for
+  secrets (API keys and the like) before it is stored, and anything
+  secret-shaped is not stored. This act's stored text was scanned
+  before recording — clean.
+- A tool should mechanize the whole act (identity derivation, the
+  secret scan, one-command low friction) — a follow-up delivery unit.
+- EL-18 stays `status: draft`: the founder accepted EL-33 and EL-34
+  only; the batch's independence clause holds.
