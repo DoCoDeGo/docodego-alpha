@@ -3,7 +3,8 @@
 import type { Diagnostic } from "../types.ts";
 
 export function renderDiagnostic(d: Diagnostic): string {
-  const head = `${d.severity}[${d.code}]: ${d.message}`;
+  const sev = d.severity === "warning" ? `warning (${d.class ?? "drift"})` : d.severity;
+  const head = `${sev}[${d.code}]: ${d.message}`;
   const hint = `  help: docodego explain ${d.code}`;
   if (d.file === undefined) return `${head}\n${hint}`;
   const loc = d.span !== undefined ? `${d.file}:${d.span.start.line}:${d.span.start.col}` : d.file;

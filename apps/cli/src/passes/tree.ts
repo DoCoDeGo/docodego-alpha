@@ -43,13 +43,13 @@ function rulesFloor(root: string): Diagnostic[] {
     const fm = frontmatterOf(body);
     const missing = (["reader", "fails-when", "enforced-by"] as const).filter((k) => (fm[k] ?? "").trim() === "");
     if (missing.length > 0) {
-      out.push({ severity: "warning", code: "DG-C010", message: `${RULES_DIR}/${name} is furniture: frontmatter missing ${missing.join(", ")} — a rule states who reads it, what failure it prevents, and what holds it, or it is not a rule`, file: `${RULES_DIR}/${name}` });
+      out.push({ severity: "warning", class: "drift", code: "DG-C010", message: `${RULES_DIR}/${name} is furniture: frontmatter missing ${missing.join(", ")} — a rule states who reads it, what failure it prevents, and what holds it, or it is not a rule`, file: `${RULES_DIR}/${name}` });
       continue;
     }
     const target = (fm["enforced-by"] ?? "").trim();
     const live = LIVE_TARGETS.has(target) || target.startsWith("practice:");
     if (!live) {
-      out.push({ severity: "warning", code: "DG-C010", message: `${RULES_DIR}/${name} is furniture: enforced-by names nothing live ('${target}') — name check:stack-scan, check:untracked-scan, or practice: with the instrument that exercises it`, file: `${RULES_DIR}/${name}` });
+      out.push({ severity: "warning", class: "drift", code: "DG-C010", message: `${RULES_DIR}/${name} is furniture: enforced-by names nothing live ('${target}') — name check:stack-scan, check:untracked-scan, or practice: with the instrument that exercises it`, file: `${RULES_DIR}/${name}` });
     }
   }
   return out;
@@ -63,7 +63,7 @@ function stackScan(root: string): Diagnostic[] {
   if (js.length === 0) return [];
   const sample = js.slice(0, 5).join(", ");
   return [{
-    severity: "warning",
+    severity: "warning", class: "drift",
     code: "DG-C008",
     message: `standard-stack-default: ${js.length} plain-JS source file(s) beside a typed stack (sample: ${sample}) — web means TypeScript end-to-end, typecheck in the verify path; see .agents/rules/standard-stack-default.md`,
     file: js[0],
@@ -82,7 +82,7 @@ function untrackedScan(root: string): Diagnostic[] {
   if (untracked.length === 0) return [];
   const sample = untracked.slice(0, 5).join(", ");
   return [{
-    severity: "warning",
+    severity: "warning", class: "drift",
     code: "DG-C009",
     message: `no-untracked-source: ${untracked.length} untracked source file(s) (sample: ${sample}) — everything committed, the verify path reproducible by a stranger; see .agents/rules/no-untracked-source.md`,
     file: untracked[0],

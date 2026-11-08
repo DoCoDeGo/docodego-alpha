@@ -21,6 +21,10 @@ export interface Diagnostic {
   message: string;
   file?: string;
   span?: Span;
+  /** IMP-14: the triage class of a warning — drift (a real gap) or prose
+   * (cosmetic wording). Unclassified warnings read as drift: the safe
+   * assumption. Errors need no class. */
+  class?: "drift" | "prose";
 }
 
 export type Mode = "auto" | "review" | "guided" | "hands-on";

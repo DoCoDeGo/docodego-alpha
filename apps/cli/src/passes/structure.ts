@@ -23,12 +23,12 @@ export function structurePass(rec: RecordAst): Diagnostic[] {
         continue;
       }
       if (!isFile(join(sDir, "README.md"))) {
-        out.push({ severity: "warning", code: "DG-S003", message: "stream lacks its producer-consumer README", file: `${movement}/${stream}/README.md` });
+        out.push({ severity: "warning", class: "drift", code: "DG-S003", message: "stream lacks its producer-consumer README", file: `${movement}/${stream}/README.md` });
       }
     }
   }
   if (rec.trackerPath === null) {
-    out.push({ severity: "warning", code: "DG-S004", message: "tracker.md is missing — deliver and new cannot append to it", file: "04-govern/01-monitor/tracker.md" });
+    out.push({ severity: "warning", class: "drift", code: "DG-S004", message: "tracker.md is missing — deliver and new cannot append to it", file: "04-govern/01-monitor/tracker.md" });
   }
   for (const entry of listDirs(rec.root)) {
     if (!ROOT_ALLOWED.has(entry)) {

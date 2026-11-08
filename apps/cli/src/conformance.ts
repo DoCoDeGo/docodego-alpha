@@ -626,7 +626,22 @@ fact("the payload's AGENTS.md states the event order and the repair rule", agent
   write(rh, join(".docodego", "01-document", "01-discover", "010-scored-unit", "spec.md"), body.replace("## intent", "## intent (revised materially after scoring)"));
   const warned = run(rh, ["check"]);
   fact("check warns DG-C018 when the spec moves past its recorded score", warned.stdout.includes("DG-C018") && warned.stdout.includes("re-run 'docodego score'"));
+  fact("a drift-class warning renders its class", warned.stdout.includes("warning (drift)[DG-C018]"));
   rmSync(rh, { recursive: true, force: true });
+}
+
+// --- v2j: the triage classes render (360) ---
+{
+  const ph = mkdtempSync(join(tmpdir(), "docodego-conformance-prose-"));
+  check("prose: init", run(ph, ["init"]), 0);
+  check("prose: new", run(ph, ["new", "wording-unit"]), 0);
+  write(ph, "ans.txt", "GQ-1: holds\nGQ-2: by proofs\nGQ-3: none\nGQ-4: none\nGQ-AC1: captured\nGQ-AC2: same\n");
+  check("prose: grill", run(ph, ["grill", "010-wording-unit", "--answers", "ans.txt"]), 0);
+  check("prose: score", run(ph, ["score", "010-wording-unit"]), 0);
+  write(ph, join(".docodego", "01-document", "01-discover", "010-wording-unit", "proofs.md"), "# proofs\n\n- AC1 — real: `01-document/01-discover/010-wording-unit/spec.md`\n- stray: `/etc/hosts` absolute\n");
+  const res = run(ph, ["check"]);
+  fact("a prose-class warning renders its class", res.stdout.includes("warning (prose)[DG-C002]"));
+  rmSync(ph, { recursive: true, force: true });
 }
 
 // --- v5: vocabulary packs — words change, the contract does not ---

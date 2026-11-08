@@ -67,11 +67,11 @@ export function governanceFindings(rec: RecordAst): Diagnostic[] {
     // a name no unit carries AND no tracker row ever carried is a ghost —
     // retired units keep their tracker rows, so history stays honest
     if (!names.has(row) && !cell(row).test(tracker)) {
-      out.push({ severity: "warning", code: "DG-C013", message: `the delivery log names '${row}' — no such unit in the record`, file: DELIVERY_LOG_REL });
+      out.push({ severity: "warning", class: "drift", code: "DG-C013", message: `the delivery log names '${row}' — no such unit in the record`, file: DELIVERY_LOG_REL });
     }
   }
   for (const v of verdictIncoherence(rec)) {
-    out.push({ severity: "warning", code: "DG-C014", message: `unit '${v.unit}' ${v.detail}`, file: join(v.unit, "spec.md") });
+    out.push({ severity: "warning", class: "drift", code: "DG-C014", message: `unit '${v.unit}' ${v.detail}`, file: join(v.unit, "spec.md") });
   }
   return out;
 }

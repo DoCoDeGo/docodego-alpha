@@ -57,7 +57,7 @@ function checkUnit(rec: RecordAst, unit: UnitAst): Diagnostic[] {
       if (bound !== null) {
         const current = sha16(readText(join(rec.root, unit.dir, "spec.md")) ?? "");
         if (bound !== current) {
-          out.push({ severity: "warning", code: "DG-C018", message: `the recorded score binds an older spec (sha ${bound}, the spec is now ${current}) — the number certifies content it never graded; re-run 'docodego score'`, file: unit.markers.score });
+          out.push({ severity: "warning", class: "drift", code: "DG-C018", message: `the recorded score binds an older spec (sha ${bound}, the spec is now ${current}) — the number certifies content it never graded; re-run 'docodego score'`, file: unit.markers.score });
         }
       }
     }
@@ -75,7 +75,7 @@ function checkUnit(rec: RecordAst, unit: UnitAst): Diagnostic[] {
   if (unit.markers.grill !== null) {
     const raw = readText(join(rec.root, unit.markers.grill)) ?? "";
     if (!/\bverdict:\s*(pass|fail)\b/i.test(raw)) {
-      out.push({ severity: "warning", code: "DG-C007", message: "grill.md holds no readable verdict line", file: unit.markers.grill });
+      out.push({ severity: "warning", class: "drift", code: "DG-C007", message: "grill.md holds no readable verdict line", file: unit.markers.grill });
     }
   }
   for (const linkKey of ["epic", "story"] as const) {
@@ -83,7 +83,7 @@ function checkUnit(rec: RecordAst, unit: UnitAst): Diagnostic[] {
     if (link === undefined) continue;
     const target = rec.units.find((u) => u.name === link);
     if (target === undefined) {
-      out.push({ severity: "warning", code: "DG-C006", message: `broken link: ${linkKey} '${link}' names no unit in the record`, file: unit.dir });
+      out.push({ severity: "warning", class: "drift", code: "DG-C006", message: `broken link: ${linkKey} '${link}' names no unit in the record`, file: unit.dir });
     }
   }
   return out;
@@ -114,7 +114,7 @@ function checkProofs(rec: RecordAst, unit: UnitAst): Diagnostic[] {
   const absolute = paths.filter((p) => isAbsolute(p));
   if (absolute.length > 0) {
     const listed = absolute.slice(0, 3).join(", ") + (absolute.length > 3 ? ` +${absolute.length - 3} more` : "");
-    out.push({ severity: "warning", code: "DG-C002", message: `absolute proof path(s) never resolve — proofs are record-root relative: write the path as it sits under the record root, never from the machine's own filesystem (${listed})`, file: unit.markers.proofs });
+    out.push({ severity: "warning", class: "prose", code: "DG-C002", message: `absolute proof path(s) never resolve — proofs are record-root relative: write the path as it sits under the record root, never from the machine's own filesystem (${listed})`, file: unit.markers.proofs });
   }
   const dead = paths.filter((p) => !proofResolves(rec, unit, p));
   if (dead.length === paths.length) {
@@ -122,7 +122,7 @@ function checkProofs(rec: RecordAst, unit: UnitAst): Diagnostic[] {
     out.push({ severity: "error", code: "DG-C002", message: `no proof path in proofs.md exists on disk — the delivery claim is unevidenced (looked for: ${listed})`, file: unit.markers.proofs });
   } else if (dead.length > 0) {
     const listed = dead.slice(0, 3).join(", ") + (dead.length > 3 ? ` +${dead.length - 3} more` : "");
-    out.push({ severity: "warning", code: "DG-C002", message: `proof path(s) not on disk (quoted variants or stale entries): ${listed}`, file: unit.markers.proofs });
+    out.push({ severity: "warning", class: "prose", code: "DG-C002", message: `proof path(s) not on disk (quoted variants or stale entries): ${listed}`, file: unit.markers.proofs });
   }
   // IMP-16: the stale-proofs light. A delivered unit's proofs describe the
   // tree at delivery; a cited external file that gains commits after the
@@ -142,7 +142,7 @@ function checkProofs(rec: RecordAst, unit: UnitAst): Diagnostic[] {
     }
     if (stale.length > 0) {
       const listed = stale.slice(0, 3).join(", ") + (stale.length > 3 ? ` +${stale.length - 3} more` : "");
-      out.push({ severity: "warning", code: "DG-C017", message: `proof evidence has commits after the delivery day — the proofs describe an older tree: recapture the proof or record the supersession row (${listed})`, file: unit.markers.proofs });
+      out.push({ severity: "warning", class: "drift", code: "DG-C017", message: `proof evidence has commits after the delivery day — the proofs describe an older tree: recapture the proof or record the supersession row (${listed})`, file: unit.markers.proofs });
     }
   }
   return out;
@@ -185,7 +185,7 @@ function checkProofsAhead(rec: RecordAst, unit: UnitAst): Diagnostic[] {
   const absolute = paths.filter((p) => isAbsolute(p));
   if (absolute.length > 0) {
     const listed = absolute.slice(0, 3).join(", ") + (absolute.length > 3 ? ` +${absolute.length - 3} more` : "");
-    out.push({ severity: "warning", code: "DG-C002", message: `absolute proof path(s) never resolve — proofs are record-root relative: write the path as it sits under the record root (${listed})`, file: unit.markers.proofs ?? "" });
+    out.push({ severity: "warning", class: "prose", code: "DG-C002", message: `absolute proof path(s) never resolve — proofs are record-root relative: write the path as it sits under the record root (${listed})`, file: unit.markers.proofs ?? "" });
   }
   const dead = paths.filter((p) => !proofResolves(rec, unit, p));
   if (dead.length === 0) return out;
@@ -193,7 +193,7 @@ function checkProofsAhead(rec: RecordAst, unit: UnitAst): Diagnostic[] {
   if (dead.length === paths.length) {
     out.push({ severity: "error", code: "DG-C002", message: `no proof path in proofs.md exists on disk — deliver will refuse (looked for: ${listed})`, file: unit.markers.proofs ?? "" });
   } else {
-    out.push({ severity: "warning", code: "DG-C002", message: `proof path(s) not on disk yet: ${listed}`, file: unit.markers.proofs ?? "" });
+    out.push({ severity: "warning", class: "prose", code: "DG-C002", message: `proof path(s) not on disk yet: ${listed}`, file: unit.markers.proofs ?? "" });
   }
   return out;
 }

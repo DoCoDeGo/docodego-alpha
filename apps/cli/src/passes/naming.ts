@@ -17,7 +17,7 @@ export function namingPass(rec: RecordAst): Diagnostic[] {
     const looksLikeUnit = unit.spec !== null || UNIT_FILES.some((f) => isFile(join(rec.root, unit.dir, f)));
     if (!looksLikeUnit) {
       out.push({
-        severity: "warning",
+        severity: "warning", class: "drift",
         code: "DG-N003",
         message: `'${unit.name}' holds none of the unit files (${UNIT_FILES.join(", ")})`,
         file: unit.dir,
@@ -28,7 +28,7 @@ export function namingPass(rec: RecordAst): Diagnostic[] {
     // without reading the tracker — see spec7-naming
     if (!/^\d{3}-/.test(unit.name)) {
       out.push({
-        severity: "warning",
+        severity: "warning", class: "drift",
         code: "DG-N004",
         message: `unit folder '${unit.name}' carries no NNN- sequence prefix — rename to <NNN>-${unit.name} in tracker order (step of ten)`,
         file: unit.dir,

@@ -50,7 +50,7 @@ function checkUnit(unit: UnitAst): Diagnostic[] {
   for (const linkKey of ["epic", "story"] as const) {
     const link = field(fm, linkKey);
     if (link !== undefined && !isKebab(link)) {
-      out.push({ severity: "warning", code: "DG-F006", message: `${linkKey} link '${link}' is not kebab-case`, file: spec.path, span: fm?.fields[0]?.span });
+      out.push({ severity: "warning", class: "drift", code: "DG-F006", message: `${linkKey} link '${link}' is not kebab-case`, file: spec.path, span: fm?.fields[0]?.span });
     }
   }
   if (fm !== null && fm.errors.length > 0) {
