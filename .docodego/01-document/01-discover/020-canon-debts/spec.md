@@ -111,7 +111,7 @@ land; a row never sits silently between states.
 | 11 hard/guidance registers | unowned | founder directive, large; candidate: its own law child ahead of the 1.1.0 amendment batch |
 | 12 score hash + reuse warning | landed | 350-score-reuse: check warns DG-C018 when a scored or delivered unit's spec hash no longer matches its recorded score — the same last-block-wins extraction the G2 gate reads (the score hash itself shipped with 240's binding) |
 | 13 solo-grill honesty | landed | 340-grill-mode: every grill round names its mode — self-grilled by default, --by <who> for a named answerer; the form of independence is never recorded as the fact of it |
-| 14 warning drift/prose classes | unowned | check warnings carry no triage class; candidate: a small check child (with the node --test nit for the prove docs) |
+| 14 warning triage classes | landed | 360-warning-classes: every warning renders its triage class — drift (a real gap) or prose (cosmetic wording; the C002 family) — classified at the detector, unclassified reads drift; the node --test nit investigated moot |
 | 15 integrity map (compose-log, demo bundles) | drafted | the status-rails draft (EL-33, reserved 1.1.0) owns "status answers could-this-ship"; the compose-log and demo-bundle mechanics ride a later child |
 | 16 post-delivery staleness | landed | 320-stale-proofs: check warns DG-C017 when a delivered unit's cited evidence carries commits after the delivery day (commit dates, clone-safe; the unit's own folder excluded; git-absent records skip) |
 | 17 grill drops scored | unowned | the status machinery stands; the mitigation note ships (commands/grill.ts, the re-run hint, from 130-grill-scaffold) |

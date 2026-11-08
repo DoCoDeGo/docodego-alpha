@@ -2,7 +2,7 @@
 name: 360-warning-classes
 type: unit
 epic: 020-canon-debts
-status: scored
+status: delivered
 ---
 
 # 360-warning-classes

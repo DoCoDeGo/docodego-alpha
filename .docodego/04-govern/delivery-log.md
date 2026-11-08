@@ -54,3 +54,4 @@ is recorded here; what was learned lives in the unit's own records.
 | 2026-11-08 | 330-research-home | G1,G2,G3,G4 | proof: proofs/conformance.txt |
 | 2026-11-08 | 340-grill-mode | G1,G2,G3,G4 | proof: proofs/conformance.txt |
 | 2026-11-08 | 350-score-reuse | G1,G2,G3,G4 | proof: proofs/conformance.txt |
+| 2026-11-08 | 360-warning-classes | G1,G2,G3,G4 | proof: proofs/conformance.txt |
