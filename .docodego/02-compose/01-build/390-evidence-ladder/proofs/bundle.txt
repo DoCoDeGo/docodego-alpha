@@ -1,4 +1,2 @@
-bundle drift: 2 change(s) + manifest.json out of sync with payload.ts
-  AGENTS.md — major — AGENTS.md rule line(s) removed/rewritten: 1
-  specVersion (declared) — none — declared 21 -> 22
-exit=1
+bundle verify: clean — 52 files, spec 22, structure 84668fbecc05 — 556 studio file(s) stayed private under the boundary (allowlist v2)
+exit=0

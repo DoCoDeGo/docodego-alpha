@@ -4,7 +4,7 @@
   (suite-run, test-transcript, screenshot, session-recording), each a
   one-line strength description, exported from the bundled payload —
   `proofs/conformance.txt`, fact "the evidence registry ships with
-  declared strengths, described never ranked" (343 checks green at
+  declared strengths, described never ranked" (344 checks green at
   HEAD).
 - AC2 — the checker holds the ladder: a proofs.md declaring
   `[evidence: vibe]` is flagged DG-C019 (drift warning, the registry

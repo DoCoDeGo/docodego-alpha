@@ -23,7 +23,7 @@ flag live: declare `[evidence: anything]` in any proofs.md and run
 ## run output
 
 `proofs/conformance.txt` — the suite's green tail at the delivered HEAD
-(343 checks).
+(344 checks).
 
 ## visual evidence
 
