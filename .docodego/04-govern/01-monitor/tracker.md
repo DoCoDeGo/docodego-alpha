@@ -169,3 +169,8 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 490-sequence-beyond-999 | gate-refused | G4 failed — proofs.md holds no path entries — write list items like: - path/to/proof.tx... |
 | 2026-11-08 | 490-sequence-beyond-999 | delivered | 02-compose/01-build/490-sequence-beyond-999/delivered.md |
 | 2026-11-08 | 490-sequence-beyond-999 | launch-passed | 02-compose/01-build/490-sequence-beyond-999/launch.md |
+| 2026-11-08 | 500-law-flip-1-2-4 | new unit | 02-compose/01-build/500-law-flip-1-2-4/spec.md |
+| 2026-11-08 | 500-law-flip-1-2-4 | delivered | 02-compose/01-build/500-law-flip-1-2-4/delivered.md |
+| 2026-11-08 | 500-law-flip-1-2-4 | launch-refused | L2 failed — proof path(s) vanished since delivery: applied-in-1.2.3 — evidence that no ... |
+| 2026-11-08 | 500-law-flip-1-2-4 | launch-refused | L2 failed — proof path(s) vanished since delivery: applied-in-1.2.3 — evidence that no ... |
+| 2026-11-08 | 500-law-flip-1-2-4 | launch-passed | 02-compose/01-build/500-law-flip-1-2-4/launch.md |

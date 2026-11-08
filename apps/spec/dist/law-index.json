@@ -1,6 +1,6 @@
 {
   "schema": "docodego-spec/law-index/v1",
-  "specVersion": "1.2.3",
+  "specVersion": "1.2.4",
   "lawCount": 33,
   "laws": [
     {

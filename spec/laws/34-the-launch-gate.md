@@ -29,12 +29,14 @@ gate refuses on any failed check and records the attempt; the tier is
 never written over a refusal.
 
 **founder-signed** — a named person attested the act. The signature is
-an act receipt: who (a legal identifier or handle, recorded verbatim),
-what role, when (the local calendar date), over what evidence (the
-sha256 of the unit's spec and delivered receipt at signing time). The
-tiers are strict — no signature without launch-passed, no bypass flag —
-and one signature per act: a second signature rewrites a record the
-ledger keeps once, and is refused.
+an act receipt: who (a typed identifier or handle, recorded verbatim; an
+identifier the engine derives from the environment is recorded as a
+versioned fingerprint of it, never as it stands), what role, when (the
+local calendar date), over what evidence (the sha256 of the unit's spec
+and delivered receipt at signing time). The tiers are strict — no
+signature without launch-passed, no bypass flag — and one signature per
+act: a second signature rewrites a record the ledger keeps once, and is
+refused.
 
 The signature's honest limit, stated wherever the record shows one: a
 signature is an attestation by command execution. It witnesses that
@@ -42,7 +44,9 @@ the named person ran the signing command over the named evidence. It
 does not cryptographically prove the human's identity, and no output
 of the record may claim otherwise. What it buys is accountability: a
 person put their name on an act, and the act's evidence is hashed to
-what stood on disk when they did.
+what stood on disk when they did. A fingerprinted identifier is
+privacy, not anonymity: it resists a stranger's lookup, not a
+determined guesser who already suspects the environment.
 
 ## Why
 

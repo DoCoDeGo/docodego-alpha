@@ -376,3 +376,56 @@ delta per cycle) run before and after each unit — new code passes the
 gate first, and code written to retire code earns retirement credit
 against the balance. The held SW-080 payload dedup and the dual-use
 teach ride the same future chain.
+
+## Cycle 7 — packaging, the runner, the readable identity, and where the law lives (2026-11-08, via chat — the four asks verbatim)
+
+> check my changes in ./package.json - i want to make it easy to run
+> docodego when I am in the project. I think we are missing many
+> scripts or command in package.json to make it easy to work properly.
+
+> Do you think we should switch to bun or pnpm? investigate this
+
+> on signed by - I think when we should encode the identity instead of
+> hashing it? This way when we do status checks using cli we can
+> decode the identity and show in plin text when requested with a cli
+> flag specifically for decoding the identity
+
+> There are some other concers: Why is spec folder created in the
+> first place and why is it sitting outside .docodego. When I sign, I
+> would expect the changes to take place under .docodego. care to
+> explain?
+
+**What this sets in motion** (recorded same day): the packaging
+draft line (`npm --prefix apps/cli run -s ??`) is completed into real
+root scripts — a passthrough and the daily drivers (check, status,
+doctor, canon) — and the stale workspace bin link (pointing at
+src/main.ts from a pre-dist bin field) is repaired so `npx docodego`
+works after a build. The runner question is investigated, not
+switched: npm stays the package manager, bun stays where it already
+earns its keep (the build-time compiler behind dist/docodego), pnpm
+is not warranted at two devDependencies — the founder decides any
+switch. The readable-identity idea is recorded as a design question
+for the founder: reversible encoding gives up the privacy the consent
+split (their own cycle-6 ruling, now law as 1.2.4) was built to keep;
+the need behind it — seeing who signed, in plain text, on demand — is
+answerable without storing identities decodable (the CLI can
+re-derive the current environment's fingerprint and match it against
+stored rows, showing "this row is you" without ever storing the raw
+string), and typed `--name` rows are already verbatim. The spec/
+question found a real gap: `sign-off` writes only into the law file —
+no row lands under `.docodego/` — sketched as machinery to fix, not
+hand-faked.
+
+**The founder's act, same day:** the founder signed amendment 1.2.4
+themselves — `docodego sign-off spec/amendments/1.2.4-EL-34.md` with
+the acceptance words verbatim: "Signed Off" — the derived system
+identity fingerprinted per the consent split (`fp:v1:7b5570ec…`, the
+record's first post-split derived signature), the salt created at
+`04-govern/signature-salt` and committed so the record stays
+self-contained. The person-gate EL-34's landing waited on is passed;
+the two-sides flip, version stamp, log row, and rebuilt index land as
+unit 491 per how-to-amend steps 4–6, one delivery unit or not at all.
+The flip also repairs forward a missed flip found in the 1.2.3
+landing (its amendment file still reads `status: draft` despite its
+log row and the law text having landed — unit 450's landing flipped
+everything but the status field).

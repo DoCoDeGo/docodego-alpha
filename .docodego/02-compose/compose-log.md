@@ -23,3 +23,4 @@ delivered through this room yet.
 | 2026-11-08 | 470-dual-use | df094be53dabb56f | gate row: METRICS GATE PASS — +0 added / −0 retired (credit 0) · 85 file(s), 0 new — the first green gate row; the second use shipped as docs/fixtures-demo/ |
 | 2026-11-08 | 480-sign-identity-privacy | f431a4f455728fdf | gate row: METRICS GATE refused DG-U120 — conformance.ts grew +139 (ceiling 40), set adds +390 net — the consent split's enforcement growth; coverage declared in the unit's proofs (the founder's directive; the held refactor debts pay the balance) |
 | 2026-11-08 | 490-sequence-beyond-999 | 97dcda61dcd0403a | none recorded |
+| 2026-11-08 | 500-law-flip-1-2-4 | c8d4e9b9a25d73dc | none recorded |
