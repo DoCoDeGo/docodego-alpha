@@ -1,0 +1,16 @@
+=== the gate's own sweep over the 51 manifest rows
+rows read: 51
+offenders: 0 (zero — the proof the conformance fact asserts every run)
+
+=== the questions home line (questions.md:3)
+*Vendored whole into this skill — the walk functions without any external source; this file is the questions' only home in a planted record. (Historical origin: a quick-reference edition of the Grounding framework.)*
+
+=== the planted run path (visual-proof SKILL.md:32)
+4. **Run it**: `node .agents/skills/docodego-visual-proof/visual-proof.mjs http://127.0.0.1:<port> --states states.json`
+
+=== the script's own usage lines (visual-proof.mjs:5,22)
+//   node .agents/skills/docodego-visual-proof/visual-proof.mjs <base-url> [--states states.json] [--out var/visual]
+console.error("usage: node .agents/skills/docodego-visual-proof/visual-proof.mjs <base-url> [--states states.json] [--out dir]");
+
+=== the version (SKILL.md:4)
+version: 1.0.1
