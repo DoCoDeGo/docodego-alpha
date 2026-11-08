@@ -2,7 +2,7 @@
 name: 320-stale-proofs
 type: unit
 epic: 020-canon-debts
-status: scored
+status: delivered
 ---
 
 # 320-stale-proofs

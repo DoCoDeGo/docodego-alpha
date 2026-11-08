@@ -50,3 +50,4 @@ is recorded here; what was learned lives in the unit's own records.
 | 2026-11-08 | 290-planted-prose-sweep | G1,G2,G3,G4 | proof: 02-compose/01-build/290-planted-prose-sweep/proofs/sweep.txt |
 | 2026-11-08 | 300-gate-rows-home | G1,G2,G3,G4 | proof: proofs/law.txt |
 | 2026-11-08 | 310-event-order | G1,G2,G3,G4 | proof: proofs/conformance.txt |
+| 2026-11-08 | 320-stale-proofs | G1,G2,G3,G4 | proof: proofs/conformance.txt |

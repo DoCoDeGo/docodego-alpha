@@ -111,3 +111,4 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 310-event-order | new unit | 02-compose/01-build/310-event-order/spec.md |
 | 2026-11-08 | 310-event-order | delivered | 02-compose/01-build/310-event-order/delivered.md |
 | 2026-11-08 | 320-stale-proofs | new unit | 02-compose/01-build/320-stale-proofs/spec.md |
+| 2026-11-08 | 320-stale-proofs | delivered | 02-compose/01-build/320-stale-proofs/delivered.md |

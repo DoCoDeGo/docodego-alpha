@@ -113,7 +113,7 @@ land; a row never sits silently between states.
 | 13 solo-grill honesty | unowned | grill records rounds but marks no self-grilled flag; candidate: a grill-law child |
 | 14 warning drift/prose classes | unowned | check warnings carry no triage class; candidate: a small check child (with the node --test nit for the prove docs) |
 | 15 integrity map (compose-log, demo bundles) | drafted | the status-rails draft (EL-33, reserved 1.1.0) owns "status answers could-this-ship"; the compose-log and demo-bundle mechanics ride a later child |
-| 16 post-delivery staleness | unowned | check has no stale-proofs warning (DG-C002's wording only); candidate: a check child |
+| 16 post-delivery staleness | landed | 320-stale-proofs: check warns DG-C017 when a delivered unit's cited evidence carries commits after the delivery day (commit dates, clone-safe; the unit's own folder excluded; git-absent records skip) |
 | 17 grill drops scored | unowned | the status machinery stands; the mitigation note ships (commands/grill.ts, the re-run hint, from 130-grill-scaffold) |
 | 18 diagnostics carry the fix | landed | the explain registry: every DG code has a page with the concrete fix (passes/explain.ts; DG-U013 names the stream-path shape) |
 | 19 scratch out of the record root | landed | docodego-visual-proof: "Scratch lives in var/" (its SKILL.md); DG-S005 held — the law worked, the default was fixed |
