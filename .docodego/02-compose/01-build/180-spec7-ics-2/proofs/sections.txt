@@ -1,0 +1,10 @@
+1:# ICS 2.0 — the redesign proposal
+13:## 1 — the drift, stated precisely
+59:## 2 — the redesign principles
+64:### 2.1 — satisfiability is a gate, not points
+94:### 2.2 — deterministic checks first, and only deterministic checks gate
+103:### 2.3 — judged work is labeled as judged
+133:## 3 — the incumbent, classified
+147:## 4 — dimension-addition criteria, and candidates
+185:## 5 — the migration path
+220:## 6 — the founder decision points

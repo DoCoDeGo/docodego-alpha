@@ -35,3 +35,4 @@ is recorded here; what was learned lives in the unit's own records.
 | 2026-11-08 | 100-spec7-proof-semantics | G1,G2,G3,G4 | proof: spec/amendments/1.1.0-EL-18.md |
 | 2026-11-08 | 160-spec7-bundling | G1,G2,G3,G4 | proof: 02-compose/01-build/160-spec7-bundling/proofs/leak-proof.txt |
 | 2026-11-08 | 170-two-calendars | G1,G2,G3,G4 | proof: 02-compose/01-build/170-two-calendars/proofs/stamp-census.txt |
+| 2026-11-08 | 180-spec7-ics-2 | G1,G2,G3,G4 | proof: 02-compose/01-build/180-spec7-ics-2/proofs/sections.txt |

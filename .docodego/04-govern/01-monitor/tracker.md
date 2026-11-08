@@ -76,3 +76,5 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 170-two-calendars | new unit | 01-document/01-discover/170-two-calendars/spec.md |
 | 2026-11-08 | 170-two-calendars | new unit | 02-compose/01-build/170-two-calendars/spec.md |
 | 2026-11-08 | 170-two-calendars | delivered | 02-compose/01-build/170-two-calendars/delivered.md |
+| 2026-11-08 | 180-spec7-ics-2 | new unit | 02-compose/01-build/180-spec7-ics-2/spec.md |
+| 2026-11-08 | 180-spec7-ics-2 | delivered | 02-compose/01-build/180-spec7-ics-2/delivered.md |
