@@ -199,6 +199,15 @@ export const MIGRATIONS: Migration[] = [
     ],
     steps: [teachEventOrder],
   },
+  {
+    from: 17,
+    to: 18,
+    notes: [
+      "research is a first-class non-unit: the checker ignores a folder named research directly in 01-discover (grounding notes never impersonate units again), and the 01-discover README names the home (020-canon-debts/330)",
+      "no migration steps: stream READMEs are the record's birth words (pack-voiced copies are excluded from the plan's conflict scan), so the README line rides birth copies and customized READMEs keep their words — the checker's exemption carries the law",
+    ],
+    steps: [],
+  },
 ];
 
 /** v16 -> v17: teach AGENTS.md the event order and the repair rule.

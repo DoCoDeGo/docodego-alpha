@@ -582,6 +582,18 @@ fact("the payload's AGENTS.md states the event order and the repair rule", agent
   rmSync(g, { recursive: true, force: true });
 }
 
+// --- v2g: research is a first-class non-unit (330) ---
+{
+  const rh = mkdtempSync(join(tmpdir(), "docodego-conformance-research-"));
+  write(rh, join(".docodego", ".standard", "manifest.json"), `{\n  "recordVersion": ${specVersion()}\n}\n`);
+  write(rh, join(".docodego", "01-document", "01-discover", "research", "walk-notes.md"), "grounding material, not a unit\n");
+  write(rh, join(".docodego", "01-document", "01-discover", "wannabe-unit", "README.md"), "a folder with no spec\n");
+  const res = run(rh, ["audit"]);
+  fact("the research home lints clean — no DG-F001 for 01-discover/research", !res.stdout.includes("research"));
+  fact("a spec-less sibling folder still earns the broken-unit finding", res.stdout.includes("wannabe-unit") && res.stdout.includes("has no spec.md"));
+  rmSync(rh, { recursive: true, force: true });
+}
+
 // --- v5: vocabulary packs — words change, the contract does not ---
 // The pack law, enforced at every layer: embedded packs pass the validator,
 // cover exactly the canonical keys, keep ids and paths intact, init applies

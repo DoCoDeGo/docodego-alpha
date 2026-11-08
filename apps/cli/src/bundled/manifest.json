@@ -1,5 +1,5 @@
 {
-  "specVersion": 17,
+  "specVersion": 18,
   "cliVersion": "0.8.0",
   "structureHash": "73e441b37e7e4ad5f7302f59d104ef327a0832f543c60f3c63b72d2c2b92ecee",
   "files": {
@@ -33,10 +33,10 @@
     ".agents/skills/security-baseline-for-ai-code/SKILL.md": "b27a578b10c63273b9971e31443c49668e49ef422052ca144aca0878884cee38",
     ".agents/skills/supply-chain-evidence/SKILL.md": "2a7c84b337312fe3591b28cd5d8f8e8ab360aaa3fd63b27361da2f0eeb91a0f8",
     ".agents/skills/tech-stack/SKILL.md": "2ef163a0c701ba275202863ecdc2eaf488c32eab1e110e5a5b41a19158ef00da",
-    ".docodego/.standard/manifest.json": "554a883503156aabf10e81428aadb22a33c6c20a92f3fe991ff655d664511548",
+    ".docodego/.standard/manifest.json": "0e30d75f19762f3ea89c755b66d07fb5a73a1c87095d60eb46062b3086bdd61c",
     ".docodego/.standard/statutes.md": "770e570c911333d0d21221485bcd739cd145b1fef3bf008efcd02334850f3e3b",
     ".docodego/.standard/tech-radar.md": "6fdf71fac4037381fe8eef9ce5809867c208f99b760e78ede573bb56f8a9a3af",
-    ".docodego/01-document/01-discover/README.md": "5f2b26255f4383c8b2070fcc2c13fb1a940b2be7db69bcaab9c3db6dc85d9597",
+    ".docodego/01-document/01-discover/README.md": "a38ca76df237911af2283fb450d2490dd23962017415b1055cb3d04099144b91",
     ".docodego/01-document/02-refine/README.md": "07d3c78f3f20a7ca7ff805b3389d183a7bd19609c924135c7c87060907297b54",
     ".docodego/01-document/03-validate/README.md": "e99bffbdf5029dde7e8f04dd6a4b5d10e57266771b526d3d62aeeb0dcbc87751",
     ".docodego/01-document/04-plan/README.md": "abe34bec8ccc0dc1392ff4d370daa828663cbfdd3fc6289d02e4c038dccbf78b",

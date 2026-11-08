@@ -66,6 +66,7 @@ compares the two, so this table cannot drift from the engine.
 | v14 | v15 | the planted prose sweep: dead references fixed at their sources (no .framework tree, the visual-proof driver at its planted path, skill bumped to 1.0.1), the sweep itself a conformance gate over every planted row |
 | v15 | v16 | the gate-rows law: AGENTS.md's honesty law gains "gate rows ride the unit's commit" — a delivery carries its tracker and delivery-log rows; taught in place by the v15→v16 migration, customized copies kept |
 | v16 | v17 | the event order and the repair rule: AGENTS.md's loop paragraph names the status events (new → grill → score → deliver) and the refused-gate path (attempt recorded, re-enter at the refused step, repaired forward); taught in place by the v16→v17 migration |
+| v17 | v18 | research's legal home: the checker exempts `01-discover/research/` as a first-class non-unit and the stream README names the home; no transforms — the line rides birth copies, the exemption carries the law |
 
 ## Conformance
 

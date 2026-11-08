@@ -107,6 +107,12 @@ export function loadRecord(cwd: string): RecordAst {
       const streamDir = join(root, movement, stream);
       if (!isDir(streamDir)) continue;
       for (const name of listDirs(streamDir)) {
+        // IMP-22: research is a first-class non-unit. A folder named
+        // `research` directly in 01-discover holds grounding material —
+        // walk notes, findings — and never impersonates a unit. Exact
+        // name, one stream: anywhere else a spec-less folder is still
+        // DG-F001, and a real unit belongs in its NNN- folder.
+        if (movement === "01-document" && stream === "01-discover" && name === "research") continue;
         units.push(readUnit(rel, movement, `${movement}/${stream}`, join(streamDir, name), name, loadDiags));
       }
       for (const f of listFiles(streamDir)) {
