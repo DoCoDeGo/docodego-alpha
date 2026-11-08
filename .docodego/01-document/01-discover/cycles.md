@@ -546,3 +546,10 @@ machinery, so it is a deliberated act, not a quick one.
   BEFORE the commit, not after; the stray init's origin was not
   identified (likely a fixture or agent run with a wrong cwd) — if
   a third stray appears, chase it.
+- Mistake 8 recurrence (2026-11-09, opening 580) — the grill gate was
+  piped through `tail`, swallowing its refusal exit; the `&&` chain
+  then mis-fired and a chained `rm -f` deleted the answers file
+  mid-flow, twice. Nothing recorded wrongly (the grill refused
+  before any record write; status stayed draft). The rule from
+  Mistake 8 restated: gate commands run bare, verdict read, nothing
+  else on the line — cleanup is its own command.
