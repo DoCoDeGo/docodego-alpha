@@ -154,6 +154,14 @@ EL-18 stays draft — accepted siblings only. The record contract and the
 boundary did not move: the spec tree ships through the canon CLI, not
 the bundle allowlist; payload 22, boundary 52, allowlist v2 throughout.
 
+**Addendum (appended 2026-11-08, unit 410):** IMP-11's acceptance
+landed — the two registers taught in place (AGENTS.md, pure insertion),
+guidance deviations on one recorded line (the 380 form, 390's first
+live use), the v22→v23 teach under the standing contract, record
+contract 22 → 23, spec tree 1.2.0, boundary untouched. IMP-1's first
+live use rides the same unit: the tracker's plan-approval row (auto,
+bounded, rationale, repo-only).
+
 **Addendum (appended 2026-11-08, "finish everything"):** the founder
 reopened the stay-out rows, and the lawfully walkable ones re-entered.
 IMP-15 is the founder's own commissioned design (the audit specifies it

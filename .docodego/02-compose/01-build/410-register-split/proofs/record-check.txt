@@ -1,0 +1,72 @@
+warning (prose)[DG-C002]: proof path(s) not on disk (quoted variants or stale entries): amendments/1.0.1-ST-2.md, docodego/<command>/v1
+  --> 02-compose/01-build/150-retire/proofs.md
+  help: docodego explain DG-C002
+warning (drift)[DG-C018]: the recorded score binds an older spec (sha c9fbdd9585ad680f, the spec is now 302174017747d3bc) — the number certifies content it never graded; re-run 'docodego score'
+  --> 02-compose/01-build/240-cli-debt-cluster/score.md
+  help: docodego explain DG-C018
+warning (drift)[DG-C018]: the recorded score binds an older spec (sha 77c34e3e0fb638c5, the spec is now 460de4fe78b25481) — the number certifies content it never graded; re-run 'docodego score'
+  --> 02-compose/01-build/250-reference-doc-triage/score.md
+  help: docodego explain DG-C018
+warning (drift)[DG-C018]: the recorded score binds an older spec (sha e4bbee626dffe732, the spec is now a5485ba195a1bae0) — the number certifies content it never graded; re-run 'docodego score'
+  --> 02-compose/01-build/260-payload-interface-dedupe/score.md
+  help: docodego explain DG-C018
+warning (drift)[DG-C018]: the recorded score binds an older spec (sha e451d52734700278, the spec is now e08dc029c2926c89) — the number certifies content it never graded; re-run 'docodego score'
+  --> 02-compose/01-build/270-doctor-vocabulary-check/score.md
+  help: docodego explain DG-C018
+warning (drift)[DG-C018]: the recorded score binds an older spec (sha d74f6b8bdb97e639, the spec is now 92e029feca890e5b) — the number certifies content it never graded; re-run 'docodego score'
+  --> 02-compose/01-build/280-install-toctou/score.md
+  help: docodego explain DG-C018
+warning (drift)[DG-C018]: the recorded score binds an older spec (sha 13636c88c72f4eed, the spec is now 4bf744be5a292936) — the number certifies content it never graded; re-run 'docodego score'
+  --> 02-compose/01-build/290-planted-prose-sweep/score.md
+  help: docodego explain DG-C018
+warning (drift)[DG-C018]: the recorded score binds an older spec (sha 2103e66e02b54285, the spec is now 55e8b9057131eb50) — the number certifies content it never graded; re-run 'docodego score'
+  --> 02-compose/01-build/300-gate-rows-home/score.md
+  help: docodego explain DG-C018
+warning (drift)[DG-C018]: the recorded score binds an older spec (sha a813b23ed3308607, the spec is now c74e7ee5fc0ff8fd) — the number certifies content it never graded; re-run 'docodego score'
+  --> 02-compose/01-build/310-event-order/score.md
+  help: docodego explain DG-C018
+warning (drift)[DG-C018]: the recorded score binds an older spec (sha 1e8f91f42ed0f1f2, the spec is now 6b269fd72764e719) — the number certifies content it never graded; re-run 'docodego score'
+  --> 02-compose/01-build/320-stale-proofs/score.md
+  help: docodego explain DG-C018
+warning (drift)[DG-C018]: the recorded score binds an older spec (sha 96a3896335d01a31, the spec is now bbaebf85bc479592) — the number certifies content it never graded; re-run 'docodego score'
+  --> 02-compose/01-build/330-research-home/score.md
+  help: docodego explain DG-C018
+warning (drift)[DG-C018]: the recorded score binds an older spec (sha 1799feb9d8018c83, the spec is now c789e4eb50766d94) — the number certifies content it never graded; re-run 'docodego score'
+  --> 02-compose/01-build/340-grill-mode/score.md
+  help: docodego explain DG-C018
+warning (drift)[DG-C018]: the recorded score binds an older spec (sha 3a71ff3123e3e63e, the spec is now b9a635ad1ef06f0d) — the number certifies content it never graded; re-run 'docodego score'
+  --> 02-compose/01-build/350-score-reuse/score.md
+  help: docodego explain DG-C018
+warning (drift)[DG-C018]: the recorded score binds an older spec (sha f7396827ce405684, the spec is now 3c15afdc6f7865a6) — the number certifies content it never graded; re-run 'docodego score'
+  --> 02-compose/01-build/360-warning-classes/score.md
+  help: docodego explain DG-C018
+warning (drift)[DG-C018]: the recorded score binds an older spec (sha 99f342bf4a9e9db7, the spec is now 434e536335d0fc62) — the number certifies content it never graded; re-run 'docodego score'
+  --> 02-compose/01-build/370-planted-ignore/score.md
+  help: docodego explain DG-C018
+warning (drift)[DG-C018]: the recorded score binds an older spec (sha d890a9345a609039, the spec is now 4793bc85ed127838) — the number certifies content it never graded; re-run 'docodego score'
+  --> 02-compose/01-build/380-compose-log/score.md
+  help: docodego explain DG-C018
+warning (drift)[DG-C018]: the recorded score binds an older spec (sha c4a110849a1e423e, the spec is now e5212c575ff98eda) — the number certifies content it never graded; re-run 'docodego score'
+  --> 02-compose/01-build/390-evidence-ladder/score.md
+  help: docodego explain DG-C018
+warning (drift)[DG-C019]: declared evidence type 'vibe' is not in the registry (suite-run, test-transcript, screenshot, session-recording) — declare a registry type or drop the declaration; the types are described, never ranked
+  --> 02-compose/01-build/390-evidence-ladder/proofs.md
+  help: docodego explain DG-C019
+warning (drift)[DG-C019]: declared evidence type 'anything' is not in the registry (suite-run, test-transcript, screenshot, session-recording) — declare a registry type or drop the declaration; the types are described, never ranked
+  --> 03-demonstrate/demo/390-evidence-ladder/how-to-run.md
+  help: docodego explain DG-C019
+warning (drift)[DG-C018]: the recorded score binds an older spec (sha 851f972e8491bad4, the spec is now 517da91087c3c8ca) — the number certifies content it never graded; re-run 'docodego score'
+  --> 02-compose/01-build/400-law-flip-1-1-0/score.md
+  help: docodego explain DG-C018
+warning (drift)[DG-C018]: the recorded score binds an older spec (sha 61d8901961578c25, the spec is now 6cf9ab1ff1e8d317) — the number certifies content it never graded; re-run 'docodego score'
+  --> 02-compose/01-build/410-register-split/score.md
+  help: docodego explain DG-C018
+warning (drift)[DG-C018]: the recorded score binds an older spec (sha 60f7184a5d05f501, the spec is now ce751c8ccba6df2a) — the number certifies content it never graded; re-run 'docodego score'
+  --> 03-demonstrate/01-demo/010-demo-bundles/score.md
+  help: docodego explain DG-C018
+warning (prose)[DG-C002]: proof path(s) not on disk (quoted variants or stale entries): demo/010-first-unit/how-to-run.md, demo/010-demo-bundles/how-to-run.md
+  --> 03-demonstrate/01-demo/010-demo-bundles/proofs.md
+  help: docodego explain DG-C002
+
+0 error(s), 23 warning(s)
+exit 0

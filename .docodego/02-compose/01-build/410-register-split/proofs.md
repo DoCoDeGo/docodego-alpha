@@ -21,10 +21,12 @@
   `proofs/cli-tsc.txt` [evidence: suite-run].
 - AC4 — the spec tree records the addition: build's version sanity
   passes at 1.2.0 — `proofs/canon-build.txt` [evidence: suite-run]
-  (structure 618925c54843…); doctor's axes read green at the
-  deliverable HEAD (payload 23 · cli · spec/ 1.2.0 · delivered 1.2.0)
-  and are re-captured there — `proofs/canon-doctor.txt` [evidence:
-  suite-run].
+  (structure 618925c54843…); doctor's axes green — payload 23 · cli
+  0.8.0 · spec/ 1.2.0 · delivered 1.2.0 — `proofs/canon-doctor.txt`
+  [evidence: suite-run], captured at 452e801: the deliverable commit
+  missed the dist tree and a fixup commit carried the 1.2.0 artifacts —
+  doctor caught it (version pair open, delivered 1.1.0) until the fix
+  landed; the miss and its repair are in the journal.
 - AC5 — the practice is live and the boundary proves itself: the
   tracker's plan-approval row for this agent-only unit —
   `proofs/tracker-snip.txt` [evidence: suite-run]; bundle verify clean
