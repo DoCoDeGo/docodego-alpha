@@ -1,5 +1,5 @@
 {
-  "allowlistVersion": 1,
+  "allowlistVersion": 2,
   "note": "the product/studio boundary law (ruled 2026-11-08): exactly these files ship in the payload; everything unnamed under .docodego/ and .agents/ is studio-private and never embeds. A named-but-missing file fails the bundle loudly — the boundary is a contract, not best effort. Adding a row is a shipping decision.",
   "productFiles": [
     ".agents/agents/docodego-researcher.md",
@@ -32,6 +32,7 @@
     ".agents/skills/security-baseline-for-ai-code/SKILL.md",
     ".agents/skills/supply-chain-evidence/SKILL.md",
     ".agents/skills/tech-stack/SKILL.md",
+    ".docodego/.gitignore",
     ".docodego/.standard/manifest.json",
     ".docodego/.standard/statutes.md",
     ".docodego/.standard/tech-radar.md",

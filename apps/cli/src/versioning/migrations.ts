@@ -208,6 +208,15 @@ export const MIGRATIONS: Migration[] = [
     ],
     steps: [],
   },
+  {
+    from: 18,
+    to: 19,
+    notes: [
+      "the record plants .docodego/.gitignore: var/ is the record's scratch home and *.new is the upgrade plan's conflict copies — machine artifacts never enter git (020-canon-debts/370)",
+      "no migration steps: a new boundary row rides the plan's create-only copy — a record with its own .docodego/.gitignore keeps it, the bundled copy riding as .new",
+    ],
+    steps: [],
+  },
 ];
 
 /** v16 -> v17: teach AGENTS.md the event order and the repair rule.

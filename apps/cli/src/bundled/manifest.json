@@ -1,7 +1,7 @@
 {
-  "specVersion": 18,
+  "specVersion": 19,
   "cliVersion": "0.8.0",
-  "structureHash": "73e441b37e7e4ad5f7302f59d104ef327a0832f543c60f3c63b72d2c2b92ecee",
+  "structureHash": "84668fbecc0531d8cabc241dc4a917b55ef6dec23c35ff9f6154a47737611e61",
   "files": {
     ".agents/agents/docodego-researcher.md": "dff87e487865ef57b0e6e786ba39dcf543d87a0eb81831aea8ec9b41a760a0b9",
     ".agents/agents/docodego-reviewer.md": "9e99827130a79966b02f10baedb4e3507a771e6a9c15e4ea49982f0b48fcc787",
@@ -33,7 +33,8 @@
     ".agents/skills/security-baseline-for-ai-code/SKILL.md": "b27a578b10c63273b9971e31443c49668e49ef422052ca144aca0878884cee38",
     ".agents/skills/supply-chain-evidence/SKILL.md": "2a7c84b337312fe3591b28cd5d8f8e8ab360aaa3fd63b27361da2f0eeb91a0f8",
     ".agents/skills/tech-stack/SKILL.md": "2ef163a0c701ba275202863ecdc2eaf488c32eab1e110e5a5b41a19158ef00da",
-    ".docodego/.standard/manifest.json": "0e30d75f19762f3ea89c755b66d07fb5a73a1c87095d60eb46062b3086bdd61c",
+    ".docodego/.gitignore": "1c3ce0fee037ed488097a5c42af597e4abd76c9cad0e13462a753819754add29",
+    ".docodego/.standard/manifest.json": "62b6a5b1e47cb74ed66b180adf60f38d6b1f57557d139f0de504760693c88ed4",
     ".docodego/.standard/statutes.md": "770e570c911333d0d21221485bcd739cd145b1fef3bf008efcd02334850f3e3b",
     ".docodego/.standard/tech-radar.md": "6fdf71fac4037381fe8eef9ce5809867c208f99b760e78ede573bb56f8a9a3af",
     ".docodego/01-document/01-discover/README.md": "a38ca76df237911af2283fb450d2490dd23962017415b1055cb3d04099144b91",

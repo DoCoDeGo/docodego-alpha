@@ -1,0 +1,9 @@
+# the record's machine artifacts never enter git.
+# var/ — scratch: probe output, captures, anything ephemeral. The
+#   honesty law's "ephemeral artifacts delete themselves" starts here:
+#   if it is disposable, it lives under var/ and git never sees it.
+# *.new — the upgrade plan's conflict copies: your words were kept and
+#   the refreshed scaffold rides beside them. Resolve or delete; never
+#   commit.
+var/
+*.new

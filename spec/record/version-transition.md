@@ -67,7 +67,7 @@ compares the two, so this table cannot drift from the engine.
 | v15 | v16 | the gate-rows law: AGENTS.md's honesty law gains "gate rows ride the unit's commit" — a delivery carries its tracker and delivery-log rows; taught in place by the v15→v16 migration, customized copies kept |
 | v16 | v17 | the event order and the repair rule: AGENTS.md's loop paragraph names the status events (new → grill → score → deliver) and the refused-gate path (attempt recorded, re-enter at the refused step, repaired forward); taught in place by the v16→v17 migration |
 | v17 | v18 | research's legal home: the checker exempts `01-discover/research/` as a first-class non-unit and the stream README names the home; no transforms — the line rides birth copies, the exemption carries the law |
-
+| v18 | v19 | the record's machine artifacts leave git: `.docodego/.gitignore` joins the boundary (var/ the scratch home, *.new the upgrade's conflict copies); the row rides the plan's create-only copy |\n
 ## Conformance
 
 Enforced today: the bundle guard asserts registry contiguity on every

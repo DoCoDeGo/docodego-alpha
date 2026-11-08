@@ -120,3 +120,4 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 350-score-reuse | delivered | 02-compose/01-build/350-score-reuse/delivered.md |
 | 2026-11-08 | 360-warning-classes | new unit | 02-compose/01-build/360-warning-classes/spec.md |
 | 2026-11-08 | 360-warning-classes | delivered | 02-compose/01-build/360-warning-classes/delivered.md |
+| 2026-11-08 | 370-planted-ignore | new unit | 02-compose/01-build/370-planted-ignore/spec.md |

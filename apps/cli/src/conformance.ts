@@ -506,9 +506,12 @@ rmSync(sf, { recursive: true, force: true });
     const lines = readFileSync(join(REPO_ROOT, rel), "utf8").split("\n");
     for (let i = 0; i < lines.length; i++) if (stale.test(lines[i] ?? "")) offenders.push(`${rel}:${i + 1}`);
   }
-  fact("the sweep reads the whole payload boundary (51 planted rows)", rows.length === 51);
+  fact("the sweep reads the whole payload boundary (52 planted rows)", rows.length === 52);
   fact("the planted prose names only shipped paths — no repo-side or dead-tree references", offenders.length === 0);
 }
+
+// --- v2k: the record's machine artifacts leave git (370) ---
+fact("the payload plants the record's gitignore with both rules", (recordFiles()[".gitignore"] ?? "").includes("var/") && (recordFiles()[".gitignore"] ?? "").includes("*.new"));
 
 // --- v2d: the gate-rows law ships and teaches (300) ---
 fact("the payload's AGENTS.md teaches the gate-rows law", agentsMd().includes("Gate rows ride the unit's commit"));
@@ -676,6 +679,7 @@ check("a vocabulary on an existing record is refused — words are chosen at bir
 rmSync(vf, { recursive: true, force: true });
 const vd = mkdtempSync(join(tmpdir(), "docodego-conformance-canonical-"));
 check("default init still plants the canonical voice", run(vd, ["init"]), 0, () => read(vd, "01-document/01-discover/README.md") === recordFiles()["01-document/01-discover/README.md"]);
+check("init plants the record's gitignore", run(vd, ["check"]), 0, () => read(vd, ".gitignore").includes("var/") && read(vd, ".gitignore").includes("*.new"));
 fact("default manifest carries no vocabulary key", !("vocabulary" in (JSON.parse(read(vd, ".standard/manifest.json")) as Record<string, unknown>)));
 run(vd, ["new", "010-plain-unit"]);
 const dvq = run(vd, ["grill", "010-plain-unit", "--json"]);

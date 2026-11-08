@@ -1,12 +1,12 @@
 {
   "schema": "docodego-spec/manifest/v1",
-  "specVersion": "1.0.9",
-  "structureHash": "8dcfca250747ed3f52e44b0859c9b8e793d1905ca82229d5cf249a68ff1acf0e",
+  "specVersion": "1.0.10",
+  "structureHash": "58dfd5d42d718ecb635f238b9af111aa13e95cab4ebdd34ac094fb160a287950",
   "fileCount": 43,
   "lawCount": 31,
   "files": {
-    "SPEC.md": "466930d0ee242dd22521a52c69bfbb755336ec1135cbde4ff17d43d66973a53e",
-    "amendments/log.md": "7cbb9c32d7f65f98d2ff281c4e091e425cea0eb6d84a24814774193100ab4f8f",
+    "SPEC.md": "974d77e9e5972207d604b22f9b870959e58044f754a6ad721793dab28409a572",
+    "amendments/log.md": "5d637340465d796c1b19d17eee05c353985a3340cb16adef9c67b983e4cf96c2",
     "conformance/enforceability-map.md": "947bbc135396ef59c2b6612f10fffd29f4ed7f469a5b55248513e2d558da7792",
     "conformance/gates-and-severity.md": "239858707fc6a9adb7098c8f19cb2462f147274eeb9415c1f5bd2f46c1a578b8",
     "laws/01-intent-is-absolute.md": "dcc6a63b5ca8aa53b479e7afd73077a1658f9e596ec849b30a27502018c2c960",
@@ -47,6 +47,6 @@
     "movements/the-loop.md": "739b3de6a2710dae525a6a57568112f51a45b8a2dbd3df623b5b9c58cf6e6ec9",
     "record/the-shelf.md": "84f16de1f4dd67d11d43f1d16370ceb4fb3d68188645c8bcea04216acef0d178",
     "record/the-trail.md": "130b69082131047f109134edd9a84b7a17bf47e9864f217422f9454513f61ae9",
-    "record/version-transition.md": "fb0b4185d1da61cea1835046a29540d2a284913be424e1b17aff55f5c543b73a"
+    "record/version-transition.md": "a4e5a8487f8a97e82440a7677c41d93e70c30a08b7c9f75bd85422ca13de71d8"
   }
 }
