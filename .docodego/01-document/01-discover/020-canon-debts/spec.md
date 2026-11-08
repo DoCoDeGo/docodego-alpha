@@ -121,3 +121,19 @@ land; a row never sits silently between states.
 | 21 gate rows committed home | landed | 300-gate-rows-home: the honesty law gains "gate rows ride the unit's commit" (record contract 16, taught in place by the migration, customized copies kept) |
 | 22 research's legal home | landed | 330-research-home: the checker exempts 01-discover/research/ (first-class non-unit — grounding notes never impersonate units again) and the stream README names the home; record contract 18 |
 | 23 visual evidence layer | landed | shipped same day per the source doc: docodego-visual-proof bundled, planted by the product-team and platform-team profiles |
+
+## close-out note (appended 2026-11-08)
+
+Every unowned IMP row is now landed: 3, 10, 12, 13, 14, 16, 21, 22
+(this stretch: 290-planted-prose-sweep, 300-gate-rows-home,
+310-event-order, 320-stale-proofs, 330-research-home, 340-grill-mode,
+350-score-reuse, 360-warning-classes, 370-planted-ignore — earlier:
+260, 270, 280). The record contract moved 14 → 19 and the spec tree
+1.0.5 → 1.0.10 with it, each hop declared and mirrored. What remains
+in the table stays out by design: IMP-1 and IMP-11 are founder
+directives (only the founder decides), IMP-15 and IMP-20 ride the
+EL-33 demonstrate-law batch reserved for 1.1.0, clusters 1 and 2
+belong to the product record and the founder, and R10-5 (scorer
+satisfiability) is its own thread, separate from the landed IMP-12.
+The epic stays open as long as those rows are — its owned work is
+done.
