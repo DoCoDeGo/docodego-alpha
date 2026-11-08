@@ -44,7 +44,6 @@ export function parseArgs(argv: string[]): ParsedArgs {
       else if (tok === "--all-skills") args.allSkills = true;
       else if (tok === "--version") args.version = true;
       else if (tok === "--list") args.list = true;
-      else if (tok === "--rotate") args.rotate = true;
       else if (tok === "--dry-run") args.dryRun = true;
       else args.help = true;
       continue;

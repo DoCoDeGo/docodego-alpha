@@ -19,8 +19,6 @@ export const readText = (p: string): string | null => {
   }
 };
 
-export const exists = (p: string): boolean => existsSync(p);
-
 export const isDir = (p: string): boolean => {
   try {
     return statSync(p).isDirectory();

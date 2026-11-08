@@ -23,7 +23,7 @@ import { envelope } from "../emit/json.ts";
  * conformance fixture that pins them: a false positive refuses loudly
  * (the human rewords — nothing is mangled silently); a miss is the
  * scanner's honest limit, stated in the help body. */
-export const SECRET_PATTERNS: { name: string; re: RegExp }[] = [
+const SECRET_PATTERNS: { name: string; re: RegExp }[] = [
   { name: "OpenAI-style key (sk-…)", re: /\bsk-[A-Za-z0-9_-]{20,}\b/ },
   { name: "GitHub token (ghp_/gho_/github_pat_…)", re: /\b(?:ghp|gho|ghu|ghs|ghr)_[A-Za-z0-9]{20,}\b|\bgithub_pat_[A-Za-z0-9_]{20,}\b/ },
   { name: "AWS access key (AKIA…)", re: /\bAKIA[0-9A-Z]{16}\b/ },
@@ -32,7 +32,7 @@ export const SECRET_PATTERNS: { name: string; re: RegExp }[] = [
   { name: "key assignment (api key / secret / token / password = …)", re: /\b(?:api[_-]?key|secret|token|password|passwd)\b\s*[:=]\s*["']?[^\s"']{12,}/i },
 ];
 
-export function scanForSecrets(text: string): string | null {
+function scanForSecrets(text: string): string | null {
   for (const p of SECRET_PATTERNS) if (p.re.test(text)) return p.name;
   return null;
 }
