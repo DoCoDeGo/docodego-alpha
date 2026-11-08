@@ -1,0 +1,8 @@
+bundle: 2 change(s), minimum bump patch, declared specVersion 9 (committed 8)
+bundle: wrote payload.ts + manifest.json — 36 files, structure 4806e95233b7, 9 skills
+bundle exit: 0
+"specVersion": 9
+bundle drift: 2 change(s) + manifest.json out of sync with payload.ts
+  .docodego/.standard/statutes.md — patch — statutes content changed (declare MAJOR yourself for rule-meaning changes)
+  specVersion (declared) — none — declared 8 -> 9
+verify exit: 1 (1 = honest pre-commit drift vs committed v8; clean after commit)

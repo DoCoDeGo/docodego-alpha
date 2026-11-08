@@ -22,3 +22,5 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-07 | canon-doctor | delivered | 02-compose/01-build/canon-doctor/delivered.md |
 | 2026-11-07 | canon-publish | new unit | 02-compose/01-build/canon-publish/spec.md |
 | 2026-11-07 | canon-publish | delivered | 02-compose/01-build/canon-publish/delivered.md |
+| 2026-11-07 | cli-statutes-recompile | new unit | 02-compose/01-build/cli-statutes-recompile/spec.md |
+| 2026-11-08 | cli-statutes-recompile | delivered | 02-compose/01-build/cli-statutes-recompile/delivered.md |

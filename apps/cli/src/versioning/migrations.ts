@@ -3,11 +3,11 @@
  * Steps are create-only: they may add paths to a record, never edit or
  * remove user-owned content. Each step is idempotent (it checks before it
  * writes) so an interrupted upgrade resumes cleanly. */
-import { existsSync } from "node:fs";
+import { existsSync, rmSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { readText, writeText } from "../fsx.ts";
 import { emptyLock, writeLock, LOCK_REL } from "../skills/lock.ts";
-import { DELIVERY_LOG_TEMPLATE, INTENT_TEMPLATE, CYCLES_TEMPLATE, specVersion } from "../bundled/index.ts";
+import { DELIVERY_LOG_TEMPLATE, INTENT_TEMPLATE, CYCLES_TEMPLATE, specVersion, recordFiles } from "../bundled/index.ts";
 import { DELIVERY_LOG_REL } from "../record/record-write.ts";
 import { V1_README, V1_STATUTES, V1_TECH_RADAR, V1_TRACKER } from "./v1-scaffold.ts";
 
@@ -95,6 +95,15 @@ export const MIGRATIONS: Migration[] = [
       (root) => createOnly(root, DELIVERY_LOG_REL, DELIVERY_LOG_TEMPLATE),
     ],
   },
+  {
+    from: 8,
+    to: 9,
+    notes: [
+      "the statutes mirror is recompiled from the spec — arc Appendix B stream bindings and † completions (canon upkeep, patch class)",
+      "a mirror still carrying the shipped v8 bytes refreshes in place; your own edits are kept, the bundled copy rides the plan as .new",
+    ],
+    steps: [refreshStatutesMirror],
+  },
 ];
 
 /** v3 -> v4: teach AGENTS.md the three commands the CLI grew in 0.4.0.
@@ -112,6 +121,69 @@ function appendTraceDoctorCompletions(root: string): string {
   const additions = "- `docodego trace <unit>` — everything recorded about one unit, replayed on one timeline (read-only).\n- `docodego doctor` — support triage: environment, record health, lockfile, version axes.\n- `docodego completions <bash|zsh|fish>` — shell completion scripts generated from the help registry.\n";
   writeText(abs, raw.replace(anchor, anchor + additions));
   return "updated AGENTS.md (trace, doctor, completions appended after explain)";
+}
+
+/** The statutes mirror exactly as record v8 shipped it. A mirror carrying
+ * these bytes is engine property, not user content — v9 replaces it in
+ * place. Anything else is the adopter's own words and is never touched. */
+const V8_STATUTES = `# the sixteen statutes
+
+Source: docodego.com, "Sixteen principles. Four pillars. One discipline."
+Recorded verbatim, 2026-11-06. The site's own enforcement claim: each
+principle is violable in a specific way; each violation is observable.
+
+## DO — document · the Author (statutes 1–4)
+1. Intent Is Absolute — binds 01-discover, 03-validate
+2. The Spec Is the Contract — binds 04-spec, 03-validate
+3. Quality Through Context — binds 02-research
+4. Simplicity of Spec — binds 04-spec
+
+## CO — compose · the Architect (statutes 5–8)
+5. Code Is Regenerable — binds 02-develop, 04-maintain
+6. Resilience Over Robustness — binds 03-enhance, 04-maintain
+7. Architecture Before Generation — binds 01-grill
+8. Comprehension Is Non-Negotiable — binds 01-grill
+
+## DE — demonstrate · the Gatekeeper (statutes 9–12)
+9. Zero-Latency Evolution — binds 03-deploy
+10. Feedback Closes the Loop — binds 01-demo
+11. Observability Is Non-Negotiable — binds 04-scale, 02-e2e
+12. Atomic Delivery — binds 02-e2e, 03-deploy
+
+## GO — govern · the Governor (statutes 13–16)
+13. The Human as Governor — binds 03-decide, 04-handover
+14. Transparent Reasoning — binds 02-retrospect, 03-decide
+15. Security by Design — binds 01-observe (and the grill's threat floor)
+16. Alignment Before Demonstration — binds 01-observe, 03-decide
+
+Companion doctrine, verbatim from the site: the DoCoDeGo Axiom — "Intent is
+the primary artefact. Implementation is a compiled derivative. Governance is
+earned through the loop." IRAF — Intent → Reasoning → Action → Feedback —
+replaces the sprint and the release.
+`;
+
+/** v8 -> v9: the statutes mirror recompiled from the spec (arc Appendix B
+ * stream bindings, † completions). Shipped-v8 bytes are recognized and
+ * refreshed in place; genuinely edited mirrors are kept — the bundled copy
+ * rides the plan as `.new` for the adopter to reconcile. */
+function refreshStatutesMirror(root: string): string {
+  const rel = ".standard/statutes.md";
+  const fresh = recordFiles()[rel];
+  const current = readText(join(root, rel));
+  if (current === null) return "kept statutes mirror (absent)";
+  if (fresh === undefined) return "kept statutes mirror (bundled copy unavailable)";
+  if (current === fresh) return "kept statutes mirror (already current)";
+  if (current !== V8_STATUTES) {
+    return "kept statutes mirror (your edits preserved; bundled copy rides the plan as .new)";
+  }
+  writeText(join(root, rel), fresh);
+  const stray = join(root, `${rel}.new`);
+  if (existsSync(stray)) {
+    // the plan planted this side-by-side copy before the migration ran;
+    // with the mirror refreshed in place it is the engine's own duplicate
+    rmSync(stray);
+  }
+  return "refreshed statutes mirror in place (shipped v8 bytes recognized)";
 }
 
 /** The migrations to run to move `from` -> target, in order, any skip-distance. */

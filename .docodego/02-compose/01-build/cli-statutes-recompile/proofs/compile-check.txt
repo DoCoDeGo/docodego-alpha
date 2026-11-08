@@ -1,0 +1,14 @@
+statutes page matches the canon
+check exit: 0
+# the sixteen statutes
+
+Source: docodego.com, "Sixteen principles. Four pillars. One discipline."
+Recorded verbatim, 2026-11-06. The site's own enforcement claim: each
+principle is violable in a specific way; each violation is observable.
+Compiled from the DoCoDeGo Specification (spec/laws, ST-1…16): each
+statute binds one stream of the loop, per the arc's Appendix B. Lines
+marked † are docodego's completions, recorded honestly beside the
+published words.
+Statutes 10 and 13 are complete as published, read with a gloss.
+
+## DO — document · the Author (statutes 1–4)

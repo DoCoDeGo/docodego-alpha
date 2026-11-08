@@ -1,0 +1,14 @@
+## adopter scenario: edited (record stamped 8; locally edited statutes)
+-- plan:
+plan: record v8 -> bundled spec v9
+  migration: v8->v9: the statutes mirror is recompiled from the spec — arc Appendix B stream bindings and † completions (canon upkeep, patch class)
+  migration: v8->v9: a mirror still carrying the shipped v8 bytes refreshes in place; your own edits are kept, the bundled copy rides the plan as .new
+  ! CONFLICT  .docodego/.standard/statutes.md  (yours kept; bundled copy -> .new)
+-- apply:
+conflict .docodego/.standard/statutes.md — your copy kept, bundled version planted as .docodego/.standard/statutes.md.new
+kept statutes mirror (your edits preserved; bundled copy rides the plan as .new)
+manifest.recordVersion -> 9
+-- state:
+recordVersion: 9
+mirror starts: "# my house statutes — locally adapted"
+.new sibling present: yes (edited mirror kept)

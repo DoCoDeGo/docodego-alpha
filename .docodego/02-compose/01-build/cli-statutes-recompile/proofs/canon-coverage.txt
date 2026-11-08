@@ -1,0 +1,35 @@
+ST-1   veto  mechanized  deliver, lint, G1
+ST-2   veto  mechanized  deliver, G1, G2, G3
+ST-3   veto  mechanized  check, lint
+ST-4   veto  mechanized  lint
+ST-5   veto  mechanized  lint, check
+ST-6   veto  mechanized  lint
+ST-7   veto  mechanized  lint
+ST-8   veto  mechanized  check
+ST-9   veto  mechanized  check
+ST-10  veto  mechanized  lint
+ST-11  veto  mechanized  lint
+ST-12  veto  mechanized  check
+ST-13  veto  mechanized  deliver
+ST-14  veto  mechanized  lint
+ST-15  veto  mechanized  deliver, G1, G2
+ST-16  veto  mechanized  deliver, G4
+EL-17  veto  mechanized  check, lint
+EL-18  veto  mechanized  check, lint
+EL-19  veto  —           human review
+EL-20  veto  mechanized  upgrade, build
+EL-21  veto  mechanized  deliver, G4
+EL-22  veto  mechanized  deliver, G4
+EL-23  veto  mechanized  check
+EL-24  warn  —           design law
+EL-25  veto  —           direction
+EL-26  warn  —           design law
+EL-27  veto  mechanized  deliver
+EL-28  veto  —           human review
+EL-29  warn  —           direction
+EL-30  warn  —           human review
+EL-31  warn  —           human review
+
+not mechanized (8): EL-19, EL-24, EL-25, EL-26, EL-28, EL-29, EL-30, EL-31
+coverage 83% by weight · veto 88% (69/78) · 23/31 laws mechanized
+exit: 0

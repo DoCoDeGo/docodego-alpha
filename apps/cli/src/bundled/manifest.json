@@ -1,5 +1,5 @@
 {
-  "specVersion": 8,
+  "specVersion": 9,
   "cliVersion": "0.8.0",
   "structureHash": "4806e95233b7481e3a6f313470b9e32736f129eaf1cc63b53474566fc6a2b49c",
   "files": {
@@ -18,8 +18,8 @@
     ".agents/skills/docodego-visual-proof/SKILL.md": "9bfc5138eccd58ac416539cd9fe8ef8ad378bc53b760acdddaf3af9d2fbb19f2",
     ".agents/skills/docodego-visual-proof/visual-proof.mjs": "1256893e55eb330d2079fad8775505aa848b34b3c1f023dd597da03902d4bb6c",
     ".agents/skills/docodego/SKILL.md": "31accd8158ea96085eed7b594e5b09af33026c8a5735026f2a584ef26986b575",
-    ".docodego/.standard/manifest.json": "933dfb3cf58224b79f633d20da954e9def7928dfb540865fa95a423d9c8778e8",
-    ".docodego/.standard/statutes.md": "950faefc481f0276913c49c5e31b0535e5aa80f44e2f957cff771f28fdd00902",
+    ".docodego/.standard/manifest.json": "8178d05992003af3cdcca37bed502ea134c679d62248493b4004427c19224c33",
+    ".docodego/.standard/statutes.md": "770e570c911333d0d21221485bcd739cd145b1fef3bf008efcd02334850f3e3b",
     ".docodego/.standard/tech-radar.md": "6fdf71fac4037381fe8eef9ce5809867c208f99b760e78ede573bb56f8a9a3af",
     ".docodego/01-document/01-discover/README.md": "5f2b26255f4383c8b2070fcc2c13fb1a940b2be7db69bcaab9c3db6dc85d9597",
     ".docodego/01-document/02-refine/README.md": "07d3c78f3f20a7ca7ff805b3389d183a7bd19609c924135c7c87060907297b54",

@@ -13,8 +13,10 @@
  * Run: node --experimental-strip-types scripts/bundle.ts
  */
 import { createHash } from "node:crypto";
-import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
+import { tmpdir } from "node:os";
+import { spawnSync } from "node:child_process";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { validateVocabularyPack, type VocabularyPack } from "../src/record/vocabulary.ts";
 
@@ -61,8 +63,23 @@ function collect(): Map<string, string> {
     for (const abs of walk(root)) {
       const rel = relative(ROOT, abs).split("\\").join("/");
       if (rel.startsWith(EXCLUDE_PREFIX) || EXCLUDE_FILES.has(rel)) continue;
-      // a folder containing a spec.md is a unit — user state, never bundled
-      if (rel.startsWith(".docodego/") && existsSync(join(dirname(abs), "spec.md"))) continue;
+      // a folder containing a spec.md is a unit — user state, never bundled.
+      // The check walks ancestors: unit folders grow subfolders (proofs/,
+      // and friends), and a proof file's own directory carries no spec.md —
+      // the shallow check leaked unit internals into the payload.
+      if (rel.startsWith(".docodego/")) {
+        let dir = dirname(abs);
+        const recordRoot = join(ROOT, ".docodego");
+        let inUnit = false;
+        while (dir.startsWith(recordRoot) && dir !== recordRoot) {
+          if (existsSync(join(dir, "spec.md"))) {
+            inUnit = true;
+            break;
+          }
+          dir = dirname(dir);
+        }
+        if (inUnit) continue;
+      }
       files.set(rel, readFileSync(abs, "utf8"));
     }
   }
@@ -205,10 +222,41 @@ function classify(path: string, oldB: string | undefined, newB: string | undefin
   return { bump: "patch", note: "bundled content changed" };
 }
 
+/** The guard's baseline is the last DELIVERED bundle — the payload as
+ * committed — never the working copy, or iterating inside one delivery
+ * unit would demand a version bump per recompile. The delivered-baseline
+ * rule, same law as canon build's manifest baseline (found necessary by
+ * the statutes-recompile unit, 2026-11-08). A committed, unmodified
+ * payload is its own baseline; a dirty one defers to HEAD; no git, no
+ * baseline (the working copy stands in, honestly). The committed source
+ * imports types only, so a temp copy imports clean under strip-types. */
 async function oldPayload(): Promise<Payload | null> {
   if (!existsSync(PAYLOAD_TS) || !existsSync(MANIFEST_JSON)) return null;
-  const mod = (await import(pathToFileURL(PAYLOAD_TS).href)) as { PAYLOAD: Payload };
-  return mod.PAYLOAD;
+  const rel = relative(ROOT, PAYLOAD_TS);
+  const dirty = spawnSync("git", ["status", "--porcelain", "-uno", rel], { encoding: "utf8", cwd: ROOT });
+  const isDirty = (dirty.stdout ?? "").trim() !== "";
+  if (!isDirty) {
+    const mod = (await import(pathToFileURL(PAYLOAD_TS).href)) as { PAYLOAD: Payload };
+    return mod.PAYLOAD;
+  }
+  const ls = spawnSync("git", ["ls-files", "--full-name", rel], { encoding: "utf8", cwd: ROOT });
+  const tracked = (ls.stdout ?? "").trim().split("\n")[0] ?? "";
+  if (tracked === "") {
+    // never committed: the working copy is all there is
+    const mod = (await import(pathToFileURL(PAYLOAD_TS).href)) as { PAYLOAD: Payload };
+    return mod.PAYLOAD;
+  }
+  const show = spawnSync("git", ["show", `HEAD:${tracked}`], { encoding: "utf8", cwd: ROOT, maxBuffer: 64 * 1024 * 1024 });
+  if (show.status !== 0 || !show.stdout) return null;
+  const dir = mkdtempSync(join(tmpdir(), "bundle-baseline-"));
+  try {
+    const tmp = join(dir, "payload.ts");
+    writeFileSync(tmp, show.stdout);
+    const mod = (await import(pathToFileURL(tmp).href)) as { PAYLOAD: Payload };
+    return mod.PAYLOAD;
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
 }
 
 function driftReport(oldP: Payload, newP: Payload): { changes: [string, Bump, string][]; minBump: Bump } {

@@ -1,0 +1,16 @@
+warning[DG-C002]: proof path(s) not on disk (quoted variants or stale entries): amendments/1.0.1-ST-2.md, docodego-spec/amend/v1
+  --> 02-compose/01-build/canon-amend/proofs.md
+  help: docodego explain DG-C002
+warning[DG-C002]: proof path(s) not on disk (quoted variants or stale entries): docodego-spec/diff/v1
+  --> 02-compose/01-build/canon-diff/proofs.md
+  help: docodego explain DG-C002
+warning[DG-C002]: proof path(s) not on disk (quoted variants or stale entries): docodego-spec/doctor/v1
+  --> 02-compose/01-build/canon-doctor/proofs.md
+  help: docodego explain DG-C002
+warning[DG-C002]: proof path(s) not on disk (quoted variants or stale entries): docodego-spec/publish/v1
+  --> 02-compose/01-build/canon-publish/proofs.md
+  help: docodego explain DG-C002
+
+0 error(s), 4 warning(s)
+exit 0
+check exit: 0
