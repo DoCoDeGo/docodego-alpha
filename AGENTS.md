@@ -29,7 +29,11 @@ The loop is weighted to the work, never forced onto it: a one-line fix may
 move sketch → spec → proof → deliver in minutes; a complex feature earns the
 full round of grilling and scoring. What is never skipped is the order —
 no implementation before a scored spec, no delivery without a proof that
-exists. When a task outgrows the loop (whether-to-build questions, product
+exists. The events a unit's status line records run in one order —
+`new` → `grill` → `score` → `deliver` — and a refused gate records the
+attempt in the tracker and re-enters at the refused step: re-score
+re-binds the spec hash, re-deliver re-runs the checks. The record is
+repaired forward, never rewritten. When a task outgrows the loop (whether-to-build questions, product
 direction), record it in `01-document/01-discover/` — `intent.md` holds the
 founding brief, `cycles.md` the numbered log of research and decisions.
 

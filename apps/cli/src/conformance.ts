@@ -534,6 +534,30 @@ fact("the payload's AGENTS.md teaches the gate-rows law", agentsMd().includes("G
   rmSync(custom, { recursive: true, force: true });
 }
 
+// --- v2e: the event order and the repair rule ship and teach (310) ---
+fact("the payload's AGENTS.md states the event order and the repair rule", agentsMd().includes("`new` → `grill` → `score` → `deliver`") && agentsMd().includes("repaired forward, never rewritten"));
+{
+  const { teachEventOrder } = await import("./versioning/migrations.ts");
+  const ag = mkdtempSync(join(tmpdir(), "docodego-conformance-teach3-"));
+  const rec = join(ag, ".docodego");
+  mkdirSync(rec, { recursive: true });
+  const v16 = "The loop is weighted to the work, never forced onto it: a one-line fix may\nmove sketch → spec → proof → deliver in minutes; a complex feature earns the\nfull round of grilling and scoring. What is never skipped is the order —\nno implementation before a scored spec, no delivery without a proof that\nexists. When a task outgrows the loop, record it.\n";
+  writeFileSync(join(ag, "AGENTS.md"), v16);
+  const first = teachEventOrder(rec);
+  const taught = readFileSync(join(ag, "AGENTS.md"), "utf8");
+  const second = teachEventOrder(rec);
+  const custom = mkdtempSync(join(tmpdir(), "docodego-conformance-teach4-"));
+  mkdirSync(join(custom, ".docodego"), { recursive: true });
+  writeFileSync(join(custom, "AGENTS.md"), "# house rules\n\nnothing matches\n");
+  const keptNote = teachEventOrder(join(custom, ".docodego"));
+  const keptBody = readFileSync(join(custom, "AGENTS.md"), "utf8");
+  fact("the event-order teach inserts the sentences into shipped-v16 bytes", first.includes("updated AGENTS.md") && taught.includes("`new` → `grill` → `score` → `deliver`"));
+  fact("the event-order teach is idempotent", second.includes("already present") && taught === readFileSync(join(ag, "AGENTS.md"), "utf8"));
+  fact("the event-order teach keeps a customized AGENTS.md untouched", keptNote.includes("customized") && keptBody === "# house rules\n\nnothing matches\n");
+  rmSync(ag, { recursive: true, force: true });
+  rmSync(custom, { recursive: true, force: true });
+}
+
 // --- v5: vocabulary packs — words change, the contract does not ---
 // The pack law, enforced at every layer: embedded packs pass the validator,
 // cover exactly the canonical keys, keep ids and paths intact, init applies

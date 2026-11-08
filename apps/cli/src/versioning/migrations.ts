@@ -190,7 +190,50 @@ export const MIGRATIONS: Migration[] = [
     ],
     steps: [teachGateRowsHome],
   },
+  {
+    from: 16,
+    to: 17,
+    notes: [
+      "AGENTS.md teaches the event order and the repair rule: a unit's status events run new -> grill -> score -> deliver, and a refused gate records the attempt in the tracker and re-enters at the refused step — the record repaired forward, never rewritten (020-canon-debts/310)",
+      "a record whose AGENTS.md still matches the shipped v16 scaffold gains the sentences in place; a customized AGENTS.md is kept, the refreshed copy riding the plan as .new",
+    ],
+    steps: [teachEventOrder],
+  },
 ];
+
+/** v16 -> v17: teach AGENTS.md the event order and the repair rule.
+ * Same conservative contract as teachGateRowsHome: shipped-v16 bytes
+ * gain the sentences in place; anything else is kept untouched, the
+ * refreshed copy riding the plan as .new. Exported for the conformance
+ * fixture that holds the teach contract in place. */
+const EVENT_ORDER_ANCHOR = "no implementation before a scored spec, no delivery without a proof that\nexists.";
+const EVENT_ORDER_TEXT = [
+  "exists. The events a unit's status line records run in one order —",
+  "`new` → `grill` → `score` → `deliver` — and a refused gate records the",
+  "attempt in the tracker and re-enters at the refused step: re-score",
+  "re-binds the spec hash, re-deliver re-runs the checks. The record is",
+  "repaired forward, never rewritten.",
+].join("\n");
+
+export function teachEventOrder(root: string): string {
+  const repoRoot = dirname(root);
+  const abs = join(repoRoot, "AGENTS.md");
+  if (!existsSync(abs)) return "kept AGENTS.md (absent — nothing to teach)";
+  const raw = readText(abs) ?? "";
+  if (raw.includes("repaired forward, never rewritten")) return "kept AGENTS.md (event-order law already present)";
+  if (!raw.includes(EVENT_ORDER_ANCHOR)) {
+    return "kept AGENTS.md (anchor sentence not found — your copy is customized; the refreshed scaffold rides as AGENTS.md.new)";
+  }
+  const taught = raw.replace(EVENT_ORDER_ANCHOR, `no implementation before a scored spec, no delivery without a proof that\n${EVENT_ORDER_TEXT}`);
+  writeText(abs, taught);
+  let note = "updated AGENTS.md (event-order sentences inserted after the order line)";
+  const twin = join(repoRoot, "AGENTS.md.new");
+  if (existsSync(twin) && (readText(twin) ?? "") === taught) {
+    rmSync(twin);
+    note += " — AGENTS.md.new removed (now identical to the refreshed file)";
+  }
+  return note;
+}
 
 /** v15 -> v16: teach AGENTS.md the gate-rows law — a delivery carries its
  * evidence rows. Same conservative contract as teachNamingLaw:

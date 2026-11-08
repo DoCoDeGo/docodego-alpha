@@ -108,3 +108,4 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 290-planted-prose-sweep | delivered | 02-compose/01-build/290-planted-prose-sweep/delivered.md |
 | 2026-11-08 | 300-gate-rows-home | new unit | 02-compose/01-build/300-gate-rows-home/spec.md |
 | 2026-11-08 | 300-gate-rows-home | delivered | 02-compose/01-build/300-gate-rows-home/delivered.md |
+| 2026-11-08 | 310-event-order | new unit | 02-compose/01-build/310-event-order/spec.md |
