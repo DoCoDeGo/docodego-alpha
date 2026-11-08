@@ -272,6 +272,15 @@ export const MIGRATIONS: Migration[] = [
     ],
     steps: [teachSignIdentity, teachSecondUse],
   },
+  {
+    from: 25,
+    to: 26,
+    notes: [
+      "the census repair (the payload boundary's own gate, unit 480): the v25 second-use section carried studio-side citations (the inventory and demo paths exist in this repository, not in an adopter's record) — planted prose names shipped paths only, so the dead-path lines are replaced with the clean text in place; records that took v25 re-teach, customized copies keep their words",
+      "the studio's own citations stay in the studio's files (470's unit folder, docs/fixtures-demo) — the machinery held the line: no second source change at a declared version, no ladder gaps; the correction is declared, not folded in",
+    ],
+    steps: [teachSecondUseClean],
+  },
 ];
 
 /** v16 -> v17: teach AGENTS.md the event order and the repair rule.
@@ -489,6 +498,36 @@ export function teachSecondUse(root: string): string {
     anchorLabel: "the honesty law heading",
     teach: (raw) => raw.replace(SECOND_USE_HEADING_ANCHOR, `${SECOND_USE_SECTION}\n\n${SECOND_USE_HEADING_ANCHOR}`),
     note: "updated AGENTS.md (the second-use section inserted before the honesty law)",
+  });
+}
+
+/** v25 -> v26: the census repair. The v25 teach planted the staged
+ * section carrying studio-side citations (the inventory and demo paths
+ * exist in this repository, not in an adopter's record) — the planted
+ * prose census caught it after the v25 declaration, and the machinery
+ * spoke: no second source change at a declared version, no ladder gaps.
+ * The correction is declared and real: the dead-path lines are replaced
+ * with the clean text; records that took v25 re-teach in place; records
+ * customized keep their words. The studio's own citations stay in the
+ * studio's files (470's unit, docs/fixtures-demo) — planted prose is
+ * the consumer agent's whole world. */
+const SECOND_USE_DEAD_ANCHOR = [
+  "none (the inventory: `.docodego/02-compose/01-build/470-dual-use/inventory.md`).",
+  "The worked pairs: the conformance fixtures prove the engine and their",
+  "curated set demos it (`docs/fixtures-demo/`); the proofs bind",
+].join("\n");
+const SECOND_USE_CLEAN = [
+  "none. The worked pairs: the conformance fixtures prove the engine and",
+  "their curated set demos it; the proofs bind",
+].join("\n");
+
+export function teachSecondUseClean(root: string): string {
+  return teachAnchor(root, {
+    present: { sentinel: "none. The worked pairs: the conformance fixtures prove the engine and", label: "the second-use repair" },
+    anchor: SECOND_USE_DEAD_ANCHOR,
+    anchorLabel: "the v25 section's studio-side citations",
+    teach: (raw) => raw.replace(SECOND_USE_DEAD_ANCHOR, SECOND_USE_CLEAN),
+    note: "updated AGENTS.md (the second-use section's studio-side citations removed — planted prose names shipped paths only)",
   });
 }
 

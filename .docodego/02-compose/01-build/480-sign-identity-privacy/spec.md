@@ -49,13 +49,23 @@ axes aligning; the EL-34 amendment 1.2.4 scaffolded with the consent-
 split wording — the founder's sign-off remains the unit's person-gate
 before the law text lands.
 
+During the build, the payload census caught the staged second-use
+text carrying studio-side paths (dead references in a planted record)
+— after the v25 declaration. The machinery spoke: the guard refuses a
+second source change at a declared version, and the ladder forbids
+gaps. The repair is therefore declared and real: v26 carries a repair
+teach that swaps the planted dead-path section for the clean text —
+v25-planted records re-teach, new records plant clean.
+
 Out: scrubbing or rewriting existing rows (append-only — the 1.2.3
 sign-off's stored identity stands as recorded; strike-and-archive
 would be a separate founder act); `grill`'s `--by <who>` (a different
 surface, typed consent by definition); any uncommitted salt (a
 committed ledger keyed to an uncommitted secret breaks
 clone-and-verify); changing the derivation ladder's order; new refusal
-codes; a payload version bump beyond 25.
+codes; a payload version bump beyond 25 — overtaken by the census
+finding mid-build: the correction is declared as v26 with a real
+repair teach (see the scope note above), not silently folded into 25.
 
 ## threats
 
@@ -117,9 +127,12 @@ codes; a payload version bump beyond 25.
   and the founder's sign-off — the person-gate — is the named next
   act before the law text lands; no fingerprinted row is shipped
   while the law still reads "recorded verbatim" without the split.
-- AC10 — the payload hop lands whole: recordVersion 25 with
-  teachSignIdentity + the second-use teach (SW-023 stays held — the
-  hop carries the two directed teaches; the dedup's site map is
-  recorded as still-owed in proofs); version-transition.md carries the
-  v24→v25 row; the doctor axes align (payload 25, cli, spec/,
-  delivered) and bundle verify is green at the new payload.
+- AC10 — the payload hop lands whole: recordVersion 25 carries
+  teachSignIdentity + the second-use teach, and the census-forced
+  correction lands as recordVersion 26 with a real repair teach (the
+  planted dead-path section replaced; v25-planted records re-teach;
+  SW-023 stays held — the hop carries the directed teaches; the
+  dedup's site map is recorded as still-owed in proofs);
+  version-transition.md carries the v24→v25 and v25→v26 rows; the
+  doctor axes align (payload 26, cli, spec/, delivered) and bundle
+  verify is green at the new payload.

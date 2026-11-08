@@ -737,7 +737,7 @@ fact("the payload's AGENTS.md carries the two registers with the accepted lists"
 
 // --- v25: the consent-split and second-use teach (480) ---
 {
-  const { teachSignIdentity, teachSecondUse } = await import("./versioning/migrations.ts");
+  const { teachSignIdentity, teachSecondUse, teachSecondUseClean } = await import("./versioning/migrations.ts");
   const ag = mkdtempSync(join(tmpdir(), "docodego-conformance-v25teach-"));
   mkdirSync(join(ag, ".docodego"), { recursive: true });
   const v24 = [
@@ -766,14 +766,28 @@ fact("the payload's AGENTS.md carries the two registers with the accepted lists"
   const n3 = teachSignIdentity(recDir);
   const n4 = teachSecondUse(recDir);
   fact("both teaches are idempotent", n3.includes("already present") && n4.includes("already present") && readFileSync(join(ag, "AGENTS.md"), "utf8") === taught);
+  const planted25 = taught.replace(
+    "none. The worked pairs: the conformance fixtures prove the engine and\ntheir curated set demos it; the proofs bind",
+    "none (the inventory: `.docodego/02-compose/01-build/470-dual-use/inventory.md`).\nThe worked pairs: the conformance fixtures prove the engine and their\ncurated set demos it (`docs/fixtures-demo/`); the proofs bind",
+  );
+  writeFileSync(join(ag, "AGENTS.md"), planted25);
+  const n5 = teachSecondUseClean(recDir);
+  const repaired = readFileSync(join(ag, "AGENTS.md"), "utf8");
+  fact("the v26 repair swaps the planted dead paths for the clean text", n5.includes("updated AGENTS.md") && repaired === taught && !repaired.includes("470-dual-use") && !repaired.includes("docs/fixtures-demo"));
+  fact("the repair is idempotent", teachSecondUseClean(recDir).includes("already present"));
   const custom = mkdtempSync(join(tmpdir(), "docodego-conformance-v25kept-"));
   mkdirSync(join(custom, ".docodego"), { recursive: true });
   writeFileSync(join(custom, "AGENTS.md"), "# my own law\n\nno sign line or honesty heading here\n");
   const keptNote = teachSecondUse(join(custom, ".docodego"));
-  const keptBody = readFileSync(join(custom, "AGENTS.md"), "utf8");
-  fact("the teaches keep a customized AGENTS.md untouched", keptNote.includes("customized") && keptBody === "# my own law\n\nno sign line or honesty heading here\n");
+  fact("the teaches keep a customized AGENTS.md untouched", keptNote.includes("customized") && readFileSync(join(custom, "AGENTS.md"), "utf8") === "# my own law\n\nno sign line or honesty heading here\n");
+  const custom2 = mkdtempSync(join(tmpdir(), "docodego-conformance-v26kept-"));
+  mkdirSync(join(custom2, ".docodego"), { recursive: true });
+  writeFileSync(join(custom2, "AGENTS.md"), "# my own law\n\nnothing here\n");
+  const kept2 = teachSecondUseClean(join(custom2, ".docodego"));
+  fact("the repair keeps a customized AGENTS.md untouched", kept2.includes("customized") && readFileSync(join(custom2, "AGENTS.md"), "utf8") === "# my own law\n\nnothing here\n");
   rmSync(ag, { recursive: true, force: true });
   rmSync(custom, { recursive: true, force: true });
+  rmSync(custom2, { recursive: true, force: true });
 }
 // the detector, over a real delivered unit: an unknown declaration fails
 // check naming the registry; a declared one passes; the demo bundle is
