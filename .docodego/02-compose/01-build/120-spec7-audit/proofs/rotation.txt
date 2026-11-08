@@ -1,0 +1,13 @@
+-- first rotation:
+rotate: 04-govern/01-monitor/tracker.md: moved 322 oldest rows to 04-govern/01-monitor/tracker-archive-1.md (sha256:3c2c5eee7f7c verified), 200 newest stay live, tombstone appended
+-- tombstone (own well-formed line):
+| 2026-11-08 | tracker | archived 322 rows to 04-govern/01-monitor/tracker-archive-1.md (byte-identical, sha256:3c2c5eee7f7c) | 04-govern/01-monitor/tracker-archive-1.md |
+-- archive carries the table header:
+| date | unit | event | evidence |
+|---|---|---|---|
+-- trace recovers archived-only rows (300 expected):
+300
+-- second rotation numbers the next archive:
+04-govern/01-monitor/tracker.md: moved 352 oldest rows to 04-govern/01-monitor/tracker-archive-2.md
+tracker-archive-1.md
+tracker-archive-2.md

@@ -84,6 +84,7 @@ export interface Args {
   branch: boolean;
   mode?: Mode;
   answers?: string;
+  rotate?: boolean;
   epic?: string;
   story?: string;
   type?: DocType;

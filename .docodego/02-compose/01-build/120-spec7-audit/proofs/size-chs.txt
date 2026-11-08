@@ -1,0 +1,6 @@
+tracker KB: 660
+warn  GOV-004 bounded size
+  warn: 04-govern/01-monitor/tracker.md is 660KB, over its 600KB bound — run 'docodego audit --rotate' to split it
+warn  GOV-005 comment hygiene
+  warn: 04-govern/01-monitor/README.md carries a comment block of 502 chars (limit 400) — say it once, in prose
+exit: 0

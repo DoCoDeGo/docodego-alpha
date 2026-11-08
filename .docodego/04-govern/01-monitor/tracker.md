@@ -31,3 +31,7 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | spec7-naming | new unit | 02-compose/01-build/spec7-naming/spec.md |
 | 2026-11-08 | record | units renumbered with NNN- sequence prefixes (tracker order, step of 10) — addresses corrected in proofs and receipts, rows and verdicts unchanged | 01-document/01-discover/010-canon-spec-7/spec.md |
 | 2026-11-08 | 110-spec7-naming | delivered | 02-compose/01-build/110-spec7-naming/delivered.md |
+| 2026-11-08 | 120-spec7-audit | new unit | 02-compose/01-build/120-spec7-audit/spec.md |
+| 2026-11-08 | record | audit: 0 failing checks, 0 with warnings — checklist updated | 04-govern/01-monitor/checklist.md |
+| 2026-11-08 | record | audit: 0 failing checks, 0 with warnings — checklist updated | 04-govern/01-monitor/checklist.md |
+| 2026-11-08 | 120-spec7-audit | delivered | 02-compose/01-build/120-spec7-audit/delivered.md |

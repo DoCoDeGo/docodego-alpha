@@ -1,0 +1,3 @@
+FAIL  GOV-001 lint
+  movement '03-demonstrate' is missing
+exit: 1

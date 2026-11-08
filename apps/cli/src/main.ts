@@ -9,6 +9,7 @@ import { cliVersion, specVersion } from "./bundled/index.ts";
 import { renderDiagnostic } from "./emit/diagnostics.ts";
 import { errorEnvelope } from "./emit/json.ts";
 import * as init from "./commands/init.ts";
+import * as audit from "./commands/audit.ts";
 import * as newCmd from "./commands/new.ts";
 import * as sketch from "./commands/sketch.ts";
 import * as grill from "./commands/grill.ts";
@@ -28,6 +29,7 @@ type Run = (args: Args, io: Io) => number | Promise<number>;
 
 const COMMANDS: Record<string, { run: Run; read: boolean }> = {
   init: { run: init.run, read: false },
+  audit: { run: audit.auditSafe, read: false },
   new: { run: newCmd.run, read: false },
   sketch: { run: sketch.run, read: false },
   grill: { run: grill.run, read: true },

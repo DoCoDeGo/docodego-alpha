@@ -2,7 +2,7 @@
 import { MODES, type Args, type DocType, type Mode } from "../types.ts";
 import { DOC_TYPES } from "../types.ts";
 
-const BOOL_FLAGS = new Set(["--json", "--force", "--self-check", "--apply", "--branch", "--all-skills", "--version", "--help", "--list"]);
+const BOOL_FLAGS = new Set(["--json", "--force", "--self-check", "--apply", "--branch", "--all-skills", "--version", "--help", "--list", "--rotate"]);
 const VALUE_FLAGS = new Set(["--mode", "--answers", "--type", "--epic", "--story", "--stream", "--from-sketch", "--profile", "--from", "--vocabulary"]);
 
 export type ParsedArgs = { ok: true; args: Args } | { ok: false; message: string };
@@ -39,6 +39,7 @@ export function parseArgs(argv: string[]): ParsedArgs {
       else if (tok === "--force") args.force = true;
       else if (tok === "--self-check") args.selfCheck = true;
       else if (tok === "--apply") args.apply = true;
+      else if (tok === "--rotate") args.rotate = true;
       else if (tok === "--branch") args.branch = true;
       else if (tok === "--all-skills") args.allSkills = true;
       else if (tok === "--version") args.version = true;

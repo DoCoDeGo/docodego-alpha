@@ -58,6 +58,23 @@ export function vocabularyPack(name: string | undefined): VocabularyPack | undef
   if (name === undefined) return undefined;
   return PAYLOAD.vocabularies.find((v) => v.name === name);
 }
+/** The checklist: the standing sweep's ledger. One row per check per run,
+ * stable ids, newest last — the record checking itself, on a schedule
+ * anyone can read. Hand findings append with the same grammar. */
+export const CHECKLIST_TEMPLATE = `# Checklist
+
+The standing sweep, appended. One row per check per \`docodego audit\` run:
+\`| date | check | owner | status | evidence |\`. Checks carry stable ids —
+GOV-001 lint · GOV-002 check · GOV-003 status-verdict coherence · GOV-004
+bounded size · GOV-005 comment hygiene. Hand findings take the next
+GOV-NNN. Status changes append new rows — this ledger is append-only,
+newest last, rotated like every ledger (checklist-archive-N.md,
+byte-identical moves, never deleted).
+
+| date | check | owner | status | evidence |
+|---|---|---|---|---|
+`;
+
 /** All bundled skill files as `.agents/skills/<name>/<file>` -> body. */
 export function allSkillFiles(): Record<string, string> {
   return filesUnder(".agents/skills/");

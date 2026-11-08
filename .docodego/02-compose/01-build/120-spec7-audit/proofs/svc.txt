@@ -1,0 +1,6 @@
+-- alpha: fail verdict, beta: no verdict at all (grill emptied):
+FAIL  GOV-003 status-verdict coherence
+  unit '010-alpha' is delivered but its latest grill verdict is 'fail' — status contradicts evidence
+  unit '020-beta' is delivered but its grill record holds no verdict
+pass  GOV-004 bounded size — clean
+exit: 1

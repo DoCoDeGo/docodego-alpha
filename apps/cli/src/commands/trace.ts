@@ -2,6 +2,7 @@
  * creation, grill rounds, the score, the proofs, the deliveries, plus the
  * tracker rows naming it. Read-only — the traceability anchor, made a command. */
 import { join } from "node:path";
+import { existsSync, readdirSync } from "node:fs";
 import type { Args, Io } from "../types.ts";
 import { readText } from "../fsx.ts";
 import { loadRecord, type RecordAst } from "../record/load.ts";
@@ -29,6 +30,7 @@ export function run(args: Args, io: Io): number {
     proofs: markerText(rec, unit.markers.proofs),
     delivered: markerText(rec, unit.markers.delivered),
     tracker: rec.trackerPath === null ? null : readText(join(rec.root, rec.trackerPath)),
+    trackerArchives: trackerArchives(rec),
     evidence: {
       spec: `${unit.dir}/spec.md`,
       grill: unit.markers.grill,
@@ -57,6 +59,19 @@ export function run(args: Args, io: Io): number {
 }
 
 /** A marker file's text; the marker path is record-root relative. */
+/** Tracker archives hold rows the live file no longer does (audit
+ * --rotate); trace scans them so retired rows keep their coverage. */
+function trackerArchives(rec: RecordAst): string[] {
+  if (rec.trackerPath === null) return [];
+  const dir = join(rec.root, rec.trackerPath, "..");
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir)
+    .filter((f) => /^tracker-archive-\d+\.md$/.test(f))
+    .sort()
+    .map((f) => readText(join(dir, f)) ?? "")
+    .filter((s) => s !== "");
+}
+
 function markerText(rec: RecordAst, rel: string | null): string | null {
   return rel === null ? null : readText(join(rec.root, rel));
 }

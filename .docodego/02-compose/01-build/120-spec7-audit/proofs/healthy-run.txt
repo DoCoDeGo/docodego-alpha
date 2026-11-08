@@ -1,0 +1,7 @@
+pass  GOV-001 lint — clean
+pass  GOV-002 check — clean
+pass  GOV-003 status-verdict coherence — clean
+pass  GOV-004 bounded size — clean
+pass  GOV-005 comment hygiene — clean
+checklist: .docodego/04-govern/01-monitor/checklist.md — 5 rows appended
+exit: 0

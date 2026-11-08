@@ -33,6 +33,9 @@ export interface TraceInputs {
   proofs: string | null;
   delivered: string | null;
   tracker: string | null;
+  /** retired tracker rows keep their coverage: archives hold rows the
+   * live file no longer does (audit --rotate) */
+  trackerArchives: string[];
   evidence: TraceEvidence;
   proofExists: (p: string) => boolean;
 }
@@ -115,10 +118,18 @@ function pushDeliveries(events: TraceEvent[], inputs: TraceInputs): void {
 }
 
 /** Tracker rows naming the unit join the timeline: the event column becomes
- * the kind, the evidence column the detail. */
+ * the kind, the evidence column the detail. Archives (audit --rotate) hold
+ * rows the live file no longer does — scanned too, so retired rows keep
+ * their coverage. */
 function pushTracker(events: TraceEvent[], inputs: TraceInputs, already: Set<string>): void {
-  if (inputs.tracker === null) return;
-  for (const node of parseMarkdown(TRACKER_REL, inputs.tracker).nodes) {
+  for (const text of [inputs.tracker, ...inputs.trackerArchives]) {
+    if (text === null) continue;
+    trackerRows(events, inputs, already, text);
+  }
+}
+
+function trackerRows(events: TraceEvent[], inputs: TraceInputs, already: Set<string>, text: string): void {
+  for (const node of parseMarkdown(TRACKER_REL, text).nodes) {
     if (node.kind !== "table-row") continue;
     const [date, unit, event, evidence] = node.cells;
     if (date === "date") continue; // the header row
