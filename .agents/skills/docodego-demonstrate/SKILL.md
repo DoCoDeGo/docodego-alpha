@@ -32,7 +32,7 @@ State plainly: does the delivered output match what was specified? Then state wh
 
 In a live system this pillar is continuous, not per-release. On a signal (dependency bump, incident, quarterly review, spec touched):
 
-1. Pick the affected delivered units — or, where the project has grown the practice, its `system/behavioral/` specs: the living record of what the system does.
+1. Pick the affected delivered units — or, where the project has grown the practice, its `system/behavioral/` specs (units retired there by `docodego retire`): the living record of what the system does.
 2. Re-run their acceptance criteria against reality; re-run visual-verify flows for their surfaces.
 3. Divergence found → either a regression (fix the code) or reality moved (reconcile the spec, human approves). Never let spec and system disagree silently — a `delivered` spec is a record of current reality that needs maintenance.
 

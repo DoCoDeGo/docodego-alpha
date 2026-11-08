@@ -1,0 +1,30 @@
+docodego — compiler-passes · mode review · record v11 · code state growing
+units 4 · draft 1 · grilled 0 · scored 3 · delivered 0 · sketches 0
+
+01-document
+  01-discover  010-canon-spec-7 (scored) · 020-canon-debts (draft)
+  02-refine  —
+  03-validate  —
+  04-plan  —
+
+02-compose
+  01-build  100-spec7-proof-semantics (scored) · 150-retire (scored)
+  02-integrate  —
+  03-enhance  —
+  04-maintain  —
+
+03-demonstrate
+  01-demo  —
+  02-accept  —
+  03-release  —
+  04-deploy  —
+
+04-govern
+  01-monitor  —
+  02-measure  —
+  03-retrospect  —
+  04-improve  —
+
+rollups
+  epic 010-canon-spec-7: 0/2 delivered
+retired 13 under system/behavioral/

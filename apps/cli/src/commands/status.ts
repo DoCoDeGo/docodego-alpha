@@ -2,6 +2,7 @@
  * epic/story links from frontmatter, render the one-screen board. */
 import type { Args, Io } from "../types.ts";
 import { loadRecord } from "../record/load.ts";
+import { retiredCount } from "./retire.ts";
 import { renderBoard, statusData } from "../emit/board.ts";
 import { envelope } from "../emit/json.ts";
 
@@ -29,6 +30,8 @@ export function run(args: Args, io: Io): number {
     io.out(JSON.stringify(envelope("status", data), null, 2));
   } else {
     io.out(renderBoard(rec));
+    const retired = retiredCount(rec);
+    if (retired > 0) io.out(`retired ${retired} under system/behavioral/`);
     for (const d of rec.loadDiags) io.err(`warning: ${d.code}: ${d.message}`);
   }
   return 0;

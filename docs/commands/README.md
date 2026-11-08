@@ -15,6 +15,7 @@ One page per command, generated from the same registry that powers
 | [`docodego init`](./init.md) | Plant the record layer, the law, agent presets, and skills — from the bundle this CLI carries. |
 | [`docodego lint`](./lint.md) | The rule tree over the record: structure, frontmatter, naming. |
 | [`docodego new`](./new.md) | Scaffold <stream>/<unit>/spec.md from the embedded template and append a tracker line. |
+| [`docodego retire`](./retire.md) | Move a delivered unit to system/behavioral/ as a named behavior — done is a place. |
 | [`docodego score`](./score.md) | Five ICS-lite passes over the spec; the visible breakdown lands in score.md. |
 | [`docodego setback`](./setback.md) | Document a failing behavior the moment it bites; the audit escalates repeats. |
 | [`docodego sketch`](./sketch.md) | Capture an idea at near-zero ceremony: one file, three sections. |

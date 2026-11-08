@@ -105,6 +105,6 @@ the one the work calls for; load nothing speculatively.
 Two growth paths are earned at scale, never planted as obligation:
 a `knowledge/` folder in `01-document/` for terse, provenance-linked
 reference facts; and a `system/behavioral/` practice — delivered units
-retiring there as named `a-*` behaviors, the living record of what the
-system does now. Neither exists on day one; both begin as soon as the
+retiring there as named `a-*` behaviors via `docodego retire <unit>`,
+the living record of what the system does now. Neither exists on day one; both begin as soon as the
 work earns them.

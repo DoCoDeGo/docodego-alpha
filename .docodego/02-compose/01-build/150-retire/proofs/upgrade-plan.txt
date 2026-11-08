@@ -1,0 +1,29 @@
+plan: record v10 -> bundled spec v11
+  migration: v10->v11: AGENTS.md teaches the retire verb: delivered units leave the stream via 'docodego retire <unit>' and become named a-* behaviors under system/behavioral/ (spec7-retire)
+  migration: v10->v11: a record whose AGENTS.md still matches the shipped v10 scaffold gains the sentence in place; a customized AGENTS.md is kept, the refreshed copy riding the plan as .new
+files:
+    unchanged  .agents/agents/docodego-researcher.md
+    unchanged  .agents/agents/docodego-reviewer.md
+    unchanged  .agents/agents/docodego-tester.md
+    unchanged  .docodego/.standard/statutes.md
+    unchanged  .docodego/.standard/tech-radar.md
+    unchanged  .docodego/01-document/01-discover/README.md
+    unchanged  .docodego/01-document/02-refine/README.md
+    unchanged  .docodego/01-document/03-validate/README.md
+    unchanged  .docodego/01-document/04-plan/README.md
+    unchanged  .docodego/02-compose/01-build/README.md
+    unchanged  .docodego/02-compose/02-integrate/README.md
+    unchanged  .docodego/02-compose/03-enhance/README.md
+    unchanged  .docodego/02-compose/04-maintain/README.md
+    unchanged  .docodego/03-demonstrate/01-demo/README.md
+    unchanged  .docodego/03-demonstrate/02-accept/README.md
+    unchanged  .docodego/03-demonstrate/03-release/README.md
+    unchanged  .docodego/03-demonstrate/04-deploy/README.md
+    unchanged  .docodego/04-govern/01-monitor/README.md
+    unchanged  .docodego/04-govern/02-measure/README.md
+    unchanged  .docodego/04-govern/03-retrospect/README.md
+    unchanged  .docodego/04-govern/04-improve/README.md
+    unchanged  .docodego/README.md
+  ! CONFLICT  AGENTS.md  (yours kept; bundled copy -> .new)
+skills: no lockfile (created by --apply's migrations if absent)
+dry run — pass --apply to perform the upgrade

@@ -1,0 +1,4 @@
+conflict AGENTS.md — your copy kept, bundled version planted as AGENTS.md.new
+kept AGENTS.md (anchor sentence not found — your copy is customized; the refreshed scaffold rides as AGENTS.md.new)
+twin present: AGENTS.md.new
+1

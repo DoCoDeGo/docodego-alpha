@@ -1,0 +1,8 @@
+# proofs
+
+- AC1 — lint passes the committed spec set (41 files, 31 laws, exit 0) and fails the broken fixtures with positioned findings: `system/behavioral/a-canon-foundation/proofs/lint-spec.txt`, `system/behavioral/a-canon-foundation/proofs/lint-broken.txt`
+- AC2 — verify passes the committed spec set against the live CLI registry (15 commands extracted from the real help.ts, exit 0): `system/behavioral/a-canon-foundation/proofs/verify-spec.txt`
+- AC3 — verify refuses a law whose enforced-by names `deploy`, no command registers it — the finding lists the live CLI's actual commands, proving the check read the real registry: `system/behavioral/a-canon-foundation/proofs/verify-drift.txt`
+- AC4 — the parser recovers from a malformed frontmatter line: a positioned SP-P001 at laws/04-parse.md:3, and the rest still parses — the missing title is caught by SP-L003 while every other field still reads: `system/behavioral/a-canon-foundation/proofs/lint-broken.txt`
+- AC5 — exit codes demonstrated live: success 0 (lint-spec.txt), gate failure 1 (verify-drift.txt), usage 2 (`system/behavioral/a-canon-foundation/proofs/usage.txt`), spec missing 3 with remediation and doc pointer (`system/behavioral/a-canon-foundation/proofs/fatal.txt`); the --json envelope carries `schema: "docodego-spec/lint/v1"` (`system/behavioral/a-canon-foundation/proofs/lint-json.txt`)
+- AC6 — `tsc --noEmit` clean, and a grep over apps/spec/src shows zero imports outside `node:*` and relative paths: `system/behavioral/a-canon-foundation/proofs/typecheck.txt`, `system/behavioral/a-canon-foundation/proofs/imports-non-node.txt`

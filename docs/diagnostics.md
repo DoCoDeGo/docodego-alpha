@@ -48,9 +48,9 @@ prefix (`docodego explain DG-F`) prints every page in the family.
 
 **DG-S005 — an unexpected entry sits in the record root**
 
-- meaning: something that is not a movement, the tracker, the lockfile, or .standard/ sits in .docodego/.
-- law: the record root holds only what the contract names — anything else is unfindable by the passes.
-- fix: move the entry elsewhere (the repo's docs/ or the unit it belongs to). The CLI never deletes your files.
+- meaning: something that is not a movement, the tracker, the lockfile, .standard/, or the earned system/behavioral/ practice sits in .docodego/ — or system/ holds something that is not named a-* behaviors.
+- law: the record root holds only what the contract names, and the second home holds only tombs — anything else is unfindable by the passes.
+- fix: move the entry elsewhere (the repo's docs/ or the unit it belongs to). Retired units belong at system/behavioral/a-<name>/ via 'docodego retire'. The CLI never deletes your files.
 
 ### DG-F — frontmatter — unit identity, type, and status
 
@@ -381,6 +381,36 @@ prefix (`docodego explain DG-F`) prints every page in the family.
 - meaning: the class carries spaces, uppercase, underscores, or other characters outside [a-z0-9-].
 - law: classes are stable ids minted once and counted forever — case shifts and word splits would divide one failure class into two and defeat the recurrence count.
 - fix: name the class 'quirk-sed', not 'Sed Quirk'; run 'docodego setback --list' first — near-duplicates are visible at mint time, which is when to converge them.
+
+**DG-U100 — usage: docodego retire <unit>**
+
+- meaning: 'retire' was invoked without a unit name, or the verified move failed mid-flight (an unreadable file or a read-back byte mismatch).
+- law: done is a place, and the move there is verified: every file is copied, read back, and byte-compared before the source is removed — a tomb built on unverified bytes is a loss, not an archive.
+- fix: follow the usage line — 'docodego retire <unit> [--as <behavior>] [--dry-run]'. On a mid-flight abort the tomb was removed and the source left untouched; re-run 'docodego retire <unit>' once the file is readable.
+
+**DG-U101 — unit is not delivered**
+
+- meaning: the unit's status is not 'delivered' — it is draft, scored, or otherwise still open work.
+- law: only delivered units retire: the stream is for open work, the second home for what the system does now — moving unfinished work would bury it somewhere neither the board nor the tomb looks.
+- fix: deliver the unit first ('docodego deliver <unit>'); if it is open work that should not continue, close it honestly in the tracker instead of retiring it.
+
+**DG-U102 — proofs name no resolvable path**
+
+- meaning: the unit has no proofs.md, or every proof-shaped token it cites fails to resolve on disk (fixture-tree and envelope-schema mentions are prose, not gates).
+- law: no proof, no tomb — evidence is a path that exists, and a tomb with no live evidence would be a claim the record cannot reconstruct.
+- fix: make at least one cited path real (relative to the repo root, the record root, or the unit folder), then retire.
+
+**DG-U103 — --as must be kebab-case**
+
+- meaning: the behavior name given to --as carries characters outside [a-z0-9-].
+- law: behaviors are named like units, minus the number: a-<kebab-name> — the folder name is the identity the tomb is addressed by forever.
+- fix: pass a kebab name: 'docodego retire 010-first-unit --as first-unit' (usually the default suffix already is one).
+
+**DG-U104 — tomb already exists**
+
+- meaning: system/behavioral/a-<behavior>/ is already on disk — this unit (or a same-named one) retired before.
+- law: a tomb is final: the second home is the living record of what the system does now, and two units claiming one behavior would make it unread.
+- fix: if the re-retire is a corrected re-landing, move the old tomb aside first (it is history — archive it, do not delete it), or retire under a different --as name.
 
 ### DG-K — skills — supply chain and lockfile
 

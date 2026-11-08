@@ -21,6 +21,7 @@ import * as status from "./commands/status.ts";
 import * as trace from "./commands/trace.ts";
 import * as doctor from "./commands/doctor.ts";
 import * as deliver from "./commands/deliver.ts";
+import * as retire from "./commands/retire.ts";
 import * as upgrade from "./commands/upgrade.ts";
 import * as skill from "./commands/skill.ts";
 import * as explain from "./commands/explain.ts";
@@ -42,6 +43,7 @@ const COMMANDS: Record<string, { run: Run; read: boolean }> = {
   trace: { run: trace.run, read: true },
   doctor: { run: doctor.run, read: false },
   deliver: { run: deliver.run, read: false },
+  retire: { run: retire.run, read: false },
   upgrade: { run: upgrade.run, read: false },
   skill: { run: skill.run, read: false },
   explain: { run: explain.run, read: false },

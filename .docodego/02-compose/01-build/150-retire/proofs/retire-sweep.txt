@@ -1,0 +1,52 @@
+02-compose/01-build/010-canon-foundation → system/behavioral/a-canon-foundation (14 files, re-addressed proofs.md + delivered.md)
+tracker: | 2026-11-08 | 010-canon-foundation | retired from 02-compose/01-build/ to system/behavioral/a-canon-foundation/ | system/behavioral/a-canon-foundation |
+trace follows: docodego trace 010-canon-foundation
+exit 0
+02-compose/01-build/020-canon-build → system/behavioral/a-canon-build (17 files, re-addressed proofs.md + delivered.md)
+tracker: | 2026-11-08 | 020-canon-build | retired from 02-compose/01-build/ to system/behavioral/a-canon-build/ | system/behavioral/a-canon-build |
+trace follows: docodego trace 020-canon-build
+exit 0
+02-compose/01-build/030-canon-coverage → system/behavioral/a-canon-coverage (17 files, re-addressed proofs.md + delivered.md)
+tracker: | 2026-11-08 | 030-canon-coverage | retired from 02-compose/01-build/ to system/behavioral/a-canon-coverage/ | system/behavioral/a-canon-coverage |
+trace follows: docodego trace 030-canon-coverage
+exit 0
+02-compose/01-build/040-canon-diff → system/behavioral/a-canon-diff (12 files, re-addressed proofs.md + delivered.md)
+tracker: | 2026-11-08 | 040-canon-diff | retired from 02-compose/01-build/ to system/behavioral/a-canon-diff/ | system/behavioral/a-canon-diff |
+trace follows: docodego trace 040-canon-diff
+exit 0
+02-compose/01-build/050-canon-amend → system/behavioral/a-canon-amend (19 files, re-addressed proofs.md + delivered.md)
+tracker: | 2026-11-08 | 050-canon-amend | retired from 02-compose/01-build/ to system/behavioral/a-canon-amend/ | system/behavioral/a-canon-amend |
+trace follows: docodego trace 050-canon-amend
+exit 0
+02-compose/01-build/060-canon-doctor → system/behavioral/a-canon-doctor (17 files, re-addressed proofs.md + delivered.md)
+tracker: | 2026-11-08 | 060-canon-doctor | retired from 02-compose/01-build/ to system/behavioral/a-canon-doctor/ | system/behavioral/a-canon-doctor |
+trace follows: docodego trace 060-canon-doctor
+exit 0
+02-compose/01-build/070-canon-publish → system/behavioral/a-canon-publish (22 files, re-addressed proofs.md + delivered.md)
+tracker: | 2026-11-08 | 070-canon-publish | retired from 02-compose/01-build/ to system/behavioral/a-canon-publish/ | system/behavioral/a-canon-publish |
+trace follows: docodego trace 070-canon-publish
+exit 0
+02-compose/01-build/080-cli-statutes-recompile → system/behavioral/a-cli-statutes-recompile (19 files, re-addressed proofs.md + delivered.md)
+tracker: | 2026-11-08 | 080-cli-statutes-recompile | retired from 02-compose/01-build/ to system/behavioral/a-cli-statutes-recompile/ | system/behavioral/a-cli-statutes-recompile |
+trace follows: docodego trace 080-cli-statutes-recompile
+exit 0
+02-compose/01-build/090-spec7-surgical → system/behavioral/a-spec7-surgical (20 files, re-addressed proofs.md + delivered.md)
+tracker: | 2026-11-08 | 090-spec7-surgical | retired from 02-compose/01-build/ to system/behavioral/a-spec7-surgical/ | system/behavioral/a-spec7-surgical |
+trace follows: docodego trace 090-spec7-surgical
+exit 0
+02-compose/01-build/110-spec7-naming → system/behavioral/a-spec7-naming (21 files, re-addressed proofs.md + delivered.md)
+tracker: | 2026-11-08 | 110-spec7-naming | retired from 02-compose/01-build/ to system/behavioral/a-spec7-naming/ | system/behavioral/a-spec7-naming |
+trace follows: docodego trace 110-spec7-naming
+exit 0
+02-compose/01-build/120-spec7-audit → system/behavioral/a-spec7-audit (10 files, re-addressed proofs.md + delivered.md)
+tracker: | 2026-11-08 | 120-spec7-audit | retired from 02-compose/01-build/ to system/behavioral/a-spec7-audit/ | system/behavioral/a-spec7-audit |
+trace follows: docodego trace 120-spec7-audit
+exit 0
+02-compose/01-build/130-grill-scaffold → system/behavioral/a-grill-scaffold (17 files, re-addressed proofs.md + delivered.md)
+tracker: | 2026-11-08 | 130-grill-scaffold | retired from 02-compose/01-build/ to system/behavioral/a-grill-scaffold/ | system/behavioral/a-grill-scaffold |
+trace follows: docodego trace 130-grill-scaffold
+exit 0
+02-compose/01-build/140-setback-ledger → system/behavioral/a-setback-ledger (26 files, re-addressed proofs.md + delivered.md)
+tracker: | 2026-11-08 | 140-setback-ledger | retired from 02-compose/01-build/ to system/behavioral/a-setback-ledger/ | system/behavioral/a-setback-ledger |
+trace follows: docodego trace 140-setback-ledger
+exit 0

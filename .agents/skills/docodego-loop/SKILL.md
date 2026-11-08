@@ -46,7 +46,7 @@ ephemeral, deleted at completion. A terse library fact belongs in a
 
 Status is earned, never hand-written: `draft → grilled → scored → delivered`.
 Delivered units are the record of what the system does; a project that grows
-large may retire them into a `system/behavioral/` practice — named `a-*`
+large may retire them into a `system/behavioral/` practice via `docodego retire` — named `a-*`
 behaviors, re-checked on touch — but nothing plants that on day one.
 
 ## Permitted deviations (document them or don't take them)

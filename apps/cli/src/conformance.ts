@@ -167,7 +167,7 @@ check("the floor bites at deliver, not at score", run(scratch, ["deliver", "030-
 // --- deliver: the gate refuses, then passes, committing only on green ---
 check("deliver fails the gate with nothing committed", run(scratch, ["deliver", "010-first-unit"]), 1, () => !existsSync(join(scratch, ".docodego", "01-document", "01-discover", "010-first-unit", "delivered.md")));
 write(scratch, "proof-evidence.txt", "unit test output: 3 attempts observed, final warning logged\n");
-write(scratch, ".docodego/01-document/01-discover/010-first-unit/proofs.md", `# proofs\n\n- proof-evidence.txt — the unit test output\n`);
+write(scratch, ".docodego/01-document/01-discover/010-first-unit/proofs.md", `# proofs\n\n- proof-evidence.txt — the unit test output\n- 01-document/01-discover/010-first-unit/spec.md — the delivered spec, cited by path\n`);
 check("deliver passes all four gates", run(scratch, ["deliver", "010-first-unit"]), 0, () => read(scratch, "01-document/01-discover/010-first-unit/spec.md").includes("status: delivered") && read(scratch, "04-govern/01-monitor/tracker.md").includes("delivered"));
 
 // --- the read commands over the finished record ---
@@ -186,6 +186,70 @@ check("trace --json is an envelope", run(scratch, ["trace", "010-first-unit", "-
 check("trace of a bare draft shows just the created line", run(scratch, ["trace", "020-epic-ride"]), 0, (r) => r.stdout.includes("created") && !r.stdout.includes("grill"));
 check("trace of an unknown unit is a usage error", run(scratch, ["trace", "ghost"]), 2);
 check("trace without a unit name is a usage error", run(scratch, ["trace"]), 2);
+
+// --- retire: the second home — gate, verified move, tomb, trace, number-forever ---
+check("retire of an undelivered unit is refused", run(scratch, ["retire", "030-weak-unit"]), 2, (r) => r.stderr.includes("DG-U101"));
+check("retire of an unknown unit is a usage error", run(scratch, ["retire", "ghost"]), 2);
+check("retire without a unit name is a usage error", run(scratch, ["retire"]), 2, (r) => r.stderr.includes("DG-U100"));
+check("retire --dry-run prints the plan and moves nothing", run(scratch, ["retire", "010-first-unit", "--dry-run"]), 0, (r) =>
+  r.stdout.includes("dry run") && r.stdout.includes("system/behavioral/a-first-unit") && existsSync(join(scratch, ".docodego", "01-document", "01-discover", "010-first-unit")) && !existsSync(join(scratch, ".docodego", "system", "behavioral")));
+check("retire --json is an envelope", run(scratch, ["retire", "010-first-unit", "--as", "first-unit", "--dry-run", "--json"]), 0, (r) => (JSON.parse(r.stdout) as { schema?: string }).schema === "docodego/retire/v1");
+check("retire moves the delivered unit to the second home", run(scratch, ["retire", "010-first-unit"]), 0, () => {
+  const spec = read(scratch, "system/behavioral/a-first-unit/spec.md");
+  return !existsSync(join(scratch, ".docodego", "01-document", "01-discover", "010-first-unit"))
+    && spec.includes("retired_on:") && spec.includes("was: 010-first-unit") && spec.includes("status: delivered");
+});
+check("retire re-addresses citations and appends both rows", run(scratch, ["check"]), 0, () =>
+  read(scratch, "system/behavioral/a-first-unit/proofs.md").includes("system/behavioral/a-first-unit")
+  && read(scratch, "04-govern/01-monitor/tracker.md").includes("retired from 01-document/01-discover/")
+  && read(scratch, "04-govern/delivery-log.md").includes("retired"));
+check("a second retire is refused — the tomb is final", run(scratch, ["retire", "010-first-unit"]), 1, (r) => r.stderr.includes("DG-U104"));
+check("a same-named tomb via --as is refused too", run(scratch, ["retire", "030-weak-unit", "--as", "first-unit"]), 1, (r) => r.stderr.includes("DG-U104"));
+check("trace follows the unit into the tomb", run(scratch, ["trace", "010-first-unit"]), 0, (r) =>
+  r.stdout.includes("retired") && r.stdout.includes("system/behavioral/a-first-unit") && r.stdout.includes("delivered"));
+check("status shows the tombstone", run(scratch, ["status"]), 0, (r) => r.stdout.includes("retired 1 under system/behavioral/") && !r.stdout.includes("010-first-unit"));
+check("the retired number is never reused (live siblings counted)", run(scratch, ["new", "fresh-unit"]), 0, () => existsSync(join(scratch, ".docodego", "01-document", "01-discover", "040-fresh-unit")));
+check("explain carries the retire refusals", run(scratch, ["explain", "DG-U101"]), 0, (r) => r.stdout.includes("not delivered"));
+
+// --- retire: number-forever — a record whose ONLY unit retired mints 020, never 010 again ---
+const ghost = mkdtempSync(join(tmpdir(), "docodego-conformance-ghost-"));
+check("ghost: init", run(ghost, ["init", "--mode", "review"]), 0);
+write(ghost, ".docodego/01-document/01-discover/010-only-unit/spec.md", `---
+name: 010-only-unit
+type: unit
+status: draft
+---
+
+# 010-only-unit
+
+## intent
+
+Add a retry with backoff to the webhook sender so flaky networks stop dropping deliveries.
+
+## scope
+
+In: the webhook sender module and its retry policy.
+Out: queue persistence and dead-letter handling.
+
+## acceptance
+
+- a failed webhook send retries exactly 3 times with exponential backoff, verified by a unit test counting attempts
+- after the third failure the sender logs one final warning line, verified by asserting that log line
+
+## threats
+
+- retry storms overload the receiver -> cap at 3 attempts with jittered backoff
+`);
+const gq = run(ghost, ["grill", "010-only-unit", "--json"]);
+const gcount = (JSON.parse(gq.stdout) as { data?: { questions?: unknown[] } }).data?.questions?.length ?? 0;
+write(ghost, "g-answers.txt", Array.from({ length: gcount }, () => "yes — evidence in the unit test output").join("\n") + "\n");
+check("ghost: grill pass", run(ghost, ["grill", "010-only-unit", "--answers", "g-answers.txt"]), 0);
+check("ghost: score over the floor", run(ghost, ["score", "010-only-unit"]), 0);
+write(ghost, "g-proof.txt", "unit test output: 3 attempts observed\n");
+write(ghost, ".docodego/01-document/01-discover/010-only-unit/proofs.md", "# proofs\n\n- g-proof.txt — the unit test output\n");
+check("ghost: delivered", run(ghost, ["deliver", "010-only-unit"]), 0);
+check("ghost: retired to the second home", run(ghost, ["retire", "010-only-unit"]), 0, () => existsSync(join(ghost, ".docodego", "system", "behavioral", "a-only-unit")));
+check("ghost: the next unit mints 020 — the tomb spent 010 forever", run(ghost, ["new", "next-one"]), 0, () => existsSync(join(ghost, ".docodego", "01-document", "01-discover", "020-next-one")));
 
 // --- doctor: standing triage over a healthy, an empty, and a broken record ---
 check("doctor is green on the healthy record", run(scratch, ["doctor"]), 0, (r) => r.stdout.includes("checks healthy") && !r.stdout.includes("SICK"));
@@ -436,7 +500,7 @@ rmSync(bf, { recursive: true, force: true });
 // --- v3: the contract surface — per-command --help, explain, generated docs ---
 // The planted AGENTS.md promises "run any command with --help for its own
 // contract"; these checks are that promise, enforced.
-const LAW_COMMANDS = ["init", "new", "sketch", "setback", "grill", "score", "audit", "check", "lint", "status", "trace", "doctor", "deliver", "upgrade", "skill", "explain", "completions"];
+const LAW_COMMANDS = ["init", "new", "sketch", "setback", "grill", "score", "audit", "check", "lint", "status", "trace", "doctor", "deliver", "retire", "upgrade", "skill", "explain", "completions"];
 fact("every law command has a help page", JSON.stringify(Object.keys(COMMAND_HELP).sort()) === JSON.stringify([...LAW_COMMANDS].sort()));
 fact("the global usage lists every command", LAW_COMMANDS.every((c) => usageText().includes(c)));
 for (const c of LAW_COMMANDS) {

@@ -1,0 +1,2 @@
+not mechanized (8): EL-19, EL-24, EL-25, EL-26, EL-28, EL-29, EL-30, EL-31
+coverage 83% by weight · veto 88% (69/78) · 23/31 laws mechanized

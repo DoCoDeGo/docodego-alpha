@@ -1,0 +1,9 @@
+trace 140-setback-ledger — retired (2026-11-08), home system/behavioral/a-setback-ledger
+  —          created      spec scaffolded (delivered)
+  —          proofs       15 of 15 paths exist
+  2026-11-08 grill        verdict: pass
+  2026-11-08 score        total 98/100
+  2026-11-08 delivered    gates G1, G2, G3, G4 passed
+  2026-11-08 new unit     02-compose/01-build/140-setback-ledger/spec.md
+  2026-11-08 delivered    02-compose/01-build/140-setback-ledger/delivered.md
+  2026-11-08 retired from 02-compose/01-build/ to system/behavioral/a-setback-ledger/ system/behavioral/a-setback-ledger

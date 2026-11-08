@@ -2,7 +2,7 @@
 name: 150-retire
 type: unit
 epic: 010-canon-spec-7
-status: scored
+status: delivered
 ---
 
 # 150-retire

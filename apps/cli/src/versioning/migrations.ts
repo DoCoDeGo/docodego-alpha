@@ -131,6 +131,15 @@ export const MIGRATIONS: Migration[] = [
     ],
     steps: [teachNamingLaw],
   },
+  {
+    from: 10,
+    to: 11,
+    notes: [
+      "AGENTS.md teaches the retire verb: delivered units leave the stream via 'docodego retire <unit>' and become named a-* behaviors under system/behavioral/ (spec7-retire)",
+      "a record whose AGENTS.md still matches the shipped v10 scaffold gains the sentence in place; a customized AGENTS.md is kept, the refreshed copy riding the plan as .new",
+    ],
+    steps: [teachRetirement],
+  },
 ];
 
 /** The registry must cover [0..target] contiguously — Terraform's ladder
@@ -268,6 +277,39 @@ function teachNamingLaw(root: string): string {
 
 export function migrationsFor(from: number, target: number): Migration[] {
   return MIGRATIONS.filter((m) => m.from >= from && m.to <= target);
+}
+
+/** v10 -> v11: teach AGENTS.md the retire verb — done is a place. Same
+ * conservative contract as teachNamingLaw: shipped-v10 bytes gain the
+ * sentence in place; anything else is kept untouched, the refreshed copy
+ * riding the plan as .new. */
+const RETIRE_ANCHOR = [
+  "retiring there as named `a-*` behaviors, the living record of what the",
+  "system does now.",
+].join("\n");
+const RETIRE_TAUGHT = [
+  "retiring there as named `a-*` behaviors via `docodego retire <unit>`,",
+  "the living record of what the system does now.",
+].join("\n");
+
+function teachRetirement(root: string): string {
+  const repoRoot = dirname(root);
+  const abs = join(repoRoot, "AGENTS.md");
+  if (!existsSync(abs)) return "kept AGENTS.md (absent — nothing to teach)";
+  const raw = readText(abs) ?? "";
+  if (raw.includes("`docodego retire")) return "kept AGENTS.md (retire verb already present)";
+  if (!raw.includes(RETIRE_ANCHOR)) {
+    return "kept AGENTS.md (anchor sentence not found — your copy is customized; the refreshed scaffold rides as AGENTS.md.new)";
+  }
+  const taught = raw.replace(RETIRE_ANCHOR, RETIRE_TAUGHT);
+  writeText(abs, taught);
+  let note = "updated AGENTS.md (retire verb inserted into the growth paragraph)";
+  const twin = join(repoRoot, "AGENTS.md.new");
+  if (existsSync(twin) && (readText(twin) ?? "") === taught) {
+    rmSync(twin);
+    note += " — AGENTS.md.new removed (now identical to the refreshed file)";
+  }
+  return note;
 }
 
 /** Create-only step: the file appears if absent, otherwise untouched. */

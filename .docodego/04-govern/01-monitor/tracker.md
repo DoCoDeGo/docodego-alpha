@@ -48,3 +48,22 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | record | audit: 0 failing checks, 0 with warnings — checklist updated | 04-govern/01-monitor/checklist.md |
 | 2026-11-08 | 140-setback-ledger | delivered | 02-compose/01-build/140-setback-ledger/delivered.md |
 | 2026-11-08 | 150-retire | new unit | 02-compose/01-build/150-retire/spec.md |
+| 2026-11-08 | upgrade | v10->v11: updated AGENTS.md (retire verb inserted into the growth paragraph) — AGENTS.md.new removed (now identical to the refreshed file) | .docodego/04-govern/01-monitor/tracker.md |
+| 2026-11-08 | upgrade | record upgraded v10 -> v11 | .docodego/.standard/manifest.json |
+| 2026-11-08 | 010-canon-foundation | retired from 02-compose/01-build/ to system/behavioral/a-canon-foundation/ | system/behavioral/a-canon-foundation |
+| 2026-11-08 | 020-canon-build | retired from 02-compose/01-build/ to system/behavioral/a-canon-build/ | system/behavioral/a-canon-build |
+| 2026-11-08 | 030-canon-coverage | retired from 02-compose/01-build/ to system/behavioral/a-canon-coverage/ | system/behavioral/a-canon-coverage |
+| 2026-11-08 | 040-canon-diff | retired from 02-compose/01-build/ to system/behavioral/a-canon-diff/ | system/behavioral/a-canon-diff |
+| 2026-11-08 | 050-canon-amend | retired from 02-compose/01-build/ to system/behavioral/a-canon-amend/ | system/behavioral/a-canon-amend |
+| 2026-11-08 | 060-canon-doctor | retired from 02-compose/01-build/ to system/behavioral/a-canon-doctor/ | system/behavioral/a-canon-doctor |
+| 2026-11-08 | 070-canon-publish | retired from 02-compose/01-build/ to system/behavioral/a-canon-publish/ | system/behavioral/a-canon-publish |
+| 2026-11-08 | 080-cli-statutes-recompile | retired from 02-compose/01-build/ to system/behavioral/a-cli-statutes-recompile/ | system/behavioral/a-cli-statutes-recompile |
+| 2026-11-08 | 090-spec7-surgical | retired from 02-compose/01-build/ to system/behavioral/a-spec7-surgical/ | system/behavioral/a-spec7-surgical |
+| 2026-11-08 | 110-spec7-naming | retired from 02-compose/01-build/ to system/behavioral/a-spec7-naming/ | system/behavioral/a-spec7-naming |
+| 2026-11-08 | 120-spec7-audit | retired from 02-compose/01-build/ to system/behavioral/a-spec7-audit/ | system/behavioral/a-spec7-audit |
+| 2026-11-08 | 130-grill-scaffold | retired from 02-compose/01-build/ to system/behavioral/a-grill-scaffold/ | system/behavioral/a-grill-scaffold |
+| 2026-11-08 | 140-setback-ledger | retired from 02-compose/01-build/ to system/behavioral/a-setback-ledger/ | system/behavioral/a-setback-ledger |
+| 2026-11-08 | record | audit: 0 failing checks, 1 with warnings — checklist updated | 04-govern/01-monitor/checklist.md |
+| 2026-11-08 | setback-conformance-stale | response: system/behavioral/a-setback-ledger/proofs/conformance.txt — re-anchored after the unit retired to the second home | 04-govern/01-monitor/setbacks.md |
+| 2026-11-08 | record | audit: 0 failing checks, 0 with warnings — checklist updated | 04-govern/01-monitor/checklist.md |
+| 2026-11-08 | 150-retire | delivered | 02-compose/01-build/150-retire/delivered.md |

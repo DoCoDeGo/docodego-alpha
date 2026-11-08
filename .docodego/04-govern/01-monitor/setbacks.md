@@ -17,3 +17,4 @@ never deleted).
 | 2026-11-08 | quirk-zsh-var | 1 | zsh does not word-split $CLI; the assigned command string executed as one word (rule 11 class, cost one retry) |
 | 2026-11-08 | conformance-stale | 0 | 02-compose/01-build/140-setback-ledger proofs/conformance.txt — suite repaired within this unit, 194 checks green |
 | 2026-11-08 | new-duplicate-suffix | 0 | apps/cli/src/commands/new.ts — identity guard: DG-U012 refuses a second unit of the same name in one stream |
+| 2026-11-08 | conformance-stale | 0 | system/behavioral/a-setback-ledger/proofs/conformance.txt — re-anchored after the unit retired to the second home |

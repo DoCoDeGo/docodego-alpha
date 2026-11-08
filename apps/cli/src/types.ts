@@ -95,6 +95,8 @@ export interface Args {
   profile?: string;
   from?: string;
   vocabulary?: string;
+  as?: string;
+  dryRun?: boolean;
 }
 
 /** Where a command writes. Commands stay pure-ish by taking this in. */

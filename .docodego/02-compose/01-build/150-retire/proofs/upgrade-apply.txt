@@ -1,0 +1,26 @@
+profile suggestion: this record carries no profile — consider 'product-team': docodego skill add docodego | docodego skill add docodego-loop | docodego skill add docodego-document | docodego skill add docodego-compose | docodego skill add docodego-demonstrate | docodego skill add docodego-govern | docodego skill add docodego-visual-proof
+unchanged .agents/agents/docodego-researcher.md
+unchanged .agents/agents/docodego-reviewer.md
+unchanged .agents/agents/docodego-tester.md
+unchanged .docodego/.standard/statutes.md
+unchanged .docodego/.standard/tech-radar.md
+unchanged .docodego/01-document/01-discover/README.md
+unchanged .docodego/01-document/02-refine/README.md
+unchanged .docodego/01-document/03-validate/README.md
+unchanged .docodego/01-document/04-plan/README.md
+unchanged .docodego/02-compose/01-build/README.md
+unchanged .docodego/02-compose/02-integrate/README.md
+unchanged .docodego/02-compose/03-enhance/README.md
+unchanged .docodego/02-compose/04-maintain/README.md
+unchanged .docodego/03-demonstrate/01-demo/README.md
+unchanged .docodego/03-demonstrate/02-accept/README.md
+unchanged .docodego/03-demonstrate/03-release/README.md
+unchanged .docodego/03-demonstrate/04-deploy/README.md
+unchanged .docodego/04-govern/01-monitor/README.md
+unchanged .docodego/04-govern/02-measure/README.md
+unchanged .docodego/04-govern/03-retrospect/README.md
+unchanged .docodego/04-govern/04-improve/README.md
+unchanged .docodego/README.md
+conflict AGENTS.md — your copy kept, bundled version planted as AGENTS.md.new
+updated AGENTS.md (retire verb inserted into the growth paragraph) — AGENTS.md.new removed (now identical to the refreshed file)
+manifest.recordVersion -> 11

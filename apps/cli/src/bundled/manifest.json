@@ -1,5 +1,5 @@
 {
-  "specVersion": 10,
+  "specVersion": 11,
   "cliVersion": "0.8.0",
   "structureHash": "4806e95233b7481e3a6f313470b9e32736f129eaf1cc63b53474566fc6a2b49c",
   "files": {
@@ -8,17 +8,17 @@
     ".agents/agents/docodego-tester.md": "f5b83f66a4e3f6282ab1f4bb2f09c72fe61fd4083c6a64552f5cbcb7194358b0",
     ".agents/skills/PROVENANCE.md": "23b671a5672479e6ed679fe852199c959d44ba72373ffe0f405e9eb394d25c87",
     ".agents/skills/docodego-compose/SKILL.md": "1af6462adb3a6a52dc2356a39fc958e3cd19ab5292906c67a874b5e25a12b431",
-    ".agents/skills/docodego-demonstrate/SKILL.md": "401dd79451978569ff692adc6fafc8d6f5acc81bc510ebe5480dca7365677f25",
+    ".agents/skills/docodego-demonstrate/SKILL.md": "adb33eaf63e02a01de22658a7b3c90c7768bf9f015c8fe4a0959798540c54287",
     ".agents/skills/docodego-document/SKILL.md": "1b0af86783019a2a003d7e25b35b96305d012426283e36910ed3a97927e498f7",
     ".agents/skills/docodego-finding/SKILL.md": "1d56cf705163631472ad51de573818d0e54d500837a4ef1095c69b18844e1c28",
     ".agents/skills/docodego-govern/SKILL.md": "1f0bc78950806431df9f7f40c7ba82b91cfc8dd206073af214c7e021e7025c9b",
     ".agents/skills/docodego-grounding/SKILL.md": "dbe6a96b728fd9d96a9211a183631be3a8fbb9b2cf338ed9b0c9032ad9740f63",
     ".agents/skills/docodego-grounding/questions.md": "49a6dd5d90a4a9dba102f2ee47faa432905f5c0cc8e01ba336d025d127faa76e",
-    ".agents/skills/docodego-loop/SKILL.md": "3dda0c44b36d1a06e6b7730f2da3a24ef120603f3afd4ac8cc13b349e077e4af",
+    ".agents/skills/docodego-loop/SKILL.md": "f63c9e3a53d798923f23d2eeff0506d75803ff76da6ebb5407fced4582361eda",
     ".agents/skills/docodego-visual-proof/SKILL.md": "9bfc5138eccd58ac416539cd9fe8ef8ad378bc53b760acdddaf3af9d2fbb19f2",
     ".agents/skills/docodego-visual-proof/visual-proof.mjs": "1256893e55eb330d2079fad8775505aa848b34b3c1f023dd597da03902d4bb6c",
     ".agents/skills/docodego/SKILL.md": "31accd8158ea96085eed7b594e5b09af33026c8a5735026f2a584ef26986b575",
-    ".docodego/.standard/manifest.json": "96aa14718a4c04283f5358a45b5e0f5a1d5d4d6db030a02ff4d0a6ab05201e88",
+    ".docodego/.standard/manifest.json": "dd45afe7dc6ca6e6767287397891088af3d021994e2ba7aa979ca21ac897b181",
     ".docodego/.standard/statutes.md": "770e570c911333d0d21221485bcd739cd145b1fef3bf008efcd02334850f3e3b",
     ".docodego/.standard/tech-radar.md": "6fdf71fac4037381fe8eef9ce5809867c208f99b760e78ede573bb56f8a9a3af",
     ".docodego/01-document/01-discover/README.md": "5f2b26255f4383c8b2070fcc2c13fb1a940b2be7db69bcaab9c3db6dc85d9597",
@@ -38,6 +38,6 @@
     ".docodego/04-govern/03-retrospect/README.md": "ebc281dbb57424f9f1d411f72036ac04fbd709cc8a9477866cd60798350e92a3",
     ".docodego/04-govern/04-improve/README.md": "2f39b0cf2b98e55ec5c49461109330c2c3c1b4e94f0858a525ca0d962a21c95e",
     ".docodego/README.md": "fad04d563564c48f4fab5b0626c7d505c53cf473c4e8c1a644f707d3d0e63883",
-    "AGENTS.md": "79238e3e34d35e241bcc5f3402c29addbce5eb3d62ca284f3b5c398fed5b5a6c"
+    "AGENTS.md": "fca5a9bb7c621e55d38bb1e30831f4d94b0d6a889b68f4543d826dd3718296b4"
   }
 }

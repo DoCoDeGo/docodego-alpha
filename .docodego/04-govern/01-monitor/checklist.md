@@ -32,3 +32,15 @@ ledger is append-only, newest last, rotated like every ledger
 | 2026-11-08 | GOV-004 bounded size | us | pass | clean |
 | 2026-11-08 | GOV-005 comment hygiene | us | pass | clean |
 | 2026-11-08 | GOV-006 setback recurrence | us | pass | 04-govern/01-monitor/setbacks.md |
+| 2026-11-08 | GOV-001 lint | us | pass | clean |
+| 2026-11-08 | GOV-002 check | us | pass | clean |
+| 2026-11-08 | GOV-003 status-verdict coherence | us | pass | clean |
+| 2026-11-08 | GOV-004 bounded size | us | pass | clean |
+| 2026-11-08 | GOV-005 comment hygiene | us | pass | clean |
+| 2026-11-08 | GOV-006 setback recurrence | us | warn | warn: conformance-stale's last response names no path that resolves ("02-compose/01-build/140-setback-ledger proofs/conformance.txt — suite repaired within this unit, 194 checks green") — no path, no claim |
+| 2026-11-08 | GOV-001 lint | us | pass | clean |
+| 2026-11-08 | GOV-002 check | us | pass | clean |
+| 2026-11-08 | GOV-003 status-verdict coherence | us | pass | clean |
+| 2026-11-08 | GOV-004 bounded size | us | pass | clean |
+| 2026-11-08 | GOV-005 comment hygiene | us | pass | clean |
+| 2026-11-08 | GOV-006 setback recurrence | us | pass | 04-govern/01-monitor/setbacks.md |

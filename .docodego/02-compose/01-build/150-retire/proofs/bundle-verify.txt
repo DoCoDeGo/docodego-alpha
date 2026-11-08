@@ -1,0 +1,6 @@
+bundle drift: 4 change(s) + manifest.json out of sync with payload.ts
+  .agents/skills/docodego-demonstrate/SKILL.md — minor — skill content updated
+  .agents/skills/docodego-loop/SKILL.md — minor — skill content updated
+  AGENTS.md — major — AGENTS.md rule line(s) removed/rewritten: 2
+  specVersion (declared) — none — declared 10 -> 11
+verify exit: 1 (1 = pre-commit drift, expected)

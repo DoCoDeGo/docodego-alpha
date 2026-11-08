@@ -144,11 +144,11 @@ export function proofPaths(proofs: FileAst): string[] {
 /** A path carries a separator or ends in a short file extension. */
 const PATH_LIKE = /[/\\]|\.[A-Za-z0-9]{1,8}$/;
 
-/** Envelope schema identifiers (docodego-<pass>/<command>/v1) ride proofs.md
+/** Envelope schema identifiers (docodego/<command>/v1) ride proofs.md
  * as documentation of the emitted envelope — they name no file on disk, and
  * reading them as paths made every envelope-citing proofs.md warn. The shape
  * needs exactly three segments; no real proof file looks like this. */
-const ENVELOPE_SCHEMA = /^docodego-[a-z]+\/[a-z-]+\/v\d+$/;
+const ENVELOPE_SCHEMA = /^docodego\/[a-z-]+\/v\d+$/;
 
 /** Backticked spans without inner whitespace, plus the item's first bare token. */
 function candidatesOf(item: string): string[] {

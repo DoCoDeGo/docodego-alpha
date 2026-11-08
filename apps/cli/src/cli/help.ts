@@ -269,6 +269,35 @@ exit codes: 0 delivered · 1 gate fail (the attempt is recorded in the tracker; 
 example:
   docodego deliver retry-webhook`,
   },
+  retire: {
+    usage: "docodego retire <unit> [--as <behavior>] [--dry-run] [--json]",
+    summary: "Move a delivered unit to system/behavioral/ as a named behavior — done is a place.",
+    body: `the gate: only a delivered unit retires (DG-U101), and every proof path
+in its proofs.md must still resolve (DG-U102) — evidence moves with the
+unit; unresolvable proof does not.
+
+the move: the unit folder is copied to
+.docodego/system/behavioral/a-<behavior>/ file by file, each file read
+back and byte-compared before the source is removed (a mismatch aborts
+with the tomb removed and the source untouched). The tomb's spec.md gains
+\`retired_on:\` and \`was:\` in its frontmatter; citations of the old stream
+path inside the tomb's proofs.md and delivered.md are re-addressed to the
+new home. The tracker gains a follow-up row (the original name, so trace
+still finds the history) and the delivery log a 'retired' row.
+
+--as names the behavior explicitly (kebab-case, DG-U103); the default is
+the unit name minus its number. A second retire onto an existing tomb is
+refused (DG-U104) — the tomb is final. The retired number is retired with
+the unit: 'docodego new' never reuses it (tracker history is scanned).
+trace follows the unit into the tomb; status shows the tombstone count.
+
+exit codes: 0 retired · 1 tomb already exists · 2 usage or gate refusal
+
+example:
+  docodego retire 010-first-unit --dry-run
+  docodego retire 010-first-unit
+  docodego trace 010-first-unit`,
+  },
   upgrade: {
     usage: "docodego upgrade [--apply] [--branch]",
     summary: "Move the record to this CLI's bundled record version — create-only, never rewriting yours.",

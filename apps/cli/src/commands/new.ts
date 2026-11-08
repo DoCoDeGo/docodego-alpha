@@ -53,6 +53,16 @@ export function run(args: Args, io: Io): number {
       const m = /^(\d{3})-/.exec(u.dir.split("/").pop() ?? "");
       if (m !== null) max = Math.max(max, Number(m[1]));
     }
+    // Tracker history too: a retired unit's number is retired with it.
+    // The live walk cannot see the tomb, but the tracker rows can —
+    // numbers are never reused, even when the whole stream has moved on.
+    if (rec.trackerPath !== null) {
+      const trackerRaw = readText(join(rec.root, rec.trackerPath)) ?? "";
+      for (const line of trackerRaw.split(/\r?\n/)) {
+        const m = trackerRowNumber(line, stream);
+        if (m !== null) max = Math.max(max, m);
+      }
+    }
     unitName = `${String(max + 10).padStart(3, "0")}-${unitName}`;
   }
   const unitDir = join(rec.root, stream, unitName);
@@ -175,4 +185,21 @@ ${criteria.map((c) => `- ${c}`).join("\n")}
 
 - the biggest threat to landing -> its mitigation
 `;
+}
+
+/** The NNN a tracker row minted for this stream, or null. Ordinary rows
+ * carry the stream in their evidence path; retire rows carry the stream in
+ * their event text ('retired from <stream>/ to system/behavioral/...') and
+ * the tomb in their evidence — both count, so the retired number stays
+ * spent forever. */
+function trackerRowNumber(line: string, stream: string): number | null {
+  const cells = line.split("|").map((c) => c.trim());
+  if (cells.length < 6) return null;
+  const unit = cells[2] ?? "";
+  const event = cells[3] ?? "";
+  const evidence = cells[4] ?? "";
+  const m = /^(\d{3})-/.exec(unit);
+  if (m === null) return null;
+  if (!evidence.includes(`${stream}/`) && !event.includes(`${stream}/`)) return null;
+  return Number(m[1]);
 }
