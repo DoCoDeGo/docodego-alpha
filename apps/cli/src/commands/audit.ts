@@ -11,7 +11,6 @@
  * cycle-log archive law — archived, never deleted — leaving a tombstone
  * row; trace and the setback counter scan archives, so retired rows
  * keep their coverage. */
-import { createHash } from "node:crypto";
 import { existsSync, readdirSync, rmSync, statSync } from "node:fs";
 import { join } from "node:path";
 import type { Args, Io } from "../types.ts";
@@ -20,7 +19,7 @@ import { TRACKER_REL, loadRecord, RecordFatal, type RecordAst } from "../record/
 import { DELIVERY_LOG_REL, appendTracker } from "../record/record-write.ts";
 import { CHECKLIST_TEMPLATE } from "../bundled/index.ts";
 import { SETBACKS_REL, MONITOR_DIR, classStats, escalationHint, responseResolves } from "./setback.ts";
-import { appendText, isDir, readText, today, walkFiles, writeText } from "../fsx.ts";
+import { appendText, isDir, readText, sha256, today, walkFiles, writeText } from "../fsx.ts";
 import { emitJson } from "../emit/json.ts";
 
 const CHECKLIST_REL = "04-govern/01-monitor/checklist.md";
@@ -178,7 +177,7 @@ function rotateLedger(rec: RecordAst, rel: string, base: string, dir: string): s
   // neighbor corrupts the table grammar
   const live = ledger.head.concat(keepIdx.map((i) => lines[i] ?? "")).join("\n") + "\n";
   writeText(abs, live);
-  const hash = createHash("sha256").update(moveText).digest("hex").slice(0, 12);
+  const hash = sha256(moveText).slice(0, 12);
   const tomb = `| ${today()} | ${base} | archived ${moveIdx.length} rows to ${archiveRel} (byte-identical, sha256:${hash}) | ${archiveRel} |\n`;
   appendText(abs, tomb);
   return `${rel}: moved ${moveIdx.length} oldest rows to ${archiveRel} (sha256:${hash} verified), ${ROTATE_KEEP_ROWS} newest stay live, tombstone appended`;

@@ -110,7 +110,10 @@ export const today = (): string => {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 };
 
+/** The full sha256 hex of a string. */
+export const sha256 = (text: string): string => createHash("sha256").update(text).digest("hex");
+
 /** The 16-hex binding hash: score.md blocks carry the spec's sha at scoring
  * time, and the delivery gate recomputes it — a spec edited after scoring
  * fails the gate as stale instead of landing on a borrowed verdict. */
-export const sha16 = (text: string): string => createHash("sha256").update(text).digest("hex").slice(0, 16);
+export const sha16 = (text: string): string => sha256(text).slice(0, 16);

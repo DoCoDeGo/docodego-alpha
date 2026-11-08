@@ -8,18 +8,17 @@
  * hashes at signing time), set status `founder-signed`. A second signature
  * of the same act is a rewritten record and is refused with nothing
  * appended. */
-import { createHash } from "node:crypto";
+import { sha256, appendText, readText, today, writeText } from "../fsx.ts";
 import { join } from "node:path";
 import type { Args, Io } from "../types.ts";
-import { appendText, readText, today, writeText } from "../fsx.ts";
 import { loadRecord, unitStatus } from "../record/load.ts";
 import { appendSignature, appendTracker, setStatus } from "../record/record-write.ts";
 import { complain, resolveUnitOrComplain, unitFile } from "./resolve.ts";
 import { emitJson } from "../emit/json.ts";
 
-const sha256 = (abs: string): string | null => {
+const fileSha256 = (abs: string): string | null => {
   const raw = readText(abs);
-  return raw === null ? null : createHash("sha256").update(raw).digest("hex");
+  return raw === null ? null : sha256(raw);
 };
 
 export function run(args: Args, io: Io): number {

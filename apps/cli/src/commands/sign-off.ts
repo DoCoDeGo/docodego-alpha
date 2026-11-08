@@ -9,13 +9,12 @@
  * always states the attestation limit: it witnesses the act, it does
  * not prove identity. Pass: the amendment's pending block replaced. A
  * second sign-off rewrites an act the record keeps once — refused. */
-import { createHash } from "node:crypto";
+import { sha256, readText, today, writeText } from "../fsx.ts";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { hostname, userInfo } from "node:os";
 import { dirname, join, relative, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 import type { Args, Io } from "../types.ts";
-import { readText, today, writeText } from "../fsx.ts";
 import { complain } from "./resolve.ts";
 import { emitJson } from "../emit/json.ts";
 
@@ -120,7 +119,7 @@ export function run(args: Args, io: Io): number {
   const identity = deriveIdentity(typeof args.by === "string" && args.by !== "" ? args.by : undefined);
   const role = typeof args.role === "string" && args.role !== "" ? args.role : "founder";
   const date = today();
-  const lawHash = createHash("sha256").update(lawRaw).digest("hex");
+  const lawHash = sha256(lawRaw);
   const lawRel = relative(dirname(amenAbs), lawAbs);
   const receipt = [
     `Signed: ${date}. The founder's acceptance words, recorded verbatim: "${quote}"`,
