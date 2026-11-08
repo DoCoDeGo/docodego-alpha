@@ -8,7 +8,6 @@
  * of its dist (publish ships what was delivered), a downgrade, a
  * same-version republish with a different structure. No PDF, no search
  * gimmicks: plain files, for the machines that read specs (ADR 0012). */
-import { createHash } from "node:crypto";
 import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { cmpVersion, loadSpec } from "../laws.ts";
@@ -18,7 +17,6 @@ import type { Args, Diagnostic, Io } from "../types.ts";
 
 export const SCHEMA = "docodego-spec/publish/v1";
 
-const sha256 = (data: string | Buffer): string => createHash("sha256").update(data).digest("hex");
 const SEMVER = /^\d+\.\d+\.\d+$/;
 
 interface Delivered {

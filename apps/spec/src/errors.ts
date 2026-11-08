@@ -3,7 +3,7 @@
  * 0 ok · 1 gate/lint/verify failure · 2 usage · 3 spec missing or corrupt.
  * Errors carry a remediation and a doc pointer, never just a code (the
  * teach-with-the-fix rule: a check is loved when the error teaches). */
-import type { Diagnostic, Io } from "./types.ts";
+import type { Io } from "./types.ts";
 
 export type ExitCode = 0 | 1 | 2 | 3;
 

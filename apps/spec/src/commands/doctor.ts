@@ -9,10 +9,10 @@
  * (EL-20). Exit 1 on any error finding: a payload-bearing release runs
  * doctor first (how-to-amend), and a red doctor holds it. Doctor
  * diagnoses; makers repair. */
-import { createHash } from "node:crypto";
+
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { loadSpec, type SpecRead } from "../laws.ts";
+import { loadSpec } from "../laws.ts";
 import { exitFor, emit } from "../errors.ts";
 import { countsOf } from "../emit.ts";
 import { baselineManifest, treeStructure } from "./build.ts";
@@ -22,7 +22,6 @@ import type { Args, Diagnostic, Io } from "../types.ts";
 
 export const SCHEMA = "docodego-spec/doctor/v1";
 
-const sha256 = (data: string | Buffer): string => createHash("sha256").update(data).digest("hex");
 const BIND_LINE = /^(\d+)\.\s+(.+?)\s+—\s+binds\s+(.+)$/;
 const STATUTE_ID = /^ST-(\d+)$/;
 const PAYLOAD_KEY = '".docodego/.standard/statutes.md": "';

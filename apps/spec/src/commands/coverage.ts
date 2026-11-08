@@ -10,7 +10,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { enforcerLeads, loadSpec, walkMd } from "../laws.ts";
 import { CANON_COMMANDS, GATE_TOKENS, NON_TOOL_ENFORCERS } from "../registry.ts";
-import { exitFor, emit } from "../errors.ts";
+import { emit } from "../errors.ts";
 import type { Args, Diagnostic, Io } from "../types.ts";
 
 export const SCHEMA = "docodego-spec/coverage/v1";

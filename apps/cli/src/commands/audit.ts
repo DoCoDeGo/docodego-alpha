@@ -19,7 +19,7 @@ import { TRACKER_REL, loadRecord, RecordFatal, type RecordAst } from "../record/
 import { DELIVERY_LOG_REL, appendTracker } from "../record/record-write.ts";
 import { CHECKLIST_TEMPLATE } from "../bundled/index.ts";
 import { SETBACKS_REL, MONITOR_DIR, classStats, escalationHint, responseResolves } from "./setback.ts";
-import { appendText, isDir, readText, sha256, today, walkFiles, writeText } from "../fsx.ts";
+import { appendText, readText, sha256, today, walkFiles, writeText } from "../fsx.ts";
 import { emitJson } from "../emit/json.ts";
 
 const CHECKLIST_REL = "04-govern/01-monitor/checklist.md";

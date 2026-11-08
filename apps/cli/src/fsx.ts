@@ -1,7 +1,6 @@
 /** Thin fs layer — the only module that touches node:fs directly. */
 import {
   appendFileSync,
-  existsSync,
   mkdirSync,
   readdirSync,
   readFileSync,

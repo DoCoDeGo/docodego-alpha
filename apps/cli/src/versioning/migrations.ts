@@ -8,7 +8,7 @@ import { createHash } from "node:crypto";
 import { dirname, join } from "node:path";
 import { readText, writeText } from "../fsx.ts";
 import { emptyLock, writeLock, LOCK_REL } from "../skills/lock.ts";
-import { COMPOSE_LOG_TEMPLATE, DEMO_README_TEMPLATE, DELIVERY_LOG_TEMPLATE, INTENT_TEMPLATE, CYCLES_TEMPLATE, specVersion, recordFiles, agentsMd, statutesShippedHashes } from "../bundled/index.ts";
+import { COMPOSE_LOG_TEMPLATE, DEMO_README_TEMPLATE, DELIVERY_LOG_TEMPLATE, INTENT_TEMPLATE, CYCLES_TEMPLATE, specVersion, recordFiles, statutesShippedHashes } from "../bundled/index.ts";
 import { COMPOSE_LOG_REL, DEMO_DIR_REL, DELIVERY_LOG_REL } from "../record/record-write.ts";
 import { V1_README, V1_STATUTES, V1_TECH_RADAR, V1_TRACKER } from "./v1-scaffold.ts";
 

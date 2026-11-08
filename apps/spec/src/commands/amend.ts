@@ -9,7 +9,7 @@ import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { cmpVersion, loadSpec } from "../laws.ts";
-import { exitFor, emit } from "../errors.ts";
+import { emit } from "../errors.ts";
 import type { Args, Diagnostic, Io } from "../types.ts";
 
 export const SCHEMA = "docodego-spec/amend/v1";

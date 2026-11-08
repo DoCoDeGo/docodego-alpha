@@ -14,8 +14,8 @@ import { join } from "node:path";
 import type { Args, Io, SkillLockEntry, SkillsLock } from "../types.ts";
 import { isDir, readText } from "../fsx.ts";
 import { loadRecord, RecordFatal } from "../record/load.ts";
-import { PROFILES, profiles as profileMap, ruleFiles, skillFiles, skillsIndex } from "../bundled/index.ts";
-import { digestFiles, digestSkillDir, emptyLock, LOCK_REL, plantSkill, readLock, SKILL_NAME_OK, verifyInstalled, writeLock } from "../skills/lock.ts";
+import { PROFILES, profiles as profileMap, skillFiles, skillsIndex } from "../bundled/index.ts";
+import { digestFiles, digestSkillDir, emptyLock, LOCK_REL, plantSkill, SKILL_NAME_OK, verifyInstalled, writeLock } from "../skills/lock.ts";
 import { complain } from "./resolve.ts";
 import { emitJson } from "../emit/json.ts";
 

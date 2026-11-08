@@ -5,7 +5,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { field, parseFrontmatter } from "./frontmatter.ts";
-import { SPEC_ROOT_MISSING, SpecFatal } from "./errors.ts";
+import { SPEC_ROOT_MISSING } from "./errors.ts";
 import type { Diagnostic } from "./types.ts";
 export interface Law {
   id: string;
