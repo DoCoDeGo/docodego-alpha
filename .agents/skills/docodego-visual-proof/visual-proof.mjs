@@ -2,7 +2,7 @@
 // visual-proof.mjs — headless visual evidence per the docodego-visual-proof skill.
 //
 // Usage:
-//   node scripts/visual-proof.mjs <base-url> [--states states.json] [--out var/visual]
+//   node .agents/skills/docodego-visual-proof/visual-proof.mjs <base-url> [--states states.json] [--out var/visual]
 //
 // Requires (once per product):
 //   npm i -D playwright && npx playwright install chromium
@@ -19,7 +19,7 @@ import { join, resolve } from "node:path";
 const args = process.argv.slice(2);
 const base = args[0];
 if (!base) {
-  console.error("usage: node scripts/visual-proof.mjs <base-url> [--states states.json] [--out dir]");
+  console.error("usage: node .agents/skills/docodego-visual-proof/visual-proof.mjs <base-url> [--states states.json] [--out dir]");
   process.exit(2);
 }
 if (base.startsWith("file://")) {

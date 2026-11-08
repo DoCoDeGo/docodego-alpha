@@ -171,6 +171,16 @@ export const MIGRATIONS: Migration[] = [
     ],
     steps: [teachShelfAndRules],
   },
+  {
+    from: 14,
+    to: 15,
+    notes: [
+      "the planted prose sweep: dead references fixed at their sources — questions.md no longer names a .framework tree that never ships; the visual-proof skill (bumped to 1.0.1) runs its driver at the planted path, and the sweep itself is a gate (conformance reads every planted row every run) (020-canon-debts/290)",
+      "no record-file transforms were required — this entry exists so no version is ever skipped silently",
+      "installed skills whose bytes changed fail the lockfile audit (DG-K001) by design; 'skill add --force' re-plants and re-stamps them",
+    ],
+    steps: [],
+  },
 ];
 
 /** The registry must cover [0..target] contiguously — Terraform's ladder

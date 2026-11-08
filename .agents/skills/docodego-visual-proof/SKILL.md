@@ -1,7 +1,7 @@
 ---
 name: docodego-visual-proof
 description: Use before delivering or launching any user-facing surface — produces the visual evidence layer a record otherwise lacks headless full-page screenshots at 375/768/1280, console-error capture, horizontal-overflow checks, reduced-motion collapse, visitor-state coverage, and a gate-readable transcript. Triggers - screenshots, responsive checks, visual evidence, UX proof, console errors, viewport matrix, demo evidence, walkthrough, launch audit.
-version: 1.0.0
+version: 1.0.1
 ---
 
 # docodego-visual-proof — the evidence layer for user-facing surfaces
@@ -21,7 +21,7 @@ that failure impossible to repeat.
 2. **Install the instrument** (once per product):
    `npm i -D playwright && npx playwright install chromium`
 3. **Copy the driver** from this skill's `visual-proof.mjs` into the
-   product's `scripts/`, and describe the visitor's states in a
+   product's script folder, and describe the visitor's states in a
    `states.json` beside it. Minimum coverage:
    - `first-load` — the page as a stranger sees it
    - the **core path completed** — with the click/fill/waitFor actions
@@ -29,7 +29,7 @@ that failure impossible to repeat.
    - one **denied or error state** (denied camera, offline, bad input)
    - the **empty state** (no data yet)
    - the **paid/unlocked state**, if the product has tiers
-4. **Run it**: `node scripts/visual-proof.mjs http://127.0.0.1:<port> --states states.json`
+4. **Run it**: `node .agents/skills/docodego-visual-proof/visual-proof.mjs http://127.0.0.1:<port> --states states.json`
    Headless Chromium captures full-page screenshots at 375/768/1280, a
    reduced-motion pass, every console and page error, horizontal overflow
    per viewport, and `<title>` presence — then writes `visual-proof.md`

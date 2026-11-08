@@ -1,6 +1,6 @@
 # The 36 Questions — Grounding Framework v3
 
-*Vendored whole into this skill — the walk functions without any external source. The same questions travel in the planted framework at `.docodego/.framework/questions.md`. (Historical origin: a quick-reference edition of the Grounding framework.)*
+*Vendored whole into this skill — the walk functions without any external source; this file is the questions' only home in a planted record. (Historical origin: a quick-reference edition of the Grounding framework.)*
 
 State the goal first. Walk the layers in order. For each question, write a real answer. When a question doesn't pass, consider three things in order: the evaluation may be wrong, the question may not apply, the idea may be redesignable.
 

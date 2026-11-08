@@ -492,6 +492,24 @@ rmSync(sf, { recursive: true, force: true });
   rmSync(repo, { recursive: true, force: true });
 }
 
+// --- v2c: the planted prose names only shipped paths (290) ---
+// The sweep as a gate: every planted row is read every run, and any
+// reference to a repo-side prefix (scripts/, apps/, docs/, temp/) or the
+// dead `.framework` tree fails the suite. Planted prose is the consumer
+// agent's whole world — a dead path in it is a dead end on day one.
+{
+  const manifest = JSON.parse(readFileSync(join(REPO_ROOT, "apps", "cli", "src", "bundled", "manifest.json"), "utf8")) as { files: Record<string, string> };
+  const rows = Object.keys(manifest.files);
+  const stale = /(^|[^A-Za-z0-9._/-])(scripts\/|apps\/|docs\/|temp\/|\.framework)/;
+  const offenders: string[] = [];
+  for (const rel of rows) {
+    const lines = readFileSync(join(REPO_ROOT, rel), "utf8").split("\n");
+    for (let i = 0; i < lines.length; i++) if (stale.test(lines[i] ?? "")) offenders.push(`${rel}:${i + 1}`);
+  }
+  fact("the sweep reads the whole payload boundary (51 planted rows)", rows.length === 51);
+  fact("the planted prose names only shipped paths — no repo-side or dead-tree references", offenders.length === 0);
+}
+
 // --- v5: vocabulary packs — words change, the contract does not ---
 // The pack law, enforced at every layer: embedded packs pass the validator,
 // cover exactly the canonical keys, keep ids and paths intact, init applies

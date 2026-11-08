@@ -103,3 +103,4 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 270-doctor-vocabulary-check | delivered | 02-compose/01-build/270-doctor-vocabulary-check/delivered.md |
 | 2026-11-08 | 280-install-toctou | new unit | 02-compose/01-build/280-install-toctou/spec.md |
 | 2026-11-08 | 280-install-toctou | delivered | 02-compose/01-build/280-install-toctou/delivered.md |
+| 2026-11-08 | 290-planted-prose-sweep | new unit | 02-compose/01-build/290-planted-prose-sweep/spec.md |
