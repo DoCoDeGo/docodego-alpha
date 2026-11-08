@@ -74,3 +74,4 @@ is recorded here; what was learned lives in the unit's own records.
 | 2026-11-09 | 530-encoded-signature-identity | G1,G2,G3,G4 | proof: apps/cli/src/commands/whoami.ts |
 | 2026-11-09 | 540-law-flip-1-2-5 | G1,G2,G3,G4 | proof: spec/laws/34-the-launch-gate.md |
 | 2026-11-09 | 550-fix-l2-path-extractor | G1,G2,G3,G4 | proof: apps/cli/src/passes/check.ts · warning: 1 path-like span(s) do not resolve (src/run.txt) — launch will refuse if they are proof paths |
+| 2026-11-09 | 560-stranger-legibility | G1,G2,G3,G4 | proof: apps/cli/src/bundled/index.ts |

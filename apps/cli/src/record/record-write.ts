@@ -1,7 +1,7 @@
 /** Tracker, delivery log, and spec status writes — the sanctioned metadata updates. */
 import { join } from "node:path";
 import { appendText, readText, today, writeText } from "../fsx.ts";
-import { COMPOSE_LOG_TEMPLATE, DEMO_HOWTO_TEMPLATE, DELIVERY_LOG_TEMPLATE, SIGNATURES_TEMPLATE, TRACKER_TEMPLATE } from "../bundled/index.ts";
+import { COMPOSE_LOG_TEMPLATE, DEMO_HOWTO_TEMPLATE, DELIVERY_LOG_TEMPLATE, PROOFS_TEMPLATE, SIGNATURES_TEMPLATE, TRACKER_TEMPLATE } from "../bundled/index.ts";
 import { TRACKER_REL, type RecordAst } from "./load.ts";
 
 /** The delivery log lives beside the tracker at the govern root: one row per
@@ -79,6 +79,16 @@ export function scaffoldDemoHowTo(rec: RecordAst, unit: string): boolean {
   const abs = demoHowToPath(rec, unit);
   if (readText(abs) !== null) return false;
   writeText(abs, DEMO_HOWTO_TEMPLATE);
+  return true;
+}
+
+/** Write the unit's proofs scaffold — create-only, planted beside
+ * the deliver gate's G4 refusal (560): the grammar travels with the
+ * refusal instead of living only in --help. */
+export function scaffoldProofs(rec: RecordAst, unitDir: string): boolean {
+  const abs = join(rec.root, unitDir, "proofs.md");
+  if (readText(abs) !== null) return false;
+  writeText(abs, PROOFS_TEMPLATE);
   return true;
 }
 

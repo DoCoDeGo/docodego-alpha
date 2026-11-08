@@ -49,7 +49,7 @@ export function run(args: Args, io: Io): number {
   if (args.json) {
     emitJson(io, "score", { ...result, written: scoreRel, status: "scored" });
   } else {
-    const rows = result.lines.map((l) => `  ${l.pass.padEnd(14)} ${String(l.got).padStart(3)}/${l.max}`).join("\n");
+    const rows = result.lines.map((l) => `  ${l.pass.padEnd(14)} ${String(l.got).padStart(3)}/${l.max}  ${l.note ?? ""}`).join("\n");
     io.out(`score ${unit.name}\n${rows}\n  ${"total".padEnd(14)} ${String(result.total).padStart(3)}/100`);
     io.err(`floor ${result.floor} — deliver refuses below it · wrote ${scoreRel} · status set to scored`);
   }

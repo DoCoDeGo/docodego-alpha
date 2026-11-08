@@ -10,7 +10,7 @@ import { appendText, readText, sha16, today } from "../fsx.ts";
 import { loadRecord, unitStatus } from "../record/load.ts";
 import { field } from "../record/frontmatter.ts";
 import { deliverGates } from "../passes/index.ts";
-import { assertTransition, appendTracker, appendDeliveryLog, appendComposeLog, scaffoldDemoHowTo, DEMO_DIR_REL, DEMO_HOWTO_NAME, setStatus } from "../record/record-write.ts";
+import { assertTransition, appendTracker, appendDeliveryLog, appendComposeLog, scaffoldDemoHowTo, scaffoldProofs, DEMO_DIR_REL, DEMO_HOWTO_NAME, setStatus } from "../record/record-write.ts";
 import { complain, resolveUnitOrComplain, unitFile } from "./resolve.ts";
 import { emitJson, emitJsonErr } from "../emit/json.ts";
 
@@ -41,11 +41,17 @@ export function run(args: Args, io: Io): number {
     // record can reconstruct the attempts and not only the landings
     const refusal = `${failed.map((g) => g.id).join(",")} failed — ${failed[0]?.detail ?? ""}`;
     const trackerLine = appendTracker(rec, name, "gate-refused", refusal.length > 90 ? `${refusal.slice(0, 87)}...` : refusal);
+    // the G4 repair travels with the refusal (560, mirroring launch's L5):
+    // a proofs-less unit gets the grammar planted create-only beside the fail
+    const proofsNote = failed.some((g) => g.id === "G4") && scaffoldProofs(rec, unit.dir)
+      ? `scaffolded ${unit.dir}/proofs.md — fill it with real paths before redelivering`
+      : null;
     if (args.json) {
-      emitJsonErr(io, "deliver", { unit: name, gates, tracker: trackerLine });
+      emitJsonErr(io, "deliver", { unit: name, gates, tracker: trackerLine, ...(proofsNote !== null ? { scaffold: proofsNote } : {}) });
     } else {
       io.err(`gate review for ${name}:\n${table}`);
       io.err(`GATE FAIL ${name} — ${failed.map((g) => g.id).join(", ")} failed; nothing committed (attempt recorded in the tracker)`);
+      if (proofsNote !== null) io.err(`  note — ${proofsNote}`);
     }
     return 1;
   }

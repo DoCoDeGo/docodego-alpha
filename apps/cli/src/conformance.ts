@@ -426,6 +426,11 @@ writeFileSync(ansPath, qids.map((id) => `${id}: the fixture proves the tier flow
 check("grill round passes on the fixture", run(fixture, ["grill", "kept-unit", "--answers", "gq.txt"]), 0);
 rmSync(ansPath);
 check("score passes on the fixture", run(fixture, ["score", "kept-unit"]), 0, (r) => !r.stdout.includes("below the gate"));
+check("score rows print the why — each axis carries its own note (560)", run(fixture, ["score", "kept-unit"]), 0, (r) => r.stdout.includes("without an observable marker") && r.stdout.includes("no vague words"));
+rmSync(join(fixture, ".docodego", "01-document", "01-discover", "kept-unit", "proofs.md"));
+check("deliver refuses G4 with no proofs and scaffolds it beside the refusal (create-only, 560)", run(fixture, ["deliver", "kept-unit"]), 1, (r) => (r.stdout + r.stderr).includes("G4") && (r.stdout + r.stderr).includes("scaffolded") && existsSync(join(fixture, ".docodego", "01-document", "01-discover", "kept-unit", "proofs.md")));
+const scaffolded = read(fixture, "01-document/01-discover/kept-unit/proofs.md");
+check("deliver with the unfilled scaffold refuses again and never rewrites it", run(fixture, ["deliver", "kept-unit"]), 1, (r) => (r.stdout + r.stderr).includes("G4") && read(fixture, "01-document/01-discover/kept-unit/proofs.md") === scaffolded);
 const v13Proofs = "# proofs — kept-unit\n\n- AC1 — the run: `01-document/01-discover/kept-unit/proofs/run.txt`\n";
 write(fixture, ".docodego/01-document/01-discover/kept-unit/proofs.md", v13Proofs + "- extra — a dangling span: `01-document/01-discover/kept-unit/proofs/missing.txt`\n");
 check("deliver passes with a warning naming the dangling span (exit 0 — the gate is not blocked)", run(fixture, ["deliver", "kept-unit"]), 0, (r) => (r.stdout + r.stderr).includes("warning:") && (r.stdout + r.stderr).includes("missing.txt") && (r.stdout + r.stderr).includes("launch will refuse"));
@@ -1205,6 +1210,10 @@ check("explain prints a family", run(scratch, ["explain", "DG-F"]), 0, (r) => r.
 check("explain --list covers the codes with family headers", run(scratch, ["explain", "--list"]), 0, (r) => r.stdout.includes("DG-S001") && r.stdout.includes("DG-U080") && r.stdout.includes("DG-F  "));
 check("explain --json is an envelope", run(scratch, ["explain", "--json", "DG-U022"]), 0, (r) => (JSON.parse(r.stdout) as { schema?: string }).schema === "docodego/explain/v1");
 check("explain of an unknown code is a usage error", run(scratch, ["explain", "DG-ZZZ"]), 2);
+check("explain resolves a bare gate id to its GATE page (560)", run(scratch, ["explain", "G4"]), 0, (r) => r.stdout.includes("GATE-G4") && r.stdout.includes("meaning:") && r.stdout.includes("law:") && r.stdout.includes("fix:"));
+check("explain accepts the case the gates print, lower too", run(scratch, ["explain", "l2"]), 0, (r) => r.stdout.includes("GATE-L2") && r.stdout.includes("proof path"));
+check("explain resolves the long form too", run(scratch, ["explain", "GATE-L5"]), 0, (r) => r.stdout.includes("how-to-run") && r.stdout.includes("fix:"));
+check("explain --list carries the gate family", run(scratch, ["explain", "--list"]), 0, (r) => r.stdout.includes("GATE-G4") && r.stdout.includes("the gates"));
 check("explain without a target is a usage error", run(scratch, ["explain"]), 2);
 // --- completions: generated from the help registry, one script per shell ---
 for (const shell of COMPLETION_SHELLS) {

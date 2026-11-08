@@ -200,6 +200,28 @@ test-transcript, screenshot, session-recording; the types are
 described, never ranked.)
 `;
 
+/** The proofs.md scaffold — planted beside the deliver gate's G4
+ * refusal (the v27 test round's find: proofs was the one artifact
+ * with no scaffold, and every cold walker paid one avoidable red
+ * gate to learn the grammar). Create-only, like every scaffold: a
+ * proofs the agent already wrote is never rewritten. The grammar is
+ * the point: backticked existing paths are proof paths; prose,
+ * numbers, and version strings are not. */
+export const PROOFS_TEMPLATE = `# proofs — <unit name>
+
+The deliver gate reads this file for proof paths: a proof path is a
+backticked span that names a file on disk (relative to the product
+root), or the first bare token of a list item. Prose, expected
+outputs, and version strings are not paths — write them without
+backticks. One honest line is a valid fill.
+
+## the evidence
+
+(fill: list items like "AC1 — the suite ran: src/thing.test.ts
+[evidence: suite-run]" — backtick the real path so the gate can
+resolve it)
+`;
+
 /** The evidence ladder (IMP-20): what a path can claim to show, declared
  * at the claim — `[evidence: <type>]` beside the path in proofs.md or a
  * demo bundle. The types are described, never ranked: the substitution

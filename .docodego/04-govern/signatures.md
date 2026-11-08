@@ -15,3 +15,4 @@ signature.md.
 | 2026-11-09 | 530-encoded-signature-identity | enc:v1:Y29kZUBhZG1pbnMtTUJQLm5ibg== (the system identity of the environment, encoded) | founder | founder-signed |
 | 2026-11-09 | 540-law-flip-1-2-5 | enc:v1:Y29kZUBhZG1pbnMtTUJQLm5ibg== (the system identity of the environment, encoded) | founder | founder-signed |
 | 2026-11-09 | 550-fix-l2-path-extractor | enc:v1:Y29kZUBhZG1pbnMtTUJQLm5ibg== (the system identity of the environment, encoded) | founder | founder-signed |
+| 2026-11-09 | 560-stranger-legibility | enc:v1:Y29kZUBhZG1pbnMtTUJQLm5ibg== (the system identity of the environment, encoded) | founder | founder-signed |

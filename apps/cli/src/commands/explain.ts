@@ -15,10 +15,13 @@ export function run(args: Args, io: Io): number {
     }
     return 0;
   }
-  const target = args.pos[0];
-  if (target === undefined) {
+  const target0 = args.pos[0];
+  if (target0 === undefined) {
     return complain(args.json, io, { severity: "error", code: "DG-U080", message: "usage: docodego explain <code> [--list]" }, 2, "explain");
   }
+  // a bare gate id (G4, l2) resolves to its GATE- page — the refusals print
+  // the bare form, so explain accepts exactly what the gates print (560)
+  const target = /^[GL][1-5]$/i.test(target0) ? `GATE-${target0.toUpperCase()}` : target0;
   const hits = explanationsFor(target);
   const exact = pageOf(target) !== undefined && hits.length === 1;
   if (hits.length === 0) {

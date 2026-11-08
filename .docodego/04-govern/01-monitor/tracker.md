@@ -202,3 +202,7 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-09 | 550-fix-l2-path-extractor | launch-refused | L2 failed — proof path(s) vanished since delivery: src/run.txt — evidence that no longe... |
 | 2026-11-09 | 550-fix-l2-path-extractor | launch-passed | 02-compose/01-build/550-fix-l2-path-extractor/launch.md |
 | 2026-11-09 | 550-fix-l2-path-extractor | founder-signed | 02-compose/01-build/550-fix-l2-path-extractor/signature.md |
+| 2026-11-09 | 560-stranger-legibility | new unit | 02-compose/01-build/560-stranger-legibility/spec.md |
+| 2026-11-09 | 560-stranger-legibility | delivered | 02-compose/01-build/560-stranger-legibility/delivered.md |
+| 2026-11-09 | 560-stranger-legibility | launch-passed | 02-compose/01-build/560-stranger-legibility/launch.md |
+| 2026-11-09 | 560-stranger-legibility | founder-signed | 02-compose/01-build/560-stranger-legibility/signature.md |
