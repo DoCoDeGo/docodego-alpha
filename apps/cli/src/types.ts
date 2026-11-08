@@ -106,3 +106,39 @@ export interface Io {
   out(s: string): void;
   err(s: string): void;
 }
+
+import type { VocabularyPack } from "./record/vocabulary.ts";
+
+/** The payload's skill-index row — one bundled skill's contract, declared
+ * here because it is shared vocabulary: bundle.ts builds it, the generated
+ * payload.ts re-exports it, bundled/index.ts consumes it. */
+export interface SkillIndexEntry {
+  name: string;
+  description: string;
+  version: string;
+  source: "bundled";
+  integrity: string;
+  defaultFor: string[];
+  /** auto-add skills ship in the payload but join no profile: they plant
+   * on their trigger or an explicit `skill add`, never by default. */
+  autoAdd?: true;
+}
+
+/** The generated payload's shape — declared ONCE. bundle.ts imports it to
+ * build and emits the import into payload.ts; before this the types lived
+ * twice (bundle.ts and its own template string), hand-synced, unwatched —
+ * the quiet rot enhancement 9 named. Now the compiler is the gate: one
+ * declaration, so any shape drift is a type error, never a silent fork. */
+export interface Payload {
+  specVersion: number;
+  cliVersion: string;
+  structureHash: string;
+  allowlistVersion: number;
+  files: Record<string, string>;
+  hashes: Record<string, string>;
+  introducedIn: Record<string, number>;
+  statutesShippedHashes: string[];
+  skills: SkillIndexEntry[];
+  profiles: Record<string, string[]>;
+  vocabularies: VocabularyPack[];
+}

@@ -3,33 +3,8 @@
  * Reproducible embed: no timestamps; identical sources give identical bytes. */
 
 import type { VocabularyPack } from "../record/vocabulary.ts";
-export type { VocabularyPack };
-
-export interface SkillIndexEntry {
-  name: string;
-  description: string;
-  version: string;
-  source: "bundled";
-  integrity: string;
-  defaultFor: string[];
-  /** auto-add skills ship in the payload but join no profile: they plant
-   * on their trigger or an explicit `skill add`, never by default. */
-  autoAdd?: true;
-}
-
-export interface Payload {
-  specVersion: number;
-  cliVersion: string;
-  structureHash: string;
-  allowlistVersion: number;
-  files: Record<string, string>;
-  hashes: Record<string, string>;
-  introducedIn: Record<string, number>;
-  statutesShippedHashes: string[];
-  skills: SkillIndexEntry[];
-  profiles: Record<string, string[]>;
-  vocabularies: VocabularyPack[];
-}
+import type { Payload, SkillIndexEntry } from "../types.ts";
+export type { VocabularyPack, Payload, SkillIndexEntry };
 
 export const PAYLOAD: Payload = {
   "specVersion": 14,

@@ -745,6 +745,21 @@ rmSync(sb, { recursive: true, force: true });
   rmSync(gov, { recursive: true, force: true });
 }
 
+// ————— enhancement 9 (260): the payload types are declared once. Before
+// this, bundle.ts held the real interfaces AND hand-copies inside the
+// emitted template — two declarations, hand-synced, no gate watching.
+// Now types.ts is the one home and the compiler is the gate.
+{
+  const typesSrc = readFileSync(join(REPO_ROOT, "apps", "cli", "src", "types.ts"), "utf8");
+  const bundleSrc = readFileSync(join(REPO_ROOT, "apps", "cli", "scripts", "bundle.ts"), "utf8");
+  const payloadSrc = readFileSync(join(REPO_ROOT, "apps", "cli", "src", "bundled", "payload.ts"), "utf8");
+  const decls = (s: string): number => (s.match(/^\s*(export )?interface (Payload|SkillIndexEntry)\b/gm) ?? []).length;
+  fact("the payload types are declared once — in types.ts", decls(typesSrc) === 2);
+  fact("bundle.ts holds no interface copy", decls(bundleSrc) === 0);
+  fact("the generated payload holds no interface copy", decls(payloadSrc) === 0);
+  fact("the generated payload imports the shared types", payloadSrc.includes(`import type { Payload, SkillIndexEntry } from "../types.ts"`));
+}
+
 // ————— cli-law writer side (240): the status machine refuses what the
 // record cannot trust — score rides a grill, landings are terminal, a fail
 // verdict demotes with a row, scores bind by sha, and the gate recomputes

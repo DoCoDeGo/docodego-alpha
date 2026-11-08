@@ -13,6 +13,7 @@
  * Run: node --experimental-strip-types scripts/bundle.ts
  */
 import { createHash } from "node:crypto";
+import type { Payload, SkillIndexEntry } from "../src/types.ts";
 import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 import { tmpdir } from "node:os";
@@ -181,29 +182,6 @@ function buildPayload(old: Payload | null): Payload {
   };
 }
 
-interface SkillIndexEntry {
-  name: string;
-  description: string;
-  version: string;
-  source: "bundled";
-  integrity: string;
-  defaultFor: string[];
-  autoAdd?: true;
-}
-interface Payload {
-  specVersion: number;
-  cliVersion: string;
-  structureHash: string;
-  allowlistVersion: number;
-  files: Record<string, string>;
-  hashes: Record<string, string>;
-  introducedIn: Record<string, number>;
-  statutesShippedHashes: string[];
-  skills: SkillIndexEntry[];
-  profiles: Record<string, string[]>;
-  vocabularies: VocabularyPack[];
-}
-
 /** Authored data — the packs are product templates, not this repo's record:
  * generated from nothing, validated fully, embedded only when valid. A pack
  * that fails `validateVocabularyPack` fails the build here, at the gate. */
@@ -355,33 +333,8 @@ async function main(): Promise<number> {
  * Reproducible embed: no timestamps; identical sources give identical bytes. */
 
 import type { VocabularyPack } from "../record/vocabulary.ts";
-export type { VocabularyPack };
-
-export interface SkillIndexEntry {
-  name: string;
-  description: string;
-  version: string;
-  source: "bundled";
-  integrity: string;
-  defaultFor: string[];
-  /** auto-add skills ship in the payload but join no profile: they plant
-   * on their trigger or an explicit \`skill add\`, never by default. */
-  autoAdd?: true;
-}
-
-export interface Payload {
-  specVersion: number;
-  cliVersion: string;
-  structureHash: string;
-  allowlistVersion: number;
-  files: Record<string, string>;
-  hashes: Record<string, string>;
-  introducedIn: Record<string, number>;
-  statutesShippedHashes: string[];
-  skills: SkillIndexEntry[];
-  profiles: Record<string, string[]>;
-  vocabularies: VocabularyPack[];
-}
+import type { Payload, SkillIndexEntry } from "../types.ts";
+export type { VocabularyPack, Payload, SkillIndexEntry };
 
 export const PAYLOAD: Payload = ${JSON.stringify(fresh, null, 2)};
 `;
