@@ -22,7 +22,7 @@ the refusal, the repair, and the pass, in one run.
 ## run output
 
 `proofs/conformance.txt` — the suite's green tail at the delivered HEAD
-(334 checks).
+(335 checks).
 
 ## visual evidence
 

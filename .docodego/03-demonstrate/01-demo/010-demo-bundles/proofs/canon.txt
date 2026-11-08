@@ -1,5 +1,3 @@
-spec error[SP-F001]: the spec tree is ahead of the delivered index — tree de2b91c63147… vs delivered 859e92e80e30… — run canon build
-spec error[SP-F002]: the delivered manifest says 1.0.11 but SPEC.md says 1.0.12 — artifacts and source must name the same version
-canon doctor · 2 error(s), 0 warning(s) · mirror: 16 mirror statutes vs 16 tree statutes · first drift: n/a
-axes (side by side, never inferred): payload specVersion 21 · cli 0.8.0 · spec/ 1.0.12 · delivered 1.0.11
-exit=1
+canon doctor · no drift — lint+verify rerun clean, structure ok, index ok, version pair ok, mirror aligned (16 mirror statutes vs 16 tree statutes)
+axes (side by side, never inferred): payload specVersion 21 · cli 0.8.0 · spec/ 1.0.12 · delivered 1.0.12
+exit=0

@@ -5,7 +5,7 @@
   naming both readers and the not-there-yet truth
   (`proofs/conformance.txt`, facts "init plants the demo room anchor"
   and "the demo room anchor names its readers and the not-there-yet
-  truth"; 334 checks green at HEAD).
+  truth"; 335 checks green at HEAD).
 - AC2 — deliver writes the scaffold: the scratch record's delivery
   leaves `demo/010-first-unit/how-to-run.md` byte-identical to the
   shipped template, three fill sections and the honesty line included
