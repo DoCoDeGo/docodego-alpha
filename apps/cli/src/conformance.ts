@@ -14,6 +14,8 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { recordFiles, profiles as bundledProfiles, cliVersion, specVersion, skillsIndex, ruleFiles, vocabularies, VOCABULARY_NAMES, vocabularyPack } from "./bundled/index.ts";
 import { treeFindings } from "./passes/tree.ts";
+import { governanceFindings } from "./passes/governance.ts";
+import { loadRecord } from "./record/load.ts";
 import { STREAM_README_PATHS, ALL_STREAMS } from "./record/streams.ts";
 import { validateVocabularyPack } from "./record/vocabulary.ts";
 import { COMMAND_HELP } from "./cli/help.ts";
@@ -709,6 +711,36 @@ rmSync(sb, { recursive: true, force: true });
   writeFileSync(join(rulesDir, "bad.md"), "---\nreader: someone\nfails-when: something\n---\n\n# missing enforced-by\n");
   fact("rules floor: an empty enforced-by lists the rule as furniture (DG-C010)", treeFindings(t).some((d) => d.code === "DG-C010" && d.file?.endsWith("bad.md")));
   rmSync(t, { recursive: true, force: true });
+}
+
+// --- governance pass: the ledgers and the units agree (spec7-governance-pass) ---
+{
+  const gov = mkdtempSync(join(tmpdir(), "docodego-conformance-gov-"));
+  check("governance fixture: init runs clean", run(gov, ["init"]), 0);
+  const unitDir = ".docodego/01-document/01-discover/010-done-unit";
+  write(gov, `${unitDir}/spec.md`, "---\nname: 010-done-unit\ntype: unit\nstatus: delivered\n---\n\n# 010-done-unit\n\n## intent\n\nDelivered, with rows.\n");
+  write(gov, `${unitDir}/grill.md`, "# grill\n\nverdict: pass\n");
+  write(gov, `${unitDir}/delivered.md`, "# delivered\n\nGates passed.\n");
+  const trackerRow = "| 2026-11-08 | 010-done-unit | delivered | 01-document/01-discover/010-done-unit/delivered.md |\n";
+  const logRow = "| 2026-11-08 | 010-done-unit | G1,G2,G3,G4 | proof: 01-document/01-discover/010-done-unit/delivered.md |\n";
+  // read() prefixes .docodego; write() takes the repo-root-relative path
+  write(gov, ".docodego/04-govern/01-monitor/tracker.md", read(gov, "04-govern/01-monitor/tracker.md") + trackerRow);
+  write(gov, ".docodego/04-govern/delivery-log.md", read(gov, "04-govern/delivery-log.md") + logRow);
+  const findings = () => governanceFindings(loadRecord(gov));
+  fact("governance: a gate-written record holds its silence", findings().length === 0);
+  write(gov, ".docodego/04-govern/01-monitor/tracker.md", read(gov, "04-govern/01-monitor/tracker.md").replace(trackerRow, ""));
+  fact("governance: deleting the tracker row fails DG-C011 as an error", findings().some((d) => d.code === "DG-C011" && d.severity === "error"));
+  write(gov, ".docodego/04-govern/01-monitor/tracker.md", read(gov, "04-govern/01-monitor/tracker.md") + trackerRow);
+  write(gov, ".docodego/04-govern/delivery-log.md", read(gov, "04-govern/delivery-log.md").replace(logRow, ""));
+  fact("governance: deleting the delivery-log row fails DG-C012 as an error", findings().some((d) => d.code === "DG-C012" && d.severity === "error"));
+  write(gov, ".docodego/04-govern/delivery-log.md", read(gov, "04-govern/delivery-log.md") + logRow);
+  write(gov, ".docodego/04-govern/delivery-log.md", read(gov, "04-govern/delivery-log.md") + "| 2026-11-08 | 090-ghost-unit | G1 | proof: nowhere.md |\n");
+  fact("governance: a ghost delivery-log row warns DG-C013", findings().some((d) => d.code === "DG-C013" && d.severity === "warning"));
+  write(gov, ".docodego/04-govern/delivery-log.md", read(gov, "04-govern/delivery-log.md").replace("| 2026-11-08 | 090-ghost-unit | G1 | proof: nowhere.md |\n", ""));
+  write(gov, `${unitDir}/grill.md`, "# grill\n\nverdict: pass\nverdict: fail\n");
+  fact("governance: a fail verdict after delivery warns DG-C014", findings().some((d) => d.code === "DG-C014" && d.severity === "warning"));
+  fact("the verdict detector is the one source of truth audit's GOV-003 reads", readFileSync(join(REPO_ROOT, "apps", "cli", "src", "commands", "audit.ts"), "utf8").includes("verdictIncoherence(rec)"));
+  rmSync(gov, { recursive: true, force: true });
 }
 
 rmSync(fixture, { recursive: true, force: true });

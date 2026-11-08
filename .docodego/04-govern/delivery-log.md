@@ -40,3 +40,4 @@ is recorded here; what was learned lives in the unit's own records.
 | 2026-11-08 | 200-spec7-transition-table | G1,G2,G3,G4 | proof: spec/record/version-transition.md |
 | 2026-11-08 | 210-spec7-shelf-and-stack | G1,G2,G3,G4 | proof: 02-compose/01-build/210-spec7-shelf-and-stack/proofs/conformance.txt |
 | 2026-11-08 | 210-spec7-shelf-and-stack | G1,G2,G3,G4 | proof: 02-compose/01-build/210-spec7-shelf-and-stack/proofs/conformance.txt |
+| 2026-11-08 | 220-spec7-governance-pass | G1,G2,G3,G4 | proof: 02-compose/01-build/220-spec7-governance-pass/proofs/conformance.txt |

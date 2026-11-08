@@ -36,6 +36,31 @@ for truth. Do both."
 > stays normative here; the tool's five-pass output is the incumbent being
 > redesigned, not the law.
 
+## The governance pass
+
+`check` grades the record twice: file by file (shape, statuses, proof paths)
+and as a whole — the governance pass, which reads the ledgers against the
+units. The law: **the ledgers and the units must agree.** A delivery the
+tracker never recorded, a landing absent from the delivery log, a status
+contradicted by the latest grill verdict — each is the record claiming more
+than its evidence holds.
+
+| Finding | Severity | The incoherence |
+|---|---|---|
+| DG-C011 | error | a delivered-class unit with no tracker row naming it |
+| DG-C012 | error | a delivered-class unit with no delivery-log row |
+| DG-C013 | warning | a delivery-log row naming a unit the record never held |
+| DG-C014 | warning | a status contradicted by the latest grill verdict |
+
+Delivered-class means `delivered`, `launch-passed`, or `founder-signed` —
+every tier the gates can earn. A unit retired into `system/behavioral/`
+answers to its tomb name and its `was:` chain, so history stays honest. Two
+instruments read the same facts: `check` runs continuously (warnings; the
+two ledger errors veto), and `docodego audit`'s GOV-003 reports the verdict
+incoherence as an error from the one shared detector. A gate-written record
+passes; the pass exists so a record stops passing the day its ledgers are
+edited behind the gates.
+
 ### Exit codes and the envelope
 
 Across every command: **0** success · **1** a gate, check, lint or grilling failed · **2** a

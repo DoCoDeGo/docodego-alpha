@@ -15,7 +15,7 @@ import { createHash } from "node:crypto";
 import { existsSync, readdirSync, rmSync, statSync } from "node:fs";
 import { join } from "node:path";
 import type { Args, Io } from "../types.ts";
-import { checkPass, frontmatterPass, namingPass, structurePass } from "../passes/index.ts";
+import { checkPass, frontmatterPass, namingPass, structurePass, verdictIncoherence } from "../passes/index.ts";
 import { TRACKER_REL, loadRecord, RecordFatal, type RecordAst } from "../record/load.ts";
 import { DELIVERY_LOG_REL, appendTracker } from "../record/record-write.ts";
 import { CHECKLIST_TEMPLATE } from "../bundled/index.ts";
@@ -66,24 +66,11 @@ function checkFindings(rec: RecordAst): Finding[] {
 
 /** GOV-003 — status verdict coherence: a delivered unit's latest grill
  * verdict must be pass. A fail after delivery, or no verdict at all, is
- * the record claiming more than its evidence holds. */
+ * the record claiming more than its evidence holds. The detector is the
+ * one source of truth shared with check's governance pass (which reports
+ * the same facts as warnings, DG-C014); audit keeps the error severity. */
 function svcFindings(rec: RecordAst): Finding[] {
-  const out: Finding[] = [];
-  for (const unit of rec.units) {
-    const raw = readText(join(rec.root, unit.dir, "spec.md")) ?? "";
-    if (!/^status:\s*delivered\s*$/m.test(raw)) continue;
-    const grillRel = unit.markers.grill;
-    if (grillRel === null) {
-      out.push(err(`unit '${unit.name}' is delivered but has no grill record — a delivery without a verdict is a claim without evidence`));
-      continue;
-    }
-    const grill = readText(join(rec.root, grillRel)) ?? "";
-    const verdicts = [...grill.matchAll(/^verdict:\s*(\w+)\s*$/gm)].map((m) => m[1]);
-    const latest = verdicts[verdicts.length - 1];
-    if (latest === undefined) out.push(err(`unit '${unit.name}' is delivered but its grill record holds no verdict`));
-    else if (latest !== "pass") out.push(err(`unit '${unit.name}' is delivered but its latest grill verdict is '${latest}' — status contradicts evidence`));
-  }
-  return out;
+  return verdictIncoherence(rec).map(({ unit, detail }) => err(`unit '${unit}' ${detail}`));
 }
 
 /** GOV-004 — bounded size: ledgers stay under the bounds EL-29 publishes

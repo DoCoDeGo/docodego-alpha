@@ -85,3 +85,7 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 210-spec7-shelf-and-stack | new unit | 02-compose/01-build/210-spec7-shelf-and-stack/spec.md |
 | 2026-11-08 | 210-spec7-shelf-and-stack | delivered | 02-compose/01-build/210-spec7-shelf-and-stack/delivered.md |
 | 2026-11-08 | 210-spec7-shelf-and-stack | delivered | 02-compose/01-build/210-spec7-shelf-and-stack/delivered.md |
+| 2026-11-08 | 220-spec7-governance-pass | new unit | 02-compose/01-build/220-spec7-governance-pass/spec.md |
+| 2026-11-08 | record | audit: 0 failing checks, 0 with warnings — checklist updated | 04-govern/01-monitor/checklist.md |
+| 2026-11-08 | record | audit: 0 failing checks, 0 with warnings — checklist updated | 04-govern/01-monitor/checklist.md |
+| 2026-11-08 | 220-spec7-governance-pass | delivered | 02-compose/01-build/220-spec7-governance-pass/delivered.md |

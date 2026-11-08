@@ -6,6 +6,7 @@
 import type { Args, Io } from "../types.ts";
 import { loadRecord } from "../record/load.ts";
 import { checkPass } from "../passes/index.ts";
+import { governanceFindings } from "../passes/governance.ts";
 import { treeFindings } from "../passes/tree.ts";
 import { renderDiagnostics } from "../emit/diagnostics.ts";
 import { exitFor } from "../emit/exit.ts";
@@ -13,7 +14,7 @@ import { envelope } from "../emit/json.ts";
 
 export function run(args: Args, io: Io): number {
   const rec = loadRecord(process.cwd());
-  const findings = [...rec.loadDiags, ...checkPass(rec), ...treeFindings(process.cwd())];
+  const findings = [...rec.loadDiags, ...checkPass(rec), ...governanceFindings(rec), ...treeFindings(process.cwd())];
   const code = exitFor(findings);
   if (args.json) {
     io.out(JSON.stringify(envelope("check", { findings }, code === 0), null, 2));

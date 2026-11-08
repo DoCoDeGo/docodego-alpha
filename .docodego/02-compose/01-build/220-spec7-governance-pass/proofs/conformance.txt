@@ -1,0 +1,2 @@
+conformance: all 260 checks green
+conformance exit: 0 (1 = the bundle drift gate only, delivered-baseline rule — expected pre-commit, clean post-commit)

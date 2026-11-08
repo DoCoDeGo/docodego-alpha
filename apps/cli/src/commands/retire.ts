@@ -185,8 +185,9 @@ export function run(args: Args, io: Io): number {
     corrected.push(f);
   }
 
-  const trackerLine = appendTracker(rec, unit.name, `retired from ${unit.stream}/ to ${tombRel}/`, tombRel);
-  appendDeliveryLog(rec, unit.name, "retired", tombRel);
+  const tombName = tombRel.split("/").pop() ?? unit.name;
+  const trackerLine = appendTracker(rec, tombName, `retired from ${unit.stream}/ to ${tombRel}/ (was: ${unit.name})`, tombRel);
+  appendDeliveryLog(rec, tombName, "retired", tombRel);
 
   if (args.json) {
     io.out(JSON.stringify(envelope("retire", { unit: unit.name, from: unit.dir, to: tombRel, behavior, files: files.length, readdressed: corrected, tracker: trackerLine }), null, 2));

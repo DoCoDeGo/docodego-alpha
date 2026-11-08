@@ -178,6 +178,30 @@ prefix (`docodego explain DG-F`) prints every page in the family.
 - law: a rule without a living enforcer is furniture — every rule states who reads it, what failure it prevents, and what holds it; furniture is listed, never auto-deleted.
 - fix: fill the missing fields, or point enforced-by at a live target (check:stack-scan, check:untracked-scan) or declare `practice:` with the named instrument that exercises it — then fix the rule or delete it by hand, on the record.
 
+**DG-C011 — delivered unit has no tracker row**
+
+- meaning: a unit's status is delivered (or launch-passed, founder-signed) but the tracker holds no row naming it.
+- law: the ledgers and the units must agree — a delivery the tracker never recorded is a landing somebody edited out, or one the gate never wrote.
+- fix: if the row was lost, re-append it honestly (date, unit, event, path) — never rewrite other rows; if the unit is not really delivered, set its status back to what the record evidences.
+
+**DG-C012 — delivered unit has no delivery-log row**
+
+- meaning: a unit claims delivery but 04-govern/delivery-log.md holds no row naming it.
+- law: the delivery log is one row per delivered unit, appended at the gate — a delivered unit absent from it is a landing that is not recorded.
+- fix: re-append the row honestly (date, unit, gates, proof path), or set the unit's status back to scored and re-run the gate.
+
+**DG-C013 — the delivery log names an unknown unit**
+
+- meaning: a dated delivery-log row names a unit that is in no stream and no tracker row — a ghost.
+- law: every ledger row resolves: a row that names nothing the record ever held is noise pretending to be history.
+- fix: correct the row's unit name (typo), or remove the ghost row on the record — append a correction note in the tracker rather than silently rewriting the log.
+
+**DG-C014 — status contradicts the latest grill verdict**
+
+- meaning: a unit claims delivered (or launch-passed, founder-signed) while its grill record's last verdict is not pass.
+- law: status is earned and stays earned only while the evidence holds — a fail verdict after delivery means the record contradicts itself; audit's GOV-003 reports the same fact as an error.
+- fix: re-grill the unit to a pass, or set the status back to what the record actually evidences — never edit the verdict line.
+
 ### DG-P — parse — recoverable markdown events
 
 **DG-P002 — malformed frontmatter line skipped**
