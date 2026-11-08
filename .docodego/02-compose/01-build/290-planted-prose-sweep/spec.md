@@ -2,7 +2,7 @@
 name: 290-planted-prose-sweep
 type: unit
 epic: 020-canon-debts
-status: scored
+status: delivered
 ---
 
 # 290-planted-prose-sweep

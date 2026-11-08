@@ -105,3 +105,4 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 280-install-toctou | delivered | 02-compose/01-build/280-install-toctou/delivered.md |
 | 2026-11-08 | 290-planted-prose-sweep | new unit | 02-compose/01-build/290-planted-prose-sweep/spec.md |
 | 2026-11-08 | 290-planted-prose-sweep | gate-refused | G2 failed — the score is stale — it binds spec sha 002ed40d60070fd5, the spec is now 13... |
+| 2026-11-08 | 290-planted-prose-sweep | delivered | 02-compose/01-build/290-planted-prose-sweep/delivered.md |
