@@ -185,3 +185,12 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-09 | 530-encoded-signature-identity | new unit | 02-compose/01-build/530-encoded-signature-identity/spec.md |
 | 2026-11-09 | 530-encoded-signature-identity | delivered | 02-compose/01-build/530-encoded-signature-identity/delivered.md |
 | 2026-11-09 | 530-encoded-signature-identity | launch-passed | 02-compose/01-build/530-encoded-signature-identity/launch.md |
+| 2026-11-09 | 490-sequence-beyond-999 | founder-signed | 02-compose/01-build/490-sequence-beyond-999/signature.md |
+| 2026-11-09 | 500-law-flip-1-2-4 | founder-signed | 02-compose/01-build/500-law-flip-1-2-4/signature.md |
+| 2026-11-09 | 510-pnpm-migration | founder-signed | 02-compose/01-build/510-pnpm-migration/signature.md |
+| 2026-11-09 | 520-sign-off-writes-the-record | founder-signed | 02-compose/01-build/520-sign-off-writes-the-record/signature.md |
+| 2026-11-09 | 530-encoded-signature-identity | founder-signed | 02-compose/01-build/530-encoded-signature-identity/signature.md |
+| 2026-11-09 | 540-law-flip-1-2-5 | new unit | 02-compose/01-build/540-law-flip-1-2-5/spec.md |
+| 2026-11-09 | 540-law-flip-1-2-5 | delivered | 02-compose/01-build/540-law-flip-1-2-5/delivered.md |
+| 2026-11-09 | 540-law-flip-1-2-5 | launch-passed | 02-compose/01-build/540-law-flip-1-2-5/launch.md |
+| 2026-11-09 | 540-law-flip-1-2-5 | founder-signed | 02-compose/01-build/540-law-flip-1-2-5/signature.md |

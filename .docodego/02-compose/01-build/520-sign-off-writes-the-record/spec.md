@@ -1,7 +1,7 @@
 ---
 name: 520-sign-off-writes-the-record
 type: unit
-status: launch-passed
+status: founder-signed
 ---
 
 # 520-sign-off-writes-the-record

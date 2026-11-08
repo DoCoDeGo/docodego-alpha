@@ -1,7 +1,7 @@
 ---
 name: 500-law-flip-1-2-4
 type: unit
-status: launch-passed
+status: founder-signed
 ---
 
 # 500-law-flip-1-2-4

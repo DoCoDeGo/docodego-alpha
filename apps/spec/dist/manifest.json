@@ -1,17 +1,18 @@
 {
   "schema": "docodego-spec/manifest/v1",
-  "specVersion": "1.2.4",
-  "structureHash": "2442837c0b65590c616130eaefae739570ca3c450c6ad11b05eb39c30708bf1f",
-  "fileCount": 50,
+  "specVersion": "1.2.5",
+  "structureHash": "49450fbac9c1db272e3bce68f47e0003e92a70643181b7c5aba85fc97d722a83",
+  "fileCount": 51,
   "lawCount": 33,
   "files": {
-    "SPEC.md": "da8b20833d004a4a82e9e15606207a9cf7b59ccbec1251806328f958965621e7",
+    "SPEC.md": "1ca0f83e00bd5f2594387d966abab80481c9a89223c3041286493f44556573a4",
     "amendments/1.1.0-EL-18.md": "bc42bab39e6884b6afe9b5b567d3c521e4057fba817dcd5a51a3772707d26c59",
     "amendments/1.1.0-EL-33-new.md": "bde0e5aa175c48a3cf05e3ad4f9c42d14607c229d890b5e1de6923f8563fec58",
     "amendments/1.1.0-EL-34-new.md": "4ecb2f2198138db892516adf59d66c3d9a6d4d0a286eb6f6b5e76e8f13d99c79",
     "amendments/1.2.3-EL-34.md": "f8fa9fb75b1b8964fecc72e62aa32830d91ca536f6c61fff831694b1a1363532",
     "amendments/1.2.4-EL-34.md": "35a65cd94543516c84d32bd3f1a9d40f87ca93e1f6648d1d3fab771a613452d7",
-    "amendments/log.md": "9fe57540130979b5cf82194ccb5efd2c8d951546401da6a17ad0f44cbf8db5e0",
+    "amendments/1.2.5-EL-34.md": "95f17845f5be92178ba0fda1d239615aebe642bc8c699f3f6ea4510000188377",
+    "amendments/log.md": "76483b744323a7858e7861894ee80bdbb852133badb3976e1be51b54625634b1",
     "conformance/enforceability-map.md": "4876012f9c1da111ccbb96a3ee3b6de00cfe3e7e3c9665ecfcf4dfb0ab1e20e5",
     "conformance/gates-and-severity.md": "239858707fc6a9adb7098c8f19cb2462f147274eeb9415c1f5bd2f46c1a578b8",
     "laws/01-intent-is-absolute.md": "dcc6a63b5ca8aa53b479e7afd73077a1658f9e596ec849b30a27502018c2c960",
@@ -46,7 +47,7 @@
     "laws/30-the-anti-complexity-principle.md": "aeb10c0fe25051f09897354bf983c5db3eb6b4fa15d9a91d6d6225520db26495",
     "laws/31-owner-only-decisions.md": "1496c3ee63acf8bbf31f6a768d750fda905085e188ef9d89e5897085099076a7",
     "laws/33-statuses-move-through-gates.md": "83b23848e41a9080060f69a9a1a66e81367aacab507e62b45cf7e8bc63e03c05",
-    "laws/34-the-launch-gate.md": "8ddc240fab7d6157f200dfefff96add146946389eb0291a6b4e5f4b15626ea12",
+    "laws/34-the-launch-gate.md": "f0eed074db68c68f7a82e06e2fdd55558922d841b2a77da939d9d8cda8741a44",
     "laws/README.md": "2ef31e65dab25776026106e754e96165dd548506d1324bdf2e6e2c6ce0c084ee",
     "meta/document-standard.md": "cb328db482b1bf592365211ea62355a743dcdc477ba61f7761c57300800f2508",
     "meta/how-to-amend.md": "36ba3a830c07be7a8f90aa67bd7435c22c4b5bea9c9203683dbbff503c87a701",
@@ -54,6 +55,6 @@
     "movements/the-loop.md": "739b3de6a2710dae525a6a57568112f51a45b8a2dbd3df623b5b9c58cf6e6ec9",
     "record/the-shelf.md": "84f16de1f4dd67d11d43f1d16370ceb4fb3d68188645c8bcea04216acef0d178",
     "record/the-trail.md": "130b69082131047f109134edd9a84b7a17bf47e9864f217422f9454513f61ae9",
-    "record/version-transition.md": "cda40782a0755b75ecaa1ac9a8d921ee86b1c721ea692ad5566292ecd0a74880"
+    "record/version-transition.md": "ada4655cebf58b11e92f461c4568a61c0fedd91b08a8a4c57fc5983a1df8b736"
   }
 }

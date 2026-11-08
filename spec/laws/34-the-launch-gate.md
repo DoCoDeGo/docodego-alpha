@@ -31,7 +31,7 @@ never written over a refusal.
 **founder-signed** — a named person attested the act. The signature is
 an act receipt: who (a typed identifier or handle, recorded verbatim; an
 identifier the engine derives from the environment is recorded as a
-versioned fingerprint of it, never as it stands), what role, when (the
+versioned reversible encoding of it, never as it stands), what role, when (the
 local calendar date), over what evidence (the sha256 of the unit's spec
 and delivered receipt at signing time). The tiers are strict — no
 signature without launch-passed, no bypass flag — and one signature per
@@ -44,9 +44,10 @@ the named person ran the signing command over the named evidence. It
 does not cryptographically prove the human's identity, and no output
 of the record may claim otherwise. What it buys is accountability: a
 person put their name on an act, and the act's evidence is hashed to
-what stood on disk when they did. A fingerprinted identifier is
-privacy, not anonymity: it resists a stranger's lookup, not a
-determined guesser who already suspects the environment.
+what stood on disk when they did. An encoded identifier is concealment
+from the casual read, not cryptography: it reads plainly to whoever
+asks the CLI, and a reader who declines the CLI can reverse it in one
+step — it hides the identity from a scan, not from an investigator.
 
 ## Why
 

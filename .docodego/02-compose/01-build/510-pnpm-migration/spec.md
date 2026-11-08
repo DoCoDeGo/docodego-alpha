@@ -1,7 +1,7 @@
 ---
 name: 510-pnpm-migration
 type: unit
-status: launch-passed
+status: founder-signed
 ---
 
 # 510-pnpm-migration

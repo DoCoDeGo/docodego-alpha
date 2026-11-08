@@ -1,7 +1,7 @@
 ---
 name: 530-encoded-signature-identity
 type: unit
-status: launch-passed
+status: founder-signed
 ---
 
 # 530-encoded-signature-identity
