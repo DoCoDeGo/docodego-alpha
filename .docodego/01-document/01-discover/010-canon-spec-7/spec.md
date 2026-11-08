@@ -95,25 +95,28 @@ commissioned three new children and reordered priority. Delivery order
 is now:
 
 1. spec7-surgical — ✅ delivered (e3b9aa5).
-2. **spec7-naming** — NEW: sequence prefixes on units (NNN-, step of
-   10, tracker-derived) and date-leading names for docs audits; the
-   rule planted in AGENTS.md, enforced by lint, auto-assigned by
-   `docodego new`; the live record renamed with an addressing
-   correction and a dated tracker row. Cheap now, ten units.
-3. **spec7-audit** — NEW: the RHA umbrella command plus SVC, BSG, NNC,
-   CHS; the checklist ledger as an append-only outcome; tracker
-   rotation under the cycle-log archive law; trace scans archives.
-4. **spec7-bundling** — NEW: the allowlist inversion (a versioned
+2. **spec7-naming** — ✅ delivered (ecd9a72): prefixes landed live, the
+   rule planted in AGENTS.md, `docodego new` auto-assigns, record v10.
+3. **spec7-audit** — ✅ delivered (ece771e): the RHA umbrella command
+   with GOV-001..005, the checklist ledger, `--rotate` under the
+   archive law, trace scanning archives.
+4. **130-grill-scaffold** — NEW, promoted (cycle 95): `grill
+   --scaffold` + fail diagnostics that name the missing ids and the
+   expected count, both answers formats in --help, the scored→grilled
+   hint. The quirk investigation (Finding 7) priced it: three failed
+   grill rounds in the record, two independent agents bitten, total
+   adopter exposure, S/M effort.
+5. **spec7-bundling** — the allowlist inversion (a versioned
    payload manifest is the product/studio boundary) plus the six
    enforcement rules from the bundling investigation (retire step,
    restore-vs-create, mirror-refresh pairing, AGENTS.md version
    binding, pack-voiced AGENTS.md exclusion, `.new` lifecycle).
-5. spec7-proof-semantics — scored, drafting pending (was child 2).
-6. spec7-ics-2 (was child 3; the investigation strengthened the drift
+6. spec7-proof-semantics — scored, drafting pending (was child 2).
+7. spec7-ics-2 (was child 3; the investigation strengthened the drift
    evidence: spec defines four dimensions with floors, tool ships five
    passes enforcing neither).
-7. spec7-launch-gate (was 4) · 8. spec7-transition-table (was 5) ·
-   9. spec7-shelf-and-stack (was 6) · 10. spec7-governance-pass (was 7).
+8. spec7-launch-gate (was 4) · 9. spec7-transition-table (was 5) ·
+   10. spec7-shelf-and-stack (was 6) · 11. spec7-governance-pass (was 7).
 
 The original children list above stands as the commissioning record;
 this section supersedes its order only.
