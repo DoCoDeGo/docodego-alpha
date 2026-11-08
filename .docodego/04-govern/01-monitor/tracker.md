@@ -228,3 +228,8 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-09 | 600-twin-text-founder-marker | launch-passed | 02-compose/01-build/600-twin-text-founder-marker/launch.md |
 | 2026-11-09 | 600-twin-text-founder-marker | founder-signed | 02-compose/01-build/600-twin-text-founder-marker/signature.md |
 | 2026-11-09 | 610-supersession-recognition | new unit | 02-compose/01-build/610-supersession-recognition/spec.md |
+| 2026-11-09 | 610-supersession-recognition | gate-refused | G4 failed — proofs.md holds no path entries — write list items like: - path/to/proof.tx... |
+| 2026-11-09 | 610-supersession-recognition | launch-refused | L1,L4 failed — no delivered.md — the launch tiers start from a delivered unit (docodego... |
+| 2026-11-09 | 610-supersession-recognition | delivered | 02-compose/01-build/610-supersession-recognition/delivered.md |
+| 2026-11-09 | 610-supersession-recognition | launch-passed | 02-compose/01-build/610-supersession-recognition/launch.md |
+| 2026-11-09 | 610-supersession-recognition | founder-signed | 02-compose/01-build/610-supersession-recognition/signature.md |

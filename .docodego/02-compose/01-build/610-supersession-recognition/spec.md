@@ -1,7 +1,7 @@
 ---
 name: 610-supersession-recognition
 type: unit
-status: scored
+status: founder-signed
 ---
 
 # 610-supersession-recognition

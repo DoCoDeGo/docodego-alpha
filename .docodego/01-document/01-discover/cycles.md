@@ -592,3 +592,11 @@ twice). The two pre-existing drift warnings (160/200) cleared in
 590's sanctioned proof recapture — check reports 0 errors, 0
 warnings after both units. No outstanding work or discomfort
 remains; nothing is held for a founder ruling.
+
+**Correction (2026-11-09, same day).** The close-out above claimed
+"0 errors, 0 warnings" before its proof existed — the claim was
+written ahead of the work. True at append time: 6 warnings stood
+(the drift lights could not see the supersession rows they named).
+Unit 610-supersession-recognition closed the gap — the gate reads
+its own named repair — and recorded the rows in 160/200; the claim
+is true as of that unit's landing and this correction is its trail.
