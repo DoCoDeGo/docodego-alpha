@@ -59,6 +59,7 @@ function check(label: string, res: Res, expect: number, assert?: (r: Res) => boo
   if (res.code === expect && contentOk) passed += 1;
   else {
     failed.push(`${label} — expected exit ${expect}${assert !== undefined && !contentOk ? " + content assertion" : ""}, got ${res.code}${res.stderr !== "" ? ` · stderr: ${res.stderr.split("\n")[0]?.slice(0, 120)}` : ""}`);
+    process.stderr.write(`  FAIL ${label} — got exit ${res.code}: ${res.stdout.split("\n")[0]?.slice(0, 140)} | ${res.stderr.split("\n")[0]?.slice(0, 140)}\n`);
   }
 }
 
@@ -376,6 +377,37 @@ fact("restored copy waits as README.md.new", existsSync(join(fixture, ".docodego
   fact("tracker rows carry a leading YYYY-MM-DD date", /^\| \d{4}-\d{2}-\d{2} \|/m.test(read(fixture, "04-govern/01-monitor/tracker.md")));
 }
 
+// --- v13: the launch tiers — delivered -> launch-passed -> founder-signed ---
+// the tiers are gate-written and strict: launch audits reality over a
+// delivered unit; sign requires launch-passed and records a named
+// person's attestation; a second signature is a rewritten record.
+write(fixture, ".docodego/01-document/01-discover/kept-unit/spec.md", `---\nname: kept-unit\ntype: unit\nstatus: draft\n---\n\n# kept-unit\n\n## intent\n\nThe kept unit proves the tier flow end to end: 2 criteria, all checkable by one command run per criterion.\n\n## scope\n\nIn: the tier flow proof. Out: any production behavior.\n\n## acceptance\n\n- AC1: the proof file exists at 01-document/01-discover/kept-unit/proofs/run.txt after 1 command run\n- AC2: the receipt file signature.md carries the signer name and 2 evidence hashes\n\n## threats\n\n- the fixture drifts from the grammar -> the conformance suite fails loudly and names the check\n`);
+write(fixture, ".docodego/01-document/01-discover/kept-unit/proofs.md", "# proofs — kept-unit\n\n- AC1 — the run: `01-document/01-discover/kept-unit/proofs/run.txt`\n");
+write(fixture, ".docodego/01-document/01-discover/kept-unit/proofs/run.txt", "proof run output\n");
+const grillJson = run(fixture, ["grill", "kept-unit", "--json"]);
+const qids = (grillJson.stdout.match(/"id": "GQ-(?:AC)?[0-9]+"/g) ?? []).map((s) => s.match(/GQ(?:AC)?[0-9]+/)?.[0] ?? "");
+const ansPath = join(fixture, "gq.txt");
+writeFileSync(ansPath, qids.map((id) => `${id}: the fixture proves the tier flow; observation: the suite asserts the receipt`).join("\n") + "\n");
+check("grill round passes on the fixture", run(fixture, ["grill", "kept-unit", "--answers", "gq.txt"]), 0);
+rmSync(ansPath);
+check("score passes on the fixture", run(fixture, ["score", "kept-unit"]), 0, (r) => !r.stdout.includes("below the gate"));
+check("deliver passes on the fixture", run(fixture, ["deliver", "kept-unit"]), 0);
+check("sign refused before launch (DG-U112)", run(fixture, ["sign", "kept-unit", "--by", "Testy Founder"]), 1, (r) => r.stdout.includes("DG-U112") || r.stderr.includes("DG-U112"));
+rmSync(join(fixture, ".docodego", "01-document", "01-discover", "kept-unit", "proofs", "run.txt"));
+check("launch refused on vanished evidence (exit 1)", run(fixture, ["launch", "kept-unit"]), 1, (r) => r.stdout.includes("vanished") || r.stderr.includes("vanished"));
+write(fixture, ".docodego/01-document/01-discover/kept-unit/proofs/run.txt", "proof run output restored\n");
+check("launch passes on restored evidence", run(fixture, ["launch", "kept-unit"]), 0);
+check("sign passes with a named person", run(fixture, ["sign", "kept-unit", "--by", "Testy Founder"]), 0);
+const ledgerBefore = read(fixture, "04-govern/signatures.md").split("\n").length;
+check("second signature refused (DG-U113)", run(fixture, ["sign", "kept-unit", "--by", "Testy Founder"]), 1, (r) => r.stdout.includes("DG-U113") || r.stderr.includes("DG-U113"));
+fact("the refused second signature appended nothing", read(fixture, "04-govern/signatures.md").split("\n").length === ledgerBefore);
+const receipt = read(fixture, "01-document/01-discover/kept-unit/signature.md");
+fact("the receipt quotes the signer verbatim", receipt.includes("signed by: Testy Founder"));
+fact("the receipt carries the attestation limit", receipt.includes("attestation by command execution"));
+fact("the receipt carries the spec evidence hash", /spec\.md sha256:[0-9a-f]{64}/.test(receipt));
+fact("the signatures ledger row exists", /\| [0-9]{4}-[0-9]{2}-[0-9]{2} \| kept-unit \| Testy Founder \| founder \| founder-signed \|/.test(read(fixture, "04-govern/signatures.md")));
+check("launch is calm on a founder-signed unit", run(fixture, ["launch", "kept-unit"]), 0, (r) => r.stdout.includes("already"));
+
 // --- v2: forward-compat — a newer record is refused politely ---
 const newer = mkdtempSync(join(tmpdir(), "docodego-conformance-fwd-"));
 write(newer, ".docodego/.standard/manifest.json", `{\n  "recordVersion": 99\n}\n`);
@@ -525,7 +557,7 @@ rmSync(bf, { recursive: true, force: true });
 // --- v3: the contract surface — per-command --help, explain, generated docs ---
 // The planted AGENTS.md promises "run any command with --help for its own
 // contract"; these checks are that promise, enforced.
-const LAW_COMMANDS = ["init", "new", "sketch", "setback", "grill", "score", "audit", "check", "lint", "status", "trace", "doctor", "deliver", "retire", "upgrade", "skill", "explain", "completions"];
+const LAW_COMMANDS = ["init", "new", "sketch", "setback", "grill", "score", "audit", "check", "lint", "status", "trace", "doctor", "deliver", "launch", "sign", "retire", "upgrade", "skill", "explain", "completions"];
 fact("every law command has a help page", JSON.stringify(Object.keys(COMMAND_HELP).sort()) === JSON.stringify([...LAW_COMMANDS].sort()));
 fact("the global usage lists every command", LAW_COMMANDS.every((c) => usageText().includes(c)));
 for (const c of LAW_COMMANDS) {

@@ -131,6 +131,22 @@ is recorded here; what was learned lives in the unit's own records.
 |---|---|---|---|
 `;
 
+/** The signatures ledger: one appended row per signed act. A signature is
+ * an attestation by command execution — this ledger witnesses who claimed
+ * the act, when, over what evidence; it does not (and claims not to)
+ * cryptographically prove the human's identity. The per-unit receipt with
+ * the evidence hashes lives beside the unit's records. */
+export const SIGNATURES_TEMPLATE = `# Signatures
+
+One row per signed act, appended by the sign gate — newest last. A row
+witnesses an attestation: the named person ran the signing command over
+the named evidence. The evidence hashes live in the unit's own
+signature.md.
+
+| date | unit | signed by | role | act |
+|---|---|---|---|
+`;
+
 /** The founding-intent record: the founder's brief, verbatim. The reader
  * contract is the point — anything quoted here may be cited as the
  * founder's words exactly as given. */

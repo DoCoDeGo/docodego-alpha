@@ -6,9 +6,11 @@ import { field } from "../record/frontmatter.ts";
 import { readText } from "../fsx.ts";
 import { acceptance, findSection } from "../record/sections.ts";
 import { lastVerdict } from "./grillq.ts";
-import { proofPaths, proofResolves } from "./check.ts";
+import { proofPaths, proofResolves, checkPass } from "./check.ts";
 import { parseMarkdown } from "../record/markdown.ts";
 import type { RecordAst, UnitAst } from "../record/load.ts";
+import { TRACKER_REL } from "../record/load.ts";
+import { DELIVERY_LOG_REL } from "../record/record-write.ts";
 
 export interface Gate {
   id: string;
@@ -19,6 +21,56 @@ export interface Gate {
 
 export function deliverGates(rec: RecordAst, unit: UnitAst): Gate[] {
   return [specGate(unit), scoreGate(rec, unit), grillGate(rec, unit), proofsGate(rec, unit)];
+}
+
+/** The launch gate — the post-delivery tiers. Delivery is the loop
+ * accepting its own work; launch-passed is the record surviving a fresh
+ * audit of reality, founder-signed is a named person's attestation. Four
+ * checks: the delivered receipt exists, every proof path still resolves,
+ * the record's own check pass is error-clean, and the delivery rows are
+ * on file. */
+export function launchGates(rec: RecordAst, unit: UnitAst): Gate[] {
+  return [receiptGate(unit), proofsStillGate(rec, unit), checkCleanGate(rec), deliveryRowsGate(rec, unit)];
+}
+
+function receiptGate(unit: UnitAst): Gate {
+  const ok = unit.markers.delivered !== null;
+  return { id: "L1", label: "delivered receipt on file", passed: ok, detail: ok ? `${unit.markers.delivered} present` : "no delivered.md — the launch tiers start from a delivered unit (docodego deliver)" };
+}
+
+function proofsStillGate(rec: RecordAst, unit: UnitAst): Gate {
+  const raw = unit.markers.proofs === null ? null : readText(join(rec.root, unit.markers.proofs));
+  if (raw === null) return { id: "L2", label: "every proof path still resolving", passed: false, detail: "no proofs.md — the delivered unit's evidence vanished entirely" };
+  const paths = proofPaths(parseMarkdown(unit.markers.proofs ?? "", raw));
+  const dead = paths.filter((p) => !proofResolves(rec, unit, p));
+  if (dead.length === 0) return { id: "L2", label: "every proof path still resolving", passed: true, detail: `${paths.length} proof path(s), all present` };
+  const shown = dead.slice(0, 4).join(", ");
+  const more = dead.length > 4 ? ` +${dead.length - 4} more` : "";
+  return { id: "L2", label: "every proof path still resolving", passed: false, detail: `proof path(s) vanished since delivery: ${shown}${more} — evidence that no longer exists proves nothing` };
+}
+
+function checkCleanGate(rec: RecordAst): Gate {
+  const errors = checkPass(rec).filter((d) => d.severity === "error");
+  return {
+    id: "L3",
+    label: "record check clean (no errors)",
+    passed: errors.length === 0,
+    detail: errors.length === 0 ? "check pass: 0 errors" : `${errors.length} check error(s), first: ${errors[0]?.code} — ${errors[0]?.file}`,
+  };
+}
+
+function deliveryRowsGate(rec: RecordAst, unit: UnitAst): Gate {
+  const tracker = readText(join(rec.root, TRACKER_REL)) ?? "";
+  const log = readText(join(rec.root, DELIVERY_LOG_REL)) ?? "";
+  const inTracker = tracker.split("\n").some((l) => l.includes(`| ${unit.name} |`));
+  const inLog = log.split("\n").some((l) => l.includes(unit.name));
+  const ok = inTracker && inLog;
+  return {
+    id: "L4",
+    label: "tracker + delivery-log rows on file",
+    passed: ok,
+    detail: ok ? "both rows present" : `missing: ${inTracker ? "" : "tracker row "}${inLog ? "" : "delivery-log row"} — a delivery the record cannot reconstruct did not happen`,
+  };
 }
 
 function specGate(unit: UnitAst): Gate {

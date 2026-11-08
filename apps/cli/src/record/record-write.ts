@@ -1,7 +1,7 @@
 /** Tracker, delivery log, and spec status writes — the sanctioned metadata updates. */
 import { join } from "node:path";
 import { appendText, readText, today, writeText } from "../fsx.ts";
-import { DELIVERY_LOG_TEMPLATE, TRACKER_TEMPLATE } from "../bundled/index.ts";
+import { DELIVERY_LOG_TEMPLATE, SIGNATURES_TEMPLATE, TRACKER_TEMPLATE } from "../bundled/index.ts";
 import { TRACKER_REL, type RecordAst } from "./load.ts";
 
 /** The delivery log lives beside the tracker at the govern root: one row per
@@ -23,6 +23,20 @@ export function appendDeliveryLog(rec: RecordAst, unit: string, gates: string, p
   const abs = join(rec.root, DELIVERY_LOG_REL);
   if (readText(abs) === null) writeText(abs, DELIVERY_LOG_TEMPLATE);
   const line = `| ${today()} | ${unit} | ${gates} | ${proof} |\n`;
+  appendText(abs, line);
+  return line.trim();
+}
+
+/** The signatures ledger lives beside the delivery log: one row per signed
+ * act, appended by the sign gate itself. */
+export const SIGNATURES_REL = "04-govern/signatures.md";
+
+/** Append one signature-ledger row; creates the ledger (with its header) if
+ * absent. `by` is recorded verbatim — the receipt quotes the signer. */
+export function appendSignature(rec: RecordAst, unit: string, by: string, role: string, act: string): string {
+  const abs = join(rec.root, SIGNATURES_REL);
+  if (readText(abs) === null) writeText(abs, SIGNATURES_TEMPLATE);
+  const line = `| ${today()} | ${unit} | ${by} | ${role} | ${act} |\n`;
   appendText(abs, line);
   return line.trim();
 }

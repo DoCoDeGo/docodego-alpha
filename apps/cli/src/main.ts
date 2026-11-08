@@ -26,6 +26,8 @@ import * as upgrade from "./commands/upgrade.ts";
 import * as skill from "./commands/skill.ts";
 import * as explain from "./commands/explain.ts";
 import * as completions from "./commands/completions.ts";
+import * as launch from "./commands/launch.ts";
+import * as sign from "./commands/sign.ts";
 
 type Run = (args: Args, io: Io) => number | Promise<number>;
 
@@ -43,6 +45,8 @@ const COMMANDS: Record<string, { run: Run; read: boolean }> = {
   trace: { run: trace.run, read: true },
   doctor: { run: doctor.run, read: false },
   deliver: { run: deliver.run, read: false },
+  launch: { run: launch.run, read: false },
+  sign: { run: sign.run, read: false },
   retire: { run: retire.run, read: false },
   upgrade: { run: upgrade.run, read: false },
   skill: { run: skill.run, read: false },

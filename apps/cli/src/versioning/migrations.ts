@@ -151,6 +151,15 @@ export const MIGRATIONS: Migration[] = [
     ],
     steps: [dropAgentsVersion],
   },
+  {
+    from: 12,
+    to: 13,
+    notes: [
+      "AGENTS.md teaches the launch tiers: 'docodego launch <unit>' re-audits the delivered unit's evidence (status launch-passed); 'docodego sign <unit> --by \"<legal name>\"' records a named person's attestation as an act receipt (status founder-signed) (spec7-launch-gate)",
+      "a record whose AGENTS.md still matches the shipped scaffold gains the lines in place; a customized AGENTS.md is kept, the refreshed copy riding the plan as .new",
+    ],
+    steps: [teachLaunchSign],
+  },
 ];
 
 /** The registry must cover [0..target] contiguously — Terraform's ladder
@@ -282,6 +291,33 @@ function teachRetirement(root: string): string {
   const taught = raw.replace(RETIRE_ANCHOR, RETIRE_TAUGHT);
   writeText(abs, taught);
   let note = "updated AGENTS.md (retire verb inserted into the growth paragraph)";
+  const twin = join(repoRoot, "AGENTS.md.new");
+  if (existsSync(twin) && (readText(twin) ?? "") === taught) {
+    rmSync(twin);
+    note += " — AGENTS.md.new removed (now identical to the refreshed file)";
+  }
+  return note;
+}
+
+/** v12 -> v13: teach the launch tiers. AGENTS.md's command list gains the
+ * two new verbs beside deliver — the launch gate (the evidence re-audited)
+ * and the sign gate (a named person's attestation). Same conservative
+ * contract as its sibling teachers: the anchor sentence must be present in
+ * a shipped-shaped copy, else the refreshed scaffold rides as .new. */
+function teachLaunchSign(root: string): string {
+  const repoRoot = dirname(root);
+  const abs = join(repoRoot, "AGENTS.md");
+  if (!existsSync(abs)) return "kept AGENTS.md (absent — nothing to teach)";
+  const raw = readText(abs) ?? "";
+  if (raw.includes("`docodego launch")) return "kept AGENTS.md (launch verbs already present)";
+  const anchor = "- `docodego deliver <unit>` — the gate: four checks, then delivered.md + tracker + delivery-log rows.\n";
+  if (!raw.includes(anchor)) {
+    return "kept AGENTS.md (anchor line not found — your copy is customized; the refreshed scaffold rides as AGENTS.md.new)";
+  }
+  const additions = "- `docodego launch <unit>` — the launch gate: the delivered unit's evidence re-audited (proofs still resolve, record check clean) — status launch-passed.\n- `docodego sign <unit> --by \"<legal name>\"` — the last tier: a named person's attestation, recorded as an act receipt — status founder-signed.\n";
+  const taught = raw.replace(anchor, anchor + additions);
+  writeText(abs, taught);
+  let note = "updated AGENTS.md (launch and sign verbs inserted after deliver)";
   const twin = join(repoRoot, "AGENTS.md.new");
   if (existsSync(twin) && (readText(twin) ?? "") === taught) {
     rmSync(twin);

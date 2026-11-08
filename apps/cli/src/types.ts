@@ -61,7 +61,7 @@ export interface SkillsLock {
 /** `deliver` refuses any unit scoring below this. */
 export const SCORE_FLOOR = 60;
 
-export const STATUS_VALUES = ["draft", "grilled", "scored", "delivered"] as const;
+export const STATUS_VALUES = ["draft", "grilled", "scored", "delivered", "launch-passed", "founder-signed"] as const;
 export type Status = (typeof STATUS_VALUES)[number];
 
 /** Document types: units are the leaf work; epics and stories are containers-as-documents
@@ -97,6 +97,8 @@ export interface Args {
   vocabulary?: string;
   as?: string;
   dryRun?: boolean;
+  by?: string | boolean;
+  role?: string | boolean;
 }
 
 /** Where a command writes. Commands stay pure-ish by taking this in. */
