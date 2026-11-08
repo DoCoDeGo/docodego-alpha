@@ -1,0 +1,762 @@
+{
+  "schema": "docodego/metrics/v1",
+  "ok": true,
+  "data": {
+    "schema": "docodego/metrics/v1",
+    "root": "apps",
+    "files": [
+      {
+        "path": "cli/scripts/build.ts",
+        "lines": 131,
+        "codeLines": 117,
+        "decls": 7,
+        "longestFn": 63,
+        "maxDepth": 2
+      },
+      {
+        "path": "cli/scripts/bundle.ts",
+        "lines": 350,
+        "codeLines": 327,
+        "decls": 16,
+        "longestFn": 59,
+        "maxDepth": 4
+      },
+      {
+        "path": "cli/scripts/compile-statutes.ts",
+        "lines": 172,
+        "codeLines": 161,
+        "decls": 6,
+        "longestFn": 72,
+        "maxDepth": 5
+      },
+      {
+        "path": "cli/scripts/fuzz.ts",
+        "lines": 369,
+        "codeLines": 324,
+        "decls": 16,
+        "longestFn": 66,
+        "maxDepth": 4
+      },
+      {
+        "path": "cli/scripts/gen-docs.ts",
+        "lines": 170,
+        "codeLines": 150,
+        "decls": 4,
+        "longestFn": 43,
+        "maxDepth": 3
+      },
+      {
+        "path": "cli/scripts/verify-checksums.mjs",
+        "lines": 62,
+        "codeLines": 56,
+        "decls": 0,
+        "longestFn": 56,
+        "maxDepth": 2
+      },
+      {
+        "path": "cli/src/bundled/index.ts",
+        "lines": 267,
+        "codeLines": 218,
+        "decls": 15,
+        "longestFn": 197,
+        "maxDepth": 2
+      },
+      {
+        "path": "cli/src/bundled/payload.ts",
+        "lines": 584,
+        "codeLines": 582,
+        "decls": 0,
+        "longestFn": 582,
+        "maxDepth": 5
+      },
+      {
+        "path": "cli/src/cli/args.ts",
+        "lines": 130,
+        "codeLines": 120,
+        "decls": 3,
+        "longestFn": 120,
+        "maxDepth": 7
+      },
+      {
+        "path": "cli/src/cli/completions.ts",
+        "lines": 114,
+        "codeLines": 103,
+        "decls": 5,
+        "longestFn": 32,
+        "maxDepth": 2
+      },
+      {
+        "path": "cli/src/cli/help.ts",
+        "lines": 525,
+        "codeLines": 443,
+        "decls": 4,
+        "longestFn": 459,
+        "maxDepth": 18
+      },
+      {
+        "path": "cli/src/commands/audit.ts",
+        "lines": 251,
+        "codeLines": 236,
+        "decls": 14,
+        "longestFn": 54,
+        "maxDepth": 4
+      },
+      {
+        "path": "cli/src/commands/check.ts",
+        "lines": 26,
+        "codeLines": 25,
+        "decls": 1,
+        "longestFn": 25,
+        "maxDepth": 2
+      },
+      {
+        "path": "cli/src/commands/completions.ts",
+        "lines": 19,
+        "codeLines": 18,
+        "decls": 1,
+        "longestFn": 18,
+        "maxDepth": 3
+      },
+      {
+        "path": "cli/src/commands/deliver.ts",
+        "lines": 77,
+        "codeLines": 71,
+        "decls": 1,
+        "longestFn": 71,
+        "maxDepth": 3
+      },
+      {
+        "path": "cli/src/commands/doctor.ts",
+        "lines": 175,
+        "codeLines": 160,
+        "decls": 16,
+        "longestFn": 21,
+        "maxDepth": 3
+      },
+      {
+        "path": "cli/src/commands/explain.ts",
+        "lines": 49,
+        "codeLines": 47,
+        "decls": 2,
+        "longestFn": 39,
+        "maxDepth": 3
+      },
+      {
+        "path": "cli/src/commands/grill.ts",
+        "lines": 160,
+        "codeLines": 151,
+        "decls": 4,
+        "longestFn": 97,
+        "maxDepth": 3
+      },
+      {
+        "path": "cli/src/commands/init.ts",
+        "lines": 174,
+        "codeLines": 169,
+        "decls": 3,
+        "longestFn": 122,
+        "maxDepth": 3
+      },
+      {
+        "path": "cli/src/commands/launch.ts",
+        "lines": 74,
+        "codeLines": 68,
+        "decls": 1,
+        "longestFn": 68,
+        "maxDepth": 3
+      },
+      {
+        "path": "cli/src/commands/lint.ts",
+        "lines": 38,
+        "codeLines": 37,
+        "decls": 1,
+        "longestFn": 37,
+        "maxDepth": 3
+      },
+      {
+        "path": "cli/src/commands/metrics.ts",
+        "lines": 185,
+        "codeLines": 171,
+        "decls": 9,
+        "longestFn": 69,
+        "maxDepth": 4
+      },
+      {
+        "path": "cli/src/commands/new.ts",
+        "lines": 205,
+        "codeLines": 191,
+        "decls": 5,
+        "longestFn": 93,
+        "maxDepth": 4
+      },
+      {
+        "path": "cli/src/commands/resolve.ts",
+        "lines": 57,
+        "codeLines": 54,
+        "decls": 3,
+        "longestFn": 33,
+        "maxDepth": 4
+      },
+      {
+        "path": "cli/src/commands/retire.ts",
+        "lines": 200,
+        "codeLines": 185,
+        "decls": 7,
+        "longestFn": 115,
+        "maxDepth": 4
+      },
+      {
+        "path": "cli/src/commands/score.ts",
+        "lines": 57,
+        "codeLines": 53,
+        "decls": 1,
+        "longestFn": 53,
+        "maxDepth": 2
+      },
+      {
+        "path": "cli/src/commands/setback.ts",
+        "lines": 163,
+        "codeLines": 151,
+        "decls": 10,
+        "longestFn": 32,
+        "maxDepth": 3
+      },
+      {
+        "path": "cli/src/commands/sign-off.ts",
+        "lines": 142,
+        "codeLines": 131,
+        "decls": 6,
+        "longestFn": 56,
+        "maxDepth": 4
+      },
+      {
+        "path": "cli/src/commands/sign.ts",
+        "lines": 93,
+        "codeLines": 85,
+        "decls": 1,
+        "longestFn": 85,
+        "maxDepth": 3
+      },
+      {
+        "path": "cli/src/commands/sketch.ts",
+        "lines": 38,
+        "codeLines": 37,
+        "decls": 1,
+        "longestFn": 37,
+        "maxDepth": 2
+      },
+      {
+        "path": "cli/src/commands/skill.ts",
+        "lines": 205,
+        "codeLines": 195,
+        "decls": 10,
+        "longestFn": 38,
+        "maxDepth": 3
+      },
+      {
+        "path": "cli/src/commands/status.ts",
+        "lines": 38,
+        "codeLines": 37,
+        "decls": 1,
+        "longestFn": 37,
+        "maxDepth": 3
+      },
+      {
+        "path": "cli/src/commands/trace.ts",
+        "lines": 117,
+        "codeLines": 111,
+        "decls": 4,
+        "longestFn": 53,
+        "maxDepth": 3
+      },
+      {
+        "path": "cli/src/commands/upgrade.ts",
+        "lines": 163,
+        "codeLines": 154,
+        "decls": 9,
+        "longestFn": 41,
+        "maxDepth": 3
+      },
+      {
+        "path": "cli/src/conformance.ts",
+        "lines": 1303,
+        "codeLines": 1201,
+        "decls": 14,
+        "longestFn": 466,
+        "maxDepth": 2
+      },
+      {
+        "path": "cli/src/emit/board.ts",
+        "lines": 106,
+        "codeLines": 100,
+        "decls": 6,
+        "longestFn": 36,
+        "maxDepth": 3
+      },
+      {
+        "path": "cli/src/emit/diagnostics.ts",
+        "lines": 29,
+        "codeLines": 26,
+        "decls": 3,
+        "longestFn": 9,
+        "maxDepth": 2
+      },
+      {
+        "path": "cli/src/emit/exit.ts",
+        "lines": 6,
+        "codeLines": 5,
+        "decls": 2,
+        "longestFn": 3,
+        "maxDepth": 1
+      },
+      {
+        "path": "cli/src/emit/json.ts",
+        "lines": 36,
+        "codeLines": 31,
+        "decls": 5,
+        "longestFn": 9,
+        "maxDepth": 1
+      },
+      {
+        "path": "cli/src/fsx.ts",
+        "lines": 118,
+        "codeLines": 106,
+        "decls": 12,
+        "longestFn": 34,
+        "maxDepth": 4
+      },
+      {
+        "path": "cli/src/main.ts",
+        "lines": 115,
+        "codeLines": 110,
+        "decls": 2,
+        "longestFn": 49,
+        "maxDepth": 4
+      },
+      {
+        "path": "cli/src/passes/check.ts",
+        "lines": 314,
+        "codeLines": 300,
+        "decls": 11,
+        "longestFn": 93,
+        "maxDepth": 6
+      },
+      {
+        "path": "cli/src/passes/explain.ts",
+        "lines": 173,
+        "codeLines": 158,
+        "decls": 4,
+        "longestFn": 141,
+        "maxDepth": 3
+      },
+      {
+        "path": "cli/src/passes/frontmatter.ts",
+        "lines": 67,
+        "codeLines": 65,
+        "decls": 2,
+        "longestFn": 51,
+        "maxDepth": 3
+      },
+      {
+        "path": "cli/src/passes/gates.ts",
+        "lines": 168,
+        "codeLines": 156,
+        "decls": 12,
+        "longestFn": 27,
+        "maxDepth": 3
+      },
+      {
+        "path": "cli/src/passes/governance.ts",
+        "lines": 77,
+        "codeLines": 72,
+        "decls": 4,
+        "longestFn": 27,
+        "maxDepth": 3
+      },
+      {
+        "path": "cli/src/passes/grillq.ts",
+        "lines": 40,
+        "codeLines": 36,
+        "decls": 4,
+        "longestFn": 15,
+        "maxDepth": 2
+      },
+      {
+        "path": "cli/src/passes/index.ts",
+        "lines": 10,
+        "codeLines": 10,
+        "decls": 0,
+        "longestFn": 10,
+        "maxDepth": 0
+      },
+      {
+        "path": "cli/src/passes/naming.ts",
+        "lines": 49,
+        "codeLines": 47,
+        "decls": 1,
+        "longestFn": 47,
+        "maxDepth": 4
+      },
+      {
+        "path": "cli/src/passes/registry.ts",
+        "lines": 67,
+        "codeLines": 61,
+        "decls": 4,
+        "longestFn": 31,
+        "maxDepth": 3
+      },
+      {
+        "path": "cli/src/passes/score.ts",
+        "lines": 157,
+        "codeLines": 146,
+        "decls": 9,
+        "longestFn": 31,
+        "maxDepth": 3
+      },
+      {
+        "path": "cli/src/passes/structure.ts",
+        "lines": 62,
+        "codeLines": 60,
+        "decls": 1,
+        "longestFn": 60,
+        "maxDepth": 5
+      },
+      {
+        "path": "cli/src/passes/trace.ts",
+        "lines": 165,
+        "codeLines": 151,
+        "decls": 13,
+        "longestFn": 24,
+        "maxDepth": 2
+      },
+      {
+        "path": "cli/src/passes/tree.ts",
+        "lines": 181,
+        "codeLines": 170,
+        "decls": 8,
+        "longestFn": 37,
+        "maxDepth": 4
+      },
+      {
+        "path": "cli/src/record/answers.ts",
+        "lines": 129,
+        "codeLines": 120,
+        "decls": 8,
+        "longestFn": 44,
+        "maxDepth": 3
+      },
+      {
+        "path": "cli/src/record/detect.ts",
+        "lines": 45,
+        "codeLines": 41,
+        "decls": 3,
+        "longestFn": 18,
+        "maxDepth": 4
+      },
+      {
+        "path": "cli/src/record/frontmatter.ts",
+        "lines": 58,
+        "codeLines": 52,
+        "decls": 5,
+        "longestFn": 25,
+        "maxDepth": 4
+      },
+      {
+        "path": "cli/src/record/load.ts",
+        "lines": 181,
+        "codeLines": 169,
+        "decls": 8,
+        "longestFn": 79,
+        "maxDepth": 5
+      },
+      {
+        "path": "cli/src/record/markdown.ts",
+        "lines": 162,
+        "codeLines": 149,
+        "decls": 4,
+        "longestFn": 129,
+        "maxDepth": 5
+      },
+      {
+        "path": "cli/src/record/record-write.ts",
+        "lines": 138,
+        "codeLines": 125,
+        "decls": 8,
+        "longestFn": 24,
+        "maxDepth": 3
+      },
+      {
+        "path": "cli/src/record/sections.ts",
+        "lines": 62,
+        "codeLines": 56,
+        "decls": 6,
+        "longestFn": 25,
+        "maxDepth": 3
+      },
+      {
+        "path": "cli/src/record/streams.ts",
+        "lines": 28,
+        "codeLines": 22,
+        "decls": 1,
+        "longestFn": 22,
+        "maxDepth": 1
+      },
+      {
+        "path": "cli/src/record/template-docs.ts",
+        "lines": 62,
+        "codeLines": 50,
+        "decls": 3,
+        "longestFn": 22,
+        "maxDepth": 2
+      },
+      {
+        "path": "cli/src/record/vocabulary.ts",
+        "lines": 188,
+        "codeLines": 169,
+        "decls": 8,
+        "longestFn": 97,
+        "maxDepth": 4
+      },
+      {
+        "path": "cli/src/skills/lock.ts",
+        "lines": 182,
+        "codeLines": 168,
+        "decls": 12,
+        "longestFn": 33,
+        "maxDepth": 4
+      },
+      {
+        "path": "cli/src/types.ts",
+        "lines": 155,
+        "codeLines": 138,
+        "decls": 15,
+        "longestFn": 39,
+        "maxDepth": 2
+      },
+      {
+        "path": "cli/src/versioning/migrations.ts",
+        "lines": 611,
+        "codeLines": 584,
+        "decls": 19,
+        "longestFn": 272,
+        "maxDepth": 4
+      },
+      {
+        "path": "cli/src/versioning/plan.ts",
+        "lines": 77,
+        "codeLines": 72,
+        "decls": 5,
+        "longestFn": 21,
+        "maxDepth": 6
+      },
+      {
+        "path": "cli/src/versioning/v1-scaffold.ts",
+        "lines": 83,
+        "codeLines": 66,
+        "decls": 0,
+        "longestFn": 66,
+        "maxDepth": 1
+      },
+      {
+        "path": "spec/fixtures/payload-aligned.ts",
+        "lines": 7,
+        "codeLines": 7,
+        "decls": 0,
+        "longestFn": 7,
+        "maxDepth": 1
+      },
+      {
+        "path": "spec/src/commands/amend.ts",
+        "lines": 133,
+        "codeLines": 115,
+        "decls": 2,
+        "longestFn": 113,
+        "maxDepth": 4
+      },
+      {
+        "path": "spec/src/commands/build.ts",
+        "lines": 154,
+        "codeLines": 144,
+        "decls": 4,
+        "longestFn": 93,
+        "maxDepth": 5
+      },
+      {
+        "path": "spec/src/commands/coverage.ts",
+        "lines": 160,
+        "codeLines": 148,
+        "decls": 4,
+        "longestFn": 120,
+        "maxDepth": 6
+      },
+      {
+        "path": "spec/src/commands/diff.ts",
+        "lines": 159,
+        "codeLines": 147,
+        "decls": 8,
+        "longestFn": 105,
+        "maxDepth": 5
+      },
+      {
+        "path": "spec/src/commands/doctor.ts",
+        "lines": 248,
+        "codeLines": 236,
+        "decls": 4,
+        "longestFn": 148,
+        "maxDepth": 6
+      },
+      {
+        "path": "spec/src/commands/lint.ts",
+        "lines": 190,
+        "codeLines": 174,
+        "decls": 7,
+        "longestFn": 96,
+        "maxDepth": 5
+      },
+      {
+        "path": "spec/src/commands/publish.ts",
+        "lines": 176,
+        "codeLines": 165,
+        "decls": 4,
+        "longestFn": 125,
+        "maxDepth": 5
+      },
+      {
+        "path": "spec/src/commands/verify.ts",
+        "lines": 208,
+        "codeLines": 193,
+        "decls": 5,
+        "longestFn": 110,
+        "maxDepth": 5
+      },
+      {
+        "path": "spec/src/emit.ts",
+        "lines": 18,
+        "codeLines": 16,
+        "decls": 2,
+        "longestFn": 7,
+        "maxDepth": 2
+      },
+      {
+        "path": "spec/src/errors.ts",
+        "lines": 52,
+        "codeLines": 45,
+        "decls": 6,
+        "longestFn": 17,
+        "maxDepth": 2
+      },
+      {
+        "path": "spec/src/frontmatter.ts",
+        "lines": 62,
+        "codeLines": 56,
+        "decls": 5,
+        "longestFn": 25,
+        "maxDepth": 4
+      },
+      {
+        "path": "spec/src/laws.ts",
+        "lines": 154,
+        "codeLines": 143,
+        "decls": 8,
+        "longestFn": 39,
+        "maxDepth": 3
+      },
+      {
+        "path": "spec/src/main.ts",
+        "lines": 103,
+        "codeLines": 93,
+        "decls": 3,
+        "longestFn": 24,
+        "maxDepth": 3
+      },
+      {
+        "path": "spec/src/registry.ts",
+        "lines": 32,
+        "codeLines": 28,
+        "decls": 0,
+        "longestFn": 28,
+        "maxDepth": 1
+      },
+      {
+        "path": "spec/src/types.ts",
+        "lines": 49,
+        "codeLines": 43,
+        "decls": 6,
+        "longestFn": 13,
+        "maxDepth": 1
+      }
+    ],
+    "dirs": [
+      {
+        "dir": "cli/src/commands",
+        "files": 23,
+        "lines": 2706
+      },
+      {
+        "dir": "cli/src",
+        "files": 4,
+        "lines": 1691
+      },
+      {
+        "dir": "cli/src/passes",
+        "files": 13,
+        "lines": 1530
+      },
+      {
+        "dir": "spec/src/commands",
+        "files": 8,
+        "lines": 1428
+      },
+      {
+        "dir": "cli/scripts",
+        "files": 6,
+        "lines": 1254
+      },
+      {
+        "dir": "cli/src/record",
+        "files": 10,
+        "lines": 1053
+      },
+      {
+        "dir": "cli/src/bundled",
+        "files": 2,
+        "lines": 851
+      },
+      {
+        "dir": "cli/src/versioning",
+        "files": 3,
+        "lines": 771
+      },
+      {
+        "dir": "cli/src/cli",
+        "files": 3,
+        "lines": 769
+      },
+      {
+        "dir": "spec/src",
+        "files": 7,
+        "lines": 470
+      },
+      {
+        "dir": "cli/src/skills",
+        "files": 1,
+        "lines": 182
+      },
+      {
+        "dir": "cli/src/emit",
+        "files": 4,
+        "lines": 177
+      },
+      {
+        "dir": "spec/fixtures",
+        "files": 1,
+        "lines": 7
+      }
+    ],
+    "summary": {
+      "files": 85,
+      "lines": 12889,
+      "codeLines": 11883
+    }
+  }
+}

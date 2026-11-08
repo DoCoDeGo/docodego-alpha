@@ -1,7 +1,7 @@
 ---
 name: 460-surgical-gate
 type: unit
-status: scored
+status: launch-passed
 ---
 
 # 460-surgical-gate

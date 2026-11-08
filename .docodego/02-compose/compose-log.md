@@ -19,3 +19,4 @@ delivered through this room yet.
 | 2026-11-08 | 420-sign-off | 9a8eeacaf4e3b1a6 | none recorded |
 | 2026-11-08 | 430-refactor-sweep | e8273af6846073f3 | none recorded |
 | 2026-11-08 | 450-sign-flow | fd03aa1500547150 | none recorded |
+| 2026-11-08 | 460-surgical-gate | 19e66a8f54527cc8 | gate row: METRICS GATE net +263 uncovered (adds 263, retires 0, DG-U121) — the birth the founder's cycle-6 directive ordered; coverage declared in the unit's proofs |
