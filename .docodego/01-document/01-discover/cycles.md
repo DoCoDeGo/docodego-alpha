@@ -196,3 +196,32 @@ founder answered:
   secret scan, one-command low friction) — a follow-up delivery unit.
 - EL-18 stays `status: draft`: the founder accepted EL-33 and EL-34
   only; the batch's independence clause holds.
+
+## Cycle 5 — the refactor sweep (2026-11-08, via popup — the directive verbatim)
+
+With Cycle 4 fully landed, the founder opened the next stretch:
+
+> limit subagent use to 3, and all of the following work needs to be
+> done non stop
+>
+> address all remaining work you can do without needing me, ask
+> questions in popup with recommendations only if necessary
+>
+> Once you are done with task at hand,
+>
+> I need you to find 1000 opportunties to improve the codebase by
+> refactiong, cleaning and organising docs properly. The objective is
+> to remove as much as possible without losing quality while improving
+> structure and functionality. Lets get going, we won't get this
+> opportunity again - do your best
+
+**What this sets in motion** (recorded same day):
+
+- The remaining founder-free work lands first (whatever check warnings
+  and stale proofs can be repaired forward honestly).
+- Then the sweep: a recorded catalog of ~1000 named opportunities
+  (refactor, clean, organize docs — remove before rearrange), audited
+  across the whole tree, executed under the loop's discipline with the
+  suite green after every batch. The catalog is the finding; the
+  execution is the work. Nothing payload-boundary-changing without the
+  bump chain it owes.
