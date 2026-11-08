@@ -534,3 +534,15 @@ machinery, so it is a deliberated act, not a quick one.
  (history not rewritten); the working rule sharpened — gates first,
   read the verdict line, only then commit; never chain a commit to a
   gate whose exit status is swallowed by a pipe.
+- Mistake 9 (2026-11-09, during 570's landing) — a docodego init ran
+  with cwd at the repo's temp/ scratch dir sometime during the
+  550–570 stretch, and 570's `git add -A` swept its 45 planted files
+  into the unit's commit (temp/AGENTS.md, temp/.docodego/,
+  temp/.agents/). Caught on the commit output's create-mode lines.
+  Repair: a follow-up commit removes them from index and disk
+ (429341f) — the planted bytes were pure template, no record
+  content. Working rule sharpened: `git add -A` at a root that
+  contains scratch dirs needs a `git status --porcelain` read
+  BEFORE the commit, not after; the stray init's origin was not
+  identified (likely a fixture or agent run with a wrong cwd) — if
+  a third stray appears, chase it.
