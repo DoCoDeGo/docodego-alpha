@@ -1,7 +1,7 @@
 {
   "schema": "docodego-spec/law-index/v1",
-  "specVersion": "1.0.13",
-  "lawCount": 31,
+  "specVersion": "1.1.0",
+  "lawCount": 33,
   "laws": [
     {
       "id": "ST-1",
@@ -312,6 +312,26 @@
       "introduced-in": "1.0.0",
       "status": "active",
       "file": "laws/31-owner-only-decisions.md"
+    },
+    {
+      "id": "EL-33",
+      "title": "Statuses move through gates",
+      "pillar": "record",
+      "severity": "veto",
+      "enforced-by": "check — a status is read against its gate's record; the CLI is the only status writer",
+      "introduced-in": "1.1.0",
+      "status": "active",
+      "file": "laws/33-statuses-move-through-gates.md"
+    },
+    {
+      "id": "EL-34",
+      "title": "The launch gate",
+      "pillar": "record",
+      "severity": "veto",
+      "enforced-by": "launch — the launch gate over a delivered unit; sign — the signature gate over a launch-passed unit; the CLI is the only status writer",
+      "introduced-in": "1.1.0",
+      "status": "active",
+      "file": "laws/34-the-launch-gate.md"
     }
   ]
 }

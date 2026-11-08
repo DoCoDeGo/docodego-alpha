@@ -33,6 +33,31 @@ function cliCommands(cliPath: string, diags: Diagnostic[]): Set<string> {
   return new Set([...src.matchAll(CLI_COMMAND)].map((m) => m[1] ?? ""));
 }
 
+/** Reserved anchors, declared in the laws index ("## Reserved anchors"):
+ * ids taken for laws not yet written — a proposal may cite them, history
+ * may record them, and the declaration is what makes the citation honest.
+ * A citation of an anchor that is neither active nor declared stays an
+ * error (SP-V003): the amnesty is declaration-scoped, never blanket. */
+function reservedAnchors(root: string): Set<string> {
+  const out = new Set<string>();
+  const p = join(root, "laws", "README.md");
+  if (!existsSync(p)) return out;
+  const lines = readFileSync(p, "utf8").split(/\r?\n/);
+  let inSection = false;
+  for (const line of lines) {
+    if (/^##\s+Reserved anchors\s*$/.test(line)) {
+      inSection = true;
+      continue;
+    }
+    if (inSection && /^##\s+/.test(line)) break; // the next heading ends the declaration
+    if (inSection) {
+      const m = /^\|\s*((?:ST|EL)-\d+)\s*\|/.exec(line);
+      if (m !== null) out.add(m[1] ?? "");
+    }
+  }
+  return out;
+}
+
 /** The verify finding core, shared by the command and the doctor:
  * referential integrity over one spec tree — links, anchors, gate refs,
  * enforced-by leads against the live CLI registry, the version circle.
@@ -40,6 +65,7 @@ function cliCommands(cliPath: string, diags: Diagnostic[]): Set<string> {
 export function verifyFindings(root: string, read: SpecRead, cliPath: string): { diags: Diagnostic[]; files: string[]; cli: Set<string> } {
   const diags: Diagnostic[] = [];
   const cli = cliCommands(cliPath, diags);
+  const reserved = reservedAnchors(root);
 
   const known = new Set<string>([...cli, ...Object.keys(CANON_COMMANDS), ...NON_TOOL_ENFORCERS, ...GATE_TOKENS]);
   const lawIds = new Set(read.laws.filter((l) => l.id !== "").map((l) => l.id));
@@ -79,11 +105,13 @@ export function verifyFindings(root: string, read: SpecRead, cliPath: string): {
   // Draft amendments are exempt: proposing an anchor that does not
   // exist yet is their entire purpose; the flip, the log row, and the
   // law file land together, and the chain rules cover the landing.
+  // Declared reservations (laws index) are honored everywhere: the id
+  // is taken, the law is not written, and saying so is not a gap.
   for (const { file, text } of allText) {
     if (file.startsWith("amendments/") && /^status:\s*draft\s*$/m.test(text)) continue;
     for (const m of text.matchAll(LAW_ANCHOR)) {
       const anchor = m[0];
-      if (!lawIds.has(anchor)) {
+      if (!lawIds.has(anchor) && !reserved.has(anchor)) {
         diags.push({
           severity: "error", code: "SP-V003",
           message: `cited law anchor '${anchor}' is not an active law — anchors are stable, so this is a real gap`,

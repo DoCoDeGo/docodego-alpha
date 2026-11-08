@@ -1,0 +1,2 @@
+83b23848e41a9080060f69a9a1a66e81367aacab507e62b45cf7e8bc63e03c05  spec/laws/33-statuses-move-through-gates.md
+b9b718f0a1b74b48034ef12144edd66fe1b3f4626ef680f6ce97b7144ab5c1c1  spec/laws/34-the-launch-gate.md

@@ -40,6 +40,8 @@ orphan. Neither should survive a coverage report.
 | EL-29 | Bounded and indexed | record | warn | — (direction) | lint at thresholds; index |
 | EL-30 | The Anti-Complexity Principle | govern | warn | human review | orphan-gate and no-gate-law reports |
 | EL-31 | Owner-only decisions go to the owner | govern | warn | human review | distinct record type, never auto-closed |
+| EL-33 | Statuses move through gates | record | veto | check | a status read against its gate's record; the CLI the only status writer |
+| EL-34 | The launch gate | record | veto | launch; sign | tiers written by their own gates; the delivered evidence re-resolved at launch |
 
 Laws whose "Gates today" column is a direction are honest about it — the tool is growing
 toward them, and the practice says so in each law's Conformance section. The coverage score

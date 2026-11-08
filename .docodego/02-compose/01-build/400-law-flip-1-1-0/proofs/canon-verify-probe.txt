@@ -1,0 +1,3 @@
+# negative probe: an undeclared anchor must still fail SP-V003
+spec error[SP-V003]: cited law anchor 'EL-99' is not an active law — anchors are stable, so this is a real gap
+canon verify · 48 file(s) · 33 law(s) · 20 live CLI command(s) · 1 error(s), 0 warning(s)

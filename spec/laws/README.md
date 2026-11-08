@@ -1,7 +1,7 @@
 # Laws
 
 *Every law of the System, one file each. Statutes ST-1…ST-16 are the published words, kept
-as published, with † completions and honest limits; engine laws EL-17…EL-31 are the
+as published, with † completions and honest limits; engine laws EL-17…EL-34 are the
 System's own operating laws.*
 
 | Anchor | Law | Pillar | Stream | Severity |
@@ -37,6 +37,20 @@ System's own operating laws.*
 | [EL-29](29-bounded-and-indexed.md) | Bounded and indexed | record | — | warn |
 | [EL-30](30-the-anti-complexity-principle.md) | The Anti-Complexity Principle | govern | — | warn |
 | [EL-31](31-owner-only-decisions.md) | Owner-only decisions go to the owner | govern | — | warn |
+| [EL-33](33-statuses-move-through-gates.md) | Statuses move through gates | record | — | veto |
+| [EL-34](34-the-launch-gate.md) | The launch gate | record | — | veto |
+
+## Reserved anchors
+
+*Anchors declared for laws not yet written: the id is taken, the file does
+not exist. A reservation is declared here or nowhere — the verify gate
+honors declared anchors everywhere (a proposal may propose them, history
+may record them), and an undeclared unknown anchor stays a refused gap. A
+reserved id is never reassigned.*
+
+| Anchor | Reserved for | Declared |
+|---|---|---|
+| EL-32 | the naming-law principle — the go-public naming decision, founder-owned (recorded 2026-11-08 in the record layer: unit 100-spec7-proof-semantics, the 250-reference-doc-triage triage, and the 020-canon-debts epic) | 2026-11-08 |
 
 `canon build` regenerates `law-index.json` from these files; this table is the human view
 of the same facts. Cite the anchor: "per ST-15". Retired anchors keep their numbers.
