@@ -110,6 +110,12 @@ Short files, one subject each, an index that says what is where; long history sp
 period with a summary at the top (EL-29). A fresh session should load what it needs in one
 go.
 
+## Versions
+
+Three version axes move side by side — the record contract, the tool, the published law —
+and only one of them migrates. What versions what, the registry law, skip-distance, and
+every hop the record has shipped: [the version transition table](version-transition.md).
+
 ## The cold start
 
 The best test of a trail: give a newcomer, or a fresh agent, the repository and the record

@@ -19,6 +19,7 @@ import { COMMAND_HELP } from "./cli/help.ts";
 import { usageText } from "./cli/args.ts";
 import { COMPLETION_SHELLS } from "./cli/completions.ts";
 import { today } from "./fsx.ts";
+import { MIGRATIONS } from "./versioning/migrations.ts";
 import { EXPLANATIONS, FAMILY_TITLES } from "./passes/explain.ts";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -375,6 +376,17 @@ fact("restored copy waits as README.md.new", existsSync(join(fixture, ".docodego
   const localNow = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
   fact("today() is the local wall-clock date (YYYY-MM-DD)", /^\d{4}-\d{2}-\d{2}$/.test(today()) && today() === localNow);
   fact("tracker rows carry a leading YYYY-MM-DD date", /^\| \d{4}-\d{2}-\d{2} \|/m.test(read(fixture, "04-govern/01-monitor/tracker.md")));
+}
+
+// --- v13: the transition table cannot drift from the registry ---
+// spec/record/version-transition.md carries the shipped hops as law; this
+// fact is the binding: same hop count, same from/to pairs, or the suite
+// fails and the doc gets fixed before anything ships.
+{
+  const doc = readFileSync(join(REPO_ROOT, "spec", "record", "version-transition.md"), "utf8");
+  const docRows = [...doc.matchAll(/^\| v(\d+) \| v(\d+) \|(.+?)\|?$/gm)].map((m) => `${m[1]}->${m[2]}`);
+  const regRows = MIGRATIONS.map((m) => `${m.from}->${m.to}`);
+  fact("the transition table mirrors the migration registry hop for hop", JSON.stringify(docRows) === JSON.stringify(regRows));
 }
 
 // --- v13: the launch tiers — delivered -> launch-passed -> founder-signed ---

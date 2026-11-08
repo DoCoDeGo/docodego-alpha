@@ -80,3 +80,5 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 180-spec7-ics-2 | delivered | 02-compose/01-build/180-spec7-ics-2/delivered.md |
 | 2026-11-08 | 190-spec7-launch-gate | new unit | 02-compose/01-build/190-spec7-launch-gate/spec.md |
 | 2026-11-08 | 190-spec7-launch-gate | delivered | 02-compose/01-build/190-spec7-launch-gate/delivered.md |
+| 2026-11-08 | 200-spec7-transition-table | new unit | 02-compose/01-build/200-spec7-transition-table/spec.md |
+| 2026-11-08 | 200-spec7-transition-table | delivered | 02-compose/01-build/200-spec7-transition-table/delivered.md |
