@@ -68,7 +68,7 @@
   clean after commit (the a-spec7-naming precedent, same disclosure):
   `02-compose/01-build/150-retire/proofs/conformance.txt`,
   `02-compose/01-build/150-retire/proofs/bundle-verify.txt`
-- apps/spec tsc clean · generated docs match their registries:
+- apps/canon tsc clean · generated docs match their registries:
   `02-compose/01-build/150-retire/proofs/tsc-spec.txt`,
   `02-compose/01-build/150-retire/proofs/docs-verify.txt`
 
@@ -82,7 +82,7 @@
 - The retire gate's DG-U102 fires when proofs.md names NO resolvable
   path (the spec's law). The first implementation refused on ANY
   unresolvable token and the gate bit twice on honest prose: 050's
-  fixture-tree citation (`apps/canon/fixtures/diff-canon/amendments/1.0.1-ST-2.md`)
+  fixture-tree citation (`apps/canon/fixtures/diff-spec/amendments/1.0.1-ST-2.md`)
   and 140's envelope-schema citation
   (`docodego/setback/v1`). The spec won: prose tokens are not gates.
   The bite also exposed a real bug — ENVELOPE_SCHEMA's regex matched a

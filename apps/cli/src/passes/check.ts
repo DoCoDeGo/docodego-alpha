@@ -192,7 +192,12 @@ function checkProofs(rec: RecordAst, unit: UnitAst): Diagnostic[] {
       const day = (log.stdout ?? "").trim().slice(0, 10);
       if (day > deliveryDay) stale.push(p);
     }
-    if (stale.length > 0) {
+    // the light reads its own named repair (610): a dated supersession
+    // row is the record declaring the drift on purpose — silence is the
+    // defect, a dated row is its opposite. The date is the point:
+    // undated prose mentioning the word cannot quiet the light.
+    const proofsText = readText(join(rec.root, proofs.path)) ?? "";
+    if (stale.length > 0 && !/^- supersession \(\d{4}-\d{2}-\d{2}/m.test(proofsText)) {
       const listed = stale.slice(0, 3).join(", ") + (stale.length > 3 ? ` +${stale.length - 3} more` : "");
       out.push({ severity: "warning", class: "drift", code: "DG-C017", message: `proof evidence has commits after the delivery day — the proofs describe an older tree: recapture the proof or record the supersession row (${listed})`, file: unit.markers.proofs });
     }

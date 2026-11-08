@@ -48,3 +48,5 @@
   docs verify green —
   `02-compose/01-build/160-spec7-bundling/proofs/docs-verify.txt`; both
   wired into `.github/workflows/ci.yml`.
+
+- supersession (2026-11-09, unit 610-supersession-recognition) — the payload and CI workflow moved after this delivery: the boundary allowlist was revised, the packaging switched to pnpm, and the payload hopped under its own units (480 through 600). The evidence above describes the tree as this unit delivered it; the later movement is the later units' own recorded acts, not a defect in this proof. Declared on purpose per the drift gate's repair.

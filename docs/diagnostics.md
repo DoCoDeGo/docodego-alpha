@@ -219,7 +219,7 @@ prefix (`docodego explain DG-F`) prints every page in the family.
 
 - meaning: a file a delivered unit's proofs cite carries commits dated after the delivery — the proofs describe the tree as it was, not as it is.
 - law: a delivery's evidence is a claim about a moment; when the tree moves past that moment the claim goes stale, and silence about the drift is the defect (IMP-16). Commit dates decide, never file times — clones must not lie.
-- fix: recapture the proof against the current tree and update proofs.md, or record the supersession row that says the evidence describes an older tree on purpose.
+- fix: recapture the proof against the current tree and update proofs.md, or record the supersession row that says the evidence describes an older tree on purpose — the row the gate recognizes is a proofs.md line starting '- supersession (YYYY-MM-DD, unit …) —'; a dated row quiets the light, undated prose does not.
 
 **DG-C019 — an evidence declaration names no registry type**
 

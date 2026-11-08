@@ -26,3 +26,5 @@
   `02-compose/01-build/200-spec7-transition-table/proofs/cli-tsc.exit`.
 
 - supersession (2026-11-09, unit 590-canon-rename) — the law tree renamed: `spec/` is `canon/` and `apps/spec/` is `apps/canon/` (the founder's cycle-8 ruling; the files above are the same files, moved). Paths in this proof were recaptured to their current locations per the drift gate's sanctioned repair.
+
+- supersession (2026-11-09, unit 610-supersession-recognition) — the transition table moved after this delivery: hops v18 through v29 landed under their own units, each with its registry entry and mirror row recorded then. The evidence above describes the tree as this unit delivered it; the later movement is the later units' own recorded acts, not a defect in this proof. Declared on purpose per the drift gate's repair.

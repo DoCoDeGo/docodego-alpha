@@ -227,3 +227,4 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-09 | 600-twin-text-founder-marker | delivered | 02-compose/01-build/600-twin-text-founder-marker/delivered.md |
 | 2026-11-09 | 600-twin-text-founder-marker | launch-passed | 02-compose/01-build/600-twin-text-founder-marker/launch.md |
 | 2026-11-09 | 600-twin-text-founder-marker | founder-signed | 02-compose/01-build/600-twin-text-founder-marker/signature.md |
+| 2026-11-09 | 610-supersession-recognition | new unit | 02-compose/01-build/610-supersession-recognition/spec.md |

@@ -79,6 +79,13 @@ fact("the payload's AGENTS.md states the event order and the repair rule", agent
   const after = run(g, ["check"]);
   fact("check is quiet while evidence predates the delivery day", !before.stdout.includes("DG-C017"));
   fact("check warns DG-C017 when cited evidence gains a post-delivery commit", after.stdout.includes("DG-C017") && after.stdout.includes("recapture the proof or record the supersession row"));
+  const proofsPath = join(".docodego", "02-compose", "01-build", "early-unit", "proofs.md");
+  write(g, proofsPath, "- AC — the evidence file proves it: `evidence.txt`\n- supersession (2026-01-05, unit other-unit) — the evidence describes the delivery-day tree on purpose; the drift is declared, not silent\n");
+  const declared = run(g, ["check"]);
+  write(g, proofsPath, "- AC — the evidence file proves it: `evidence.txt`\n- supersession row that mentions the drift but carries no date — prose, not the row the gate recognizes\n");
+  const undated = run(g, ["check"]);
+  fact("a dated supersession row declares the drift on purpose — the light stays quiet (610)", !declared.stdout.includes("DG-C017"));
+  fact("undated prose cannot quiet the light — the row must carry its date (610)", undated.stdout.includes("DG-C017"));
   rmSync(g, { recursive: true, force: true });
 }
 
