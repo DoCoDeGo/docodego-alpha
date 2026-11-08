@@ -1,14 +1,16 @@
 /** `deliver <unit>` — the gate. Four decisions from pure gate passes:
  * spec complete · score >= 60 · grill verdict pass · at least one proof path
- * that exists on disk. Pass: append delivered.md + tracker + delivery log,
- * set status `delivered`, print the gate line. Fail: print failed gates,
- * record the attempt in the tracker, exit 1 — the landing is never written. */
+ * that exists on disk. Pass: append delivered.md + tracker + delivery log
+ * + the compose room's compose-log row, set status `delivered`, print the
+ * gate line. Fail: print failed gates, record the attempt in the tracker,
+ * exit 1 — the landing is never written. */
 import { join } from "node:path";
 import type { Args, Io } from "../types.ts";
-import { appendText, today } from "../fsx.ts";
+import { appendText, readText, sha16, today } from "../fsx.ts";
 import { loadRecord, unitStatus } from "../record/load.ts";
+import { field } from "../record/frontmatter.ts";
 import { deliverGates } from "../passes/index.ts";
-import { assertTransition, appendTracker, appendDeliveryLog, setStatus } from "../record/record-write.ts";
+import { assertTransition, appendTracker, appendDeliveryLog, appendComposeLog, setStatus } from "../record/record-write.ts";
 import { complain, resolveUnitOrComplain, unitFile } from "./resolve.ts";
 import { envelope } from "../emit/json.ts";
 
@@ -52,14 +54,20 @@ export function run(args: Args, io: Io): number {
   appendText(unitFile(rec, unit, "delivered.md"), `## delivered ${date}\n\n- gates: ${gates.map((g) => g.id).join(", ")} all passed\n- detail: ${gates.map((g) => g.detail).join("; ")}\n`);
   const trackerLine = appendTracker(rec, name, "delivered", `${unit.dir}/delivered.md`);
   const logLine = appendDeliveryLog(rec, name, gates.map((g) => g.id).join(","), gates.find((g) => g.id === "G4")?.detail ?? "");
+  // the compose room's integrity row (IMP-15): the unit, the spec hash it
+  // delivered against, and the declared spec-vs-built deviations — the hash
+  // is taken after the status stamp, so an auditor re-hashing the delivered
+  // spec on disk gets exactly the row's binding
   setStatus(join(rec.root, unit.dir, "spec.md"), "delivered");
+  const specSha = sha16(readText(join(rec.root, unit.dir, "spec.md")) ?? "");
+  const composeLine = appendComposeLog(rec, name, specSha, field(unit.spec?.front ?? null, "deviations"));
 
   const gateLine = `GATE PASS ${name} — delivered ${date} (${gates.map((g) => `${g.id} ${g.detail}`).join(" · ")})`;
   if (args.json) {
-    io.out(JSON.stringify(envelope("deliver", { unit: name, ok: true, gates, tracker: trackerLine, deliveryLog: logLine }), null, 2));
+    io.out(JSON.stringify(envelope("deliver", { unit: name, ok: true, gates, tracker: trackerLine, deliveryLog: logLine, composeLog: composeLine }), null, 2));
   } else {
     io.out(gateLine);
-    io.err(`appended ${unit.dir}/delivered.md + tracker + 04-govern/delivery-log.md · status set to delivered`);
+    io.err(`appended ${unit.dir}/delivered.md + tracker + 04-govern/delivery-log.md + 02-compose/compose-log.md · status set to delivered`);
   }
   return 0;
 }

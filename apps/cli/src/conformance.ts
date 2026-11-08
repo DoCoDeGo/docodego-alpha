@@ -12,7 +12,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, 
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { recordFiles, agentsMd, profiles as bundledProfiles, cliVersion, specVersion, skillsIndex, ruleFiles, vocabularies, VOCABULARY_NAMES, vocabularyPack } from "./bundled/index.ts";
+import { recordFiles, agentsMd, profiles as bundledProfiles, cliVersion, specVersion, skillsIndex, ruleFiles, vocabularies, VOCABULARY_NAMES, vocabularyPack, COMPOSE_LOG_TEMPLATE } from "./bundled/index.ts";
 import { treeFindings } from "./passes/tree.ts";
 import { governanceFindings } from "./passes/governance.ts";
 import { loadRecord } from "./record/load.ts";
@@ -22,7 +22,8 @@ import { digestFiles, digestSkillDir } from "./skills/lock.ts";
 import { COMMAND_HELP } from "./cli/help.ts";
 import { usageText } from "./cli/args.ts";
 import { COMPLETION_SHELLS } from "./cli/completions.ts";
-import { today } from "./fsx.ts";
+import { today, sha16 } from "./fsx.ts";
+import { appendComposeLog } from "./record/record-write.ts";
 import { MIGRATIONS } from "./versioning/migrations.ts";
 import { EXPLANATIONS, FAMILY_TITLES } from "./passes/explain.ts";
 
@@ -178,6 +179,12 @@ check("deliver fails the gate with nothing committed", run(scratch, ["deliver", 
 write(scratch, "proof-evidence.txt", "unit test output: 3 attempts observed, final warning logged\n");
 write(scratch, ".docodego/01-document/01-discover/010-first-unit/proofs.md", `# proofs\n\n- proof-evidence.txt — the unit test output\n- 01-document/01-discover/010-first-unit/spec.md — the delivered spec, cited by path\n`);
 check("deliver passes all four gates", run(scratch, ["deliver", "010-first-unit"]), 0, () => read(scratch, "01-document/01-discover/010-first-unit/spec.md").includes("status: delivered") && read(scratch, "04-govern/01-monitor/tracker.md").includes("delivered"));
+// the compose room's row (380): written once, on green only — the refused
+// attempt above must not have left one, and the hash must re-bind from disk
+const composeBody = read(scratch, "02-compose/compose-log.md");
+fact("deliver appends the compose room's row — once, on green only", (composeBody.match(/\| 010-first-unit \|/g) ?? []).length === 1);
+fact("the compose row binds the delivered spec's on-disk hash", composeBody.includes(sha16(read(scratch, "01-document/01-discover/010-first-unit/spec.md"))));
+fact("an undeclared deviation lands as none recorded in the live record", composeBody.includes("| none recorded |"));
 
 // --- the read commands over the finished record ---
 check("check holds the record together", run(scratch, ["check"]), 0);
@@ -512,6 +519,27 @@ rmSync(sf, { recursive: true, force: true });
 
 // --- v2k: the record's machine artifacts leave git (370) ---
 fact("the payload plants the record's gitignore with both rules", (recordFiles()[".gitignore"] ?? "").includes("var/") && (recordFiles()[".gitignore"] ?? "").includes("*.new"));
+
+// --- v2l: the compose room's integrity artifact (380) ---
+fact("the compose log template names its readers and its grammar", COMPOSE_LOG_TEMPLATE.includes("handoff agent") && COMPOSE_LOG_TEMPLATE.includes("build-honesty auditor") && COMPOSE_LOG_TEMPLATE.includes("| date | unit | spec | deviations |"));
+{
+  const cl = mkdtempSync(join(tmpdir(), "docodego-conformance-compose-"));
+  check("compose fixture init", run(cl, ["init"]), 0, () => existsSync(join(cl, ".docodego", "02-compose", "compose-log.md")));
+  fact("the planted log matches the shipped template bytes", read(cl, "02-compose/compose-log.md").startsWith(COMPOSE_LOG_TEMPLATE));
+  const rec = loadRecord(cl);
+  const plain = appendComposeLog(rec, "010-plain", "abcdef0123456789", undefined);
+  const declared = appendComposeLog(rec, "020-declared", "0123456789abcdef", "payouts stubbed in the demo build");
+  const piped = appendComposeLog(rec, "030-piped", "1111222233334444", "kept the legacy | delimiter");
+  const body = read(cl, "02-compose/compose-log.md");
+  fact("an undeclared deviation lands as none recorded", plain.includes("| none recorded |"));
+  fact("a declared deviation lands verbatim", declared.includes("| payouts stubbed in the demo build |"));
+  fact("a pipe in the declaration is escaped, not paraphrased", piped.includes("kept the legacy \\| delimiter"));
+  fact("rows carry the delivered spec hash", body.includes("abcdef0123456789") && body.includes("0123456789abcdef"));
+  rmSync(join(cl, ".docodego", "02-compose", "compose-log.md"));
+  appendComposeLog(loadRecord(cl), "040-late", "2222333344445555", undefined);
+  fact("a lost log is recreated with its header on the next append", read(cl, "02-compose/compose-log.md").startsWith("# Compose log"));
+  rmSync(cl, { recursive: true, force: true });
+}
 
 // --- v2d: the gate-rows law ships and teaches (300) ---
 fact("the payload's AGENTS.md teaches the gate-rows law", agentsMd().includes("Gate rows ride the unit's commit"));

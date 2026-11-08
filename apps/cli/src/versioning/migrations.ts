@@ -8,8 +8,8 @@ import { createHash } from "node:crypto";
 import { dirname, join } from "node:path";
 import { readText, writeText } from "../fsx.ts";
 import { emptyLock, writeLock, LOCK_REL } from "../skills/lock.ts";
-import { DELIVERY_LOG_TEMPLATE, INTENT_TEMPLATE, CYCLES_TEMPLATE, specVersion, recordFiles, agentsMd, statutesShippedHashes } from "../bundled/index.ts";
-import { DELIVERY_LOG_REL } from "../record/record-write.ts";
+import { COMPOSE_LOG_TEMPLATE, DELIVERY_LOG_TEMPLATE, INTENT_TEMPLATE, CYCLES_TEMPLATE, specVersion, recordFiles, agentsMd, statutesShippedHashes } from "../bundled/index.ts";
+import { COMPOSE_LOG_REL, DELIVERY_LOG_REL } from "../record/record-write.ts";
 import { V1_README, V1_STATUTES, V1_TECH_RADAR, V1_TRACKER } from "./v1-scaffold.ts";
 
 export interface Migration {
@@ -216,6 +216,15 @@ export const MIGRATIONS: Migration[] = [
       "no migration steps: a new boundary row rides the plan's create-only copy — a record with its own .docodego/.gitignore keeps it, the bundled copy riding as .new",
     ],
     steps: [],
+  },
+  {
+    from: 19,
+    to: 20,
+    notes: [
+      "the compose room gets its gate-written artifact: .docodego/02-compose/compose-log.md, one row per delivered unit (date, unit, delivered spec hash, declared deviations), appended by the deliver gate — readers named in the header: the handoff agent and the build-honesty auditor (020-canon-debts/380)",
+      "one create-only step plants the log: engine-owned like the delivery log (a file that grows at every delivery would drift an embedded copy), so it is a migration step, not a boundary row — a record that already keeps its own compose-log.md keeps it",
+    ],
+    steps: [(root) => createOnly(root, COMPOSE_LOG_REL, COMPOSE_LOG_TEMPLATE)],
   },
 ];
 

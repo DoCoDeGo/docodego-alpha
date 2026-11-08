@@ -136,6 +136,28 @@ is recorded here; what was learned lives in the unit's own records.
 |---|---|---|---|
 `;
 
+/** The compose log: the compose room's gate-written artifact (IMP-15). One
+ * row per delivered unit, appended by the deliver gate itself — the unit,
+ * the spec hash it delivered against, and the declared spec-vs-built
+ * deviations. Readers are named in the header: the handoff agent and the
+ * build-honesty auditor. Engine-owned like the delivery log: planted fresh
+ * from this constant, never a boundary row — a log that grows at every
+ * delivery would drift an embedded copy on day one. */
+export const COMPOSE_LOG_TEMPLATE = `# Compose log
+
+One row per delivered unit, appended by the deliver gate — newest last.
+What the compose room built, and where built diverged from spec. Readers:
+the handoff agent (start here to learn what exists and why it is shaped
+as it is) and the build-honesty auditor (compare each row's spec hash and
+deviation declaration against the unit's own records). A unit declares
+deviations with a \`deviations:\` line in its spec frontmatter, quoted
+verbatim; silence lands as \`none recorded\`. Empty log: nothing has been
+delivered through this room yet.
+
+| date | unit | spec | deviations |
+|---|---|---|---|
+`;
+
 /** The signatures ledger: one appended row per signed act. A signature is
  * an attestation by command execution — this ledger witnesses who claimed
  * the act, when, over what evidence; it does not (and claims not to)

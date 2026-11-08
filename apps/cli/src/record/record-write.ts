@@ -1,7 +1,7 @@
 /** Tracker, delivery log, and spec status writes — the sanctioned metadata updates. */
 import { join } from "node:path";
 import { appendText, readText, today, writeText } from "../fsx.ts";
-import { DELIVERY_LOG_TEMPLATE, SIGNATURES_TEMPLATE, TRACKER_TEMPLATE } from "../bundled/index.ts";
+import { COMPOSE_LOG_TEMPLATE, DELIVERY_LOG_TEMPLATE, SIGNATURES_TEMPLATE, TRACKER_TEMPLATE } from "../bundled/index.ts";
 import { TRACKER_REL, type RecordAst } from "./load.ts";
 
 /** The delivery log lives beside the tracker at the govern root: one row per
@@ -37,6 +37,26 @@ export function appendSignature(rec: RecordAst, unit: string, by: string, role: 
   const abs = join(rec.root, SIGNATURES_REL);
   if (readText(abs) === null) writeText(abs, SIGNATURES_TEMPLATE);
   const line = `| ${today()} | ${unit} | ${by} | ${role} | ${act} |\n`;
+  appendText(abs, line);
+  return line.trim();
+}
+
+/** The compose log lives at the compose root: one row per delivered unit,
+ * appended by the deliver gate itself — the integrity map's compose
+ * artifact (IMP-15). Engine-owned: planted from COMPOSE_LOG_TEMPLATE, so
+ * the live file may grow rows without touching the shipped bytes. */
+export const COMPOSE_LOG_REL = "02-compose/compose-log.md";
+
+/** Append one compose-log row; creates the log (with its header) if absent.
+ * `specSha` is the delivered spec's recomputed hash — the same binding G2
+ * holds. `deviations` is the unit's frontmatter declaration, quoted
+ * verbatim; pipes are escaped so the row stays a row (mechanical encoding,
+ * not paraphrase), and an absent declaration lands as `none recorded`. */
+export function appendComposeLog(rec: RecordAst, unit: string, specSha: string, deviations: string | undefined): string {
+  const abs = join(rec.root, COMPOSE_LOG_REL);
+  if (readText(abs) === null) writeText(abs, COMPOSE_LOG_TEMPLATE);
+  const declared = (deviations ?? "none recorded").replace(/\|/g, "\\|");
+  const line = `| ${today()} | ${unit} | ${specSha} | ${declared} |\n`;
   appendText(abs, line);
   return line.trim();
 }

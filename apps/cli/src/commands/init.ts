@@ -9,8 +9,8 @@ import type { Args, Io, Manifest, Mode } from "../types.ts";
 import { isDir, readText, today, writeText } from "../fsx.ts";
 import { detect } from "../record/detect.ts";
 import { MANIFEST_REL, RECORD_DIR, TRACKER_REL } from "../record/load.ts";
-import { agentsMd, recordFiles, ruleFiles, specVersion, DEFAULT_PROFILE, PROFILES, profiles as profileMap, skillsIndex, TRACKER_TEMPLATE, INTENT_TEMPLATE, CYCLES_TEMPLATE, DELIVERY_LOG_TEMPLATE, vocabularyPack, VOCABULARY_NAMES } from "../bundled/index.ts";
-import { DELIVERY_LOG_REL } from "../record/record-write.ts";
+import { agentsMd, recordFiles, ruleFiles, specVersion, COMPOSE_LOG_TEMPLATE, DEFAULT_PROFILE, PROFILES, profiles as profileMap, skillsIndex, TRACKER_TEMPLATE, INTENT_TEMPLATE, CYCLES_TEMPLATE, DELIVERY_LOG_TEMPLATE, vocabularyPack, VOCABULARY_NAMES } from "../bundled/index.ts";
+import { COMPOSE_LOG_REL, DELIVERY_LOG_REL } from "../record/record-write.ts";
 import { applyMovementGlosses, renderVocabularyMd, type VocabularyPack } from "../record/vocabulary.ts";
 import { installBundledSkill, plantAgentPresets, writeLock, emptyLock, LOCK_REL } from "../skills/lock.ts";
 import { envelope } from "../emit/json.ts";
@@ -70,6 +70,10 @@ export function run(args: Args, io: Io): number {
   putNew(join(root, "01-document/01-discover/intent.md"), INTENT_TEMPLATE, `${RECORD_DIR}/01-document/01-discover/intent.md`);
   putNew(join(root, "01-document/01-discover/cycles.md"), CYCLES_TEMPLATE, `${RECORD_DIR}/01-document/01-discover/cycles.md`);
   putNew(join(root, DELIVERY_LOG_REL), DELIVERY_LOG_TEMPLATE, `${RECORD_DIR}/${DELIVERY_LOG_REL}`);
+  // the compose room's integrity artifact (IMP-15): anchored at init so an
+  // empty compose room truthfully means "not there yet" — the gate appends
+  // its first row at this record's first delivery
+  putNew(join(root, COMPOSE_LOG_REL), COMPOSE_LOG_TEMPLATE, `${RECORD_DIR}/${COMPOSE_LOG_REL}`);
   // the manifest is engine-owned metadata: refreshed on init, other keys
   // preserved — and never stamped backwards (writeManifest returns the
   // surviving stamp; a record ahead of this CLI stays ahead)
