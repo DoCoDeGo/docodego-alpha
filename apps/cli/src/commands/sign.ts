@@ -9,9 +9,11 @@
  * environment's identity, skipping git), or the default ladder — git,
  * then system. The consent split (the founder's ruling, 2026-11-08):
  * a typed identifier stays verbatim; a derived identifier is stored as
- * `fp:v1:<hex>`, a versioned per-record-salted fingerprint — privacy,
- * not anonymity: it resists a stranger's lookup, not a determined
- * guesser. The whole act is shown, and one confirmation closes it: an
+ * `enc:v1:<base64>`, a versioned reversible encoding — the encoding
+ * rethink (the founder's ruling, 2026-11-09): concealment from the
+ * casual read, not cryptography; the CLI reveals it on demand
+ * (`docodego whoami --decode`), so the team sees who signed and the
+ * raw string still never stands in the file. The whole act is shown, and one confirmation closes it: an
  * interactive run asks once ("sign and approve?"); a headless run
  * declares `--yes`; a run that is neither confirmed nor promptable
  * refuses with DG-U118 and appends nothing — a signature without an
@@ -28,18 +30,18 @@ import type { Args, Io } from "../types.ts";
 import { loadRecord, unitStatus } from "../record/load.ts";
 import { appendSignature, appendTracker, setStatus } from "../record/record-write.ts";
 import { complain, resolveUnitOrComplain, unitFile } from "./resolve.ts";
-import { loadOrCreateSalt, resolveIdentity, saltRoot, type Identity } from "./identity.ts";
+import { resolveIdentity, type Identity } from "./identity.ts";
 import { emitJson } from "../emit/json.ts";
 
 const USAGE = 'usage: docodego sign <unit> [--name "<legal identifier or handle>"] [--system] [--role <role>] [--yes] (--by is an alias of --name)';
 
 /** The act line's attestation limit: typed identifiers carry the base
- * clause; fingerprinted ones add what the mechanism actually enforces —
- * the record claims privacy's true size, no more. */
+ * clause; encoded ones add what the mechanism actually enforces — the
+ * record claims the encoding's true size, no more. */
 const actLine = (identity: Identity): string =>
   identity.kind === "typed"
     ? "founder-signed (attestation by command execution — the record witnesses the claim; it does not cryptographically prove identity)"
-    : `founder-signed (attestation by command execution — the record witnesses the claim; it does not cryptographically prove identity. The identifier is fingerprinted: privacy, not anonymity — it resists a stranger's lookup, not a determined guesser)`;
+    : `founder-signed (attestation by command execution — the record witnesses the claim; it does not cryptographically prove identity. The identifier is encoded: concealment from the casual read, not cryptography — the CLI reveals it on demand, and one step of curiosity does the same without it)`;
 
 export function run(args: Args, io: Io): number {
   const name = args.pos[0];
@@ -65,11 +67,7 @@ export function run(args: Args, io: Io): number {
   if (typedName !== undefined && args.system === true) {
     return complain(args.json, io, { severity: "error", code: "DG-U111", message: "sign takes one identifier source: --name/--by (a typed identifier) or --system (this environment) — not both (nothing appended)" }, 2, "usage");
   }
-  const salt = loadOrCreateSalt(saltRoot());
-  const identity = resolveIdentity({ name: typedName, system: args.system === true }, salt);
-  if (identity === "unsaltable") {
-    return complain(args.json, io, { severity: "error", code: "DG-U111", message: `the signature salt at .docodego/04-govern/signature-salt is unreadable — a derived identity fingerprints with the record's own salt, and regenerating would orphan every row already keyed to it; repair the file and run again` }, 1, "signature-refused");
-  }
+  const identity = resolveIdentity({ name: typedName, system: args.system === true });
   if (identity === "unresolvable") {
     return complain(args.json, io, { severity: "error", code: "DG-U111", message: 'a signature needs an identifier and none could be derived from git or system details — type --name "<legal identifier or handle>"' }, 2, "usage");
   }

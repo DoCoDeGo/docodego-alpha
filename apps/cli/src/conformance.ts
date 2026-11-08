@@ -25,7 +25,7 @@ import { COMPLETION_SHELLS } from "./cli/completions.ts";
 import { today, sha16 } from "./fsx.ts";
 import { appendComposeLog } from "./record/record-write.ts";
 import { MIGRATIONS } from "./versioning/migrations.ts";
-import { createHash, scryptSync } from "node:crypto";
+import { createHash } from "node:crypto";
 import { EXPLANATIONS, FAMILY_TITLES } from "./passes/explain.ts";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -457,24 +457,27 @@ check("score passes on the derived fixture", run(fixture, ["score", "derived-uni
 check("deliver passes on the derived fixture", run(fixture, ["deliver", "derived-unit"]), 0);
 write(fixture, ".docodego/03-demonstrate/demo/derived-unit/how-to-run.md", "# how to run\n\nFilled: the suite is the demo — the conformance suite walks derived-unit's tier flow end to end.\n");
 check("launch passes on the derived fixture", run(fixture, ["launch", "derived-unit"]), 0);
-// the consent split (480): the fixture controls the salt — written
-// before the first derived sign, the expected fingerprint computed
-// here with the same scrypt params and pinned byte-for-byte. The
+// the consent split (480) and its 530 rethink: the fixture keeps a
+// legacy salt file in place — written before the first derived sign,
+// byte-unchanged after every sign, because the sign path no longer
+// reads it: the encoding needs no key. The expected stored form is
+// computed here (base64 of the raw) and pinned byte-for-byte. The
 // source ladder is replicated (git, then system) so the pin holds on
 // any machine.
 const SALT = "0123456789abcdef0123456789abcdef";
 write(fixture, ".docodego/04-govern/signature-salt", `${SALT}\n`);
-const scryptFp = (raw: string, salt: string): string => `fp:v1:${scryptSync(raw, salt, 32, { N: 16384, r: 8, p: 1 }).toString("hex")}`;
+const encOf = (raw: string): string => `enc:v1:${Buffer.from(raw, "utf8").toString("base64")}`;
 const gitCfg = (k: string): string | null => { const r = spawnSync("git", ["config", "--get", k], { encoding: "utf8" }); const v = (r.stdout ?? "").trim(); return r.status === 0 && v !== "" ? v : null; };
 const gitName0 = gitCfg("user.name");
 const gitMail0 = gitName0 !== null ? gitCfg("user.email") : null;
 const envRaw = gitName0 === null ? `${userInfo().username}@${hostname()}` : gitMail0 === null ? gitName0 : `${gitName0} <${gitMail0}>`;
-const expectedEnvFp = scryptFp(envRaw, SALT);
+const expectedEnvEnc = encOf(envRaw);
 check("sign passes with no --by — the identifier derives, declared headless", run(fixture, ["sign", "derived-unit", "--yes"]), 0);
 const derivedReceipt = read(fixture, "01-document/01-discover/derived-unit/signature.md");
-fact("the derived receipt names an environment identity and its kind", derivedReceipt.includes("(the git identity of the environment, fingerprinted)") || derivedReceipt.includes("(the system identity of the environment, fingerprinted)"));
+fact("the derived receipt names an environment identity and its kind", derivedReceipt.includes("(the git identity of the environment, encoded)") || derivedReceipt.includes("(the system identity of the environment, encoded)"));
 fact("the derived receipt carries no typed line", !derivedReceipt.includes("(a typed legal identifier)"));
-fact("the derived receipt stores the exact fixture-salted fingerprint", derivedReceipt.includes(`signed by: ${expectedEnvFp} (`));
+fact("the derived receipt stores the exact encoded form", derivedReceipt.includes(`signed by: ${expectedEnvEnc} (`));
+fact("the stored form decodes back to the raw — the ruled reveal", Buffer.from(expectedEnvEnc.slice("enc:v1:".length), "base64").toString("utf8") === envRaw);
 fact("the derived receipt names no raw environment identity", !derivedReceipt.includes(envRaw));
 
 // --system forces the environment identity (git skipped); --name is the
@@ -497,11 +500,11 @@ const walkTo = (unit: string, lead: string): void => {
   check(`launch passes on ${unit}`, run(fixture, ["launch", unit]), 0);
 };
 walkTo("system-unit", "The system-unit proves the forced system source:");
-const sysFp = scryptFp(`${userInfo().username}@${hostname()}`, SALT);
-check("sign --system stores the system fingerprint, exact hex, clause named", run(fixture, ["sign", "system-unit", "--system", "--yes"]), 0);
+const sysEnc = encOf(`${userInfo().username}@${hostname()}`);
+check("sign --system stores the system identity encoded, exact token, clause named", run(fixture, ["sign", "system-unit", "--system", "--yes"]), 0);
 const sysReceipt = read(fixture, "01-document/01-discover/system-unit/signature.md");
-fact("the --system receipt carries the exact fixture-salted fingerprint and kind", sysReceipt.includes(`signed by: ${sysFp} (the system identity of the environment, fingerprinted)`));
-fact("the fingerprinted receipt carries the honest clause", sysReceipt.includes("resists a stranger's lookup, not a determined guesser"));
+fact("the --system receipt carries the exact encoded form and kind", sysReceipt.includes(`signed by: ${sysEnc} (the system identity of the environment, encoded)`));
+fact("the encoded receipt carries the honest clause", sysReceipt.includes("concealment from the casual read, not cryptography"));
 fact("the --system receipt names no raw system identity", !sysReceipt.includes(`${userInfo().username}@${hostname()}`));
 walkTo("named-unit", "The named-unit proves the typed --name source:");
 const ledgerBefore480 = read(fixture, "04-govern/signatures.md").split("\n").length;
@@ -510,8 +513,8 @@ fact("the refused conflict appended nothing", read(fixture, "04-govern/signature
 check("sign --name stores the typed identifier verbatim", run(fixture, ["sign", "named-unit", "--name", "Ada Lovelace", "--yes"]), 0);
 const namedReceipt = read(fixture, "01-document/01-discover/named-unit/signature.md");
 fact("the --name receipt is byte-identical in shape to the --by receipt", namedReceipt.includes("signed by: Ada Lovelace (a typed legal identifier)") && namedReceipt.includes("attestation by command execution"));
-fact("the ledger carries the typed row and the fingerprint rows side by side", read(fixture, "04-govern/signatures.md").includes("Ada Lovelace (a typed legal identifier)") && read(fixture, "04-govern/signatures.md").includes(sysFp) && read(fixture, "04-govern/signatures.md").includes(expectedEnvFp));
-fact("the salt is used, not regenerated — bytes unchanged after every sign", read(fixture, "04-govern/signature-salt").trim() === SALT);
+fact("the ledger carries the typed row and the encoded rows side by side", read(fixture, "04-govern/signatures.md").includes("Ada Lovelace (a typed legal identifier)") && read(fixture, "04-govern/signatures.md").includes(sysEnc) && read(fixture, "04-govern/signatures.md").includes(expectedEnvEnc));
+fact("the legacy salt file stands untouched — the sign path never reads it now", read(fixture, "04-govern/signature-salt").trim() === SALT);
 
 // --- v2: forward-compat — a newer record is refused politely ---
 const newer = mkdtempSync(join(tmpdir(), "docodego-conformance-fwd-"));
@@ -715,23 +718,23 @@ fact("the payload's AGENTS.md carries the two registers with the accepted lists"
   check("sign-off without --quote is a usage error", run(so, ["sign-off", amen2]), 2, (r) => r.stderr.includes("DG-U117"));
   const amen3 = join(specRoot, "amendments", "1.3.0-EL-37-new.md");
   writeFileSync(amen3, amendment("EL-37", "laws/35-the-demo-law.md"));
-  const SO_SALT = "fedcba98765432fedcba9876543210aa";
-  write(so, ".docodego/04-govern/signature-salt", `${SO_SALT}\n`);
-  const soFp = `fp:v1:${scryptSync(envRaw, SO_SALT, 32, { N: 16384, r: 8, p: 1 }).toString("hex")}`;
-  check("without --by the receipt names the derivation kind (git or system), fingerprinted, and the limit", run(so, ["sign-off", amen3, "--quote", "Accept it"]), 0, (r) => {
+  const soEnc = encOf(envRaw);
+  check("without --by the receipt names the derivation kind (git or system), encoded, and the limit", run(so, ["sign-off", amen3, "--quote", "Accept it"]), 0, (r) => {
     const body = readFileSync(amen3, "utf8");
-    return body.includes(`Identity: ${soFp} (the ${gitName0 === null ? "system" : "git"} identity of the environment, fingerprinted)`) && body.includes("witnesses the act") && body.includes("resists a stranger's lookup, not a determined guesser");
+    return body.includes(`Identity: ${soEnc} (the ${gitName0 === null ? "system" : "git"} identity of the environment, encoded)`) && body.includes("witnesses the act") && body.includes("concealment from the casual read, not cryptography");
   });
-  fact("cli305: the derived sign-off's ledger row carries the fingerprint", read(so, "04-govern/signatures.md").includes(`| AMEND-NEW-EL-37-1.3.0 | ${soFp} (the ${gitName0 === null ? "system" : "git"} identity of the environment, fingerprinted) | founder | amendment-signed |`));
+  fact("cli305: the derived sign-off's ledger row carries the encoded identity", read(so, "04-govern/signatures.md").includes(`| AMEND-NEW-EL-37-1.3.0 | ${soEnc} (the ${gitName0 === null ? "system" : "git"} identity of the environment, encoded) | founder | amendment-signed |`));
   const amen4 = join(specRoot, "amendments", "1.3.0-EL-38-new.md");
   writeFileSync(amen4, amendment("EL-38", "laws/35-the-demo-law.md"));
-  check("a second derived sign-off in the same record carries the same fingerprint", run(so, ["sign-off", amen4, "--quote", "Accept it"]), 0, (r) => {
+  check("a second derived sign-off in the same record carries the same encoded value", run(so, ["sign-off", amen4, "--quote", "Accept it"]), 0, (r) => {
     const body = readFileSync(amen4, "utf8");
-    return body.includes(`Identity: ${soFp} (`);
+    return body.includes(`Identity: ${soEnc} (`);
   });
-  fact("the sign-off salt is used, not regenerated", readFileSync(join(so, ".docodego", "04-govern", "signature-salt"), "utf8").trim() === SO_SALT);
-  // cross-record unlinkability: the same environment, a different
-  // record's salt, a different fingerprint
+  fact("no salt file is created by the encoding-era sign path", !existsSync(join(so, ".docodego", "04-govern", "signature-salt")));
+  // cross-record determinism: the same environment, a second record —
+  // the same encoded value. The salted fingerprint's unlinkability is
+  // the property the encoding rethink traded away; the 1.2.5 amendment
+  // names the trade, and this pin holds the behavior to the name.
   const so2 = mkdtempSync(join(tmpdir(), "docodego-conformance-signoff2-"));
   const specRoot2 = join(so2, "spec");
   mkdirSync(join(specRoot2, "amendments"), { recursive: true });
@@ -740,10 +743,9 @@ fact("the payload's AGENTS.md carries the two registers with the accepted lists"
   writeFileSync(join(specRoot2, "laws", "35-the-demo-law.md"), lawBody);
   const amenB = join(specRoot2, "amendments", "1.3.0-EL-35-new.md");
   writeFileSync(amenB, amendment("EL-35", "laws/35-the-demo-law.md"));
-  write(so2, ".docodego/04-govern/signature-salt", `${SALT}\n`);
-  check("the same environment in a second record (different salt) fingerprints differently", run(so2, ["sign-off", amenB, "--quote", "Accept it"]), 0, (r) => {
+  check("the same environment in a second record encodes identically — the documented trade", run(so2, ["sign-off", amenB, "--quote", "Accept it"]), 0, (r) => {
     const body = readFileSync(amenB, "utf8");
-    return body.includes("fp:v1:") && !body.includes(soFp);
+    return body.includes(`Identity: ${soEnc} (`);
   });
   rmSync(so, { recursive: true, force: true });
   rmSync(so2, { recursive: true, force: true });
@@ -799,10 +801,57 @@ fact("the payload's AGENTS.md carries the two registers with the accepted lists"
   writeFileSync(join(custom2, "AGENTS.md"), "# my own law\n\nnothing here\n");
   const kept2 = teachSecondUseClean(join(custom2, ".docodego"));
   fact("the repair keeps a customized AGENTS.md untouched", kept2.includes("customized") && readFileSync(join(custom2, "AGENTS.md"), "utf8") === "# my own law\n\nnothing here\n");
-fact("the fingerprint clause appears wherever a signature shows — the ledger template, both help bodies", SIGNATURES_TEMPLATE.includes("privacy, not anonymity") && SIGNATURES_TEMPLATE.includes("resists a stranger's lookup") && (COMMAND_HELP.sign?.body ?? "").includes("resists a stranger's lookup") && (COMMAND_HELP["sign-off"]?.body ?? "").includes("resists a stranger's lookup"));
+const norm = (s: string): string => s.replace(/\s+/g, " ");
+fact("the encoding clause appears wherever a signature shows — the ledger template, all three help bodies", norm(SIGNATURES_TEMPLATE).includes("concealment from the casual read, not cryptography") && norm(COMMAND_HELP.sign?.body ?? "").includes("concealment from the casual read, not cryptography") && norm(COMMAND_HELP["sign-off"]?.body ?? "").includes("concealment from the casual read, not cryptography") && norm(COMMAND_HELP.whoami?.body ?? "").includes("concealment from the casual read, not cryptography"));
   rmSync(ag, { recursive: true, force: true });
   rmSync(custom, { recursive: true, force: true });
   rmSync(custom2, { recursive: true, force: true });
+}
+
+// --- v27: the encoding-rethink teach (530) + the whoami reveal surface ---
+{
+  const { teachSignEncoding } = await import("./versioning/migrations.ts");
+  const ag = mkdtempSync(join(tmpdir(), "docodego-conformance-v27teach-"));
+  mkdirSync(join(ag, ".docodego"), { recursive: true });
+  const v26 = [
+    "# AGENTS.md",
+    "",
+    "## The commands",
+    "",
+    "- `docodego sign <unit>` — the last tier: a named person's attestation — `--name` (typed, stored verbatim; `--by` its alias), `--system` (this environment), or the derived ladder, fingerprinted per record (`fp:v1:<hex>` — the raw environment string is never stored); the act is shown and confirmed once — `--yes` for headless runs — status founder-signed.",
+    "- `docodego upgrade` — plan the record's move to the CLI's bundled record version (`--apply`, `--branch`).",
+    "",
+  ].join("\n");
+  writeFileSync(join(ag, "AGENTS.md"), v26);
+  const n1 = teachSignEncoding(join(ag, ".docodego"));
+  const taught = readFileSync(join(ag, "AGENTS.md"), "utf8");
+  fact("the encoding teach rewrites the shipped-v25 sign line in place", n1.includes("updated AGENTS.md") && taught.includes("stored as a versioned reversible encoding (`enc:v1:<base64>` — revealed on demand by `docodego whoami --decode`)") && !taught.includes("fingerprinted per record"));
+  fact("the whoami line is inserted after the sign line", taught.indexOf("docodego whoami") > taught.indexOf("docodego sign <unit>") && taught.indexOf("docodego whoami") < taught.indexOf("docodego upgrade"));
+  fact("the encoding teach is idempotent", teachSignEncoding(join(ag, ".docodego")).includes("already present") && readFileSync(join(ag, "AGENTS.md"), "utf8") === taught);
+  const custom = mkdtempSync(join(tmpdir(), "docodego-conformance-v27kept-"));
+  mkdirSync(join(custom, ".docodego"), { recursive: true });
+  writeFileSync(join(custom, "AGENTS.md"), "# my own law\n\nnothing here\n");
+  const kept = teachSignEncoding(join(custom, ".docodego"));
+  fact("the teach keeps a customized AGENTS.md untouched", kept.includes("customized") && readFileSync(join(custom, "AGENTS.md"), "utf8") === "# my own law\n\nnothing here\n");
+  rmSync(ag, { recursive: true, force: true });
+  rmSync(custom, { recursive: true, force: true });
+}
+{
+  const w = mkdtempSync(join(tmpdir(), "docodego-conformance-whoami-"));
+  const raw = gitName0 === null ? `${userInfo().username}@${hostname()}` : gitMail0 === null ? gitName0 : `${gitName0} <${gitMail0}>`;
+  const enc = `enc:v1:${Buffer.from(raw, "utf8").toString("base64")}`;
+  check("whoami shows the plain identity, its kind, and the exact stored form — no record needed", run(w, ["whoami"]), 0, (r) => {
+    const out = r.stdout + r.stderr;
+    return out.includes(`identity: ${raw}`) && out.includes(`stored as: ${enc}`) && out.includes("concealment from the casual read, not cryptography");
+  });
+  check("cli306: --decode reveals the stored form — the ruled flag", run(w, ["whoami", "--decode", enc]), 0, (r) => r.stdout.trim() === raw);
+  check("cli307: --decode refuses an fp row with the one-way honesty", run(w, ["whoami", "--decode", "fp:v1:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"]), 1, (r) => (r.stdout + r.stderr).includes("one-way fingerprint") && (r.stdout + r.stderr).includes("not reversible by design"));
+  check("cli308: --decode refuses a value that is not an enc token", run(w, ["whoami", "--decode", "plainly-a-name"]), 2, (r) => (r.stdout + r.stderr).includes("usage"));
+  check("cli309: whoami --json carries raw, kind, stored", run(w, ["whoami", "--json"]), 0, (r) => {
+    const j = JSON.parse(r.stdout) as { schema?: string; ok?: boolean; data?: { raw?: string; kind?: string; stored?: string } };
+    return j.schema === "docodego/whoami/v1" && j.ok === true && j.data?.raw === raw && j.data?.stored === enc && (j.data?.kind === "git" || j.data?.kind === "system");
+  });
+  rmSync(w, { recursive: true, force: true });
 }
 // the detector, over a real delivered unit: an unknown declaration fails
 // check naming the registry; a declared one passes; the demo bundle is
@@ -1127,7 +1176,7 @@ rmSync(bf, { recursive: true, force: true });
 // --- v3: the contract surface — per-command --help, explain, generated docs ---
 // The planted AGENTS.md promises "run any command with --help for its own
 // contract"; these checks are that promise, enforced.
-const LAW_COMMANDS = ["init", "new", "sketch", "setback", "grill", "score", "audit", "check", "lint", "status", "trace", "doctor", "deliver", "launch", "sign", "sign-off", "metrics", "retire", "upgrade", "skill", "explain", "completions"];
+const LAW_COMMANDS = ["init", "new", "sketch", "setback", "grill", "score", "audit", "check", "lint", "status", "trace", "doctor", "deliver", "launch", "sign", "sign-off", "whoami", "metrics", "retire", "upgrade", "skill", "explain", "completions"];
 fact("every law command has a help page", JSON.stringify(Object.keys(COMMAND_HELP).sort()) === JSON.stringify([...LAW_COMMANDS].sort()));
 fact("the global usage lists every command", LAW_COMMANDS.every((c) => usageText().includes(c)));
 for (const c of LAW_COMMANDS) {

@@ -227,14 +227,16 @@ the named evidence. The evidence hashes live in the unit's own
 signature.md.
 
 Reading the signed-by column: a typed identifier appears verbatim — a
-human typed it, that is the consent. A value of the form fp:v1:<hex>
-is a versioned fingerprint of a derived environment identity (git or
-system), salted per record: the same fingerprint in two rows of this
-ledger means the same environment signed both acts; it does not mean
-anyone can learn which machine or human it was — a fingerprint is
-privacy, not anonymity: it resists a stranger's lookup, not a
-determined guesser. One direction only: a different fingerprint does
-not imply a different environment.
+human typed it, that is the consent. A value of the form
+enc:v1:<base64> is a versioned reversible encoding of a derived
+environment identity (git or system): the same encoded value in two
+rows of this ledger means the same environment signed both acts. It is
+concealment from the casual read, not cryptography — the CLI reveals
+it on demand (docodego whoami --decode <value>), and one step of
+curiosity does the same without the CLI. A value of the older form
+fp:v1:<hex> (records signed before the encoding rethink of
+2026-11-09) is a keyed one-way fingerprint: not reversible by design,
+standing as recorded.
 
 | date | unit | signed by | role | act |
 |---|---|---|---|

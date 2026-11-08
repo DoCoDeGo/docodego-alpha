@@ -5,14 +5,16 @@
  * cycle 4): identity from one chosen source — a typed `--name` (the
  * consented words, stored verbatim; `--by` is its alias), `--system`
  * (this environment), or the git-then-system ladder — with derived
- * identifiers fingerprinted before storage (the consent split, the
- * founder's ruling in cycle 6), the stored words scanned for secrets
+ * identifiers stored as a versioned reversible encoding before storage
+ * (`enc:v1:<base64>` — the encoding rethink, the founder's ruling in
+ * cycle 8; concealment from the casual read, not cryptography, the CLI
+ * reveals it on demand), the stored words scanned for secrets
  * before anything is recorded, the whole act as easy as one command.
  * The scanner refuses rather than redacts — verbatim text is stored
  * whole or not at all (EL-19), and the receipt always states the
  * attestation limit: it witnesses the act, it does not prove identity;
- * a fingerprinted identifier adds its honest clause — it resists
- * lookup, not a determined guesser. Pass: the amendment's pending
+ * an encoded identifier adds its honest clause — the CLI reveals it on
+ * demand, and one step of curiosity does the same without it. Pass: the amendment's pending
  * block replaced. A second sign-off rewrites an act the record keeps
  * once — refused. */
 import { sha256, readText, today, writeText } from "../fsx.ts";
@@ -22,7 +24,7 @@ import type { Args, Io } from "../types.ts";
 import { complain } from "./resolve.ts";
 import { loadRecord } from "../record/load.ts";
 import { appendSignature, appendTracker } from "../record/record-write.ts";
-import { loadOrCreateSalt, resolveIdentity, saltRoot } from "./identity.ts";
+import { resolveIdentity } from "./identity.ts";
 import { emitJson } from "../emit/json.ts";
 
 /** The secret shapes the scan knows. Short, named, exported for the
@@ -111,11 +113,7 @@ export function run(args: Args, io: Io): number {
   if (typedName !== undefined && args.system === true) {
     return complain(args.json, io, { severity: "error", code: "DG-U111", message: "sign-off takes one identifier source: --name/--by (a typed identifier) or --system (this environment) — not both (nothing stored)" }, 2, "usage");
   }
-  const salt = loadOrCreateSalt(saltRoot());
-  const identity = resolveIdentity({ name: typedName, system: args.system === true }, salt);
-  if (identity === "unsaltable") {
-    return complain(args.json, io, { severity: "error", code: "DG-U111", message: "the signature salt at .docodego/04-govern/signature-salt is unreadable — a derived identity fingerprints with the record's own salt, and regenerating would orphan every row already keyed to it; repair the file and run again" }, 1, "sign-off-refused");
-  }
+  const identity = resolveIdentity({ name: typedName, system: args.system === true });
   if (identity === "unresolvable") {
     return complain(args.json, io, { severity: "error", code: "DG-U111", message: 'a sign-off needs an identifier and none could be derived from git or system details — type --name "<legal identifier or handle>"' }, 2, "usage");
   }
@@ -125,7 +123,7 @@ export function run(args: Args, io: Io): number {
   const lawRel = relative(dirname(amenAbs), lawAbs);
   const limitLine = identity.kind === "typed"
     ? "The attestation limit: this record witnesses the act; it does not cryptographically prove identity."
-    : "The attestation limit: this record witnesses the act; it does not cryptographically prove identity. The identifier is fingerprinted: privacy, not anonymity — it resists a stranger's lookup, not a determined guesser.";
+    : "The attestation limit: this record witnesses the act; it does not cryptographically prove identity. The identifier is encoded: concealment from the casual read, not cryptography — the CLI reveals it on demand, and one step of curiosity does the same without it.";
   const receipt = [
     `Signed: ${date}. The founder's acceptance words, recorded verbatim: "${quote}"`,
     `Identity: ${identity.line}; role: ${role}.`,

@@ -182,3 +182,6 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-09 | 520-sign-off-writes-the-record | new unit | 02-compose/01-build/520-sign-off-writes-the-record/spec.md |
 | 2026-11-09 | 520-sign-off-writes-the-record | delivered | 02-compose/01-build/520-sign-off-writes-the-record/delivered.md |
 | 2026-11-09 | 520-sign-off-writes-the-record | launch-passed | 02-compose/01-build/520-sign-off-writes-the-record/launch.md |
+| 2026-11-09 | 530-encoded-signature-identity | new unit | 02-compose/01-build/530-encoded-signature-identity/spec.md |
+| 2026-11-09 | 530-encoded-signature-identity | delivered | 02-compose/01-build/530-encoded-signature-identity/delivered.md |
+| 2026-11-09 | 530-encoded-signature-identity | launch-passed | 02-compose/01-build/530-encoded-signature-identity/launch.md |

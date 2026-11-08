@@ -48,4 +48,4 @@ Families follow the loop: plant, walk, read, version.
 
 | command | what it does |
 |---|---|
-`docodego metrics`
+`docodego metrics` · `docodego whoami`

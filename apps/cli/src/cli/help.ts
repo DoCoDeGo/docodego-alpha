@@ -322,12 +322,14 @@ the identifier comes from one source, chosen expressly:
 
 the consent split (the founder's ruling, 2026-11-08): a typed
 identifier stays verbatim; a derived identifier is stored as
-fp:v1:<hex> — a versioned fingerprint, salted per record (the salt
-lives at .docodego/04-govern/signature-salt, committed, create-only),
-so no record file names a person's machine in the clear. A
-fingerprint is privacy, not anonymity: it resists a stranger's lookup,
-not a determined guesser; two rows sharing one fingerprint in one
-record mean the same environment signed both.
+enc:v1:<base64> — a versioned reversible encoding (the encoding
+rethink, the founder's ruling, 2026-11-09), so no record file names a
+person's machine in the clear and the team can still see who signed.
+An encoded identifier is concealment from the casual read, not
+cryptography: the CLI reveals it on demand ('docodego whoami --decode
+<value>'), and one step of curiosity does the same without it; two
+rows sharing one encoded value in one record mean the same
+environment signed both.
 
 the derivation kind is named in the receipt. The whole act is shown
 before anything is recorded, and one confirmation closes it: an
@@ -337,7 +339,7 @@ with nothing appended (DG-U118) — a signature without an actor's yes is
 furniture wearing accountability's clothes.
 
 pass (all three appended in one run):
-  - the unit's signature.md — who (verbatim or fingerprinted), role,
+  - the unit's signature.md — who (verbatim or encoded), role,
     the local-calendar date, and sha256 of spec.md and delivered.md at
     signing time
   - one row in the signatures ledger (.docodego/04-govern/signatures.md,
@@ -400,9 +402,12 @@ the identity comes from one source, chosen expressly: a typed --name
 documented alias), --system (this environment, skipping git), or the
 default ladder — git config user.name/email, else system user/host.
 The consent split (the founder's ruling, 2026-11-08): a typed
-identifier stays verbatim; a derived identifier is stored as fp:v1:<hex>
-— a versioned fingerprint, salted per record — privacy, not anonymity:
-it resists a stranger's lookup, not a determined guesser. Before
+identifier stays verbatim; a derived identifier is stored as
+enc:v1:<base64> — a versioned reversible encoding (the encoding
+rethink, the founder's ruling, 2026-11-09) — concealment from the
+casual read, not cryptography: the CLI reveals it on demand
+('docodego whoami --decode <value>'), and one step of curiosity does
+the same without it. Before
 anything is stored, the words (and the typed identifier) are scanned
 for secret shapes (API keys, tokens, private keys): a match refuses
 the act with nothing written (DG-U114) — verbatim text is stored whole
@@ -431,6 +436,41 @@ exit codes: 0 signed-off · 1 refused · 2 usage
 
 example:
   docodego sign-off spec/amendments/1.3.0-EL-35-new.md --quote "Accept for signature"`,
+  },
+  whoami: {
+    usage: 'docodego whoami [--system] [--decode "<enc:v1:...>"] [--json]',
+    summary: "The signer's identity, in the open: what this environment derives, how it is stored, and the reveal flag.",
+    body: `the reveal surface the founder ruled into existence (cycle 8,
+2026-11-09, verbatim in the cycles log: "encoding seems to be perfectly
+fine to hide the identity and only reveal it when needed"):
+
+plain output shows three lines — the raw identity this environment
+derives (git config user.name/email, else system user/host; --system
+skips git), its derivation kind, and the exact stored form an
+enc:v1:<base64> token the record keeps. You see your own raw string;
+the record's readers see the token.
+
+--decode <value> is the flag specifically for decoding the identity:
+hand it any enc:v1 value from a signatures ledger or a receipt and it
+prints the plain string — anyone on the team can reveal any row, which
+is the design ("everyone should be able to see everyone else work
+within a team"). The honesty the command owes: an encoded identifier is
+concealment from the casual read, not cryptography — the CLI reveals it
+on demand, and one step of curiosity does the same without it.
+
+fp:v1 values (records signed before the encoding rethink) refuse
+decoding with the truth: they are keyed one-way fingerprints, not
+reversible by design, and the salt that keyed them stays committed
+beside their ledger.
+
+no record layer is needed and nothing is written: this command reads
+your environment and the value you hand it — nothing else.
+
+exit codes: 0 shown · 1 refused (undecodable value, bare environment) · 2 usage
+
+example:
+  docodego whoami
+  docodego whoami --decode "enc:v1:Y29kZUBhZG1pbnMtTUJQLm5ibg=="`,
   },
   retire: {
     usage: "docodego retire <unit> [--as <behavior>] [--dry-run] [--json]",

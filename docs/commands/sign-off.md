@@ -19,9 +19,12 @@ the identity comes from one source, chosen expressly: a typed --name
 documented alias), --system (this environment, skipping git), or the
 default ladder — git config user.name/email, else system user/host.
 The consent split (the founder's ruling, 2026-11-08): a typed
-identifier stays verbatim; a derived identifier is stored as fp:v1:<hex>
-— a versioned fingerprint, salted per record — privacy, not anonymity:
-it resists a stranger's lookup, not a determined guesser. Before
+identifier stays verbatim; a derived identifier is stored as
+enc:v1:<base64> — a versioned reversible encoding (the encoding
+rethink, the founder's ruling, 2026-11-09) — concealment from the
+casual read, not cryptography: the CLI reveals it on demand
+('docodego whoami --decode <value>'), and one step of curiosity does
+the same without it. Before
 anything is stored, the words (and the typed identifier) are scanned
 for secret shapes (API keys, tokens, private keys): a match refuses
 the act with nothing written (DG-U114) — verbatim text is stored whole

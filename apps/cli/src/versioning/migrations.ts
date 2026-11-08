@@ -281,6 +281,16 @@ export const MIGRATIONS: Migration[] = [
     ],
     steps: [teachSecondUseClean],
   },
+  {
+    from: 26,
+    to: 27,
+    notes: [
+      "the encoding rethink lands (the founder's ruling, recorded verbatim 2026-11-09, unit 530): derived signature identities store as enc:v1:<base64> — a versioned reversible encoding, revealed by the CLI on demand (docodego whoami, --decode <value>) — replacing the per-record-salted fingerprint on the sign path; existing fp:v1 rows stand as recorded (append-only, no scrubbing) and the committed salt file stays as their historical key; typed --name rows are byte-untouched",
+      "docodego whoami joins: what this environment derives and how it is stored, with --decode revealing any encoded row — the team sees who signed without hand-opening files (fp rows refuse decoding honestly: one-way by design)",
+      "AGENTS.md's sign line reteaches in place and the whoami line is inserted after it; the honest clause reprices exactly — concealment from the casual read, not cryptography — so the record never over-claims what the encoding hides",
+    ],
+    steps: [teachSignEncoding],
+  },
 ];
 
 /** v16 -> v17: teach AGENTS.md the event order and the repair rule.
@@ -466,6 +476,27 @@ export function teachSignIdentity(root: string): string {
     anchorLabel: "the shipped-v24 sign line",
     teach: (raw) => raw.replace(SIGN_IDENTITY_ANCHOR, SIGN_IDENTITY_TEXT),
     note: "updated AGENTS.md (the sign line names --name/--system and the per-record fingerprint)",
+  });
+}
+
+/** v26 -> v27: the encoding rethink (the founder's ruling, recorded
+ * verbatim 2026-11-09, unit 530): the sign line reteaches — the derived
+ * ladder stores as a versioned reversible encoding (`enc:v1:<base64>`,
+ * revealed on demand by `docodego whoami --decode`) — and the whoami
+ * line is inserted after it. Anchor-matched replacement of the
+ * shipped-v25 line; customized copies keep their words, the refreshed
+ * scaffold riding the plan as .new. */
+const SIGN_ENCODING_ANCHOR = SIGN_IDENTITY_TEXT;
+const SIGN_ENCODING_TEXT = "- `docodego sign <unit>` — the last tier: a named person's attestation — `--name` (typed, stored verbatim; `--by` its alias), `--system` (this environment), or the derived ladder, stored as a versioned reversible encoding (`enc:v1:<base64>` — revealed on demand by `docodego whoami --decode`); the act is shown and confirmed once — `--yes` for headless runs — status founder-signed.";
+const WHOAMI_LINE_TEXT = "\n- `docodego whoami` — the signer's identity in the open: what this environment derives and how it is stored (encoded), with `--decode <value>` revealing any encoded row.";
+
+export function teachSignEncoding(root: string): string {
+  return teachAnchor(root, {
+    present: { sentinel: "enc:v1:<base64>", label: "the encoding-rethink teach" },
+    anchor: SIGN_ENCODING_ANCHOR,
+    anchorLabel: "the shipped-v25 sign line",
+    teach: (raw) => raw.replace(SIGN_ENCODING_ANCHOR, SIGN_ENCODING_TEXT + WHOAMI_LINE_TEXT),
+    note: "updated AGENTS.md (the sign line names the reversible encoding; the whoami line added)",
   });
 }
 

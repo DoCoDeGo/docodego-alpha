@@ -28,12 +28,14 @@ the identifier comes from one source, chosen expressly:
 
 the consent split (the founder's ruling, 2026-11-08): a typed
 identifier stays verbatim; a derived identifier is stored as
-fp:v1:<hex> — a versioned fingerprint, salted per record (the salt
-lives at .docodego/04-govern/signature-salt, committed, create-only),
-so no record file names a person's machine in the clear. A
-fingerprint is privacy, not anonymity: it resists a stranger's lookup,
-not a determined guesser; two rows sharing one fingerprint in one
-record mean the same environment signed both.
+enc:v1:<base64> — a versioned reversible encoding (the encoding
+rethink, the founder's ruling, 2026-11-09), so no record file names a
+person's machine in the clear and the team can still see who signed.
+An encoded identifier is concealment from the casual read, not
+cryptography: the CLI reveals it on demand ('docodego whoami --decode
+<value>'), and one step of curiosity does the same without it; two
+rows sharing one encoded value in one record mean the same
+environment signed both.
 
 the derivation kind is named in the receipt. The whole act is shown
 before anything is recorded, and one confirmation closes it: an
@@ -43,7 +45,7 @@ with nothing appended (DG-U118) — a signature without an actor's yes is
 furniture wearing accountability's clothes.
 
 pass (all three appended in one run):
-  - the unit's signature.md — who (verbatim or fingerprinted), role,
+  - the unit's signature.md — who (verbatim or encoded), role,
     the local-calendar date, and sha256 of spec.md and delivered.md at
     signing time
   - one row in the signatures ledger (.docodego/04-govern/signatures.md,

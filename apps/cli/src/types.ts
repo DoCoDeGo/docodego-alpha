@@ -112,6 +112,7 @@ export interface Args {
   name?: string | boolean;
   system?: boolean;
   role?: string | boolean;
+  decode?: string | boolean;
 }
 
 /** Where a command writes. Commands stay pure-ish by taking this in. */
