@@ -1,0 +1,4 @@
+  FAIL bundle drift gate: bundle --verify is clean — got exit 1:  | bundle drift: 2 change(s) + manifest.json out of sync with payload.ts
+conformance: 1 failed, 343 passed
+  FAIL bundle drift gate: bundle --verify is clean — expected exit 0, got 1 · stderr: bundle drift: 2 change(s) + manifest.json out of sync with payload.ts
+exit=1

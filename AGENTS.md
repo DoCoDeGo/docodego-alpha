@@ -46,7 +46,11 @@ founding brief, `cycles.md` the numbered log of research and decisions.
   cite it as the founder's words. Never paraphrase, complete, or correct it.
 - **Evidence is a path that exists.** No path, no claim. A proofs.md entry
   names a real file; `verified: false` recorded honestly is worth more than
-  a claim that was never checked.
+  a claim that was never checked. A claim may declare the kind of seeing it
+  offers — `[evidence: screenshot]`, `[evidence: test-transcript]`,
+  `[evidence: session-recording]`, `[evidence: suite-run]` — the registry's
+  types, described never ranked; the declaration rides the path, and the
+  reader judges the substitution.
 - **Failure is evidence.** Proof files may show what failed; a refused gate
   records its attempt in the tracker. What the record cannot reconstruct
   did not, for this repository's purposes, happen.

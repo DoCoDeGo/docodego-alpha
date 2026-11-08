@@ -220,6 +220,12 @@ prefix (`docodego explain DG-F`) prints every page in the family.
 - law: a delivery's evidence is a claim about a moment; when the tree moves past that moment the claim goes stale, and silence about the drift is the defect (IMP-16). Commit dates decide, never file times — clones must not lie.
 - fix: recapture the proof against the current tree and update proofs.md, or record the supersession row that says the evidence describes an older tree on purpose.
 
+**DG-C019 — an evidence declaration names no registry type**
+
+- meaning: a `[evidence: <type>]` declaration in proofs.md or the unit's demo bundle uses a word the registry does not know — the claim declares a kind of seeing the law cannot describe.
+- law: the evidence ladder (IMP-20) makes visual claims legible: four declared types — suite-run, test-transcript, screenshot, session-recording — each with a stated strength, described never ranked. The substitution judgment (a screenshot vs a test) stays the reader's; an unknown declaration would smuggle the judgment back under a word nobody defined.
+- fix: declare one of the registry's types, or drop the declaration — an undeclared path keeps the base law (a path that exists).
+
 **DG-C018 — the recorded score binds an older spec**
 
 - meaning: score.md's spec hash no longer matches the spec's current content — the score was written for words that have since changed.

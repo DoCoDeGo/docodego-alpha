@@ -70,6 +70,7 @@ compares the two, so this table cannot drift from the engine.
 | v18 | v19 | the record's machine artifacts leave git: `.docodego/.gitignore` joins the boundary (var/ the scratch home, *.new the upgrade's conflict copies); the row rides the plan's create-only copy |
 | v19 | v20 | the compose room's integrity artifact: `.docodego/02-compose/compose-log.md` — one row per delivered unit (date, unit, delivered spec hash, declared deviations), appended by the deliver gate; readers named in the header (the handoff agent, the build-honesty auditor); planted by one create-only step, engine-owned like the delivery log |
 | v20 | v21 | the demonstrate room's bundles: `demo/<unit>/` — how-to-run.md scaffolded create-only at deliver, filled by the agent before launch; the launch gate refuses the unfilled scaffold (L5 — "show me it working" is never answered with an unfilled form); the room anchor (demo/README.md) rides one create-only step, the scaffolds are the gates' own writes |
+| v21 | v22 | the evidence ladder (IMP-20): a proof or demo-bundle path may declare its kind — the registry (suite-run, test-transcript, screenshot, session-recording) described, never ranked; the checker refuses declarations outside it (DG-C019); AGENTS.md's evidence bullet gains the sentence, taught in place |
 ## Conformance
 
 Enforced today: the bundle guard asserts registry contiguity on every

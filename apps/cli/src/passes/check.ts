@@ -4,7 +4,8 @@
 import { join, isAbsolute } from "node:path";
 import { spawnSync } from "node:child_process";
 import { STATUS_VALUES, type Diagnostic } from "../types.ts";
-import { vocabularyPack, VOCABULARY_NAMES } from "../bundled/index.ts";
+import { vocabularyPack, VOCABULARY_NAMES, EVIDENCE_TYPES } from "../bundled/index.ts";
+import { demoHowToPath, DEMO_DIR_REL, DEMO_HOWTO_NAME } from "../record/record-write.ts";
 import { field } from "../record/frontmatter.ts";
 import { isDir, isFile, readText, sha16 } from "../fsx.ts";
 import { parseMarkdown, type FileAst } from "../record/markdown.ts";
@@ -84,6 +85,43 @@ function checkUnit(rec: RecordAst, unit: UnitAst): Diagnostic[] {
     const target = rec.units.find((u) => u.name === link);
     if (target === undefined) {
       out.push({ severity: "warning", class: "drift", code: "DG-C006", message: `broken link: ${linkKey} '${link}' names no unit in the record`, file: unit.dir });
+    }
+  }
+  // the evidence ladder (IMP-20): declarations are validated wherever they
+  // appear — proofs.md and the demo bundle — at every status. The law is
+  // the record's vocabulary, not a delivery-time formality.
+  const proofRaw = unit.markers.proofs === null ? "" : readText(join(rec.root, unit.markers.proofs)) ?? "";
+  const demoRaw = readText(demoHowToPath(rec, unit.name)) ?? "";
+  if (proofRaw !== "" || demoRaw !== "") {
+    out.push(...evidenceDeclarations([
+      { raw: proofRaw, file: unit.markers.proofs ?? `${unit.dir}/proofs.md` },
+      { raw: demoRaw, file: `${DEMO_DIR_REL}/${unit.name}/${DEMO_HOWTO_NAME}` },
+    ]));
+  }
+  return out;
+}
+
+/** The evidence ladder's detector (IMP-20): `[evidence: <type>]`
+ * declarations in proofs.md or the unit's demo bundle must name a
+ * registry type. Unknown names are a real gap (drift), not a wording
+ * nit — an unintelligible declaration is worse than none. Undeclared
+ * paths keep the base law and are nobody's business here. */
+function evidenceDeclarations(surfaces: Array<{ raw: string; file: string }>): Diagnostic[] {
+  const out: Diagnostic[] = [];
+  const bad = new Map<string, Set<string>>();
+  for (const { raw, file } of surfaces) {
+    for (const m of raw.matchAll(/\[evidence:\s*([A-Za-z][A-Za-z0-9-]*)\]/g)) {
+      const type = (m[1] ?? "").toLowerCase();
+      if (EVIDENCE_TYPES[type] !== undefined) continue;
+      const files = bad.get(type) ?? new Set<string>();
+      files.add(file);
+      bad.set(type, files);
+    }
+  }
+  const names = Object.keys(EVIDENCE_TYPES).join(", ");
+  for (const [type, files] of bad) {
+    for (const file of files) {
+      out.push({ severity: "warning", class: "drift", code: "DG-C019", message: `declared evidence type '${type}' is not in the registry (${names}) — declare a registry type or drop the declaration; the types are described, never ranked`, file });
     }
   }
   return out;

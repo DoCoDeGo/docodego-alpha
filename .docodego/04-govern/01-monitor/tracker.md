@@ -126,3 +126,5 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 380-compose-log | delivered | 02-compose/01-build/380-compose-log/delivered.md |
 | 2026-11-08 | 010-demo-bundles | new unit | 03-demonstrate/01-demo/010-demo-bundles/spec.md |
 | 2026-11-08 | 010-demo-bundles | delivered | 03-demonstrate/01-demo/010-demo-bundles/delivered.md |
+| 2026-11-08 | 390-evidence-ladder | new unit | 02-compose/01-build/390-evidence-ladder/spec.md |
+| 2026-11-08 | 390-evidence-ladder | delivered | 02-compose/01-build/390-evidence-ladder/delivered.md |

@@ -12,7 +12,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, 
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { recordFiles, agentsMd, profiles as bundledProfiles, cliVersion, specVersion, skillsIndex, ruleFiles, vocabularies, VOCABULARY_NAMES, vocabularyPack, COMPOSE_LOG_TEMPLATE, DEMO_README_TEMPLATE, DEMO_HOWTO_TEMPLATE } from "./bundled/index.ts";
+import { recordFiles, agentsMd, profiles as bundledProfiles, cliVersion, specVersion, skillsIndex, ruleFiles, vocabularies, VOCABULARY_NAMES, vocabularyPack, COMPOSE_LOG_TEMPLATE, DEMO_README_TEMPLATE, DEMO_HOWTO_TEMPLATE, EVIDENCE_TYPES } from "./bundled/index.ts";
 import { treeFindings } from "./passes/tree.ts";
 import { governanceFindings } from "./passes/governance.ts";
 import { loadRecord } from "./record/load.ts";
@@ -550,6 +550,47 @@ fact("the demo room anchor names its readers and the not-there-yet truth", DEMO_
 fact("the demo scaffold carries the three fill sections and the honesty line", DEMO_HOWTO_TEMPLATE.includes("## see it work") && DEMO_HOWTO_TEMPLATE.includes("## run output") && DEMO_HOWTO_TEMPLATE.includes("## visual evidence") && DEMO_HOWTO_TEMPLATE.includes("paths, not pasted binaries"));
 fact("init plants the demo room anchor", existsSync(join(scratch, ".docodego", "03-demonstrate", "demo", "README.md")) && read(scratch, "03-demonstrate/demo/README.md") === DEMO_README_TEMPLATE);
 fact("deliver scaffolded the delivered unit's bundle — byte-identical to the template, all sections present", read(scratch, "03-demonstrate/demo/010-first-unit/how-to-run.md") === DEMO_HOWTO_TEMPLATE);
+
+// --- v2n: the evidence ladder (390) ---
+fact("the evidence registry ships with declared strengths, described never ranked", Object.keys(EVIDENCE_TYPES).join(",") === "suite-run,test-transcript,screenshot,session-recording" && Object.values(EVIDENCE_TYPES).every((s) => s.length > 10));
+fact("the demo scaffold teaches the declaration grammar and the registry", DEMO_HOWTO_TEMPLATE.includes("[evidence: screenshot]") && DEMO_HOWTO_TEMPLATE.includes("[evidence: session-recording]") && DEMO_HOWTO_TEMPLATE.includes("never ranked"));
+fact("the payload's AGENTS.md teaches the declaration sentence", agentsMd().includes("[evidence: screenshot]") && agentsMd().includes("described never ranked"));
+{
+  const { teachEvidenceLadder } = await import("./versioning/migrations.ts");
+  const ag = mkdtempSync(join(tmpdir(), "docodego-conformance-teach5-"));
+  const rec = join(ag, ".docodego");
+  mkdirSync(rec, { recursive: true });
+  const v21 = "## The honesty law\n\n- **Evidence is a path that exists.** No path, no claim. A proofs.md entry\n  names a real file; `verified: false` recorded honestly is worth more than\n  a claim that was never checked.\n";
+  writeFileSync(join(ag, "AGENTS.md"), v21);
+  const first = teachEvidenceLadder(rec);
+  const taught = readFileSync(join(ag, "AGENTS.md"), "utf8");
+  const second = teachEvidenceLadder(rec);
+  const custom = mkdtempSync(join(tmpdir(), "docodego-conformance-teach6-"));
+  mkdirSync(join(custom, ".docodego"), { recursive: true });
+  writeFileSync(join(custom, "AGENTS.md"), "# my own evidence rules\n\nnothing here matches the scaffold\n");
+  const keptNote = teachEvidenceLadder(join(custom, ".docodego"));
+  const keptBody = readFileSync(join(custom, "AGENTS.md"), "utf8");
+  fact("the evidence teach inserts the declaration sentence into shipped-v21 bytes", first.includes("updated AGENTS.md") && taught.includes("described never ranked"));
+  fact("the evidence teach is idempotent", second.includes("already present") && taught === readFileSync(join(ag, "AGENTS.md"), "utf8"));
+  fact("the evidence teach keeps a customized AGENTS.md untouched", keptNote.includes("customized") && keptBody === "# my own evidence rules\n\nnothing here matches the scaffold\n");
+  rmSync(ag, { recursive: true, force: true });
+  rmSync(custom, { recursive: true, force: true });
+}
+// the detector, over a real delivered unit: an unknown declaration fails
+// check naming the registry; a declared one passes; the demo bundle is
+// scanned with its own path named
+const keptProofsRel = "01-document/01-discover/kept-unit/proofs.md";
+const keptProofsOriginal = read(fixture, keptProofsRel);
+write(fixture, ".docodego/" + keptProofsRel, keptProofsOriginal + "\n- extra — the run again: `01-document/01-discover/kept-unit/proofs/run.txt` [evidence: vibe]\n");
+check("an unknown evidence declaration is flagged (DG-C019 warning, registry named)", run(fixture, ["check"]), 0, (r) => r.stdout.includes("DG-C019") && r.stdout.includes("'vibe'") && r.stdout.includes("never ranked"));
+write(fixture, ".docodego/" + keptProofsRel, keptProofsOriginal + "\n- extra — the run again: `01-document/01-discover/kept-unit/proofs/run.txt` [evidence: screenshot]\n");
+check("a declared registry evidence type checks clean — no DG-C019", run(fixture, ["check"]), 0, (r) => !r.stdout.includes("DG-C019"));
+write(fixture, ".docodego/" + keptProofsRel, keptProofsOriginal);
+const keptDemoRel = "03-demonstrate/demo/kept-unit/how-to-run.md";
+const keptDemoOriginal = read(fixture, keptDemoRel);
+write(fixture, ".docodego/" + keptDemoRel, keptDemoOriginal + "\n[evidence: seance]\n");
+check("the demo bundle is scanned too, and names its own path", run(fixture, ["check"]), 0, (r) => r.stdout.includes("DG-C019") && r.stdout.includes(keptDemoRel));
+write(fixture, ".docodego/" + keptDemoRel, keptDemoOriginal);
 
 // --- v2d: the gate-rows law ships and teaches (300) ---
 fact("the payload's AGENTS.md teaches the gate-rows law", agentsMd().includes("Gate rows ride the unit's commit"));

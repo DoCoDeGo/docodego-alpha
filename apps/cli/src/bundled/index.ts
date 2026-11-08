@@ -198,8 +198,26 @@ recognizes paths, not pasted binaries. One honest line is a valid fill:
 
 ## visual evidence
 
-(fill: screenshot/recording paths, or "none — the suite is the demo")
+(fill: screenshot/recording paths, or "none — the suite is the demo".
+A path may declare its kind — \`[evidence: screenshot]\`,
+\`[evidence: session-recording]\` — from the registry: suite-run,
+test-transcript, screenshot, session-recording; the types are
+described, never ranked.)
 `;
+
+/** The evidence ladder (IMP-20): what a path can claim to show, declared
+ * at the claim — `[evidence: <type>]` beside the path in proofs.md or a
+ * demo bundle. The types are described, never ranked: the substitution
+ * judgment (a screenshot vs a test transcript) stays the reader's, which
+ * is the audit's own boundary. Undeclared paths keep the base law — a
+ * path that exists; declaring is how a claim says what kind of seeing
+ * it offers, and only declared types are validated (DG-C019). */
+export const EVIDENCE_TYPES: Record<string, string> = {
+  "suite-run": "deterministic — the recorded green of the project's own suite",
+  "test-transcript": "deterministic — a recorded run of a named test or command",
+  "screenshot": "visual-only — what the UI showed at one moment; no behavior",
+  "session-recording": "interactive — a recorded browser session; behavior shown, not asserted",
+};
 
 /** The signatures ledger: one appended row per signed act. A signature is
  * an attestation by command execution — this ledger witnesses who claimed

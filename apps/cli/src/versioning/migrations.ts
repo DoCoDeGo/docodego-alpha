@@ -235,6 +235,15 @@ export const MIGRATIONS: Migration[] = [
     ],
     steps: [(root) => createOnly(root, `${DEMO_DIR_REL}/README.md`, DEMO_README_TEMPLATE)],
   },
+  {
+    from: 21,
+    to: 22,
+    notes: [
+      "the evidence ladder ships (IMP-20): a proof or demo-bundle path may declare its kind — [evidence: screenshot | test-transcript | session-recording | suite-run] — the registry described, never ranked; the checker refuses declarations outside the registry (DG-C019, drift), because an unintelligible declaration is worse than none (020-canon-debts/390)",
+      "AGENTS.md's evidence bullet gains the declaration sentence, taught in place by the v21->v22 migration: shipped-v21 bytes gain it, customized copies keep their words, the refreshed scaffold riding the plan as .new",
+    ],
+    steps: [teachEvidenceLadder],
+  },
 ];
 
 /** v16 -> v17: teach AGENTS.md the event order and the repair rule.
@@ -263,6 +272,34 @@ export function teachEventOrder(root: string): string {
   const taught = raw.replace(EVENT_ORDER_ANCHOR, `no implementation before a scored spec, no delivery without a proof that\n${EVENT_ORDER_TEXT}`);
   writeText(abs, taught);
   let note = "updated AGENTS.md (event-order sentences inserted after the order line)";
+  const twin = join(repoRoot, "AGENTS.md.new");
+  if (existsSync(twin) && (readText(twin) ?? "") === taught) {
+    rmSync(twin);
+    note += " — AGENTS.md.new removed (now identical to the refreshed file)";
+  }
+  return note;
+}
+
+/** v21 -> v22: teach AGENTS.md the evidence declaration — the evidence
+ * ladder's grammar. Same conservative contract as the prior teaches:
+ * shipped-v21 bytes gain the sentence in place; anything else is kept
+ * untouched, the refreshed copy riding the plan as .new. Exported for
+ * the conformance fixture that holds the teach contract in place. */
+const EVIDENCE_LADDER_ANCHOR = "- **Evidence is a path that exists.** No path, no claim. A proofs.md entry\n  names a real file; `verified: false` recorded honestly is worth more than\n  a claim that was never checked.";
+const EVIDENCE_LADDER_TEXT = " A claim may declare the kind of seeing it\n  offers — `[evidence: screenshot]`, `[evidence: test-transcript]`,\n  `[evidence: session-recording]`, `[evidence: suite-run]` — the registry's\n  types, described never ranked; the declaration rides the path, and the\n  reader judges the substitution.";
+
+export function teachEvidenceLadder(root: string): string {
+  const repoRoot = dirname(root);
+  const abs = join(repoRoot, "AGENTS.md");
+  if (!existsSync(abs)) return "kept AGENTS.md (absent — nothing to teach)";
+  const raw = readText(abs) ?? "";
+  if (raw.includes("described never ranked")) return "kept AGENTS.md (evidence-ladder law already present)";
+  if (!raw.includes(EVIDENCE_LADDER_ANCHOR)) {
+    return "kept AGENTS.md (anchor sentence not found — your copy is customized; the refreshed scaffold rides as AGENTS.md.new)";
+  }
+  const taught = raw.replace(EVIDENCE_LADDER_ANCHOR, `${EVIDENCE_LADDER_ANCHOR}${EVIDENCE_LADDER_TEXT}`);
+  writeText(abs, taught);
+  let note = "updated AGENTS.md (evidence declaration sentence added to the evidence bullet)";
   const twin = join(repoRoot, "AGENTS.md.new");
   if (existsSync(twin) && (readText(twin) ?? "") === taught) {
     rmSync(twin);
