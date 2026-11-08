@@ -1,7 +1,7 @@
 ---
 name: 550-fix-l2-path-extractor
 type: unit
-status: delivered
+status: founder-signed
 ---
 
 # 550-fix-l2-path-extractor

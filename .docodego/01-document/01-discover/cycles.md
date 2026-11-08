@@ -522,3 +522,15 @@ machinery, so it is a deliberated act, not a quick one.
   launch disagree on what a proof path is). One design question held
   for the founder: headless `sign --yes` reaches the founder tier.
   Backlog recorded in the research doc, none blocking.
+- Mistake 8 (2026-11-09, during 550's delivery) — the unit commit was
+  chained into the same shell command as the deliver and launch
+  gates, so the commit and push executed on tail's exit status while
+  launch had actually REFUSED (L2): the unit landed pushed as a
+  delivered-only unit under a completion-voiced message, with no
+  launch or sign rows. The refusal itself was the fix working — my
+  own proofs.md backticked its src/run.txt example, and the extractor
+  counted it, exactly as built. Mitigation: the follow-up commit
+  carries the launch + sign rows and the de-backticked proofs
+ (history not rewritten); the working rule sharpened — gates first,
+  read the verdict line, only then commit; never chain a commit to a
+  gate whose exit status is swallowed by a pipe.

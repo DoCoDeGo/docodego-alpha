@@ -5,9 +5,9 @@ read — deliver and launch agree on what a proof path is by
 construction now, not by coincidence.
 
 - AC1 — the regression, pinned twice: the pure pin ("version strings
-  are not proof paths") drives `proofPaths` directly — a list item
-  citing `src/run.txt` beside 1.3.0, 2.10.5, and 1.0.0 extracts
-  exactly `src/run.txt` (the numeric tails stopped looking like
+  are not proof paths") drives proofPaths directly — a list item
+  citing src/run.txt beside 1.3.0, 2.10.5, and 1.0.0 extracts
+  exactly that one path (the numeric tails stopped looking like
   extensions: PATH_LIKE now requires a letter in the tail). The
   end-to-end pin walks the fixture record: proofs.md carrying
   version strings leaves `check` clean (no phantom evidence) and
