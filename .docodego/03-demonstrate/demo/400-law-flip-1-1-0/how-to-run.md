@@ -9,16 +9,29 @@ recognizes paths, not pasted binaries. One honest line is a valid fill:
 
 ## see it work
 
-(fill: the commands, in order, and what each should show)
+The laws are demonstrable by reading and by the gates that know them:
+
+1. `node --experimental-strip-types apps/spec/src/main.ts lint` — 33
+   laws carried, 0 errors: the two new law files parse, anchors agree
+   with filenames.
+2. `node --experimental-strip-types apps/spec/src/main.ts verify` — the
+   landed amendment files' EL-32 citation resolves through the declared
+   reservation in `spec/laws/README.md`.
+3. `node --experimental-strip-types apps/spec/src/main.ts doctor` — no
+   drift; axes read side by side: spec/ 1.1.0 · delivered 1.1.0 ·
+   payload 22 · cli 0.8.0.
+4. The probe: copy `spec/` to a scratch root, append a citation of
+   EL-99 (undeclared), verify — SP-V003 fires. Declarations are
+   honored; nothing else is.
 
 ## run output
 
-(fill: pasted output or the path to the capture)
+Captured green at the deliverable HEAD:
+`02-compose/01-build/400-law-flip-1-1-0/proofs/canon-doctor.txt`
+[evidence: suite-run], `proofs/canon-verify-probe.txt` [evidence:
+suite-run], `proofs/canon-lint.txt` [evidence: suite-run].
 
 ## visual evidence
 
-(fill: screenshot/recording paths, or "none — the suite is the demo".
-A path may declare its kind — `[evidence: screenshot]`,
-`[evidence: session-recording]` — from the registry: suite-run,
-test-transcript, screenshot, session-recording; the types are
-described, never ranked.)
+none — the suite is the demo: the law tree is prose plus the gates that
+read it, and the gates' own outputs above are the seeing.

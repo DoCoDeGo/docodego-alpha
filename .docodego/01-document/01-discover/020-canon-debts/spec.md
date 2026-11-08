@@ -138,6 +138,22 @@ satisfiability) is its own thread, separate from the landed IMP-12.
 The epic stays open as long as those rows are — its owned work is
 done.
 
+**Addendum (appended 2026-11-08, the founder answered):** Cycle 4 came
+back the same day, in the popup, verbatim. IMP-1: auto by task, limited
+to this repo — a ruling of the record layer, nothing shipped. IMP-11:
+the register split accepted as law — its unit follows. R10-5: ICS 2.0
+owns satisfiability. EL-33/EL-34: accepted for signature — and the
+sign-off form answered too (git/system identity, secrets scanned before
+storing, a tool to mechanize). 400-law-flip-1-1-0 walked the two drafts
+into the law tree as spec 1.1.0: the law files byte-identical to their
+accepted proposals, the amendment files applied with the founder-directed
+sign-offs, the EL-32 reservation declared in the laws index (verify
+honors declarations, still refuses undeclared anchors — the negative
+probe proves the difference), two log rows, two map rows, the stamp.
+EL-18 stays draft — accepted siblings only. The record contract and the
+boundary did not move: the spec tree ships through the canon CLI, not
+the bundle allowlist; payload 22, boundary 52, allowlist v2 throughout.
+
 **Addendum (appended 2026-11-08, "finish everything"):** the founder
 reopened the stay-out rows, and the lawfully walkable ones re-entered.
 IMP-15 is the founder's own commissioned design (the audit specifies it

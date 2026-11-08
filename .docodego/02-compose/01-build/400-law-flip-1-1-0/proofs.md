@@ -14,9 +14,11 @@
   declared anchors pass.
 - AC3 — the version circle closes and the artifacts are current:
   `proofs/canon-build.txt` [evidence: suite-run] (structure
-  664a63889e47…, 47 files — the draft EL-18 excluded); doctor's axes
-  read green at the deliverable HEAD and are re-captured there before
-  the record commit.
+  664a63889e47…, 47 files — the draft EL-18 excluded); re-captured
+  green at the deliverable HEAD: `proofs/canon-doctor.txt` [evidence:
+  suite-run] — "no drift … version pair ok … payload specVersion 22 ·
+  cli 0.8.0 · spec/ 1.1.0 · delivered 1.1.0"; the record's own check
+  exit 0 — `proofs/record-check.txt` [evidence: suite-run].
 - AC4 — the sign-offs carry what the directive demands: the verbatim
   acceptance, the git/system identity, the hash, the scan, the
   attestation limit — `proofs/law-hashes.txt` [evidence: suite-run]
