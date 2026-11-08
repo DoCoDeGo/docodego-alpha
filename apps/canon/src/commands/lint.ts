@@ -149,7 +149,7 @@ export function lintFindings(root: string, read: SpecRead): { diags: Diagnostic[
 }
 
 export function run(args: Args, io: Io): number {
-  const root = args.root ?? "spec";
+  const root = args.root ?? "canon";
   const read = loadSpec(root);
   const { diags: found, files } = lintFindings(root, read);
   const diags: Diagnostic[] = [...read.diagnostics, ...found];

@@ -38,7 +38,7 @@ function classify(law: { enforcedBy: string }, cli: Set<string>): Classification
 const weightOf = (severity: string): number => (severity === "veto" ? 3 : 1);
 
 export function run(args: Args, io: Io): number {
-  const root = args.root ?? "spec";
+  const root = args.root ?? "canon";
   const cliPath = args.cli ?? join(root, "..", "apps", "cli", "src", "cli", "help.ts");
   const read = loadSpec(root);
   const diags: Diagnostic[] = [...read.diagnostics];

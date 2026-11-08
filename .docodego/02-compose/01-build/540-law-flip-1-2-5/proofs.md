@@ -7,7 +7,7 @@ this unit's commit forward — the same delivered-baseline rule as
 before; the flips themselves are in the working tree and every gate
 that reads spec/ directly ran green on them now).
 
-- AC1 — the law text: `spec/laws/34-the-launch-gate.md` now reads,
+- AC1 — the law text: `canon/laws/34-the-launch-gate.md` now reads,
   in the founder-signed paragraph, "recorded as a versioned
   reversible encoding of it, never as it stands", and in the
   honest-limit paragraph, "An encoded identifier is concealment from
@@ -18,15 +18,15 @@ that reads spec/ directly ran green on them now).
   "What changed" block; the fingerprint wording and the
   privacy-not-anonymity sentence no longer appear in the law file,
   and both remain quoted in
-  `spec/amendments/1.2.5-EL-34.md` — the old text is kept, never
+  `canon/amendments/1.2.5-EL-34.md` — the old text is kept, never
   deleted.
 - AC2 — the paper trail: the amendment's frontmatter reads
   `status: applied-in-1.2.5` with the founder's receipt block
   byte-untouched (their words "Signed Off" verbatim, the
   fingerprint-era identity line standing as recorded);
-  `spec/SPEC.md` line 5 stamps **Version:** 1.2.5 (and canon build
+  `canon/SPEC.md` line 5 stamps **Version:** 1.2.5 (and canon build
   kept the stamp — the version line is read, not overwritten);
-  `spec/amendments/log.md` carries the 1.2.5 row with the acceptance
+  `canon/amendments/log.md` carries the 1.2.5 row with the acceptance
   words verbatim and the "wording, no duty change" note.
 - AC3 — the index and the mirror: `canon lint` clean (51 files,
   33 laws), `canon build` rebuilt SPEC.md, the law index, and the
@@ -45,3 +45,5 @@ that reads spec/ directly ran green on them now).
   recorded: `pnpm doctor` is pnpm's own builtin health check — the
   record's doctor is `pnpm run doctor` (same collision class as
   `pnpm docs`, journaled).
+
+- supersession (2026-11-09, unit 590-canon-rename) — the law tree renamed: `spec/` is `canon/` and `apps/spec/` is `apps/canon/` (the founder's cycle-8 ruling; the files above are the same files, moved). Paths in this proof were recaptured to their current locations per the drift gate's sanctioned repair.

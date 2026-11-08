@@ -579,7 +579,7 @@ prefix (`docodego explain DG-F`) prints every page in the family.
 
 - meaning: 'sign-off' was invoked without an amendment file, without --quote, or the amendment file was not readable.
 - law: the contract is exact: one amendment path plus the verbatim words — a sign-off without the words would forge the quote.
-- fix: 'docodego sign-off spec/amendments/<file>.md --quote "<the acceptance words verbatim>"' — 'docodego sign-off --help' shows the full contract.
+- fix: 'docodego sign-off canon/amendments/<file>.md --quote "<the acceptance words verbatim>"' — 'docodego sign-off --help' shows the full contract.
 
 ### DG-K — skills — supply chain and lockfile
 

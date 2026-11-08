@@ -43,7 +43,7 @@ Dual use is structural practice here, not a slogan: every artifact
 family names its second audience or honestly records that it has
 none. The worked pairs: the conformance fixtures prove the engine and
 their curated set demos it; the proofs bind evidence at deliver and
-teach a cold contributor how to verify; the spec tree governs the
+teach a cold contributor how to verify; the canon tree governs the
 build and `canon publish` renders it as the public site; the explain
 pages fix refusals and gloss the law.
 

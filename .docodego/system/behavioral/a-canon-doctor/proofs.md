@@ -12,9 +12,9 @@
   ok, index ok, version pair ok, mirror aligned (1 mirror statutes vs 1
   tree statutes)":
   `system/behavioral/a-canon-doctor/proofs/doctor-fixture.txt`; fixture
-  sources: `apps/spec/fixtures/doctor-spec/`,
-  `apps/spec/fixtures/doctor-spec-dist/manifest.json`,
-  `apps/spec/fixtures/payload-aligned.ts`
+  sources: `apps/canon/fixtures/doctor-spec/`,
+  `apps/canon/fixtures/doctor-spec-dist/manifest.json`,
+  `apps/canon/fixtures/payload-aligned.ts`
 - AC3 — drift detections on a mutated scratch copy (the scratch was
   ephemeral: created, run, deleted): SP-F001 structure ahead of the
   delivered index, SP-F002 manifest 9.9.9 vs SPEC.md 1.0.0, SP-F003 index
@@ -34,3 +34,5 @@
   `system/behavioral/a-canon-doctor/proofs/typecheck.txt`,
   `system/behavioral/a-canon-doctor/proofs/imports-non-node.txt`,
   `system/behavioral/a-canon-doctor/proofs/doctor-json.txt`
+
+- supersession (2026-11-09, unit 590-canon-rename) — the law tree renamed: `spec/` is `canon/` and `apps/spec/` is `apps/canon/` (the founder's cycle-8 ruling; the files above are the same files, moved). Paths in this proof were recaptured to their current locations per the drift gate's sanctioned repair.

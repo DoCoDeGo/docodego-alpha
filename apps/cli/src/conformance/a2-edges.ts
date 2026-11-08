@@ -67,11 +67,11 @@ fact("restored copy waits as README.md.new", existsSync(join(fixture, ".docodego
 }
 
 // --- v13: the transition table cannot drift from the registry ---
-// spec/record/version-transition.md carries the shipped hops as law; this
+// canon/record/version-transition.md carries the shipped hops as law; this
 // fact is the binding: same hop count, same from/to pairs, or the suite
 // fails and the doc gets fixed before anything ships.
 {
-  const doc = readFileSync(join(REPO_ROOT, "spec", "record", "version-transition.md"), "utf8");
+  const doc = readFileSync(join(REPO_ROOT, "canon", "record", "version-transition.md"), "utf8");
   const docRows = [...doc.matchAll(/^\| v(\d+) \| v(\d+) \|(.+?)\|?$/gm)].map((m) => `${m[1]}->${m[2]}`);
   const regRows = MIGRATIONS.map((m) => `${m.from}->${m.to}`);
   fact("the transition table mirrors the migration registry hop for hop", JSON.stringify(docRows) === JSON.stringify(regRows));

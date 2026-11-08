@@ -36,7 +36,7 @@ sign-off-record pins, cli302–cli305 among them).
 The founder's 1.2.4 sign-off (2026-11-08) predates this machinery: it
 has no ledger row, and none is fabricated — hand-writing rows for past
 acts would be the record claiming an instrument it did not run. Its
-receipt in `spec/amendments/1.2.4-EL-34.md` is its evidence; from this
+receipt in `canon/amendments/1.2.4-EL-34.md` is its evidence; from this
 unit forward, every sign-off writes the rows.
 
 ## the order slip
@@ -45,3 +45,5 @@ The implementation was written before this spec was scored — recorded
 as Mistake 7 in the cycles log, carried in this spec's deviations line,
 and the scored spec (91/100) binds the delivered unit. The delivered
 state is what the spec describes; the record shows the order honestly.
+
+- supersession (2026-11-09, unit 590-canon-rename) — the law tree renamed: `spec/` is `canon/` and `apps/spec/` is `apps/canon/` (the founder's cycle-8 ruling; the files above are the same files, moved). Paths in this proof were recaptured to their current locations per the drift gate's sanctioned repair.

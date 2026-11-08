@@ -1,7 +1,7 @@
 # proofs — 100-spec7-proof-semantics
 
 - AC1 — the scaffold: `canon amend EL-18 --as 1.1.0` wrote
-  `spec/amendments/1.1.0-EL-18.md` carrying the law's anchor, the
+  `canon/amendments/1.1.0-EL-18.md` carrying the law's anchor, the
   delivered baseline's structure hash (ba9b542a66c9…), and the three
   questions (what changed, why, what risk — EL-30); the drafted text
   answers all three, and the amendment names the pending state in its
@@ -11,14 +11,14 @@
   (resolves · reproducible · failure-is-evidence · narration-is-not-
   claim · guards baseline the delivered state); twelve questions from a
   non-author, every answer recorded, six revisions applied and listed:
-  `spec/amendments/1.1.0-EL-18.md` (## Grilling)
+  `canon/amendments/1.1.0-EL-18.md` (## Grilling)
 - AC3 — the status-rails new-law draft reaches the same bar: ten
   questions, every answer recorded, six revisions applied — including
   the real correction that retirement stamps the tomb rather than
   minting a status — with its enforceability named exactly (which gate
   sets which status, what detects gate-less moves today, what will
   refuse them, and which unit carries it):
-  `spec/amendments/1.1.0-EL-33-new.md` (## Grilling)
+  `canon/amendments/1.1.0-EL-33-new.md` (## Grilling)
 - AC4 — the tree stays green with the proposals present: canon lint
   0 errors, canon verify 0 errors, build byte-unchanged at the
   delivered 1.0.2 structure hash ba9b542a66c9… (draft amendments
@@ -54,3 +54,5 @@
   ruling; the status-rails draft takes EL-33 and says so in its header.
 - The two drafts are independent by construction (separate files,
   separate sign-offs); accepting one does not force the other.
+
+- supersession (2026-11-09, unit 590-canon-rename) — the law tree renamed: `spec/` is `canon/` and `apps/spec/` is `apps/canon/` (the founder's cycle-8 ruling; the files above are the same files, moved). Paths in this proof were recaptured to their current locations per the drift gate's sanctioned repair.

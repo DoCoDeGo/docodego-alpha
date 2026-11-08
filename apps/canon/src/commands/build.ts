@@ -59,8 +59,8 @@ export function treeStructure(root: string): { files: string[]; checksums: Recor
 }
 
 export function run(args: Args, io: Io): number {
-  const root = args.root ?? "spec";
-  const dist = args.dist ?? "apps/spec/dist";
+  const root = args.root ?? "canon";
+  const dist = args.dist ?? "apps/canon/dist";
   const read = loadSpec(root);
   const diags: Diagnostic[] = [...read.diagnostics];
 
@@ -83,7 +83,7 @@ export function run(args: Args, io: Io): number {
       diags.push({
         severity: "error", code: "SP-B004",
         message: `existing manifest at ${manifestPath} is not valid JSON — fix it or delete the dist folder`,
-        file: "apps/spec/dist/manifest.json",
+        file: "apps/canon/dist/manifest.json",
       });
     } else {
       const c = cmpVersion(prev.specVersion ?? "0.0.0", specVersion ?? "0.0.0");

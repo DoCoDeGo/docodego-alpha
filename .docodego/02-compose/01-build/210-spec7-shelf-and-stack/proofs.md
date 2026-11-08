@@ -18,7 +18,7 @@
   warnings, never errors —
   `02-compose/01-build/210-spec7-shelf-and-stack/proofs/conformance.txt`,
   `02-compose/01-build/210-spec7-shelf-and-stack/proofs/check-repo.txt`.
-- AC4 — the law: `spec/record/the-shelf.md` (shelf policy, furniture
+- AC4 — the law: `canon/record/the-shelf.md` (shelf policy, furniture
   doctrine, stack standard); the trail links it; canon lint + verify
   green; SPEC.md stamps 1.0.4 and the log row closes SP-V004's circle —
   `02-compose/01-build/210-spec7-shelf-and-stack/proofs/canon.txt`,
@@ -31,3 +31,5 @@
   `02-compose/01-build/210-spec7-shelf-and-stack/proofs/conformance.txt`,
   `02-compose/01-build/210-spec7-shelf-and-stack/proofs/cli-tsc.txt`,
   `02-compose/01-build/210-spec7-shelf-and-stack/proofs/cli-tsc.exit`.
+
+- supersession (2026-11-09, unit 590-canon-rename) — the law tree renamed: `spec/` is `canon/` and `apps/spec/` is `apps/canon/` (the founder's cycle-8 ruling; the files above are the same files, moved). Paths in this proof were recaptured to their current locations per the drift gate's sanctioned repair.

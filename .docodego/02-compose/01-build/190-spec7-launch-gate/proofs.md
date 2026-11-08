@@ -14,7 +14,7 @@
   04-govern/signatures.md —
   `02-compose/01-build/190-spec7-launch-gate/proofs/conformance.txt`.
 - AC4 — the EL-34 law draft exists at
-  `spec/amendments/1.1.0-EL-34-new.md` (next free id: 32 reserved, 33
+  `canon/amendments/1.1.0-EL-34-new.md` (next free id: 32 reserved, 33
   taken by the rails draft), and the canon suite stays green with it
   present (doctor no drift, build structure unchanged ba9b542a66c9 —
   drafts ride outside the built tree) —
@@ -37,3 +37,5 @@
 - AC5 — CLI typecheck green —
   `02-compose/01-build/190-spec7-launch-gate/proofs/cli-tsc.txt` +
   `02-compose/01-build/190-spec7-launch-gate/proofs/cli-tsc.exit`.
+
+- supersession (2026-11-09, unit 590-canon-rename) — the law tree renamed: `spec/` is `canon/` and `apps/spec/` is `apps/canon/` (the founder's cycle-8 ruling; the files above are the same files, moved). Paths in this proof were recaptured to their current locations per the drift gate's sanctioned repair.

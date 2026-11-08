@@ -435,7 +435,7 @@ DG-U111 --name and --system together (one signer, one source)
 exit codes: 0 signed-off · 1 refused · 2 usage
 
 example:
-  docodego sign-off spec/amendments/1.3.0-EL-35-new.md --quote "Accept for signature"`,
+  docodego sign-off canon/amendments/1.3.0-EL-35-new.md --quote "Accept for signature"`,
   },
   whoami: {
     usage: 'docodego whoami [--system] [--decode "<enc:v1:...>"] [--json]',

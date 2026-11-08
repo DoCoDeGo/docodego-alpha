@@ -32,5 +32,7 @@
 Deliverable commit first (the drift gates hold at HEAD — the
 290/390/400/410 precedent): the bundle drift gate was red pre-commit by
 design and is re-captured green at that HEAD. The spec tree moved, so
-`apps/spec/dist` rides the deliverable commit explicitly — the 410
+`apps/canon/dist` rides the deliverable commit explicitly — the 410
 lesson applied, not repeated.
+
+- supersession (2026-11-09, unit 590-canon-rename) — the law tree renamed: `spec/` is `canon/` and `apps/spec/` is `apps/canon/` (the founder's cycle-8 ruling; the files above are the same files, moved). Paths in this proof were recaptured to their current locations per the drift gate's sanctioned repair.

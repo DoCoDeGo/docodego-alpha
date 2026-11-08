@@ -36,7 +36,7 @@
   law(s) · 0 error(s); canon build · 48 file(s), 33 law(s), structure
   c50483391af9… · SPEC.md, law-index.json, manifest.json; canon verify
   · 20 live CLI command(s) · 0 error(s); the sign-off line "SIGNED-OFF
-  spec/amendments/1.2.3-EL-34.md — 2026-11-08 · system identity · law
+  canon/amendments/1.2.3-EL-34.md — 2026-11-08 · system identity · law
   sha256 16f8161bafc1… · pending block replaced" — the founder's words
   verbatim in the amendment file, scan clean. Evidence: the canon
   runs — `[evidence: suite-run]`; the amendment file itself is the
@@ -52,3 +52,5 @@ fields, so a body-only wording amendment reports "no changes" — the
 scaffold's "canon diff hands you this list" over-promises for exactly
 this amendment's shape. Candidate row for the next catalog or the
 SW-080 bump batch; not widened in scope mid-unit.
+
+- supersession (2026-11-09, unit 590-canon-rename) — the law tree renamed: `spec/` is `canon/` and `apps/spec/` is `apps/canon/` (the founder's cycle-8 ruling; the files above are the same files, moved). Paths in this proof were recaptured to their current locations per the drift gate's sanctioned repair.

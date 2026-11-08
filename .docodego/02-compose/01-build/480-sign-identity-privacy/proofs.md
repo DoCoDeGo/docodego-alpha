@@ -61,7 +61,7 @@ reproduction: `npm run -s conformance` and, for the payload hop,
   every act — the pins are byte-equality, and the one pattern pin
   (fp:v1: shape) rides beside them — `[evidence: suite-run]`.
 - AC9 — the amendment ordering holds: the scaffold
-  `spec/amendments/1.2.4-EL-34.md` exists in this unit (status draft)
+  `canon/amendments/1.2.4-EL-34.md` exists in this unit (status draft)
   with the consent-split wording; its Why cites the founder's verbatim
   addendum (cycles.md, unit 480); the founder's sign-off is the named
   next act — the law text lands only on that signature (the 450
@@ -107,3 +107,5 @@ enforcement's growth — the pinned teach contracts, the exact-hex
 fingerprints, and the repair facts are the lines added. The held
 refactor debts (SW-023, SW-078) are the recorded retirement that pays
 against this balance in later cycles.
+
+- supersession (2026-11-09, unit 590-canon-rename) — the law tree renamed: `spec/` is `canon/` and `apps/spec/` is `apps/canon/` (the founder's cycle-8 ruling; the files above are the same files, moved). Paths in this proof were recaptured to their current locations per the drift gate's sanctioned repair.

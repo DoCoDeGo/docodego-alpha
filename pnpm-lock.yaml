@@ -176,9 +176,9 @@ importers:
         specifier: ^7.0.2
         version: 7.0.2
 
-  apps/cli: {}
+  apps/canon: {}
 
-  apps/spec: {}
+  apps/cli: {}
 
 packages:
 

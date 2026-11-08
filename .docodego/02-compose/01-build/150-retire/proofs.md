@@ -82,7 +82,7 @@
 - The retire gate's DG-U102 fires when proofs.md names NO resolvable
   path (the spec's law). The first implementation refused on ANY
   unresolvable token and the gate bit twice on honest prose: 050's
-  fixture-tree citation (`apps/spec/fixtures/diff-spec/amendments/1.0.1-ST-2.md`)
+  fixture-tree citation (`apps/canon/fixtures/diff-canon/amendments/1.0.1-ST-2.md`)
   and 140's envelope-schema citation
   (`docodego/setback/v1`). The spec won: prose tokens are not gates.
   The bite also exposed a real bug — ENVELOPE_SCHEMA's regex matched a
@@ -98,3 +98,5 @@
   tracker rows, grill verdicts, cycle-log entries, and the epic's
   children list keep the old addresses as written; the destination row
   is the pointer and trace resolves through `was:`.
+
+- supersession (2026-11-09, unit 590-canon-rename) — the law tree renamed: `spec/` is `canon/` and `apps/spec/` is `apps/canon/` (the founder's cycle-8 ruling; the files above are the same files, moved). Paths in this proof were recaptured to their current locations per the drift gate's sanctioned repair.

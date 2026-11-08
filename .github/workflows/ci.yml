@@ -41,7 +41,7 @@ jobs:
         run: node --experimental-strip-types apps/cli/scripts/compile-statutes.ts --check
       - name: canon integrity — doctor (linux only — the tree is platform-blind)
         if: runner.os == 'Linux'
-        run: node --experimental-strip-types apps/spec/src/main.ts doctor
+        run: node --experimental-strip-types apps/canon/src/main.ts doctor
       - name: conformance — the CLI proves itself against scratch records
         run: pnpm conformance
       - name: generated docs match their registries (linux only — the registries are platform-blind)

@@ -1,5 +1,5 @@
 {
-  "name": "docodego-spec",
+  "name": "docodego-canon",
   "version": "0.1.0",
   "description": "canon — the spec workbench: lints and verifies the DoCoDeGo System's law-file set, and compiles it for the payload. Separate binary by design (ADR 0012): laws amend at founder pace, the CLI at gate pace.",
   "license": "MIT",

@@ -18,8 +18,8 @@ const VERSION = /^\d+\.\d+\.\d+$/;
 const sha256 = (data: string | Buffer): string => createHash("sha256").update(data).digest("hex");
 
 export function run(args: Args, io: Io): number {
-  const root = args.root ?? "spec";
-  const dist = args.dist ?? "apps/spec/dist";
+  const root = args.root ?? "canon";
+  const dist = args.dist ?? "apps/canon/dist";
   const read = loadSpec(root);
   const diags: Diagnostic[] = [...read.diagnostics];
 

@@ -42,8 +42,8 @@ function readCurrent(site: string): { version?: string; structureHash?: string }
 }
 
 export function run(args: Args, io: Io): number {
-  const root = args.root ?? "spec";
-  const dist = args.dist ?? "apps/spec/dist";
+  const root = args.root ?? "canon";
+  const dist = args.dist ?? "apps/canon/dist";
   const site = args.site;
   if (site === undefined || site.trim() === "") {
     io.err("usage: canon publish --site <dir>\n\n  --site   the version-directory site's root; created on first publish");

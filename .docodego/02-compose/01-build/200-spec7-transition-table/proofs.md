@@ -1,6 +1,6 @@
 # proofs — 200-spec7-transition-table
 
-- AC1 — the transition law in the tree: `spec/record/version-transition.md`
+- AC1 — the transition law in the tree: `canon/record/version-transition.md`
   (one H1, purpose paragraph, question-naming H2s; the axes with the
   never-inferred rule, the registry law, skip-distance) — canon lint over
   the tree runs green —
@@ -24,3 +24,5 @@
   are the conformance fact + import (the registry was already exported) —
   `02-compose/01-build/200-spec7-transition-table/proofs/cli-tsc.txt` +
   `02-compose/01-build/200-spec7-transition-table/proofs/cli-tsc.exit`.
+
+- supersession (2026-11-09, unit 590-canon-rename) — the law tree renamed: `spec/` is `canon/` and `apps/spec/` is `apps/canon/` (the founder's cycle-8 ruling; the files above are the same files, moved). Paths in this proof were recaptured to their current locations per the drift gate's sanctioned repair.

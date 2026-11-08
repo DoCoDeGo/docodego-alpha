@@ -25,7 +25,7 @@ export const NON_TOOL_ENFORCERS = ["human review", "design law", "construction",
 /** Delivery-gate tokens (spec/conformance/gates-and-severity.md). */
 export const GATE_TOKENS = ["G1", "G2", "G3", "G4"];
 
-/** Law enums — the frontmatter schema (spec/laws/README.md). */
+/** Law enums — the frontmatter schema (canon/laws/README.md). */
 export const PILLARS = ["record", "document", "compose", "demonstrate", "govern"];
 export const SEVERITIES = ["veto", "warn"];
 export const STATUS_ACTIVE = "active";

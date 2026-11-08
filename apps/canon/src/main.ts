@@ -42,7 +42,7 @@ ${cmds}
 
 flags:
   --root <dir>        the spec tree (default: ./spec)
-  --dist <dir>        where build writes (default: ./apps/spec/dist)
+  --dist <dir>        where build writes (default: ./apps/canon/dist)
   --cli <file>        the live CLI's help registry (default: <root>/../apps/cli/src/cli/help.ts)
   --record <dir>      the record layer coverage --impact walks (default: ./.docodego)
   --impact <law-id>   coverage: what loses enforcement if this law is repealed

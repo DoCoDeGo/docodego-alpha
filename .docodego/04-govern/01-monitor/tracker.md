@@ -214,3 +214,7 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-09 | 580-conformance-split | delivered | 02-compose/01-build/580-conformance-split/delivered.md |
 | 2026-11-09 | 580-conformance-split | launch-passed | 02-compose/01-build/580-conformance-split/launch.md |
 | 2026-11-09 | 580-conformance-split | founder-signed | 02-compose/01-build/580-conformance-split/signature.md |
+| 2026-11-09 | 590-canon-rename | new unit | 02-compose/01-build/590-canon-rename/spec.md |
+| 2026-11-09 | upgrade | v27->v28: kept AGENTS.md (the canon-rename teach already present) | .docodego/04-govern/01-monitor/tracker.md |
+| 2026-11-09 | upgrade | v27->v28: kept AGENTS.md (the canon-rename teach already present) | .docodego/04-govern/01-monitor/tracker.md |
+| 2026-11-09 | upgrade | record upgraded v27 -> v28 | .docodego/.standard/manifest.json |

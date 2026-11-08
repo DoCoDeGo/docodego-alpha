@@ -291,7 +291,34 @@ export const MIGRATIONS: Migration[] = [
     ],
     steps: [teachSignEncoding],
   },
+  {
+    from: 27,
+    to: 28,
+    notes: [
+      "the law tree's folder is renamed: spec/ becomes canon/ (the founder's cycle-8 discomfort resolved by ruling, cycle 11 — 'not comfortable calling that folder spec if it represents DoCoDeGo System'; canon is the machinery's own verb — canon publish, canon rebuild). The app dir moves with it (apps/spec -> apps/canon; default tree root, dist paths, workspace, scripts, CI), every live citation sweeps, and the conformance suite's tree reads follow. SPEC.md keeps its name — it is the DoCoDeGo Specification; the folder is the System's canon. The docodego-spec/* wire schemas keep their names — they name the Specification domain, a contract, not a folder",
+      "the planted templates name the tree, so this hop carries bytes: the statutes template cites (canon/laws, ST-1…16) — refreshed through the payload diff's own conflict law — and AGENTS.md's dual-use prose reteaches in place, anchor-matched (the .new twin rule: a customized copy is never overwritten)",
+    ],
+    steps: [teachCanonRename],
+  },
 ];
+
+/** v27 -> v28: the canon-rename teach. AGENTS.md's dual-use prose names
+ * the tree ("the spec tree governs the build"); the rename retunes that
+ * one line in place. Same conservative contract as every AGENTS.md
+ * teacher. The statutes citation flows through the payload diff (it is
+ * reference, rarely customized — a matching copy updates in place, a
+ * customized copy rides as statutes.md.new). */
+const CANON_TREE_ANCHOR = "the spec tree governs the";
+
+export function teachCanonRename(root: string): string {
+  return teachAnchor(root, {
+    present: { sentinel: "the canon tree governs the", label: "the canon-rename teach" },
+    anchor: CANON_TREE_ANCHOR,
+    anchorLabel: "the shipped spec-tree prose",
+    teach: (raw) => raw.replace(CANON_TREE_ANCHOR, "the canon tree governs the"),
+    note: "updated AGENTS.md (the dual-use prose names the canon tree)",
+  });
+}
 
 /** v16 -> v17: teach AGENTS.md the event order and the repair rule.
  * Same conservative contract as teachGateRowsHome: shipped-v16 bytes

@@ -1,5 +1,5 @@
 /** compile-statutes — generate the planted statutes reference page from
- * the canon. The spec tree (spec/laws, ST-1…16) is the single source of
+ * the canon. The spec tree (canon/laws, ST-1…16) is the single source of
  * truth: titles, arc streams, published words, and † completions are read
  * from the law files; `.docodego/.standard/statutes.md` is emitted
  * deterministically — never hand-maintained beside the spec it mirrors.
@@ -12,7 +12,7 @@ import { fileURLToPath } from "node:url";
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(SCRIPT_DIR, "..", "..", "..");
-const LAWS_DIR = join(ROOT, "spec", "laws");
+const LAWS_DIR = join(ROOT, "canon", "laws");
 const OUT = join(ROOT, ".docodego", ".standard", "statutes.md");
 
 const LAW_FILE = /^(\d{2})-[a-z0-9-]+\.md$/;
@@ -122,7 +122,7 @@ export function compile(): string {
     "Source: docodego.com, \"Sixteen principles. Four pillars. One discipline.\"",
     "Recorded verbatim, 2026-11-06. The site's own enforcement claim: each",
     "principle is violable in a specific way; each violation is observable.",
-    "Compiled from the DoCoDeGo Specification (spec/laws, ST-1…16): each",
+    "Compiled from the DoCoDeGo Specification (canon/laws, ST-1…16): each",
     "statute binds one stream of the loop, per the arc's Appendix B. Lines",
     "marked † are docodego's completions, recorded honestly beside the",
     `published words.${glossNote}`,

@@ -26,16 +26,16 @@ reads clean from this unit's commit forward).
   (assertContiguous held during the bundle), the v26→v27 teach
   rewrites the shipped sign line in place and inserts the whoami line
   (fixture-pinned: updated-in-place, idempotent, customized copies
-  kept), and `spec/record/version-transition.md` carries the v27 row
+  kept), and `canon/record/version-transition.md` carries the v27 row
   (the suite compares the table to the registry hop for hop — green).
   The bundle guard accepted the declaration: two changes (AGENTS.md
   rule line rewritten — minimum bump major — and the version
   declaration itself) at the fresh hop 27.
-- AC4 — the scaffold: `spec/amendments/1.2.5-EL-34.md` exists in the
+- AC4 — the scaffold: `canon/amendments/1.2.5-EL-34.md` exists in the
   law tree's shape — frontmatter id AMEND-EL-34-1.2.5, baseline-hash
   of the untouched law file, status draft, pending block intact and
   runnable by `docodego sign-off` (the same fixture shape the suite
-  signs). The law file `spec/laws/34-the-launch-gate.md` is
+  signs). The law file `canon/laws/34-the-launch-gate.md` is
   byte-untouched by this unit — the scaffold changes nothing by
   itself; the wording moves only on the founder's sign-off.
 - AC5 — the honest clause, repriced once, everywhere: "concealment
@@ -59,3 +59,5 @@ bundle:verify clean at spec 27. One migration quirk recorded: the
 root `pnpm docs` collides with pnpm's builtin registry command —
 `pnpm run docs` is the explicit form (the pnpm migration's quirk
 line, journaled).
+
+- supersession (2026-11-09, unit 590-canon-rename) — the law tree renamed: `spec/` is `canon/` and `apps/spec/` is `apps/canon/` (the founder's cycle-8 ruling; the files above are the same files, moved). Paths in this proof were recaptured to their current locations per the drift gate's sanctioned repair.

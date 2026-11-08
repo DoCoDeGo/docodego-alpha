@@ -67,7 +67,7 @@ fact("the payload's AGENTS.md carries the two registers with the accepted lists"
 // --- v24: the sign-off tool (420) ---
 {
   const so = mkdtempSync(join(tmpdir(), "docodego-conformance-signoff-"));
-  const specRoot = join(so, "spec");
+  const specRoot = join(so, "canon");
   mkdirSync(join(specRoot, "amendments"), { recursive: true });
   mkdirSync(join(specRoot, "laws"), { recursive: true });
   check("v24: init plants the record — a sign-off is a record act", run(so, ["init"]), 0);
@@ -122,7 +122,7 @@ fact("the payload's AGENTS.md carries the two registers with the accepted lists"
   // the property the encoding rethink traded away; the 1.2.5 amendment
   // names the trade, and this pin holds the behavior to the name.
   const so2 = mkdtempSync(join(tmpdir(), "docodego-conformance-signoff2-"));
-  const specRoot2 = join(so2, "spec");
+  const specRoot2 = join(so2, "canon");
   mkdirSync(join(specRoot2, "amendments"), { recursive: true });
   mkdirSync(join(specRoot2, "laws"), { recursive: true });
   check("v24: init plants the second record", run(so2, ["init"]), 0);

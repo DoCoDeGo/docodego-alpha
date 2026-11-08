@@ -13,13 +13,13 @@ conformance, and `bundle:verify`.
   it stands)` and the honest-limit paragraph ends with the pricing
   sentence (`privacy, not anonymity … resists a stranger's lookup, not
   a determined guesser who already suspects the environment`) — word
-  for word from `spec/amendments/1.2.4-EL-34.md`'s What-changed section,
+  for word from `canon/amendments/1.2.4-EL-34.md`'s What-changed section,
   the text the founder signed — `[evidence: suite-run]`.
 - AC2 — the version machinery moved as one: `canon build` reports
   `50 file(s), 33 law(s), structure 2442837c0b65…` with the SP-B002
   guard passing (the version moved with the structure), `canon verify`
   reports `0 error(s), 0 warning(s)` re-deriving the chain, and the
-  delivered manifest at `apps/spec/dist/manifest.json` names
+  delivered manifest at `apps/canon/dist/manifest.json` names
   specVersion 1.2.4. Doctor's delivered-axis refusal (SP-F001/F002)
   stands until the commit BY DESIGN — `baselineManifest` defers to
   HEAD for an uncommitted manifest, so the delivered index moves only
@@ -59,3 +59,5 @@ which is the point: the signed text and the landed text differ by
 exactly the accepted change, quoted in the amendment), the secret-scan
 line, and the attestation limit. The diff review read the block; no
 line moved.
+
+- supersession (2026-11-09, unit 590-canon-rename) — the law tree renamed: `spec/` is `canon/` and `apps/spec/` is `apps/canon/` (the founder's cycle-8 ruling; the files above are the same files, moved). Paths in this proof were recaptured to their current locations per the drift gate's sanctioned repair.

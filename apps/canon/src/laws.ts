@@ -1,4 +1,4 @@
-/** The law loader — walk spec/laws/, parse each file once, and carry the
+/** The law loader — walk canon/laws/, parse each file once, and carry the
  * frontmatter as data. Also the two version readers: SPEC.md's semver and
  * the amendment log's last row. Loader findings are diagnostics, never
  * fatal: a broken law file is judged, not unrunnable. */

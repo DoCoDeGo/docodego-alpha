@@ -98,8 +98,8 @@ interface ManifestLike {
 }
 
 export function run(args: Args, io: Io): number {
-  const root = args.root ?? "spec";
-  const dist = args.dist ?? "apps/spec/dist";
+  const root = args.root ?? "canon";
+  const dist = args.dist ?? "apps/canon/dist";
   const cliPath = args.cli ?? join(root, "..", "apps", "cli", "src", "cli", "help.ts");
   const payloadPath = args.payload ?? "apps/cli/src/bundled/payload.ts";
 

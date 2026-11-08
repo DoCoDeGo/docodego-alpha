@@ -173,7 +173,7 @@ export function verifyFindings(root: string, read: SpecRead, cliPath: string): {
 }
 
 export function run(args: Args, io: Io): number {
-  const root = args.root ?? "spec";
+  const root = args.root ?? "canon";
   const cliPath = args.cli ?? join(root, "..", "apps", "cli", "src", "cli", "help.ts");
   const read = loadSpec(root);
   const { diags: found, files, cli } = verifyFindings(root, read, cliPath);

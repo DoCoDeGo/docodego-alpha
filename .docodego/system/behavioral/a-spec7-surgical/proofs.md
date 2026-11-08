@@ -23,7 +23,7 @@
   directory-token one): two warnings — the bare directory token proofs/
   and a fixture citation. Final: exactly one warning remains, the lawful
   one (canon-amend's prose cites a fixture-tree artifact; the fixture is
-  committed at apps/spec/fixtures/diff-spec/amendments/1.0.1-ST-2.md but
+  committed at apps/canon/fixtures/diff-canon/amendments/1.0.1-ST-2.md but
   the token is fixture-root-relative, so no resolution variant finds it —
   true narration, warning-severity by the checker's own law, check exits
   0): `system/behavioral/a-spec7-surgical/proofs/check-midstate.txt`,
@@ -47,3 +47,5 @@
 - AC4's amendment (zero warnings → no false-positive warnings) was made
   before delivery and recorded in the spec itself; the grill was re-run
   against the amended text and re-scored.
+
+- supersession (2026-11-09, unit 590-canon-rename) — the law tree renamed: `spec/` is `canon/` and `apps/spec/` is `apps/canon/` (the founder's cycle-8 ruling; the files above are the same files, moved). Paths in this proof were recaptured to their current locations per the drift gate's sanctioned repair.

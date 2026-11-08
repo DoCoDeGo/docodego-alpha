@@ -13,11 +13,11 @@
   },
   "scripts": {
     "docodego": "node apps/cli/src/main.ts",
-    "canon": "node --experimental-strip-types apps/spec/src/main.ts",
+    "canon": "node --experimental-strip-types apps/canon/src/main.ts",
     "check": "node apps/cli/src/main.ts check",
     "status": "node apps/cli/src/main.ts status",
     "doctor": "node apps/cli/src/main.ts doctor",
-    "typecheck": "tsc -p apps/cli/tsconfig.json --noEmit && tsc -p apps/spec/tsconfig.json --noEmit",
+    "typecheck": "tsc -p apps/cli/tsconfig.json --noEmit && tsc -p apps/canon/tsconfig.json --noEmit",
     "test": "pnpm run conformance && pnpm run fuzz",
     "conformance": "pnpm -C apps/cli run -s conformance",
     "fuzz": "pnpm -C apps/cli run -s fuzz",
