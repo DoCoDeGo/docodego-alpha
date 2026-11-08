@@ -2,7 +2,7 @@
 name: 330-research-home
 type: unit
 epic: 020-canon-debts
-status: scored
+status: delivered
 ---
 
 # 330-research-home

@@ -119,5 +119,5 @@ land; a row never sits silently between states.
 | 19 scratch out of the record root | landed | docodego-visual-proof: "Scratch lives in var/" (its SKILL.md); DG-S005 held — the law worked, the default was fixed |
 | 20 evidence-type ladder | unowned | no registry; visual-proof is the practice instrument, not the ladder; candidate: a demonstrate-law child (natural host: IMP-15's demo bundles) |
 | 21 gate rows committed home | landed | 300-gate-rows-home: the honesty law gains "gate rows ride the unit's commit" (record contract 16, taught in place by the migration, customized copies kept) |
-| 22 research's legal home | unowned | 01-discover/research/ still impersonates a unit to the structure pass; candidate: a structure-pass exemption child |
+| 22 research's legal home | landed | 330-research-home: the checker exempts 01-discover/research/ (first-class non-unit — grounding notes never impersonate units again) and the stream README names the home; record contract 18 |
 | 23 visual evidence layer | landed | shipped same day per the source doc: docodego-visual-proof bundled, planted by the product-team and platform-team profiles |
