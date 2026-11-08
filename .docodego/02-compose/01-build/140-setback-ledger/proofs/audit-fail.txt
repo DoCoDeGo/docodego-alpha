@@ -1,0 +1,12 @@
+$ docodego setback quirk-sed "third bite of the same class"
+$ docodego audit
+pass  GOV-001 lint — clean
+pass  GOV-002 check — clean
+pass  GOV-003 status-verdict coherence — clean
+pass  GOV-004 bounded size — clean
+pass  GOV-005 comment hygiene — clean
+FAIL  GOV-006 setback recurrence
+  3 recurrences of quirk-sed since last response (none) — owed: a research cycle or a mitigation unit. Open one: append '## Cycle N — quirk-sed mitigation' to 01-document/01-discover/cycles.md, or: docodego sketch quirk-sed-mitigation, then docodego new <unit> --from-sketch quirk-sed-mitigation. Then: docodego setback quirk-sed --respond "<what you opened>"
+checklist: .docodego/04-govern/01-monitor/checklist.md — 6 rows appended
+
+exit=1  (error tier forces the escalation)

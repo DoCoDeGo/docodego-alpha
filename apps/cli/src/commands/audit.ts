@@ -1,14 +1,16 @@
 /** `audit` — the standing sweep. One command over the slow failure modes
  * the delivery gate never sees: status claims contradicting verdicts,
- * ledgers past their published bounds, bloated comment blocks. Five stable
- * check ids append to the checklist ledger (`04-govern/01-monitor/
+ * ledgers past their published bounds, bloated comment blocks, and
+ * setback classes repeating since their last response. Six stable check
+ * ids append to the checklist ledger (`04-govern/01-monitor/
  * checklist.md`, planted on first run) and one tracker row records the
  * run. Exit law: 0 all checks pass (warnings inform, never fail) · 1 any
  * error-tier finding or a failed rotation verification · 2 usage · 3
- * record fatal. `--rotate` moves the oldest tracker/delivery-log rows to
- * archive files byte-identical under the cycle-log archive law — archived,
- * never deleted — leaving a tombstone row; trace scans archives, so
- * retired rows keep their coverage. */
+ * record fatal. `--rotate` moves the oldest tracker/delivery-log/
+ * checklist/setbacks rows to archive files byte-identical under the
+ * cycle-log archive law — archived, never deleted — leaving a tombstone
+ * row; trace and the setback counter scan archives, so retired rows
+ * keep their coverage. */
 import { createHash } from "node:crypto";
 import { existsSync, readdirSync, rmSync, statSync } from "node:fs";
 import { join } from "node:path";
@@ -17,14 +19,16 @@ import { checkPass, frontmatterPass, namingPass, structurePass } from "../passes
 import { TRACKER_REL, loadRecord, RecordFatal, type RecordAst } from "../record/load.ts";
 import { DELIVERY_LOG_REL, appendTracker } from "../record/record-write.ts";
 import { CHECKLIST_TEMPLATE } from "../bundled/index.ts";
+import { SETBACKS_REL, MONITOR_DIR, classStats, escalationHint, responseResolves } from "./setback.ts";
 import { appendText, isDir, readText, today, walkFiles, writeText } from "../fsx.ts";
 import { envelope } from "../emit/json.ts";
 
 const CHECKLIST_REL = "04-govern/01-monitor/checklist.md";
-const MONITOR_DIR = "04-govern/01-monitor";
 const BOUNDS: Array<[string, number]> = [
   [TRACKER_REL, 600 * 1024],
   [DELIVERY_LOG_REL, 200 * 1024],
+  [CHECKLIST_REL, 100 * 1024],
+  [SETBACKS_REL, 100 * 1024],
 ];
 const GRILL_BOUND = 100 * 1024;
 const COMMENT_LIMIT = 400;
@@ -118,6 +122,25 @@ function chsFindings(rec: RecordAst): Finding[] {
   return out;
 }
 
+/** GOV-006 — setback recurrence: per class, recurrences since the last
+ * response. Warn at two bites (repeated), fail at three with the owed
+ * work named in copy-paste form. A response naming a path that does not
+ * resolve is warned — no path, no claim. */
+function srxFindings(rec: RecordAst): Finding[] {
+  const out: Finding[] = [];
+  for (const [cls, s] of classStats(rec)) {
+    if (s.sinceResponse >= 3) {
+      out.push(err(`${s.sinceResponse} recurrences of ${cls} since last response (${s.lastResponse ?? "none"}) — ${escalationHint(cls)}`));
+    } else if (s.sinceResponse === 2) {
+      out.push(warn(`second bite of ${cls} — documented; a third recurrence escalates to a owed plan/research`));
+    }
+    if (s.lastResponse !== null && !responseResolves(rec, s.lastResponse)) {
+      out.push(warn(`${cls}'s last response names no path that resolves ("${s.lastResponse}") — no path, no claim`));
+    }
+  }
+  return out;
+}
+
 const TABLE_SEP = /^\|[-\s|]+\|$/;
 const TABLE_ROW = /^\s*\|.+\|\s*$/;
 
@@ -181,6 +204,7 @@ export function run(args: Args, io: Io): number {
     ["GOV-003", "status-verdict coherence", () => svcFindings(rec)],
     ["GOV-004", "bounded size", () => bsgFindings(rec)],
     ["GOV-005", "comment hygiene", () => chsFindings(rec)],
+    ["GOV-006", "setback recurrence", () => srxFindings(rec)],
   ];
   const results: CheckResult[] = [];
   for (const [id, name, fn] of families) {
@@ -196,7 +220,10 @@ export function run(args: Args, io: Io): number {
   }
   const checklistAbs = join(rec.root, CHECKLIST_REL);
   if (readText(checklistAbs) === null) writeText(checklistAbs, CHECKLIST_TEMPLATE);
-  const checklistRows = results.map((r) => `| ${today()} | ${r.id} ${r.name} | us | ${r.status} | ${r.status === "pass" ? "clean" : r.detail.split("\n")[0]} |`);
+  const checklistRows = results.map((r) => {
+    const evidence = r.status === "pass" ? (r.id === "GOV-006" ? SETBACKS_REL : "clean") : r.detail.split("\n")[0];
+    return `| ${today()} | ${r.id} ${r.name} | us | ${r.status} | ${evidence} |`;
+  });
   appendText(checklistAbs, checklistRows.join("\n") + "\n");
   const fails = results.filter((r) => r.status === "fail").length;
   const warns = results.filter((r) => r.status === "warn").length;
@@ -205,6 +232,8 @@ export function run(args: Args, io: Io): number {
   if (args.rotate === true) {
     rotated.push(rotateLedger(rec, TRACKER_REL, "tracker", MONITOR_DIR));
     rotated.push(rotateLedger(rec, DELIVERY_LOG_REL, "delivery-log", "04-govern"));
+    rotated.push(rotateLedger(rec, CHECKLIST_REL, "checklist", MONITOR_DIR));
+    rotated.push(rotateLedger(rec, SETBACKS_REL, "setbacks", MONITOR_DIR));
   }
   if (args.json) {
     io.out(JSON.stringify(envelope("audit", { results, rotated, checklist: `.docodego/${CHECKLIST_REL}`, ok: fails === 0 }), null, 2));

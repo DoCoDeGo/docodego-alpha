@@ -5,6 +5,7 @@ One page per command, generated from the same registry that powers
 
 | command | what it does |
 |---|---|
+| [`docodego audit`](./audit.md) | The standing sweep: the record checking itself, five stable checks, one ledger. |
 | [`docodego check`](./check.md) | Record integrity: statuses match markers, delivered units hold proofs, links resolve. |
 | [`docodego completions`](./completions.md) | Shell completion scripts for bash, zsh, and fish — generated from this registry. |
 | [`docodego deliver`](./deliver.md) | The gate. Four decisions; only an all-green gate writes anything. |
@@ -15,6 +16,7 @@ One page per command, generated from the same registry that powers
 | [`docodego lint`](./lint.md) | The rule tree over the record: structure, frontmatter, naming. |
 | [`docodego new`](./new.md) | Scaffold <stream>/<unit>/spec.md from the embedded template and append a tracker line. |
 | [`docodego score`](./score.md) | Five ICS-lite passes over the spec; the visible breakdown lands in score.md. |
+| [`docodego setback`](./setback.md) | Document a failing behavior the moment it bites; the audit escalates repeats. |
 | [`docodego sketch`](./sketch.md) | Capture an idea at near-zero ceremony: one file, three sections. |
 | [`docodego skill`](./skill.md) | The installed craft, audited: every skill recorded in skills-lock.json with its digest. |
 | [`docodego status`](./status.md) | The one-screen board: every unit, its stream and status, epic/story rollups. |

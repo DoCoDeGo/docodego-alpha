@@ -1,0 +1,8 @@
+pass  GOV-001 lint — clean
+pass  GOV-002 check — clean
+pass  GOV-003 status-verdict coherence — clean
+pass  GOV-004 bounded size — clean
+pass  GOV-005 comment hygiene — clean
+pass  GOV-006 setback recurrence — clean
+checklist: .docodego/04-govern/01-monitor/checklist.md — 6 rows appended
+audit exit=0

@@ -1,0 +1,12 @@
+(fixture holds exactly two quirk-sed bites)
+$ docodego audit
+pass  GOV-001 lint — clean
+pass  GOV-002 check — clean
+pass  GOV-003 status-verdict coherence — clean
+pass  GOV-004 bounded size — clean
+pass  GOV-005 comment hygiene — clean
+warn  GOV-006 setback recurrence
+  warn: second bite of quirk-sed — documented; a third recurrence escalates to a owed plan/research
+checklist: .docodego/04-govern/01-monitor/checklist.md — 6 rows appended
+
+exit=0  (warn informs, never fails)

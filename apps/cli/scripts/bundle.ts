@@ -39,6 +39,7 @@ const MANIFEST_JSON = join(ROOT, "apps", "cli", "src", "bundled", "manifest.json
 const EXCLUDE_FILES = new Set([
   ".docodego/04-govern/01-monitor/tracker.md",
   ".docodego/04-govern/01-monitor/checklist.md",
+  ".docodego/04-govern/01-monitor/setbacks.md",
   ".docodego/01-document/01-discover/intent.md",
   ".docodego/01-document/01-discover/cycles.md",
   ".docodego/04-govern/delivery-log.md",

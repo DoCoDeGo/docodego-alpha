@@ -1,0 +1,7 @@
+$ docodego setback --list   (after the fixture's full arc)
+grill-miscount: lifetime 1 · since-response 1 · last response none
+quirk-sed: lifetime 4 · since-response 0 · last response trust me, it is handled
+sed-quirk: lifetime 1 · since-response 1 · last response none
+
+
+exit=0  — quirk-sed and sed-quirk both visible at a glance; near-duplicates converge at mint time or here

@@ -12,6 +12,7 @@ import * as init from "./commands/init.ts";
 import * as audit from "./commands/audit.ts";
 import * as newCmd from "./commands/new.ts";
 import * as sketch from "./commands/sketch.ts";
+import * as setback from "./commands/setback.ts";
 import * as grill from "./commands/grill.ts";
 import * as score from "./commands/score.ts";
 import * as check from "./commands/check.ts";
@@ -32,6 +33,7 @@ const COMMANDS: Record<string, { run: Run; read: boolean }> = {
   audit: { run: audit.auditSafe, read: false },
   new: { run: newCmd.run, read: false },
   sketch: { run: sketch.run, read: false },
+  setback: { run: setback.run, read: false },
   grill: { run: grill.run, read: true },
   score: { run: score.run, read: true },
   check: { run: check.run, read: true },

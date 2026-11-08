@@ -116,6 +116,12 @@ prefix (`docodego explain DG-F`) prints every page in the family.
 - law: streams hold units and sketches — other material belongs in the repo's docs or .standard (reference).
 - fix: move the folder out of the stream.
 
+**DG-N004 — unit folder carries no NNN- sequence prefix**
+
+- meaning: the unit folder reads alphabetically, so the listing no longer shows the order the work was built in.
+- law: names carry order: the folder listing is the only index that survives a clone — a build order you cannot see in the name is a build order a stranger cannot verify (human readability is human accountability).
+- fix: rename the folder to <NNN>-<name> in tracker order, step of ten (010-, 020-, …; late units take the gap they need). Update the spec frontmatter name to match, correct proof-path citations, and append a tracker row recording the renumbering — rows and verdicts are never rewritten. 'docodego new' assigns the next number automatically.
+
 ### DG-C — check — claims must match evidence
 
 **DG-C001 — delivered unit has no usable proofs.md**
@@ -363,6 +369,18 @@ prefix (`docodego explain DG-F`) prints every page in the family.
 - meaning: 'completions' was invoked without a shell name, or with one the CLI does not generate.
 - law: a completion script is generated from the help registry — only the shells this CLI actually ships scripts for exist; an invented shell would be a silent lie.
 - fix: 'docodego completions bash' (or zsh, fish); each script carries its own install instructions in the header.
+
+**DG-U090 — usage: docodego setback <class> <text>**
+
+- meaning: 'setback' was invoked without a class, without the occurrence text, or with --respond but no response text.
+- law: the row is the record: a bite without its class cannot be counted, and a bite without what happened cannot be escalated — the ledger documents failures, not gestures.
+- fix: 'docodego setback quirk-sed "what failed, where"' — or for the owed response: 'docodego setback quirk-sed --respond "<path you opened>"'. 'docodego setback --list' shows existing classes.
+
+**DG-U091 — setback class must be kebab-case**
+
+- meaning: the class carries spaces, uppercase, underscores, or other characters outside [a-z0-9-].
+- law: classes are stable ids minted once and counted forever — case shifts and word splits would divide one failure class into two and defeat the recurrence count.
+- fix: name the class 'quirk-sed', not 'Sed Quirk'; run 'docodego setback --list' first — near-duplicates are visible at mint time, which is when to converge them.
 
 ### DG-K — skills — supply chain and lockfile
 

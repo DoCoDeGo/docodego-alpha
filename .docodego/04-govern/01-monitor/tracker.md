@@ -38,3 +38,12 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 130-grill-scaffold | new unit | 02-compose/01-build/130-grill-scaffold/spec.md |
 | 2026-11-08 | 130-grill-scaffold | delivered | 02-compose/01-build/130-grill-scaffold/delivered.md |
 | 2026-11-08 | 020-canon-debts | new epic | 01-document/01-discover/020-canon-debts/spec.md |
+| 2026-11-08 | 140-setback-ledger | new unit | 02-compose/01-build/140-setback-ledger/spec.md |
+| 2026-11-08 | setback-conformance-stale | bite 1: conformance suite silently red since 110-spec7-naming renumbered unit folders; no gate runs it (found proving 140-setback-ledger) | 04-govern/01-monitor/setbacks.md |
+| 2026-11-08 | setback-new-duplicate-suffix | bite 1: docodego new <name> twice creates 020-<name> instead of refusing — auto-assign shipped without an identity guard (found proving 140) | 04-govern/01-monitor/setbacks.md |
+| 2026-11-08 | setback-quirk-zsh-var | bite 1: zsh does not word-split $CLI; the assigned command string executed as one word (rule 11 class, cost one retry) | 04-govern/01-monitor/setbacks.md |
+| 2026-11-08 | record | audit: 0 failing checks, 0 with warnings — checklist updated | 04-govern/01-monitor/checklist.md |
+| 2026-11-08 | setback-conformance-stale | response: 02-compose/01-build/140-setback-ledger proofs/conformance.txt — suite repaired within this unit, 194 checks green | 04-govern/01-monitor/setbacks.md |
+| 2026-11-08 | setback-new-duplicate-suffix | response: apps/cli/src/commands/new.ts — identity guard: DG-U012 refuses a second unit of the same name in one stream | 04-govern/01-monitor/setbacks.md |
+| 2026-11-08 | record | audit: 0 failing checks, 0 with warnings — checklist updated | 04-govern/01-monitor/checklist.md |
+| 2026-11-08 | 140-setback-ledger | delivered | 02-compose/01-build/140-setback-ledger/delivered.md |

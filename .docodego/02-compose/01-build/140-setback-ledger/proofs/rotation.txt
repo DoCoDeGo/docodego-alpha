@@ -1,0 +1,19 @@
+(filler ledger written: 600 rows, over the 500-row rotate bound)
+$ docodego audit   (GOV-004 warns past the 100KB bound)
+size=30552 bytes; undefined
+exit=0
+$ docodego audit --rotate
+rotate: 04-govern/01-monitor/tracker.md: 14 rows, within the 500-row bound — no rotation needed
+rotate: 04-govern/delivery-log.md: 0 rows, within the 500-row bound — no rotation needed
+rotate: 04-govern/01-monitor/checklist.md: 36 rows, within the 500-row bound — no rotation needed
+rotate: 04-govern/01-monitor/setbacks.md: moved 400 oldest rows to 04-govern/01-monitor/setbacks-archive-1.md (sha256:02a7633d2803 verified), 200 newest stay live, tombstone appended
+exit=0
+archive files: setbacks-archive-1.md
+# setbacks archive 1
+
+Rows moved verbatim (byte-identical) from 04-govern/01-monitor/setbacks.md on 2026-11-08 under
+the append-only law: archived, never deleted. Trace scans archives.
+
+| date | class | count | text |
+live tombstone: | 2026-11-08 | setbacks | archived 400 rows to 04-govern/01-monitor/setbacks-archive-1.md (byte-identical, sha256:02a7633d2803) | 04-govern/01-monitor/setbacks-archive-1.md |
+

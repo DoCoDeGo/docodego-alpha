@@ -1,0 +1,24 @@
+$ docodego setback quirk-sed   (no text)
+exit=2
+error[DG-U090]: usage: docodego setback <class> <text> | setback <class> --respond <text> | setback --list
+  help: docodego explain DG-U090
+
+$ docodego setback 'Sed Quirk' x   (not kebab)
+exit=2
+error[DG-U091]: setback class 'Sed Quirk' must be kebab-case — classes are stable ids counted forever
+  help: docodego explain DG-U091
+
+$ docodego setback grill-miscount "..." --json
+exit=0
+{
+  "schema": "docodego/setback/v1",
+  "ok": true,
+  "data": {
+    "class": "grill-miscount",
+    "count": 1,
+    "response": false,
+    "ledger": ".docodego/04-govern/01-monitor/setbacks.md",
+    "tracker": "| 2026-11-08 | setback-grill-miscount | bite 1: counted six answers for ten questions | 04-govern/01-monitor/setbacks.md |"
+  }
+}
+

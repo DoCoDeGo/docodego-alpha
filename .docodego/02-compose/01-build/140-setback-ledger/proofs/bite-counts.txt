@@ -1,0 +1,29 @@
+$ docodego setback quirk-sed "BSD sed misparsed the multi-expression script; reworked via node"
+.docodego/04-govern/01-monitor/setbacks.md — quirk-sed bite 1 recorded
+
+$ docodego setback quirk-sed "bit again — second multi-expression failure"
+.docodego/04-govern/01-monitor/setbacks.md — quirk-sed bite 2 recorded
+
+$ cat .docodego/04-govern/01-monitor/setbacks.md  (template planted on first bite, counts machine-written)
+# Setbacks
+
+The failure ledger, appended at failure time. One row per bite of a class:
+`| date | class | count | text |`. Classes are stable kebab ids minted at
+first occurrence; `count` is machine-written — recurrences since the
+class's last count-0 response row, archive files scanned. A response row
+(`docodego setback <class> --respond "<what you opened>"`) resets the
+class to 0. The audit's GOV-006 reads this ledger: warn at two bites, fail
+at three, naming the owed plan or research. Append-only, newest last,
+rotated like every ledger (setbacks-archive-N.md, byte-identical moves,
+never deleted).
+
+| date | class | count | text |
+|---|---|---|---|
+| 2026-11-08 | quirk-sed | 1 | BSD sed misparsed the multi-expression script; reworked via node |
+| 2026-11-08 | quirk-sed | 2 | bit again — second multi-expression failure |
+
+
+$ tail tracker (one row per bite)
+| 2026-11-08 | setback-quirk-sed | bite 1: BSD sed misparsed the multi-expression script; reworked via node | 04-govern/01-monitor/setbacks.md |
+| 2026-11-08 | setback-quirk-sed | bite 2: bit again — second multi-expression failure | 04-govern/01-monitor/setbacks.md |
+

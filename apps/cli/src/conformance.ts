@@ -82,26 +82,26 @@ fact("planted skills live in .agents/skills", existsSync(join(scratch, ".agents"
 
 // --- sketch + graduation ---
 check("sketch plants an idea file", run(scratch, ["sketch", "idea-x"]), 0, () => existsSync(join(scratch, ".docodego", "01-document", "01-discover", "sketch-idea-x.md")));
-check("new --from-sketch graduates the sketch", run(scratch, ["new", "first-unit", "--from-sketch", "idea-x"]), 0, () => existsSync(join(scratch, ".docodego", "01-document", "01-discover", "first-unit", "spec.md")));
+check("new --from-sketch graduates the sketch", run(scratch, ["new", "010-first-unit", "--from-sketch", "idea-x"]), 0, () => existsSync(join(scratch, ".docodego", "01-document", "01-discover", "010-first-unit", "spec.md")));
 
 // --- typed documents: epics and stories are types, never folders ---
-check("new --type epic lands in 01-discover", run(scratch, ["new", "epic-ride", "--type", "epic"]), 0, () => read(scratch, "01-document/01-discover/epic-ride/spec.md").includes("type: epic"));
-check("new --type story lands in 02-refine", run(scratch, ["new", "story-slice", "--type", "story"]), 0, () => read(scratch, "01-document/02-refine/story-slice/spec.md").includes("type: story"));
+check("new --type epic lands in 01-discover", run(scratch, ["new", "020-epic-ride", "--type", "epic"]), 0, () => read(scratch, "01-document/01-discover/020-epic-ride/spec.md").includes("type: epic"));
+check("new --type story lands in 02-refine", run(scratch, ["new", "010-story-slice", "--type", "story"]), 0, () => read(scratch, "01-document/02-refine/010-story-slice/spec.md").includes("type: story"));
 check("epic outside its home stream is refused", run(scratch, ["new", "epic-wrong", "--type", "epic", "--stream", "02-compose/01-build"]), 2);
 check("unknown --type is a usage error", run(scratch, ["new", "novel-thing", "--type", "novel"]), 2);
 check("non-kebab name is a usage error", run(scratch, ["new", "bad_unit"]), 2);
 check("unknown --stream is a usage error", run(scratch, ["new", "ghost", "--stream", "09-nowhere"]), 2);
-check("duplicate unit is refused", run(scratch, ["new", "first-unit"]), 1);
+check("duplicate unit is refused", run(scratch, ["new", "010-first-unit"]), 1);
 
 // --- a genuinely good spec (the fixture under test) ---
-write(scratch, ".docodego/01-document/01-discover/first-unit/spec.md", `---
-name: first-unit
+write(scratch, ".docodego/01-document/01-discover/010-first-unit/spec.md", `---
+name: 010-first-unit
 type: unit
-epic: epic-ride
+epic: 020-epic-ride
 status: draft
 ---
 
-# first-unit
+# 010-first-unit
 
 ## intent
 
@@ -123,67 +123,67 @@ Out: queue persistence and dead-letter handling.
 `);
 
 // --- grill: question listing, refusal without answers, pass sets status ---
-const q = run(scratch, ["grill", "first-unit", "--json"]);
+const q = run(scratch, ["grill", "010-first-unit", "--json"]);
 check("grill --json lists the questions", q, 0, () => {
   const parsed = JSON.parse(q.stdout) as { data?: { questions?: unknown[] } };
   return (parsed.data?.questions?.length ?? 0) >= 4;
 });
 const count = (JSON.parse(q.stdout) as { data?: { questions?: unknown[] } }).data?.questions?.length ?? 0;
-check("grill without a TTY and without answers is refused", run(scratch, ["grill", "first-unit"]), 2);
+check("grill without a TTY and without answers is refused", run(scratch, ["grill", "010-first-unit"]), 2);
 check("grill of an unknown unit is a usage error", run(scratch, ["grill", "ghost"]), 2);
 write(scratch, "answers.txt", Array.from({ length: count }, () => "yes — evidence in the unit test output").join("\n") + "\n");
-check("grill pass records the round and sets status", run(scratch, ["grill", "first-unit", "--answers", "answers.txt"]), 0, () => read(scratch, "01-document/01-discover/first-unit/spec.md").includes("status: grilled") && read(scratch, "01-document/01-discover/first-unit/grill.md").includes("verdict"));
+check("grill pass records the round and sets status", run(scratch, ["grill", "010-first-unit", "--answers", "answers.txt"]), 0, () => read(scratch, "01-document/01-discover/010-first-unit/spec.md").includes("status: grilled") && read(scratch, "01-document/01-discover/010-first-unit/grill.md").includes("verdict"));
 check("grill fail records the failed round and exits 1", (() => {
   write(scratch, "empty.txt", "\n");
-  return run(scratch, ["grill", "first-unit", "--answers", "empty.txt"]);
-})(), 1, () => read(scratch, "01-document/01-discover/first-unit/grill.md").split("verdict").length >= 3);
+  return run(scratch, ["grill", "010-first-unit", "--answers", "empty.txt"]);
+})(), 1, () => read(scratch, "01-document/01-discover/010-first-unit/grill.md").split("verdict").length >= 3);
 write(scratch, "answers.txt", Array.from({ length: count }, () => "yes — evidence in the unit test output").join("\n") + "\n");
-check("grill pass again — the last verdict wins", run(scratch, ["grill", "first-unit", "--answers", "answers.txt"]), 0);
+check("grill pass again — the last verdict wins", run(scratch, ["grill", "010-first-unit", "--answers", "answers.txt"]), 0);
 // --- grill: structured answers — GQ-keyed, multi-line-safe ---
 write(scratch, "structured.txt", "GQ-1: adds a retry with backoff to the webhook sender\nGQ-2: the unit test counts attempts; its output is recorded in proofs.md\nGQ-3: retry storms — capped at three attempts with jittered backoff\nGQ-4: queue persistence stays out of scope\nGQ-AC1: |\n  the unit test counts exactly three attempts on a failing send\nGQ-AC2: |-\n  the final warning log line is asserted in the same test\n");
-check("grill accepts a structured answers file", run(scratch, ["grill", "first-unit", "--answers", "structured.txt"]), 0, () => read(scratch, "01-document/01-discover/first-unit/grill.md").includes("counts exactly three attempts"));
+check("grill accepts a structured answers file", run(scratch, ["grill", "010-first-unit", "--answers", "structured.txt"]), 0, () => read(scratch, "01-document/01-discover/010-first-unit/grill.md").includes("counts exactly three attempts"));
 write(scratch, "unknown-gq.txt", "GQ-1: fine\nGQ-99: invented\n");
-check("structured answers with an unknown question id exit 2", run(scratch, ["grill", "first-unit", "--answers", "unknown-gq.txt"]), 2, (r) => r.stderr.includes("unknown question id 'GQ-99'"));
+check("structured answers with an unknown question id exit 2", run(scratch, ["grill", "010-first-unit", "--answers", "unknown-gq.txt"]), 2, (r) => r.stderr.includes("unknown question id 'GQ-99'"));
 
 // --- score: the floor prints, the breakdown lands, weak specs stay low ---
-check("score writes the breakdown and sets status", run(scratch, ["score", "first-unit"]), 0, () => {
-  const raw = read(scratch, "01-document/01-discover/first-unit/score.md");
+check("score writes the breakdown and sets status", run(scratch, ["score", "010-first-unit"]), 0, () => {
+  const raw = read(scratch, "01-document/01-discover/010-first-unit/score.md");
   const m = /total:\s*(\d+)/.exec(raw);
   return m !== null && Number.parseInt(m[1] ?? "0", 10) >= 60;
 });
 check("score of an unknown unit is a usage error", run(scratch, ["score", "ghost"]), 2);
-check("new accepts a fresh template unit", run(scratch, ["new", "weak-unit"]), 0);
-check("score accepts it", run(scratch, ["score", "weak-unit"]), 0);
-const weakRaw = read(scratch, "01-document/01-discover/weak-unit/score.md");
+check("new accepts a fresh template unit", run(scratch, ["new", "030-weak-unit"]), 0);
+check("score accepts it", run(scratch, ["score", "030-weak-unit"]), 0);
+const weakRaw = read(scratch, "01-document/01-discover/030-weak-unit/score.md");
 const weakTotal = Number.parseInt(/total:\s*(\d+)/.exec(weakRaw)?.[1] ?? "100", 10);
 if (weakTotal < 60) passed += 1;
 else failed.push(`weak template spec scored ${weakTotal} — placeholders must not pass the floor`);
-const wq = run(scratch, ["grill", "weak-unit", "--json"]);
+const wq = run(scratch, ["grill", "030-weak-unit", "--json"]);
 const wcount = (JSON.parse(wq.stdout) as { data?: { questions?: unknown[] } }).data?.questions?.length ?? 0;
 write(scratch, "weak-answers.txt", Array.from({ length: wcount }, () => "placeholder answers only to keep the record consistent").join("\n") + "\n");
-check("grill keeps the weak unit consistent", run(scratch, ["grill", "weak-unit", "--answers", "weak-answers.txt"]), 0);
-check("the floor bites at deliver, not at score", run(scratch, ["deliver", "weak-unit"]), 1, (r) => r.stderr.includes("G2"));
+check("grill keeps the weak unit consistent", run(scratch, ["grill", "030-weak-unit", "--answers", "weak-answers.txt"]), 0);
+check("the floor bites at deliver, not at score", run(scratch, ["deliver", "030-weak-unit"]), 1, (r) => r.stderr.includes("G2"));
 
 // --- deliver: the gate refuses, then passes, committing only on green ---
-check("deliver fails the gate with nothing committed", run(scratch, ["deliver", "first-unit"]), 1, () => !existsSync(join(scratch, ".docodego", "01-document", "01-discover", "first-unit", "delivered.md")));
+check("deliver fails the gate with nothing committed", run(scratch, ["deliver", "010-first-unit"]), 1, () => !existsSync(join(scratch, ".docodego", "01-document", "01-discover", "010-first-unit", "delivered.md")));
 write(scratch, "proof-evidence.txt", "unit test output: 3 attempts observed, final warning logged\n");
-write(scratch, ".docodego/01-document/01-discover/first-unit/proofs.md", `# proofs\n\n- proof-evidence.txt — the unit test output\n`);
-check("deliver passes all four gates", run(scratch, ["deliver", "first-unit"]), 0, () => read(scratch, "01-document/01-discover/first-unit/spec.md").includes("status: delivered") && read(scratch, "04-govern/01-monitor/tracker.md").includes("delivered"));
+write(scratch, ".docodego/01-document/01-discover/010-first-unit/proofs.md", `# proofs\n\n- proof-evidence.txt — the unit test output\n`);
+check("deliver passes all four gates", run(scratch, ["deliver", "010-first-unit"]), 0, () => read(scratch, "01-document/01-discover/010-first-unit/spec.md").includes("status: delivered") && read(scratch, "04-govern/01-monitor/tracker.md").includes("delivered"));
 
 // --- the read commands over the finished record ---
 check("check holds the record together", run(scratch, ["check"]), 0);
 check("lint reports nothing", run(scratch, ["lint"]), 0);
 check("lint --self-check validates the rule registry", run(scratch, ["lint", "--self-check"]), 0);
-check("status renders the board", run(scratch, ["status"]), 0, (r) => r.stdout.includes("first-unit"));
+check("status renders the board", run(scratch, ["status"]), 0, (r) => r.stdout.includes("010-first-unit"));
 check("status --json is an envelope", run(scratch, ["status", "--json"]), 0, (r) => (JSON.parse(r.stdout) as { schema?: string }).schema === "docodego/status/v1");
-check("status --epic narrows to the rollup", run(scratch, ["status", "--epic", "epic-ride"]), 0, (r) => r.stdout.includes("first-unit"));
+check("status --epic narrows to the rollup", run(scratch, ["status", "--epic", "020-epic-ride"]), 0, (r) => r.stdout.includes("010-first-unit"));
 
 // --- trace: one unit's recorded arc on one timeline ---
-check("trace replays the full arc", run(scratch, ["trace", "first-unit"]), 0, (r) =>
+check("trace replays the full arc", run(scratch, ["trace", "010-first-unit"]), 0, (r) =>
   r.stdout.includes("created") && r.stdout.includes("grill") && r.stdout.includes("verdict: pass") &&
   r.stdout.includes("score") && r.stdout.includes("delivered"));
-check("trace --json is an envelope", run(scratch, ["trace", "first-unit", "--json"]), 0, (r) => (JSON.parse(r.stdout) as { schema?: string }).schema === "docodego/trace/v1");
-check("trace of a bare draft shows just the created line", run(scratch, ["trace", "epic-ride"]), 0, (r) => r.stdout.includes("created") && !r.stdout.includes("grill"));
+check("trace --json is an envelope", run(scratch, ["trace", "010-first-unit", "--json"]), 0, (r) => (JSON.parse(r.stdout) as { schema?: string }).schema === "docodego/trace/v1");
+check("trace of a bare draft shows just the created line", run(scratch, ["trace", "020-epic-ride"]), 0, (r) => r.stdout.includes("created") && !r.stdout.includes("grill"));
 check("trace of an unknown unit is a usage error", run(scratch, ["trace", "ghost"]), 2);
 check("trace without a unit name is a usage error", run(scratch, ["trace"]), 2);
 
@@ -210,14 +210,14 @@ rmSync(dr, { recursive: true, force: true });
 const qs = mkdtempSync(join(tmpdir(), "docodego-conformance-readme-"));
 check("quickstart: init --mode review", run(qs, ["init", "--mode", "review"]), 0);
 check("quickstart: sketch plants the idea", run(qs, ["sketch", "retry-webhook-idea"]), 0);
-check("quickstart: new --from-sketch graduates it", run(qs, ["new", "retry-webhook", "--from-sketch", "retry-webhook-idea"]), 0);
-write(qs, ".docodego/01-document/01-discover/retry-webhook/spec.md", `---
-name: retry-webhook
+check("quickstart: new --from-sketch graduates it", run(qs, ["new", "010-retry-webhook", "--from-sketch", "retry-webhook-idea"]), 0);
+write(qs, ".docodego/01-document/01-discover/010-retry-webhook/spec.md", `---
+name: 010-retry-webhook
 type: unit
 status: draft
 ---
 
-# retry-webhook
+# 010-retry-webhook
 
 ## intent
 
@@ -239,14 +239,14 @@ Out: queue persistence and dead-letter handling.
 - retry storms overload the receiver -> cap at 3 attempts with jittered backoff
 `);
 write(qs, "answers.txt", "capped exponential backoff, three attempts\nthe unit test counts attempts\nretry storms — capped at three attempts with jittered backoff\nqueue persistence stays out of scope\nthe unit test counts exactly three attempts on a failing send\nthe final warning log line is asserted in the same test\n");
-check("quickstart: grill pass", run(qs, ["grill", "retry-webhook", "--answers", "answers.txt"]), 0);
-check("quickstart: score clears the floor", run(qs, ["score", "retry-webhook"]), 0, () => {
-  const m = /total:\s*(\d+)/.exec(read(qs, "01-document/01-discover/retry-webhook/score.md"));
+check("quickstart: grill pass", run(qs, ["grill", "010-retry-webhook", "--answers", "answers.txt"]), 0);
+check("quickstart: score clears the floor", run(qs, ["score", "010-retry-webhook"]), 0, () => {
+  const m = /total:\s*(\d+)/.exec(read(qs, "01-document/01-discover/010-retry-webhook/score.md"));
   return m !== null && Number.parseInt(m[1] ?? "0", 10) >= 60;
 });
 write(qs, "proof.txt", "unit test output: 3 attempts observed, final warning logged\n");
-write(qs, ".docodego/01-document/01-discover/retry-webhook/proofs.md", "# proofs\n\n- proof.txt — the unit test output\n");
-check("quickstart: deliver passes all four gates", run(qs, ["deliver", "retry-webhook"]), 0, () => read(qs, "01-document/01-discover/retry-webhook/spec.md").includes("status: delivered"));
+write(qs, ".docodego/01-document/01-discover/010-retry-webhook/proofs.md", "# proofs\n\n- proof.txt — the unit test output\n");
+check("quickstart: deliver passes all four gates", run(qs, ["deliver", "010-retry-webhook"]), 0, () => read(qs, "01-document/01-discover/010-retry-webhook/spec.md").includes("status: delivered"));
 rmSync(qs, { recursive: true, force: true });
 check("upgrade reports the record current", run(scratch, ["upgrade"]), 0);
 check("upgrade --apply is additive and calm", run(scratch, ["upgrade", "--apply"]), 0);
@@ -338,8 +338,8 @@ fact("the glossary bridge is planted with a real entry set", (read(vf, ".standar
 fact("the statutes are untouched by the pack", read(vf, ".standard/statutes.md").includes("Recorded verbatim"));
 const agentsVocab = readFileSync(join(vf, "AGENTS.md"), "utf8");
 fact("AGENTS.md movement glosses carry the pack's words, tags intact", agentsVocab.includes("— business needs elicited, analysed, and specified (DO)") && !agentsVocab.includes("intent sharpened into plans"));
-run(vf, ["new", "voice-unit"]);
-const vq = run(vf, ["grill", "voice-unit", "--json"]);
+run(vf, ["new", "010-voice-unit"]);
+const vq = run(vf, ["grill", "010-voice-unit", "--json"]);
 check("grill asks the pack's phrasing under the canonical id", vq, 0, (r) => {
   const first = (JSON.parse(r.stdout) as { data?: { questions?: { id: string; text: string }[] } }).data?.questions?.[0];
   return first !== undefined && first.id === "GQ-1" && first.text === babok.gateQuestions["GQ-1"];
@@ -350,8 +350,8 @@ rmSync(vf, { recursive: true, force: true });
 const vd = mkdtempSync(join(tmpdir(), "docodego-conformance-canonical-"));
 check("default init still plants the canonical voice", run(vd, ["init"]), 0, () => read(vd, "01-document/01-discover/README.md") === recordFiles()["01-document/01-discover/README.md"]);
 fact("default manifest carries no vocabulary key", !("vocabulary" in (JSON.parse(read(vd, ".standard/manifest.json")) as Record<string, unknown>)));
-run(vd, ["new", "plain-unit"]);
-const dvq = run(vd, ["grill", "plain-unit", "--json"]);
+run(vd, ["new", "010-plain-unit"]);
+const dvq = run(vd, ["grill", "010-plain-unit", "--json"]);
 check("canonical grill asks the canonical question", dvq, 0, (r) => {
   const first = (JSON.parse(r.stdout) as { data?: { questions?: { id: string; text: string }[] } }).data?.questions?.[0];
   return first !== undefined && first.id === "GQ-1" && first.text === "What does this unit do, in one sentence a stranger can verify?";
@@ -436,7 +436,7 @@ rmSync(bf, { recursive: true, force: true });
 // --- v3: the contract surface — per-command --help, explain, generated docs ---
 // The planted AGENTS.md promises "run any command with --help for its own
 // contract"; these checks are that promise, enforced.
-const LAW_COMMANDS = ["init", "new", "sketch", "grill", "score", "check", "lint", "status", "trace", "doctor", "deliver", "upgrade", "skill", "explain", "completions"];
+const LAW_COMMANDS = ["init", "new", "sketch", "setback", "grill", "score", "audit", "check", "lint", "status", "trace", "doctor", "deliver", "upgrade", "skill", "explain", "completions"];
 fact("every law command has a help page", JSON.stringify(Object.keys(COMMAND_HELP).sort()) === JSON.stringify([...LAW_COMMANDS].sort()));
 fact("the global usage lists every command", LAW_COMMANDS.every((c) => usageText().includes(c)));
 for (const c of LAW_COMMANDS) {
@@ -472,17 +472,17 @@ const envelopeOk = (cmd: string, r: Res): boolean => {
 const envDir = mkdtempSync(join(tmpdir(), "docodego-conformance-env-"));
 check("envelope: init", run(envDir, ["init", "--json"]), 0, (r) => envelopeOk("init", r));
 rmSync(envDir, { recursive: true, force: true });
-check("envelope: new", run(scratch, ["new", "json-unit", "--json"]), 0, (r) => envelopeOk("new", r));
+check("envelope: new", run(scratch, ["new", "010-json-unit", "--json"]), 0, (r) => envelopeOk("new", r));
 check("envelope: sketch", run(scratch, ["sketch", "json-idea", "--json"]), 0, (r) => envelopeOk("sketch", r));
-check("envelope: grill questions", run(scratch, ["grill", "json-unit", "--json"]), 0, (r) => envelopeOk("grill", r));
+check("envelope: grill questions", run(scratch, ["grill", "010-json-unit", "--json"]), 0, (r) => envelopeOk("grill", r));
 write(scratch, "json-answers.txt", Array.from({ length: 12 }, () => "covered — see proofs").join("\n") + "\n");
-check("envelope: grill verdict", run(scratch, ["grill", "json-unit", "--answers", "json-answers.txt", "--json"]), 0, (r) => envelopeOk("grill", r));
-check("envelope: score", run(scratch, ["score", "json-unit", "--json"]), 0, (r) => envelopeOk("score", r));
+check("envelope: grill verdict", run(scratch, ["grill", "010-json-unit", "--answers", "json-answers.txt", "--json"]), 0, (r) => envelopeOk("grill", r));
+check("envelope: score", run(scratch, ["score", "010-json-unit", "--json"]), 0, (r) => envelopeOk("score", r));
 check("envelope: check", run(scratch, ["check", "--json"]), 0, (r) => envelopeOk("check", r));
 check("envelope: lint", run(scratch, ["lint", "--json"]), 0, (r) => envelopeOk("lint", r));
 check("envelope: status", run(scratch, ["status", "--json"]), 0, (r) => envelopeOk("status", r));
 check("envelope: upgrade plan", run(scratch, ["upgrade", "--json"]), 0, (r) => envelopeOk("upgrade", r));
-check("envelope: deliver fail lands on stderr", run(scratch, ["deliver", "weak-unit", "--json"]), 1, (r) => {
+check("envelope: deliver fail lands on stderr", run(scratch, ["deliver", "030-weak-unit", "--json"]), 1, (r) => {
   try {
     const parsed = JSON.parse(r.stderr) as { schema?: string; ok?: boolean };
     return parsed.schema === "docodego/deliver/v1" && parsed.ok === false;
@@ -510,6 +510,40 @@ check("--version prints cli and record spec versions", run(scratch, ["--version"
   const line = r.stdout.trim();
   return line.startsWith(`docodego cli ${cliVersion()}`) && line.endsWith(`record spec ${specVersion()}`);
 });
+
+// --- setback: the failure ledger, its counter, and the wired escalation ---
+// The founder's rule, mechanical: document the bite, respond, and the
+// audit fails at three until the response lands. The response names a
+// real path or the sweep warns — no path, no claim.
+const sb = mkdtempSync(join(tmpdir(), "docodego-conformance-setback-"));
+check("init for the setback record", run(sb, ["init"]), 0);
+check("setback refuses a bite without text", run(sb, ["setback", "quirk-sed"]), 2, (r) => r.stderr.includes("DG-U090"));
+check("setback refuses a non-kebab class", run(sb, ["setback", "Sed Quirk", "x"]), 2, (r) => r.stderr.includes("DG-U091"));
+check("first bite plants the ledger and counts 1", run(sb, ["setback", "quirk-sed", "first failure"]), 0, () => read(sb, "04-govern/01-monitor/setbacks.md").includes("| 1 | first failure"));
+check("second bite counts 2", run(sb, ["setback", "quirk-sed", "second failure"]), 0, () => read(sb, "04-govern/01-monitor/setbacks.md").includes("| 2 | second failure"));
+check("audit warns at two bites but exits 0", run(sb, ["audit"]), 0, (r) => r.stdout.includes("second bite of quirk-sed") && r.stdout.includes("GOV-006"));
+check("third bite counts 3", run(sb, ["setback", "quirk-sed", "third failure"]), 0);
+check("audit fails at three, naming the owed work", run(sb, ["audit"]), 1, (r) => r.stdout.includes("3 recurrences of quirk-sed") && r.stdout.includes("docodego sketch quirk-sed-mitigation"));
+check("respond appends a count-0 row", run(sb, ["setback", "quirk-sed", "--respond", "01-document/01-discover/cycles.md"]), 0, () => read(sb, "04-govern/01-monitor/setbacks.md").split("\n").some((l) => l.includes("quirk-sed | 0 |")));
+check("audit is silent after a real response", run(sb, ["audit"]), 0, (r) => !r.stdout.includes("quirk-sed"));
+check("a post-response bite counts from the response", run(sb, ["setback", "quirk-sed", "it came back"]), 0, () => read(sb, "04-govern/01-monitor/setbacks.md").includes("| 1 | it came back"));
+check("a response naming no resolvable path is warned", (() => {
+  run(sb, ["setback", "quirk-sed", "--respond", "trust me, it is handled"]);
+  return run(sb, ["audit"]);
+})(), 0, (r) => r.stdout.includes("names no path that resolves"));
+check("setback --list prints the class index", run(sb, ["setback", "--list"]), 0, (r) => r.stdout.includes("quirk-sed: lifetime") && r.stdout.includes("last response"));
+// the bound and the rotation, on the same record: over-bound warns, then
+// --rotate moves whole rows byte-identically under the archive law.
+write(sb, ".docodego/04-govern/01-monitor/setbacks.md", "# Setbacks\n\n| date | class | count | text |\n|---|---|---|---|\n" + Array.from({ length: 2200 }, (_, i) => `| 2026-11-08 | filler-class | 0 | filler row ${i} padded to make the file genuinely large for the bound check |`).join("\n") + "\n");
+check("a ledger past its bound is warned", run(sb, ["audit"]), 0, (r) => r.stdout.includes("setbacks.md is") && r.stdout.includes("100KB bound"));
+check("audit --rotate archives setbacks rows", (() => run(sb, ["audit", "--rotate"]))(), 0, (r) => {
+  const live = read(sb, "04-govern/01-monitor/setbacks.md");
+  const archive = read(sb, "04-govern/01-monitor/setbacks-archive-1.md");
+  return archive !== null && archive.includes("| date | class | count | text |") && live.includes("archived") && live.includes("setbacks-archive-1.md") && r.stdout.includes("setbacks.md: moved");
+});
+const sbLiveRows = read(sb, "04-govern/01-monitor/setbacks.md").split("\n").filter((l) => /^\| 2026/.test(l)).length;
+fact("rotation keeps the newest rows live (tracker bound minus tombstone)", sbLiveRows >= 200 && sbLiveRows <= 201);
+rmSync(sb, { recursive: true, force: true });
 
 rmSync(fixture, { recursive: true, force: true });
 rmSync(scratch, { recursive: true, force: true });

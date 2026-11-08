@@ -1,0 +1,5 @@
+
+> docodego@0.8.0 docs:verify
+> node --experimental-strip-types scripts/gen-docs.ts --verify
+
+docs fresh — 19 generated files verified

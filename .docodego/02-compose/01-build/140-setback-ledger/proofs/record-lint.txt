@@ -1,0 +1,2 @@
+self-check: rule registry holds together (16 rules).
+lint exit=0

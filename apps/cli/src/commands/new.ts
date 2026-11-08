@@ -33,8 +33,19 @@ export function run(args: Args, io: Io): number {
   const stream = picked.stream;
   const rec = loadRecord(process.cwd());
   // names carry order: units take the next NNN- prefix in their stream
-  // (step of ten, tracker order) unless the caller already numbered it
+  // (step of ten, tracker order) unless the caller already numbered it.
+  // Identity is the suffix: a second NNN-<same-name> in one stream would
+  // put two units with one name in the listing — the number carries
+  // order, never a second unit of the same name.
   let unitName = name;
+  const identity = name.replace(/^\d{3}-/, "");
+  for (const u of rec.units) {
+    if (!u.dir.startsWith(`${stream}/`)) continue;
+    const sibling = u.dir.split("/").pop() ?? "";
+    if (sibling.replace(/^\d{3}-/, "") === identity) {
+      return complain(args.json, io, { severity: "error", code: "DG-U012", message: `unit '${identity}' already exists in ${stream}/ as '${sibling}' — the number carries order, not a second unit of the same name` }, 1, "new");
+    }
+  }
   if (!/^\d{3}-/.test(unitName)) {
     let max = 0;
     for (const u of rec.units) {

@@ -1,0 +1,7 @@
+warning[DG-C002]: proof path(s) not on disk (quoted variants or stale entries): amendments/1.0.1-ST-2.md
+  --> 02-compose/01-build/050-canon-amend/proofs.md
+  help: docodego explain DG-C002
+
+0 error(s), 1 warning(s)
+exit 0
+check exit=0

@@ -1,0 +1,35 @@
+$ docodego setback quirk-sed --respond "01-document/01-discover/cycles.md — opened the quirk-sed mitigation cycle"
+.docodego/04-govern/01-monitor/setbacks.md — quirk-sed response recorded, count reset
+
+tracker: | 2026-11-08 | setback-quirk-sed | response: 01-document/01-discover/cycles.md — opened the quirk-sed mitigation cycle | 04-govern/01-monitor/setbacks.md |
+
+$ (ledger rows after response and re-bite)
+# Setbacks
+
+The failure ledger, appended at failure time. One row per bite of a class:
+`| date | class | count | text |`. Classes are stable kebab ids minted at
+first occurrence; `count` is machine-written — recurrences since the
+class's last count-0 response row, archive files scanned. A response row
+(`docodego setback <class> --respond "<what you opened>"`) resets the
+class to 0. The audit's GOV-006 reads this ledger: warn at two bites, fail
+at three, naming the owed plan or research. Append-only, newest last,
+rotated like every ledger (setbacks-archive-N.md, byte-identical moves,
+never deleted).
+
+| date | class | count | text |
+|---|---|---|---|
+| 2026-11-08 | quirk-sed | 1 | BSD sed misparsed the multi-expression script; reworked via node |
+| 2026-11-08 | quirk-sed | 2 | bit again — second multi-expression failure |
+| 2026-11-08 | grill-miscount | 1 | counted six answers for ten questions |
+| 2026-11-08 | quirk-sed | 3 | third bite of the same class |
+| 2026-11-08 | quirk-sed | 0 | 01-document/01-discover/cycles.md — opened the quirk-sed mitigation cycle |
+| 2026-11-08 | quirk-sed | 1 | it came back |
+| 2026-11-08 | quirk-sed | 0 | trust me, it is handled |
+
+
+$ docodego audit   (after a real response: silent)
+exit=0; GOV-006 line: pass  GOV-006 setback recurrence — clean
+$ docodego setback quirk-sed --respond "trust me, it is handled"  (no path)
+$ docodego audit   (no path, no claim — warned)
+exit=0; finding:   warn: quirk-sed's last response names no path that resolves ("trust me, it is handled") — no path, no claim
+$ docodego setback quirk-sed "it came back"  — post-response bite counted 1 from the response (row above)

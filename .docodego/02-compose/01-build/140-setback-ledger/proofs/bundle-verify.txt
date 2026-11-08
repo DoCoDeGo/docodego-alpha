@@ -1,0 +1,5 @@
+
+> docodego@0.8.0 bundle:verify
+> node --experimental-strip-types scripts/bundle.ts --verify
+
+bundle verify: clean — 36 files, spec 10, structure 4806e95233b7

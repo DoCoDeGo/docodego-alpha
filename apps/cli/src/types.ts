@@ -86,6 +86,7 @@ export interface Args {
   answers?: string;
   scaffold?: string;
   rotate?: boolean;
+  respond?: string;
   epic?: string;
   story?: string;
   type?: DocType;

@@ -3,7 +3,7 @@ import { MODES, type Args, type DocType, type Mode } from "../types.ts";
 import { DOC_TYPES } from "../types.ts";
 
 const BOOL_FLAGS = new Set(["--json", "--force", "--self-check", "--apply", "--branch", "--all-skills", "--version", "--help", "--list", "--rotate"]);
-const VALUE_FLAGS = new Set(["--mode", "--answers", "--scaffold", "--type", "--epic", "--story", "--stream", "--from-sketch", "--profile", "--from", "--vocabulary"]);
+const VALUE_FLAGS = new Set(["--mode", "--answers", "--scaffold", "--type", "--epic", "--story", "--stream", "--from-sketch", "--profile", "--from", "--vocabulary", "--respond"]);
 
 export type ParsedArgs = { ok: true; args: Args } | { ok: false; message: string };
 
@@ -56,6 +56,7 @@ export function parseArgs(argv: string[]): ParsedArgs {
         args.mode = mode;
       } else if (tok === "--answers") args.answers = value;
       else if (tok === "--scaffold") args.scaffold = value;
+      else if (tok === "--respond") args.respond = value;
       else if (tok === "--type") {
         const docType = value as DocType;
         if (!DOC_TYPES.includes(docType)) return { ok: false, message: `--type must be one of ${DOC_TYPES.join("|")}, got '${value}'` };
@@ -84,10 +85,12 @@ commands:
   init [--mode auto|review|guided|hands-on] [--profile <p>] [--all-skills] [--vocabulary <pack>] [--force]
   new <unit> [--type unit|epic|story] [--epic E] [--story S] [--stream <stream>] [--from-sketch <name>]
   sketch <name>
-  grill <unit> [--answers <file>] [--json]
+  setback <class> <text> | setback <class> --respond <text> | setback --list
+  grill <unit> [--answers <file>] [--scaffold <file>] [--json]
   score <unit> [--json]
   check [--json]
   lint [--self-check]
+  audit [--rotate] [--json]
   status [--json] [--epic E] [--story S]
   trace <unit> [--json]
   doctor [--json]

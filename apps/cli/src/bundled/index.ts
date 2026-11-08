@@ -66,13 +66,33 @@ export const CHECKLIST_TEMPLATE = `# Checklist
 The standing sweep, appended. One row per check per \`docodego audit\` run:
 \`| date | check | owner | status | evidence |\`. Checks carry stable ids —
 GOV-001 lint · GOV-002 check · GOV-003 status-verdict coherence · GOV-004
-bounded size · GOV-005 comment hygiene. Hand findings take the next
-GOV-NNN. Status changes append new rows — this ledger is append-only,
-newest last, rotated like every ledger (checklist-archive-N.md,
-byte-identical moves, never deleted).
+bounded size · GOV-005 comment hygiene · GOV-006 setback recurrence. Hand
+findings take the next GOV-NNN. Status changes append new rows — this
+ledger is append-only, newest last, rotated like every ledger
+(checklist-archive-N.md, byte-identical moves, never deleted).
 
 | date | check | owner | status | evidence |
 |---|---|---|---|---|
+`;
+
+/** The setback ledger: the failure-capture surface. One row per bite of a
+ * class, appended at failure time; counts are machine-written and survive
+ * rotation (the audit scans archives). The audit's GOV-006 reads this
+ * ledger — warn at two bites, fail at three, naming the owed work. */
+export const SETBACKS_TEMPLATE = `# Setbacks
+
+The failure ledger, appended at failure time. One row per bite of a class:
+\`| date | class | count | text |\`. Classes are stable kebab ids minted at
+first occurrence; \`count\` is machine-written — recurrences since the
+class's last count-0 response row, archive files scanned. A response row
+(\`docodego setback <class> --respond "<what you opened>"\`) resets the
+class to 0. The audit's GOV-006 reads this ledger: warn at two bites, fail
+at three, naming the owed plan or research. Append-only, newest last,
+rotated like every ledger (setbacks-archive-N.md, byte-identical moves,
+never deleted).
+
+| date | class | count | text |
+|---|---|---|---|
 `;
 
 /** All bundled skill files as `.agents/skills/<name>/<file>` -> body. */
