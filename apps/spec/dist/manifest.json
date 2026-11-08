@@ -1,14 +1,14 @@
 {
   "schema": "docodego-spec/manifest/v1",
-  "specVersion": "1.1.0",
-  "structureHash": "664a63889e477ff658ac7461985ba0c2ee9c7fd6d32462e105d9ed64abec8297",
+  "specVersion": "1.2.0",
+  "structureHash": "618925c5484315d5ea18dbd1af2a3a9ef4a6f313b99f02251aea03808a0d58fe",
   "fileCount": 47,
   "lawCount": 33,
   "files": {
-    "SPEC.md": "087fd7335df82fca8a3e52821fab588e7c36ad48e21cdf3c5c9f29e35d43a807",
+    "SPEC.md": "9839a9a5d8b69e24fd68d7cce9b653aab692acc33222f08ec06df94de9ac5648",
     "amendments/1.1.0-EL-33-new.md": "bde0e5aa175c48a3cf05e3ad4f9c42d14607c229d890b5e1de6923f8563fec58",
     "amendments/1.1.0-EL-34-new.md": "4ecb2f2198138db892516adf59d66c3d9a6d4d0a286eb6f6b5e76e8f13d99c79",
-    "amendments/log.md": "e990c7c5f401b850944d1e837288864a99147cc9ce8acec283c3a0d01154dc4d",
+    "amendments/log.md": "15c7326cb5eabf9c62c875ff23d621f88ed6b163230bfe463b97479fb477a47b",
     "conformance/enforceability-map.md": "4876012f9c1da111ccbb96a3ee3b6de00cfe3e7e3c9665ecfcf4dfb0ab1e20e5",
     "conformance/gates-and-severity.md": "239858707fc6a9adb7098c8f19cb2462f147274eeb9415c1f5bd2f46c1a578b8",
     "laws/01-intent-is-absolute.md": "dcc6a63b5ca8aa53b479e7afd73077a1658f9e596ec849b30a27502018c2c960",
@@ -51,6 +51,6 @@
     "movements/the-loop.md": "739b3de6a2710dae525a6a57568112f51a45b8a2dbd3df623b5b9c58cf6e6ec9",
     "record/the-shelf.md": "84f16de1f4dd67d11d43f1d16370ceb4fb3d68188645c8bcea04216acef0d178",
     "record/the-trail.md": "130b69082131047f109134edd9a84b7a17bf47e9864f217422f9454513f61ae9",
-    "record/version-transition.md": "94faa6064f3a033e2bd9dd143d1c800d27169f1998dc61f20fa6c541721ff4e9"
+    "record/version-transition.md": "5dd6109a55b287fa2c13306ded35ac3d5fdf9f71772bc349b9d3f1ec7e63c188"
   }
 }
