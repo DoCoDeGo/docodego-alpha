@@ -99,3 +99,5 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 250-reference-doc-triage | delivered | 02-compose/01-build/250-reference-doc-triage/delivered.md |
 | 2026-11-08 | 260-payload-interface-dedupe | new unit | 02-compose/01-build/260-payload-interface-dedupe/spec.md |
 | 2026-11-08 | 260-payload-interface-dedupe | delivered | 02-compose/01-build/260-payload-interface-dedupe/delivered.md |
+| 2026-11-08 | 270-doctor-vocabulary-check | new unit | 02-compose/01-build/270-doctor-vocabulary-check/spec.md |
+| 2026-11-08 | 270-doctor-vocabulary-check | delivered | 02-compose/01-build/270-doctor-vocabulary-check/delivered.md |

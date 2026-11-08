@@ -841,6 +841,21 @@ rmSync(sb, { recursive: true, force: true });
   write(s240, `.docodego/${dir2}/proofs.md`, "# proofs — 020-second-unit\n\n- proof at the machine root: `/etc/hosts`\n");
   check("cli240: an absolute proof path is named, never probed", run(s240, ["check"]), 1, (r) => r.stdout.includes("absolute proof path"));
   check("cli240: the board counts every vocabulary status plus other", run(s240, ["status", "--json"]), 0, (r) => r.stdout.includes('"launchPassed"') && r.stdout.includes('"founderSigned"') && r.stdout.includes('"other"'));
+
+  // the silent downgrade (270): a manifest naming an unbundled pack fails
+  // check as DG-C016 and surfaces in doctor's record-check tally
+  const manifestRaw = read(s240, ".standard/manifest.json");
+  const manifest = JSON.parse(manifestRaw) as Record<string, unknown>;
+  const vocabBefore = manifest["vocabulary"];
+  manifest["vocabulary"] = "klingon";
+  write(s240, ".docodego/.standard/manifest.json", JSON.stringify(manifest, null, 2));
+  check("cli270: a manifest naming an unbundled pack fails check as DG-C016", run(s240, ["check"]), 1, (r) => r.stdout.includes("DG-C016") && r.stdout.includes("klingon"));
+  write(s240, `.docodego/${dir2}/proofs.md`, `# proofs — 020-second-unit\n\n- AC1 — the test ran: \`${dir2}/retry.test.txt\`\n`);
+  const docRes = run(s240, ["doctor"]);
+  check("cli270: doctor's tally counts the same one error — one detector, both surfaces", docRes, 1, (r) => (r.stdout + r.stderr).match(/record check\s*—\s*1 error/) !== null);
+  manifest["vocabulary"] = typeof vocabBefore === "string" ? vocabBefore : "plain";
+  write(s240, ".docodego/.standard/manifest.json", JSON.stringify(manifest, null, 2));
+  check("cli270: a valid pack stays green", run(s240, ["check"]), 0);
   rmSync(s240, { recursive: true, force: true });
 }
 

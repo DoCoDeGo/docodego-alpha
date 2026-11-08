@@ -3,6 +3,7 @@
  * Pure apart from fs existence probes on proof paths. */
 import { join, isAbsolute } from "node:path";
 import { STATUS_VALUES, type Diagnostic } from "../types.ts";
+import { vocabularyPack, VOCABULARY_NAMES } from "../bundled/index.ts";
 import { field } from "../record/frontmatter.ts";
 import { isDir, isFile, readText } from "../fsx.ts";
 import { parseMarkdown, type FileAst } from "../record/markdown.ts";
@@ -10,6 +11,14 @@ import { unitStatus, type RecordAst, type UnitAst } from "../record/load.ts";
 
 export function checkPass(rec: RecordAst): Diagnostic[] {
   const out: Diagnostic[] = [];
+  // the silent downgrade (enhancement 14): a manifest naming a pack this
+  // CLI does not bundle reads canonical English and nothing says so — the
+  // record's dialect vanished without a word. One detector, both surfaces:
+  // doctor's record-check tally reads this same pass.
+  const asked = rec.manifest.vocabulary;
+  if (asked !== undefined && vocabularyPack(asked) === undefined) {
+    out.push({ severity: "error", code: "DG-C016", message: `manifest.vocabulary names '${asked}' but this CLI bundles no such pack (bundled: ${VOCABULARY_NAMES.join(", ")}) — a downgrade or a typo; the record's dialect is not speaking. Fix the manifest's vocabulary field or run this record with a CLI that bundles the pack`, file: "manifest.json" });
+  }
   for (const unit of rec.units) out.push(...checkUnit(rec, unit));
   for (const sketch of rec.sketches) out.push(...sketch.file.diags);
   return out;

@@ -208,6 +208,12 @@ prefix (`docodego explain DG-F`) prints every page in the family.
 - law: the vocabulary is the machine: draft, grilled, scored, delivered, launch-passed, founder-signed — and the machine's transition table is the only way a status changes; lint condemns a bad word at the spec surface, check condemns it in the living record.
 - fix: set the status: line to a legal word and re-run the loop from the command that earns it (grill, score, deliver, launch, sign).
 
+**DG-C016 — manifest names a pack this CLI does not bundle**
+
+- meaning: the record was born speaking a vocabulary pack this installation cannot voice — every greeting silently reads canonical English.
+- law: the dialect is part of the record: a record naming an absent pack is a downgrade (older CLI) or a typo, and silence about it is the defect — one detector here, surfaced by check and by doctor's record-check tally alike.
+- fix: fix the manifest's vocabulary field to a bundled pack, or run this record with a CLI that bundles the pack it names.
+
 ### DG-P — parse — recoverable markdown events
 
 **DG-P002 — malformed frontmatter line skipped**

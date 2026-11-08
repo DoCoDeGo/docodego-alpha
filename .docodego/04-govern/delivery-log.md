@@ -45,3 +45,4 @@ is recorded here; what was learned lives in the unit's own records.
 | 2026-11-08 | 240-cli-debt-cluster | G1,G2,G3,G4 | proof: 02-compose/01-build/240-cli-debt-cluster/proofs/conformance.txt |
 | 2026-11-08 | 250-reference-doc-triage | G1,G2,G3,G4 | proof: 02-compose/01-build/250-reference-doc-triage/proofs/triage.txt |
 | 2026-11-08 | 260-payload-interface-dedupe | G1,G2,G3,G4 | proof: 02-compose/01-build/260-payload-interface-dedupe/proofs/conformance.txt |
+| 2026-11-08 | 270-doctor-vocabulary-check | G1,G2,G3,G4 | proof: 02-compose/01-build/270-doctor-vocabulary-check/proofs/conformance.txt |
