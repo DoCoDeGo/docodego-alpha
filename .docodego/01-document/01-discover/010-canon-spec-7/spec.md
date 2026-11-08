@@ -115,8 +115,16 @@ is now:
 7. spec7-ics-2 (was child 3; the investigation strengthened the drift
    evidence: spec defines four dimensions with floors, tool ships five
    passes enforcing neither).
-8. spec7-launch-gate (was 4) · 9. spec7-transition-table (was 5) ·
-   10. spec7-shelf-and-stack (was 6) · 11. spec7-governance-pass (was 7).
+8. spec7-launch-gate (was 4) — ✅ delivered (3dc60f3) ·
+   9. spec7-transition-table (was 5) — ✅ delivered (f0eaf24) ·
+   10. spec7-shelf-and-stack (was 6) — ✅ delivered (28d99a7): the nine
+   authored skills (six bundled, three auto-add), the rules layer (five
+   invariant rules + the README map), the stack standard as law
+   (`record/the-shelf.md`, spec/ 1.0.4) and CLI surface (`check` tree
+   scans DG-C008/009/010), record v14. The honest remainder, recorded:
+   the thirteen craft-skill ports toward the decided 27, the auto-add
+   trigger machinery, and the packs registry ride a later pass.
+   11. spec7-governance-pass (was 7).
 
 The original children list above stands as the commissioning record;
 this section supersedes its order only.
