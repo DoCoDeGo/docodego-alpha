@@ -112,7 +112,7 @@ land; a row never sits silently between states.
 | 12 score hash + reuse warning | landed | 350-score-reuse: check warns DG-C018 when a scored or delivered unit's spec hash no longer matches its recorded score — the same last-block-wins extraction the G2 gate reads (the score hash itself shipped with 240's binding) |
 | 13 solo-grill honesty | landed | 340-grill-mode: every grill round names its mode — self-grilled by default, --by <who> for a named answerer; the form of independence is never recorded as the fact of it |
 | 14 warning triage classes | landed | 360-warning-classes: every warning renders its triage class — drift (a real gap) or prose (cosmetic wording; the C002 family) — classified at the detector, unclassified reads drift; the node --test nit investigated moot |
-| 15 integrity map (compose-log, demo bundles) | drafted | the status-rails draft (EL-33, reserved 1.1.0) owns "status answers could-this-ship"; the compose-log and demo-bundle mechanics ride a later child |
+| 15 integrity map (compose-log, demo bundles) | in flight | 380-compose-log landed the compose half — `02-compose/compose-log.md` gate-appended at deliver (date, unit, delivered spec hash, declared deviations; readers named in the header: the handoff agent, the build-honesty auditor), anchored at init, engine-owned like the delivery log (record contract 20); the demo-bundle half is unit 390, in flight |
 | 16 post-delivery staleness | landed | 320-stale-proofs: check warns DG-C017 when a delivered unit's cited evidence carries commits after the delivery day (commit dates, clone-safe; the unit's own folder excluded; git-absent records skip) |
 | 17 grill drops scored | unowned | the status machinery stands; the mitigation note ships (commands/grill.ts, the re-run hint, from 130-grill-scaffold) |
 | 18 diagnostics carry the fix | landed | the explain registry: every DG code has a page with the concrete fix (passes/explain.ts; DG-U013 names the stream-path shape) |
@@ -137,3 +137,15 @@ belong to the product record and the founder, and R10-5 (scorer
 satisfiability) is its own thread, separate from the landed IMP-12.
 The epic stays open as long as those rows are — its owned work is
 done.
+
+**Addendum (appended 2026-11-08, "finish everything"):** the founder
+reopened the stay-out rows, and the lawfully walkable ones re-entered.
+IMP-15 is the founder's own commissioned design (the audit specifies it
+fully), so its mechanics are agent work: 380-compose-log landed the
+compose half (record contract 19 → 20, spec 1.0.10 → 1.0.11); 390
+carries the demo bundles, 400 the evidence ladder (IMP-20). What stays
+out stays out for the same reason as before: IMP-1 and IMP-11 are
+founder decisions — the agent prepares the research-and-questions
+package in cycles.md, never the answer — and EL-33/EL-34 remain drafts
+until the founder accepts and signs. R10-5 stays recorded as a thread
+of the ICS 2.0 redesign, not a mechanism invented solo.
