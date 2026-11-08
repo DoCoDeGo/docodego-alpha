@@ -84,3 +84,4 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 200-spec7-transition-table | delivered | 02-compose/01-build/200-spec7-transition-table/delivered.md |
 | 2026-11-08 | 210-spec7-shelf-and-stack | new unit | 02-compose/01-build/210-spec7-shelf-and-stack/spec.md |
 | 2026-11-08 | 210-spec7-shelf-and-stack | delivered | 02-compose/01-build/210-spec7-shelf-and-stack/delivered.md |
+| 2026-11-08 | 210-spec7-shelf-and-stack | delivered | 02-compose/01-build/210-spec7-shelf-and-stack/delivered.md |

@@ -8,8 +8,8 @@
   `02-compose/01-build/210-spec7-shelf-and-stack/proofs/skill-list.txt`.
 - AC2 — the rules layer: the payload carries the six rules files (the
   README map + five invariants — conformance asserts the exact set);
-  init plants them create-only and the upgrade plan carries
-  `.agents/rules/*` —
+  init plants them create-only and the upgrade plan carries the rules
+  folder create-only —
   `02-compose/01-build/210-spec7-shelf-and-stack/proofs/conformance.txt`.
 - AC3 — the tree scans, driven through scratch fixtures: a rule with an
   empty enforced-by lists as furniture (DG-C010); plain JS beside a
