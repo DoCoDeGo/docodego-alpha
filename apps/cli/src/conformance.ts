@@ -12,7 +12,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, 
 import { tmpdir, userInfo, hostname } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { recordFiles, agentsMd, profiles as bundledProfiles, cliVersion, specVersion, skillsIndex, ruleFiles, vocabularies, VOCABULARY_NAMES, vocabularyPack, COMPOSE_LOG_TEMPLATE, DEMO_README_TEMPLATE, DEMO_HOWTO_TEMPLATE, EVIDENCE_TYPES } from "./bundled/index.ts";
+import { recordFiles, agentsMd, profiles as bundledProfiles, cliVersion, specVersion, skillsIndex, ruleFiles, vocabularies, VOCABULARY_NAMES, vocabularyPack, COMPOSE_LOG_TEMPLATE, DEMO_README_TEMPLATE, DEMO_HOWTO_TEMPLATE, EVIDENCE_TYPES, SIGNATURES_TEMPLATE } from "./bundled/index.ts";
 import { treeFindings } from "./passes/tree.ts";
 import { governanceFindings } from "./passes/governance.ts";
 import { loadRecord } from "./record/load.ts";
@@ -699,6 +699,13 @@ fact("the payload's AGENTS.md carries the two registers with the accepted lists"
     const after = readFileSync(amen2, "utf8");
     return r.stderr.includes("DG-U114") && after === before2;
   });
+  const amen2b = join(specRoot, "amendments", "1.3.0-EL-36b-new.md");
+  writeFileSync(amen2b, amendment("EL-36b", "laws/35-the-demo-law.md"));
+  const before2b = readFileSync(amen2b, "utf8");
+  check("a secret-shaped --name identifier is refused too — the scan covers the typed source, whichever flag carried it", run(so, ["sign-off", amen2b, "--quote", "Accept it", "--name", "sure thing sk-abcdef1234567890abcdef123456"]), 1, (r) => {
+    const after = readFileSync(amen2b, "utf8");
+    return r.stderr.includes("DG-U114") && after === before2b;
+  });
   check("an unresolvable law file is refused (DG-U116)", run(so, ["sign-off", amen2, "--quote", "Accept it"]), 1, (r) => r.stderr.includes("DG-U116"));
   check("sign-off without --quote is a usage error", run(so, ["sign-off", amen2]), 2, (r) => r.stderr.includes("DG-U117"));
   const amen3 = join(specRoot, "amendments", "1.3.0-EL-37-new.md");
@@ -785,6 +792,7 @@ fact("the payload's AGENTS.md carries the two registers with the accepted lists"
   writeFileSync(join(custom2, "AGENTS.md"), "# my own law\n\nnothing here\n");
   const kept2 = teachSecondUseClean(join(custom2, ".docodego"));
   fact("the repair keeps a customized AGENTS.md untouched", kept2.includes("customized") && readFileSync(join(custom2, "AGENTS.md"), "utf8") === "# my own law\n\nnothing here\n");
+fact("the fingerprint clause appears wherever a signature shows — the ledger template, both help bodies", SIGNATURES_TEMPLATE.includes("privacy, not anonymity") && SIGNATURES_TEMPLATE.includes("resists a stranger's lookup") && (COMMAND_HELP.sign?.body ?? "").includes("resists a stranger's lookup") && (COMMAND_HELP["sign-off"]?.body ?? "").includes("resists a stranger's lookup"));
   rmSync(ag, { recursive: true, force: true });
   rmSync(custom, { recursive: true, force: true });
   rmSync(custom2, { recursive: true, force: true });

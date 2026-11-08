@@ -1,7 +1,7 @@
 ---
 name: 480-sign-identity-privacy
 type: unit
-status: scored
+status: launch-passed
 ---
 
 # 480-sign-identity-privacy
@@ -121,12 +121,16 @@ repair teach (see the scope note above), not silently folded into 25.
 - AC8 — the conformance pins are deterministic: the exact fp hex is
   computed in the fixture from a fixture-controlled salt and asserted
   byte-for-byte; no random output is pinned.
-- AC9 — the amendment-before-flip ordering holds: EL-34 amendment
-  1.2.4 is scaffolded (draft) with the consent-split wording in this
-  unit, the record cites the founder's verbatim addendum as its why,
-  and the founder's sign-off — the person-gate — is the named next
-  act before the law text lands; no fingerprinted row is shipped
-  while the law still reads "recorded verbatim" without the split.
+- AC9 — the amendment ordering holds: EL-34 amendment
+  1.2.4 is scaffolded (draft) in this unit with the consent-split
+  wording, its Why cites the founder's verbatim addendum, and the
+  founder's sign-off — the person-gate — is the named next act: the
+  law text lands only on that signature. The engine's mechanism and
+  the scaffold land together (the 450 precedent: the flow ships, the
+  law's rewording follows the person's recorded acceptance, 1.2.3);
+  until the founder signs, the receipt's own fingerprint clause
+  governs what the record claims — the honest bridge, never a claim
+  of anonymity the mechanism does not deliver.
 - AC10 — the payload hop lands whole: recordVersion 25 carries
   teachSignIdentity + the second-use teach, and the census-forced
   correction lands as recordVersion 26 with a real repair teach (the

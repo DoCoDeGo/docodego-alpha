@@ -314,6 +314,22 @@ were the agent's sequencing, not the gates'):
   complete line, never a prefix of it; re-read the edited line before
   moving on.
 
+- Mistake 5 (2026-11-08, during 480's build) — the payload census
+  caught the planted second-use section carrying studio-side citations
+  (the inventory and demo paths exist in this repository, not in an
+  adopter's record) AFTER the v25 declaration was bundled and
+  committed; the bundle guard then refused a second source change at
+  a declared version, and the migration ladder forbids gaps. The
+  machinery held — the sequencing slipped: the source fix landed
+  without re-running the census and re-bundling before the
+  declaration was treated as done. Mitigation, mechanical: when any
+  payload-facing gate fails (the prose census, the drift gate), the
+  declaration is the LAST step — fix the source, re-run the census
+  and the bundle, then declare and commit. The repair rode a declared
+  hop with a real teach (v26 swaps the dead-path lines in place;
+  v25-planted records re-teach), never a silent fold-in and never a
+  history rewrite.
+
 ## Cycle 6 — dual use and the surgical gate (2026-11-08, via chat — the directive verbatim, three messages)
 
 > Anything built with docodego should have a dual use mindset. One
