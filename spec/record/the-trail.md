@@ -116,6 +116,13 @@ Three version axes move side by side — the record contract, the tool, the publ
 and only one of them migrates. What versions what, the registry law, skip-distance, and
 every hop the record has shipped: [the version transition table](version-transition.md).
 
+## The shelf and the rules
+
+The craft the record ships with: the skill shelf (bundled, auto-add, opt-in packs —
+nothing bundles without a trigger-precise description) and the rules layer (five
+invariant rules; a rule without a living enforcer is furniture):
+[the shelf and the rules](the-shelf.md).
+
 ## The cold start
 
 The best test of a trail: give a newcomer, or a fresh agent, the repository and the record

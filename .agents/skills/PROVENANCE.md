@@ -1,7 +1,7 @@
 ---
-version: 2.0.0
-status: vendored copy — read-only; the upstream governs every change
-upstream: the docodego project's skill family — the template source this seed was vendored from
+version: 2.1.0
+status: vendored copies read-only (the upstream governs every change); authored skills are this repo's own craft
+upstream: the docodego project's skill family — the template source the vendored skills were seeded from
 updated: 2026-11-08
 ---
 
@@ -27,6 +27,16 @@ upstream, read-only copies.
   four-section spec with assurance/deliverables as earned growth; statuses
   are the CLI-earned set (draft → grilled → scored → delivered). The Arc
   remains opt-in depth: the locator routes to it, the loop governs fidelity.
+- **Version 2.1.0 (2026-11-08)** — the shelf decision landed (27 bundled /
+  9 authored, packs opt-in): the nine authored skills joined the shelf —
+  six bundled (`security-baseline-for-ai-code`, `destructive-action-guard`,
+  `reward-hacking-detection`, `supply-chain-evidence`, `incident-record-writing`,
+  `docs-publishing`) and three auto-add (`tech-stack`, `docodego-payments`,
+  `research-verify`), the auto-add ones planted on trigger or explicit
+  `docodego skill add`, never by default. Authored skills are this repo's
+  own craft, grounded in the cycle-2 research; the vendored skills stay
+  read-only under the upstream law. The rules layer beside this folder
+  (`.agents/rules/`) carries its own provenance rule.
 - **Version** — the frontmatter above identifies the snapshot. `docodego
   upgrade` refreshes this folder under the same law as the vendored
   references: files at the shipped version are never rewritten, an adopter's

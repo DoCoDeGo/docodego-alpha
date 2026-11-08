@@ -18,7 +18,7 @@ import { checkPass } from "../passes/index.ts";
 import { renderDiagnostics } from "../emit/diagnostics.ts";
 import { migrationsFor } from "../versioning/migrations.ts";
 import { applyPlan, computePlan, renderPlan, type PlanEntry } from "../versioning/plan.ts";
-import { agentsMd, agentPresets, introductions, recordFiles, skillFiles, skillsIndex, specVersion, DEFAULT_PROFILE, profiles as profileMap, vocabularyPack } from "../bundled/index.ts";
+import { agentsMd, agentPresets, introductions, recordFiles, ruleFiles, skillFiles, skillsIndex, specVersion, DEFAULT_PROFILE, profiles as profileMap, vocabularyPack } from "../bundled/index.ts";
 import { appendTrackerLine, plantSkill, readLock } from "../skills/lock.ts";
 import { readText, writeText } from "../fsx.ts";
 import { envelope } from "../emit/json.ts";
@@ -41,6 +41,7 @@ function bundledFiles(rec: RecordAst): Record<string, string> {
     out[`${RECORD_DIR}/${rel}`] = body;
   }
   for (const [rel, body] of Object.entries(agentPresets())) out[`.agents/agents/${rel}`] = body;
+  for (const [rel, body] of Object.entries(ruleFiles())) out[`.agents/rules/${rel}`] = body;
   return out;
 }
 

@@ -160,6 +160,17 @@ export const MIGRATIONS: Migration[] = [
     ],
     steps: [teachLaunchSign],
   },
+  {
+    from: 13,
+    to: 14,
+    notes: [
+      "the nine-skill shelf joins the index: six bundled (security-baseline-for-ai-code, destructive-action-guard, reward-hacking-detection, supply-chain-evidence, incident-record-writing, docs-publishing) and three auto-add (tech-stack, docodego-payments, research-verify) (spec7-shelf-and-stack)",
+      "the rules layer plants create-only: .agents/rules/ — five invariant rules + the README map, each rule naming reader, fails-when, enforced-by",
+      "check gains the tree scans: the rules floor (furniture listing, DG-C010), the stack scan (DG-C008), the untracked-source scan (DG-C009) — warnings with file evidence, never errors",
+      "installed skills refresh per the lockfile as always; nothing new installs without 'skill add' or its trigger",
+    ],
+    steps: [teachShelfAndRules],
+  },
 ];
 
 /** The registry must cover [0..target] contiguously — Terraform's ladder
@@ -318,6 +329,33 @@ function teachLaunchSign(root: string): string {
   const taught = raw.replace(anchor, anchor + additions);
   writeText(abs, taught);
   let note = "updated AGENTS.md (launch and sign verbs inserted after deliver)";
+  const twin = join(repoRoot, "AGENTS.md.new");
+  if (existsSync(twin) && (readText(twin) ?? "") === taught) {
+    rmSync(twin);
+    note += " — AGENTS.md.new removed (now identical to the refreshed file)";
+  }
+  return note;
+}
+
+/** v13 -> v14: teach AGENTS.md the rules layer — the section that names
+ * the five invariant rules, the furniture doctrine, and check's tree
+ * scans. Same conservative contract as every AGENTS.md teach: a copy
+ * still shaped like the shipped scaffold gains the section in place;
+ * anything else is kept, the refreshed copy riding the plan as .new. */
+function teachShelfAndRules(root: string): string {
+  const repoRoot = dirname(root);
+  const abs = join(repoRoot, "AGENTS.md");
+  if (!existsSync(abs)) return "kept AGENTS.md (absent — nothing to teach)";
+  const raw = readText(abs) ?? "";
+  if (raw.includes("## The rules")) return "kept AGENTS.md (the rules layer already present)";
+  const anchor = "## Growing the record";
+  if (!raw.includes(anchor)) {
+    return "kept AGENTS.md (anchor heading not found — your copy is customized; the refreshed scaffold rides as AGENTS.md.new)";
+  }
+  const section = "## The rules\n\n`.agents/rules/` holds the five invariant rules, each rule file naming\nwho reads it, what failure it prevents, and what holds it\n(`enforced-by`). A rule whose enforced-by names nothing live is\nfurniture: `docodego check` lists it, and deletion is human-confirmed —\nrules are law, and auto-deleting law is an interruption-safety\nviolation. The two mechanical rules run as check warnings (the stack\nscan, the untracked-source scan); the practice rules hold by their\nnamed instruments. The map: `.agents/rules/README.md`.\n\n";
+  const taught = raw.replace(anchor, section + anchor);
+  writeText(abs, taught);
+  let note = "updated AGENTS.md (the rules section inserted before Growing the record)";
   const twin = join(repoRoot, "AGENTS.md.new");
   if (existsSync(twin) && (readText(twin) ?? "") === taught) {
     rmSync(twin);

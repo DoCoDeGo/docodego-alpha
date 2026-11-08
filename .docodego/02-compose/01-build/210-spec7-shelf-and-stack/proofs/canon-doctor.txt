@@ -1,0 +1,5 @@
+spec error[SP-F001]: the spec tree is ahead of the delivered index — tree 8f941ea9a6f4… vs delivered 5b858c4708e5… — run canon build
+spec error[SP-F002]: the delivered manifest says 1.0.3 but SPEC.md says 1.0.4 — artifacts and source must name the same version
+canon doctor · 2 error(s), 0 warning(s) · mirror: 16 mirror statutes vs 16 tree statutes · first drift: n/a
+axes (side by side, never inferred): payload specVersion 14 · cli 0.8.0 · spec/ 1.0.4 · delivered 1.0.3
+doctor exit: 1 (delivered-baseline drift, expected pre-commit; SP-V004 closed in source by the 1.0.4 log row)

@@ -14,7 +14,7 @@ import { join } from "node:path";
 import type { Args, Io, SkillLockEntry, SkillsLock } from "../types.ts";
 import { isDir, readText } from "../fsx.ts";
 import { loadRecord, RecordFatal } from "../record/load.ts";
-import { PROFILES, profiles as profileMap, skillFiles, skillsIndex } from "../bundled/index.ts";
+import { PROFILES, profiles as profileMap, ruleFiles, skillFiles, skillsIndex } from "../bundled/index.ts";
 import { digestSkillDir, emptyLock, LOCK_REL, plantSkill, readLock, SKILL_NAME_OK, verifyInstalled, writeLock } from "../skills/lock.ts";
 import { complain } from "./resolve.ts";
 import { envelope } from "../emit/json.ts";
@@ -46,11 +46,11 @@ function list(args: Args, io: Io): number {
   if (mismatches.length > 0) {
     return complain(args.json, io, { severity: "error", code: "DG-K001", message: `skill integrity mismatch: ${mismatches.join(", ")} — installed folders differ from the lockfile digests; investigate before trusting them` }, 1, "skill");
   }
-  const index = skillsIndex().map((s) => ({ name: s.name, version: s.version, installed: lock.installed.some((e) => e.name === s.name), defaultFor: s.defaultFor }));
+  const index = skillsIndex().map((s) => ({ name: s.name, version: s.version, installed: lock.installed.some((e) => e.name === s.name), defaultFor: s.defaultFor, autoAdd: s.autoAdd === true }));
   if (args.json) {
     io.out(JSON.stringify(envelope("skill", { index, installed: lock.installed, profiles: profileMap() }), null, 2));
   } else {
-    io.out(index.map((s) => `  ${s.installed ? "[installed]" : "[          ]"} ${s.name} v${s.version}${s.defaultFor.length > 0 ? `  (${s.defaultFor.join(", ")})` : ""}`).join("\n"));
+    io.out(index.map((s) => `  ${s.installed ? "[installed]" : s.autoAdd ? "[auto-add ]" : "[          ]"} ${s.name} v${s.version}${s.defaultFor.length > 0 ? `  (${s.defaultFor.join(", ")})` : ""}`).join("\n"));
     io.err(`profiles: ${PROFILES.join(" · ")} — installed: ${lock.installed.map((e) => e.name).join(", ") || "(none)"}`);
   }
   return 0;

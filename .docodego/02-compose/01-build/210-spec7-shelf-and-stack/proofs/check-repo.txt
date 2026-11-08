@@ -1,0 +1,10 @@
+warning[DG-C002]: proof path(s) not on disk (quoted variants or stale entries): amendments/1.0.1-ST-2.md, docodego/<command>/v1
+  --> 02-compose/01-build/150-retire/proofs.md
+  help: docodego explain DG-C002
+warning[DG-C009]: no-untracked-source: 1 untracked source file(s) (sample: apps/cli/src/passes/tree.ts) — everything committed, the verify path reproducible by a stranger; see .agents/rules/no-untracked-source.md
+  --> apps/cli/src/passes/tree.ts
+  help: docodego explain DG-C009
+
+0 error(s), 2 warning(s)
+exit 0
+check exit: 0 — warnings only; DG-C009 flags this unit's own untracked files, quiet at commit

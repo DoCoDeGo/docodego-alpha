@@ -62,6 +62,7 @@ compares the two, so this table cannot drift from the engine.
 | v10 | v11 | the retire verb: delivered units leave the stream as named behaviors |
 | v11 | v12 | the decorative frontmatter version line dropped; restore told apart from create; the mirror refresh derives its shipped-hash set |
 | v12 | v13 | the launch tiers: launch re-audits delivered evidence, sign records a named person's attestation |
+| v13 | v14 | the nine-skill shelf (six bundled, three auto-add) and the rules layer: five invariant rules plant create-only, check gains the tree scans |
 
 ## Conformance
 

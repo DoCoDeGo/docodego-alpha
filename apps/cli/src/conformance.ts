@@ -12,7 +12,8 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, 
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { recordFiles, profiles as bundledProfiles, cliVersion, specVersion, vocabularies, VOCABULARY_NAMES, vocabularyPack } from "./bundled/index.ts";
+import { recordFiles, profiles as bundledProfiles, cliVersion, specVersion, skillsIndex, ruleFiles, vocabularies, VOCABULARY_NAMES, vocabularyPack } from "./bundled/index.ts";
+import { treeFindings } from "./passes/tree.ts";
 import { STREAM_README_PATHS, ALL_STREAMS } from "./record/streams.ts";
 import { validateVocabularyPack } from "./record/vocabulary.ts";
 import { COMMAND_HELP } from "./cli/help.ts";
@@ -677,6 +678,38 @@ check("audit --rotate archives setbacks rows", (() => run(sb, ["audit", "--rotat
 const sbLiveRows = read(sb, "04-govern/01-monitor/setbacks.md").split("\n").filter((l) => /^\| 2026/.test(l)).length;
 fact("rotation keeps the newest rows live (tracker bound minus tombstone)", sbLiveRows >= 200 && sbLiveRows <= 201);
 rmSync(sb, { recursive: true, force: true });
+
+// --- v14: the nine-skill shelf + the rules layer (spec7-shelf-and-stack) ---
+{
+  const AUTO_ADD = new Set(["tech-stack", "docodego-payments", "research-verify"]);
+  const idx = skillsIndex();
+  for (const name of [...AUTO_ADD, "security-baseline-for-ai-code", "destructive-action-guard", "reward-hacking-detection", "supply-chain-evidence", "incident-record-writing", "docs-publishing"]) {
+    const s = idx.find((e) => e.name === name);
+    fact(`the shelf carries ${name} at v1 with a trigger-precise description`, s !== undefined && s.version === "1.0.0" && s.description.length >= 60 && /use when|Use when|Use before|Use after|whenever/.test(s.description));
+  }
+  for (const name of AUTO_ADD) {
+    const s = idx.find((e) => e.name === name);
+    fact(`${name} is auto-add: marked in the index, listed in no profile`, s?.autoAdd === true && Object.values(bundledProfiles).every((list) => !list.includes(name)));
+  }
+  const rules = Object.keys(ruleFiles()).sort();
+  fact("the rules layer plants six files: the README map + five invariant rules", JSON.stringify(rules) === JSON.stringify(["README.md", "interruption-safety.md", "no-untracked-source.md", "privacy-at-network-layer.md", "reduced-motion.md", "standard-stack-default.md"]));
+  // the floor and the scans, driven through scratch fixtures
+  const t = mkdtempSync(join(tmpdir(), "dg-tree-"));
+  const rulesDir = join(t, ".agents", "rules");
+  mkdirSync(rulesDir, { recursive: true });
+  mkdirSync(join(t, "src"), { recursive: true });
+  writeFileSync(join(t, "package.json"), JSON.stringify({ devDependencies: { typescript: "^5" } }));
+  writeFileSync(join(t, "src", "typed.ts"), "const x: number = 1;\n");
+  writeFileSync(join(t, "src", "legacy.js"), "function f() { return 2; }\n");
+  writeFileSync(join(rulesDir, "standard-stack-default.md"), readFileSync(join(REPO_ROOT, ".agents", "rules", "standard-stack-default.md"), "utf8"));
+  fact("stack scan: plain JS beside a typed stack warns DG-C008", treeFindings(t).some((d) => d.code === "DG-C008" && d.file === "src/legacy.js"));
+  writeFileSync(join(rulesDir, "no-untracked-source.md"), readFileSync(join(REPO_ROOT, ".agents", "rules", "no-untracked-source.md"), "utf8"));
+  writeFileSync(join(rulesDir, "good.md"), "---\nreader: someone\nfails-when: something\nenforced-by: practice: the named instrument\n---\n\n# ok\n");
+  fact("rules floor: a practice rule with a named instrument holds", !treeFindings(t).some((d) => d.code === "DG-C010" && d.file?.endsWith("good.md")));
+  writeFileSync(join(rulesDir, "bad.md"), "---\nreader: someone\nfails-when: something\n---\n\n# missing enforced-by\n");
+  fact("rules floor: an empty enforced-by lists the rule as furniture (DG-C010)", treeFindings(t).some((d) => d.code === "DG-C010" && d.file?.endsWith("bad.md")));
+  rmSync(t, { recursive: true, force: true });
+}
 
 rmSync(fixture, { recursive: true, force: true });
 rmSync(scratch, { recursive: true, force: true });

@@ -1,0 +1,19 @@
+  [          ] destructive-action-guard v1.0.0
+  [          ] docodego v2.0.0  (docs-only, minimal, platform-team, product-team, research)
+  [          ] docodego-compose v2.0.0  (platform-team, product-team)
+  [          ] docodego-demonstrate v2.0.0  (platform-team, product-team)
+  [          ] docodego-document v2.0.0  (docs-only, platform-team, product-team)
+  [          ] docodego-finding v2.0.0  (docs-only, platform-team, research)
+  [          ] docodego-govern v2.0.0  (platform-team, product-team)
+  [          ] docodego-grounding v2.0.0  (docs-only, platform-team, research)
+  [          ] docodego-loop v2.0.0  (platform-team, product-team)
+  [auto-add ] docodego-payments v1.0.0
+  [          ] docodego-visual-proof v1.0.0  (platform-team, product-team)
+  [          ] docs-publishing v1.0.0
+  [          ] incident-record-writing v1.0.0
+  [auto-add ] research-verify v1.0.0
+  [          ] reward-hacking-detection v1.0.0
+  [          ] security-baseline-for-ai-code v1.0.0
+  [          ] supply-chain-evidence v1.0.0
+  [auto-add ] tech-stack v1.0.0
+profiles: docs-only · minimal · platform-team · product-team · research — installed: (none)

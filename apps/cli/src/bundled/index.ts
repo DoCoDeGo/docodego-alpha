@@ -40,6 +40,11 @@ export function agentPresets(): Record<string, string> {
   return filesUnder(".agents/agents/");
 }
 
+/** The rules layer, relative to `.agents/rules/`. */
+export function ruleFiles(): Record<string, string> {
+  return filesUnder(".agents/rules/");
+}
+
 /** The files of one bundled skill, relative to `.agents/skills/<name>/`. */
 export function skillFiles(name: string): Record<string, string> {
   return filesUnder(`.agents/skills/${name}/`);

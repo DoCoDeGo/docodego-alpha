@@ -151,6 +151,7 @@ function buildPayload(old: Payload | null): Payload {
         source: "bundled" as const,
         integrity: skillDigest(join(skillsDir, name)),
         defaultFor: Object.keys(profiles).filter((p) => profiles[p]?.includes(name)).sort(),
+        ...(frontmatter(src, "auto-add") === "true" ? { autoAdd: true as const } : {}),
       };
     });
   const declared = JSON.parse(files.get(".docodego/.standard/manifest.json") ?? "{}") as { recordVersion?: number };
@@ -187,6 +188,7 @@ interface SkillIndexEntry {
   source: "bundled";
   integrity: string;
   defaultFor: string[];
+  autoAdd?: true;
 }
 interface Payload {
   specVersion: number;
@@ -362,6 +364,9 @@ export interface SkillIndexEntry {
   source: "bundled";
   integrity: string;
   defaultFor: string[];
+  /** auto-add skills ship in the payload but join no profile: they plant
+   * on their trigger or an explicit \`skill add\`, never by default. */
+  autoAdd?: true;
 }
 
 export interface Payload {

@@ -99,7 +99,20 @@ The planted craft lives at `.agents/skills/`, chosen per profile at `init`
 any time with `docodego skill list`. Add craft with
 `docodego skill add <name>` (bundled first-party skills by default; remote
 git sources are opt-in), remove with `docodego skill remove <name>`. Load
-the one the work calls for; load nothing speculatively.
+the one the work calls for; load nothing speculatively. The shelf also
+carries auto-add skills — planted on their trigger or an explicit add,
+never by default (`tech-stack`, `docodego-payments`, `research-verify`).
+
+## The rules
+
+`.agents/rules/` holds the five invariant rules, each rule file naming
+who reads it, what failure it prevents, and what holds it
+(`enforced-by`). A rule whose enforced-by names nothing live is
+furniture: `docodego check` lists it, and deletion is human-confirmed —
+rules are law, and auto-deleting law is an interruption-safety
+violation. The two mechanical rules run as check warnings (the stack
+scan, the untracked-source scan); the practice rules hold by their
+named instruments. The map: `.agents/rules/README.md`.
 
 ## Growing the record
 

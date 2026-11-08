@@ -9,7 +9,7 @@ import type { Args, Io, Manifest, Mode } from "../types.ts";
 import { isDir, readText, today, writeText } from "../fsx.ts";
 import { detect } from "../record/detect.ts";
 import { MANIFEST_REL, RECORD_DIR, TRACKER_REL } from "../record/load.ts";
-import { agentsMd, recordFiles, specVersion, DEFAULT_PROFILE, PROFILES, profiles as profileMap, skillsIndex, TRACKER_TEMPLATE, INTENT_TEMPLATE, CYCLES_TEMPLATE, DELIVERY_LOG_TEMPLATE, vocabularyPack, VOCABULARY_NAMES } from "../bundled/index.ts";
+import { agentsMd, recordFiles, ruleFiles, specVersion, DEFAULT_PROFILE, PROFILES, profiles as profileMap, skillsIndex, TRACKER_TEMPLATE, INTENT_TEMPLATE, CYCLES_TEMPLATE, DELIVERY_LOG_TEMPLATE, vocabularyPack, VOCABULARY_NAMES } from "../bundled/index.ts";
 import { DELIVERY_LOG_REL } from "../record/record-write.ts";
 import { applyMovementGlosses, renderVocabularyMd, type VocabularyPack } from "../record/vocabulary.ts";
 import { installBundledSkill, plantAgentPresets, writeLock, emptyLock, LOCK_REL } from "../skills/lock.ts";
@@ -39,7 +39,9 @@ export function run(args: Args, io: Io): number {
       return 1;
     }
   }
-  const wanted = args.allSkills ? skillsIndex().map((s) => s.name) : pickProfile(args.profile);
+  const wanted = args.allSkills
+    ? skillsIndex().filter((s) => !s.autoAdd).map((s) => s.name)
+    : pickProfile(args.profile);
   if (wanted === null) return 2; // unknown --profile — message already printed
   const detection = detect(process.cwd());
   const manifest: Manifest = {
@@ -80,6 +82,11 @@ export function run(args: Args, io: Io): number {
   // the law + the agent presets
   putNew(join(process.cwd(), "AGENTS.md"), agentsMd(), "AGENTS.md");
   created.push(...plantAgentPresets(root));
+  // the rules layer: five invariant rules + the map — create-only, like
+  // everything else; a rule a repo lost is restored by re-running init
+  for (const [rel, body] of Object.entries(ruleFiles())) {
+    putNew(join(process.cwd(), ".agents", "rules", rel), body, `.agents/rules/${rel}`);
+  }
   // the profile's skills + the lockfile that audits them
   const installed: string[] = [];
   const lock = emptyLock(specVersion());
