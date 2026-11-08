@@ -1,7 +1,7 @@
 ---
 name: 620-sign-picker
 type: unit
-status: scored
+status: founder-signed
 ---
 
 # 620-sign-picker

@@ -80,3 +80,4 @@ is recorded here; what was learned lives in the unit's own records.
 | 2026-11-09 | 590-canon-rename | G1,G2,G3,G4 | proof: canon/SPEC.md · warning: 1 path-like span(s) do not resolve (docodego-spec/*) — launch will refuse if they are proof paths |
 | 2026-11-09 | 600-twin-text-founder-marker | G1,G2,G3,G4 | proof: canon/record/version-transition.md |
 | 2026-11-09 | 610-supersession-recognition | G1,G2,G3,G4 | proof: apps/cli/src/passes/check.ts |
+| 2026-11-09 | 620-sign-picker | G1,G2,G3,G4 | proof: apps/cli/src/commands/sign.ts |

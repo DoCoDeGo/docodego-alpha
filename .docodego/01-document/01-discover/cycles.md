@@ -600,3 +600,18 @@ written ahead of the work. True at append time: 6 warnings stood
 Unit 610-supersession-recognition closed the gap — the gate reads
 its own named repair — and recorded the rows in 160/200; the claim
 is true as of that unit's landing and this correction is its trail.
+
+## Cycle 12 — the target-less sign (2026-11-09, via chat — verbatim)
+
+> i think docodego sign without unit name should show all unsigned
+> units and allow for selection including a option to select all
+
+**What this sets in motion** (unit 620, landed same day): the
+target-less sign lists the launch-passed units awaiting the founder
+tier and asks — pick by number or name, or "all"; `--all` names the
+batch expressly (every act shown, one confirmation; headless
+`--all --yes`); headless with no target refuses with DG-U119.
+The first live batch found four units waiting at launch-passed
+since before the sign tier existed (450, 460, 470, 480) and signed
+them with the marker — the waiting room is empty; the backlog the
+tier never reached is cleared, receipts on file.

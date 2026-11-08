@@ -1,7 +1,7 @@
 ---
 name: 470-dual-use
 type: unit
-status: launch-passed
+status: founder-signed
 ---
 
 # 470-dual-use

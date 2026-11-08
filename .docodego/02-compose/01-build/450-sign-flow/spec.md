@@ -1,7 +1,7 @@
 ---
 name: 450-sign-flow
 type: unit
-status: launch-passed
+status: founder-signed
 ---
 
 # 450-sign-flow

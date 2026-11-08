@@ -1,7 +1,7 @@
 ---
 name: 480-sign-identity-privacy
 type: unit
-status: launch-passed
+status: founder-signed
 ---
 
 # 480-sign-identity-privacy

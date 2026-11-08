@@ -236,3 +236,10 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-09 | 620-sign-picker | new unit | 02-compose/01-build/620-sign-picker/spec.md |
 | 2026-11-09 | upgrade | v29->v30: updated AGENTS.md (the sign bullet teaches the picker) — AGENTS.md.new removed (now identical to the refreshed file) | .docodego/04-govern/01-monitor/tracker.md |
 | 2026-11-09 | upgrade | record upgraded v29 -> v30 | .docodego/.standard/manifest.json |
+| 2026-11-09 | 450-sign-flow | founder-signed | 02-compose/01-build/450-sign-flow/signature.md |
+| 2026-11-09 | 460-surgical-gate | founder-signed | 02-compose/01-build/460-surgical-gate/signature.md |
+| 2026-11-09 | 470-dual-use | founder-signed | 02-compose/01-build/470-dual-use/signature.md |
+| 2026-11-09 | 480-sign-identity-privacy | founder-signed | 02-compose/01-build/480-sign-identity-privacy/signature.md |
+| 2026-11-09 | 620-sign-picker | delivered | 02-compose/01-build/620-sign-picker/delivered.md |
+| 2026-11-09 | 620-sign-picker | launch-passed | 02-compose/01-build/620-sign-picker/launch.md |
+| 2026-11-09 | 620-sign-picker | founder-signed | 02-compose/01-build/620-sign-picker/signature.md |
