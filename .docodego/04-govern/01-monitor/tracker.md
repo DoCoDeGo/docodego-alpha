@@ -174,3 +174,8 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 500-law-flip-1-2-4 | launch-refused | L2 failed — proof path(s) vanished since delivery: applied-in-1.2.3 — evidence that no ... |
 | 2026-11-08 | 500-law-flip-1-2-4 | launch-refused | L2 failed — proof path(s) vanished since delivery: applied-in-1.2.3 — evidence that no ... |
 | 2026-11-08 | 500-law-flip-1-2-4 | launch-passed | 02-compose/01-build/500-law-flip-1-2-4/launch.md |
+| 2026-11-09 | 510-pnpm-migration | new unit | 02-compose/01-build/510-pnpm-migration/spec.md |
+| 2026-11-09 | 510-pnpm-migration | delivered | 02-compose/01-build/510-pnpm-migration/delivered.md |
+| 2026-11-09 | 510-pnpm-migration | launch-refused | L2 failed — proof path(s) vanished since delivery: package-lock.json, pnpm/action-setup... |
+| 2026-11-09 | 510-pnpm-migration | launch-refused | L2 failed — proof path(s) vanished since delivery: package-lock.json, pnpm/action-setup... |
+| 2026-11-09 | 510-pnpm-migration | launch-passed | 02-compose/01-build/510-pnpm-migration/launch.md |

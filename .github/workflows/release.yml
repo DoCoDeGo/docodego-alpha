@@ -20,9 +20,11 @@ jobs:
       published: ${{ steps.fresh.outputs.new }}
     steps:
       - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
+          cache: pnpm
       - uses: oven-sh/setup-bun@v2
 
       - id: version
@@ -39,11 +41,11 @@ jobs:
 
       - name: install
         if: steps.fresh.outputs.new == 'true'
-        run: npm install
+        run: pnpm install --frozen-lockfile
 
       - name: build — bundle → bump guard → drift verify → typecheck → smoke
         if: steps.fresh.outputs.new == 'true'
-        run: npm run build
+        run: pnpm build
 
       - name: cross-compile binaries from the built js
         if: steps.fresh.outputs.new == 'true'

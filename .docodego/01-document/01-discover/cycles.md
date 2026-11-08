@@ -429,3 +429,44 @@ The flip also repairs forward a missed flip found in the 1.2.3
 landing (its amendment file still reads `status: draft` despite its
 log row and the law text having landed — unit 450's landing flipped
 everything but the status field).
+
+## Cycle 8 — pnpm, the signing rethink, and the folder's name (2026-11-09, via chat — the rulings verbatim)
+
+> I think pnpm will speed up installs with cache: "pnpm"
+
+> Signing it with a machine has no meaning if others cannot tell who
+> signed it. I think this whole signing process needs to have a
+> rethink. Everyone should be able to see everyone else work within a
+> team. My main concern was having plaintext name or system name in
+> GitHub commits. encoding seems to be perfectly fine to hide the
+> identity and only reveal it when needed. We only need to make it
+> difficult enough to identify someone without DoCoDeGo CLI.
+
+> I am not comfortable calling that folder spec if it represents
+> DoCoDeGo System
+
+> Everything else is approved.
+
+**What this sets in motion** (recorded same day): the package manager
+switches to pnpm — the founder's call overrides the keep-npm
+recommendation, and the motive is stated: install speed and the
+`cache: "pnpm"` leg in CI. The signing rethink re-frames the consent
+split: the founder's privacy concern is now named precisely — plaintext
+names or system names exposed on GitHub — and the ruled bar is
+"difficult enough to identify someone without the DoCoDeGo CLI", not
+cryptographic protection. Reversible encoding of derived identities,
+revealed by the CLI on demand, satisfies that bar; the team sees who
+signed via the CLI, the public sees an opaque token. This revises the
+1.2.4 wording the founder signed yesterday (versioned fingerprint →
+versioned encoding), so it rides a fresh amendment scaffold plus the
+engine change — the 480 ordering again: mechanism and scaffold
+together, law text on the founder's sign-off. Typed `--name` rows stay
+verbatim (consent unchanged). Everything else approved from cycle 7's
+recommendations: the whoami/reveal surface (now decode-capable) and
+the sign-off record-row fix (sign-off writes ledger + tracker rows
+under `.docodego/`, retiring the asymmetry the founder hit on their
+own signature). The spec-folder naming discomfort is recorded, not
+acted on: the folder's name is founder territory — a rename question
+(name, not location; the standard still ships) awaits a founder
+decision, and a rename would touch every citation of spec/ in the
+machinery, so it is a deliberated act, not a quick one.

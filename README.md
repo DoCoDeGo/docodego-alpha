@@ -67,8 +67,8 @@ Pre-1.0, you can also build from source:
 
 ```sh
 git clone <this repository> docodego && cd docodego
-npm install
-npm run build        # chained gates: bundle → bump guard → drift verify
+pnpm install
+pnpm build           # chained gates: bundle → bump guard → drift verify
                      #   → typecheck → smoke
 node apps/cli/dist/docodego.js --version
 # docodego cli 0.7.0 · record spec 5

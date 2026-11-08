@@ -2,14 +2,13 @@
   "name": "docodego",
   "private": true,
   "type": "module",
-  "workspaces": [
-    "apps/*"
-  ],
+  "packageManager": "pnpm@12.14.0",
   "engines": {
     "node": ">=22.6"
   },
   "devDependencies": {
     "@types/node": "^24",
+    "docodego": "workspace:*",
     "typescript": "^7.0.2"
   },
   "scripts": {
@@ -19,13 +18,13 @@
     "status": "node apps/cli/src/main.ts status",
     "doctor": "node apps/cli/src/main.ts doctor",
     "typecheck": "tsc -p apps/cli/tsconfig.json --noEmit && tsc -p apps/spec/tsconfig.json --noEmit",
-    "test": "npm run conformance && npm run fuzz",
-    "conformance": "npm --prefix apps/cli run -s conformance",
-    "fuzz": "npm --prefix apps/cli run -s fuzz",
-    "bundle": "npm --prefix apps/cli run -s bundle",
-    "bundle:verify": "npm --prefix apps/cli run -s bundle:verify",
-    "docs": "npm --prefix apps/cli run -s docs",
-    "docs:verify": "npm --prefix apps/cli run -s docs:verify",
-    "build": "npm --prefix apps/cli run -s build"
+    "test": "pnpm run conformance && pnpm run fuzz",
+    "conformance": "pnpm -C apps/cli run -s conformance",
+    "fuzz": "pnpm -C apps/cli run -s fuzz",
+    "bundle": "pnpm -C apps/cli run -s bundle",
+    "bundle:verify": "pnpm -C apps/cli run -s bundle:verify",
+    "docs": "pnpm -C apps/cli run -s docs",
+    "docs:verify": "pnpm -C apps/cli run -s docs:verify",
+    "build": "pnpm -C apps/cli run -s build"
   }
 }
