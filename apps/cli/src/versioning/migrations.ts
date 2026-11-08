@@ -96,6 +96,24 @@ export const MIGRATIONS: Migration[] = [
     ],
   },
   {
+    from: 6,
+    to: 7,
+    notes: [
+      "the visual-proof skill joins the bundled shelf; the delta rode the upgrade plan's create-only copy",
+      "no record-file transforms were required — this entry exists so no version is ever skipped silently",
+    ],
+    steps: [],
+  },
+  {
+    from: 7,
+    to: 8,
+    notes: [
+      "the visual-proof driver's self-test fixes ship in the bundled skill; deltas rode the plan's skill refresh",
+      "no record-file transforms were required — the registry never consolidates",
+    ],
+    steps: [],
+  },
+  {
     from: 8,
     to: 9,
     notes: [
@@ -105,6 +123,24 @@ export const MIGRATIONS: Migration[] = [
     steps: [refreshStatutesMirror],
   },
 ];
+
+/** The registry must cover [0..target] contiguously — Terraform's ladder
+ * check, Angular's never-consolidate law. A behind record walking the chain
+ * must find every step between where it is and where it is going; a gap
+ * would let it silently upgrade with zero transforms and get stamped
+ * current (H2's second versioning finding, enforced by the bundle guard). */
+export function assertContiguous(target: number): void {
+  let expected = 0;
+  for (const m of MIGRATIONS) {
+    if (m.from !== expected) {
+      throw new Error(`migration registry has a gap: expected an entry from v${expected}, found from v${m.from} — never consolidate, never skip`);
+    }
+    expected = m.to;
+  }
+  if (expected !== target) {
+    throw new Error(`migration registry ends at v${expected} but the declared record version is v${target} — add the honest entries before shipping`);
+  }
+}
 
 /** v3 -> v4: teach AGENTS.md the three commands the CLI grew in 0.4.0.
  * AGENTS.md is engine-owned scaffold, not user content, but the edit is

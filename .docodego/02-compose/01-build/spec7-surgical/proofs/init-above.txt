@@ -1,0 +1,4 @@
+-- init --force on a record stamped 10 (bundled is 9):
+warning: this record's manifest says v10 — newer than this CLI's bundled spec v9; filled what was missing and left the stamp alone (upgrade the CLI to match)
+.docodego/ ready — mode review, code state growing, record v9, profile product-team
+stamped after init --force: 10

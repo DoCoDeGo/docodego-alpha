@@ -1,0 +1,2 @@
+4
+DG-C002 warnings after the fix (0 expected):

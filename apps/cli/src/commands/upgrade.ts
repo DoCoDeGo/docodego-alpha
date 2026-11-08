@@ -18,17 +18,27 @@ import { checkPass } from "../passes/index.ts";
 import { renderDiagnostics } from "../emit/diagnostics.ts";
 import { migrationsFor } from "../versioning/migrations.ts";
 import { applyPlan, computePlan, renderPlan, type PlanEntry } from "../versioning/plan.ts";
-import { agentsMd, agentPresets, recordFiles, skillFiles, skillsIndex, specVersion, DEFAULT_PROFILE, profiles as profileMap } from "../bundled/index.ts";
+import { agentsMd, agentPresets, recordFiles, skillFiles, skillsIndex, specVersion, DEFAULT_PROFILE, profiles as profileMap, vocabularyPack } from "../bundled/index.ts";
 import { appendTrackerLine, plantSkill, readLock } from "../skills/lock.ts";
 import { readText, writeText } from "../fsx.ts";
 import { envelope } from "../emit/json.ts";
 
 /** The files an upgrade may plant, repo-root-relative. The engine-owned
- * manifest and lockfile are written by the engine, never copied. */
-function bundledFiles(): Record<string, string> {
+ * manifest and lockfile are written by the engine, never copied. When the
+ * record was born with a vocabulary pack, the pack-voiced stream READMEs
+ * are the record's birth words — excluded from the target so an upgrade
+ * never conflicts them against canonical bytes as .new spam (H2's third
+ * versioning finding; only migrations touch a record's words, and they
+ * don't). */
+function bundledFiles(rec: RecordAst): Record<string, string> {
   const out: Record<string, string> = { "AGENTS.md": agentsMd() };
+  const pack = rec.manifest.vocabulary !== undefined ? vocabularyPack(rec.manifest.vocabulary) : undefined;
+  const voiced = new Set<string>(
+    pack === undefined ? [] : Object.keys(pack.streams).map((id) => `${RECORD_DIR}/${id}/README.md`),
+  );
   for (const [rel, body] of Object.entries(recordFiles())) {
-    if (rel !== MANIFEST_REL) out[`${RECORD_DIR}/${rel}`] = body;
+    if (rel === MANIFEST_REL || voiced.has(`${RECORD_DIR}/${rel}`)) continue;
+    out[`${RECORD_DIR}/${rel}`] = body;
   }
   for (const [rel, body] of Object.entries(agentPresets())) out[`.agents/agents/${rel}`] = body;
   return out;
@@ -44,7 +54,7 @@ export function run(args: Args, io: Io): number {
   }
   const migrations = migrationsFor(current, target);
   const notes = migrations.flatMap((m) => m.notes.map((n) => `v${m.from}->v${m.to}: ${n}`));
-  const plan = computePlan(bundledFiles(), process.cwd());
+  const plan = computePlan(bundledFiles(rec), process.cwd());
   const conflicts = plan.filter((e) => e.action === "conflict").length;
   if (!args.apply) {
     const planText = `plan: record v${current} -> bundled spec v${target}\n${notes.map((n) => `  migration: ${n}`).join("\n") || "  migration: none"}\nfiles:\n${renderPlan(plan)}\nskills: ${skillSummary(rec.root)}`;
@@ -60,7 +70,7 @@ function apply(args: Args, io: Io, rec: RecordAst, current: number, target: numb
   const root = rec.root;
   const from = current;
   if (args.branch && !makeBranch(repoRoot, from, target, io)) return 1;
-  const applied: string[] = applyPlan(bundledFiles(), plan, repoRoot);
+  const applied: string[] = applyPlan(bundledFiles(rec), plan, repoRoot);
   // skills: refresh what the lockfile already names — never add new ones
   const lock = readLock(root);
   if (lock !== null) {

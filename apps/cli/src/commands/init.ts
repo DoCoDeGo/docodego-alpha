@@ -68,9 +68,15 @@ export function run(args: Args, io: Io): number {
   putNew(join(root, "01-document/01-discover/intent.md"), INTENT_TEMPLATE, `${RECORD_DIR}/01-document/01-discover/intent.md`);
   putNew(join(root, "01-document/01-discover/cycles.md"), CYCLES_TEMPLATE, `${RECORD_DIR}/01-document/01-discover/cycles.md`);
   putNew(join(root, DELIVERY_LOG_REL), DELIVERY_LOG_TEMPLATE, `${RECORD_DIR}/${DELIVERY_LOG_REL}`);
-  // the manifest is engine-owned metadata: refreshed on init, other keys preserved
-  writeManifest(root, manifest);
+  // the manifest is engine-owned metadata: refreshed on init, other keys
+  // preserved — and never stamped backwards (writeManifest returns the
+  // surviving stamp; a record ahead of this CLI stays ahead)
+  const stamped = writeManifest(root, manifest);
+  manifest.recordVersion = stamped;
   created.push(`${RECORD_DIR}/${MANIFEST_REL}`);
+  if (stamped > specVersion()) {
+    io.err(`warning: this record's manifest says v${stamped} — newer than this CLI's bundled spec v${specVersion()}; filled what was missing and left the stamp alone (upgrade the CLI to match)`);
+  }
   // the law + the agent presets
   putNew(join(process.cwd(), "AGENTS.md"), agentsMd(), "AGENTS.md");
   created.push(...plantAgentPresets(root));
@@ -130,17 +136,24 @@ function pickProfile(name?: string): string[] | null {
   return picked;
 }
 
-/** Manifest write that preserves keys a user record may already carry. */
-function writeManifest(root: string, manifest: Manifest): void {
+/** Manifest write that preserves keys a user record may already carry — and
+ * never moves recordVersion backwards: a record upgraded by a newer CLI
+ * stays ahead of this one, stamped Math.max(existing, incoming), with the
+ * ahead-record warning upgrade prints. H2's first versioning finding:
+ * spreading the incoming stamp was a silent append-only violation. */
+function writeManifest(root: string, manifest: Manifest): number {
   const abs = join(root, MANIFEST_REL);
   const raw = readText(abs);
   let merged: Manifest = manifest;
   if (raw !== null) {
     try {
-      merged = { ...(JSON.parse(raw) as Manifest), ...manifest };
+      const existing = JSON.parse(raw) as Manifest;
+      merged = { ...existing, ...manifest };
+      merged.recordVersion = Math.max(existing.recordVersion ?? 0, manifest.recordVersion);
     } catch {
       merged = manifest;
     }
   }
   writeText(abs, `${JSON.stringify(merged, null, 2)}\n`);
+  return merged.recordVersion;
 }

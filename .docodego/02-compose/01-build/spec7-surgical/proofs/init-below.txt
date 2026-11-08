@@ -1,0 +1,3 @@
+-- init --force on a record stamped 8:
+.docodego/ ready — mode review, code state growing, record v9, profile product-team
+stamped after init --force: 9

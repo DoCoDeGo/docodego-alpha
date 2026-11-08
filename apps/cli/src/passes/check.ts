@@ -132,6 +132,8 @@ export function proofPaths(proofs: FileAst): string[] {
     for (const candidate of candidatesOf(node.text)) {
       const token = candidate.replace(/[.,;:)]+$/, "");
       if (token === "" || seen.has(token) || !PATH_LIKE.test(token)) continue;
+      if (ENVELOPE_SCHEMA.test(token)) continue;
+      if (token.endsWith("/")) continue; // a bare directory token (proofs/, skills/) names a convention in prose, never a proof file
       seen.add(token);
       out.push(token);
     }
@@ -141,6 +143,12 @@ export function proofPaths(proofs: FileAst): string[] {
 
 /** A path carries a separator or ends in a short file extension. */
 const PATH_LIKE = /[/\\]|\.[A-Za-z0-9]{1,8}$/;
+
+/** Envelope schema identifiers (docodego-<pass>/<command>/v1) ride proofs.md
+ * as documentation of the emitted envelope — they name no file on disk, and
+ * reading them as paths made every envelope-citing proofs.md warn. The shape
+ * needs exactly three segments; no real proof file looks like this. */
+const ENVELOPE_SCHEMA = /^docodego-[a-z]+\/[a-z-]+\/v\d+$/;
 
 /** Backticked spans without inner whitespace, plus the item's first bare token. */
 function candidatesOf(item: string): string[] {

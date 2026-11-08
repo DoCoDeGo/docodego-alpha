@@ -1,0 +1,3 @@
+assertContiguous(9) on the shipped registry: passes
+pre-fix chain (ends v6) refused with: registry ends at v6 but the declared record version is v9
+migrationsFor(6, 9): v6->v7, v7->v8, v8->v9

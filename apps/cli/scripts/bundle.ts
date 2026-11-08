@@ -19,6 +19,7 @@ import { tmpdir } from "node:os";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { validateVocabularyPack, type VocabularyPack } from "../src/record/vocabulary.ts";
+import { assertContiguous } from "../src/versioning/migrations.ts";
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(SCRIPT_DIR, "..", "..", "..");
@@ -275,6 +276,9 @@ function driftReport(oldP: Payload, newP: Payload): { changes: [string, Bump, st
 async function main(): Promise<number> {
   const verify = process.argv.includes("--verify");
   const fresh = buildPayload();
+  // the ladder check: a behind record must find every migration step
+  // between where it is and the version this bundle ships (spec 7)
+  assertContiguous(fresh.specVersion);
   const old = await oldPayload();
   if (verify) {
     if (old === null) {

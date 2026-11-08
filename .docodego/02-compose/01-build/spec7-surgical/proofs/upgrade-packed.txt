@@ -1,0 +1,5 @@
+-- packed record (agile) upgrade plan, README mentions:
+1
+    unchanged  .docodego/README.md
+-- manifest vocabulary:
+agile
