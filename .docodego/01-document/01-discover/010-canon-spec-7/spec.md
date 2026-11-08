@@ -120,3 +120,30 @@ is now:
 
 The original children list above stands as the commissioning record;
 this section supersedes its order only.
+
+## promotion (appended 2026-11-08, cycle 98 — the founder's third message)
+
+Two children enter the epic ahead of spec7-bundling, commissioned
+verbatim in founder-directive-2026-11-08-b.md (outer repo, third and
+fourth messages, same sitting):
+
+11. **140-setback-ledger** — the failure-capture rule: one command
+    (`docodego setback <class> <text>`, `--respond`, `--list`), one
+    ledger (`04-govern/01-monitor/setbacks.md`), one wired escalation
+    (audit GOV-006: warn at 2, fail at 3 naming the owed
+    plan/research with copy-paste scriptlets). Also closes the
+    checklist's promised-but-unwired rotation/bound and the missing
+    `docs/commands/audit.md` page. (Finding 9.)
+12. **150-retire** — the done lifecycle: `docodego retire <unit>`
+    moves delivered units to `.docodego/system/behavioral/` as
+    `a-<behavior>` (webrtc-faithful, 177-unit precedent), with
+    read-back-verified moves, addressing corrections, tracker and
+    delivery-log rows, trace taught the second home, and the AGENTS.md
+    teaching riding the bump → record v11 + a v10→v11 migration.
+    Dogfood: retire the twelve delivered units. (Finding 8.)
+
+Then spec7-bundling (13th) and the rest of the reorder above.
+Cross-reference: the debt epic `020-canon-debts` (beside this epic)
+owns the catalogued docs/fleet debts, organized 2026-11-08 on the
+founder's demand that ALL pending work be owned, specced, and grilled
+before implementation — its children cite this epic's loop.

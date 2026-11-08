@@ -37,3 +37,4 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 120-spec7-audit | delivered | 02-compose/01-build/120-spec7-audit/delivered.md |
 | 2026-11-08 | 130-grill-scaffold | new unit | 02-compose/01-build/130-grill-scaffold/spec.md |
 | 2026-11-08 | 130-grill-scaffold | delivered | 02-compose/01-build/130-grill-scaffold/delivered.md |
+| 2026-11-08 | 020-canon-debts | new epic | 01-document/01-discover/020-canon-debts/spec.md |

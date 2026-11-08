@@ -51,3 +51,30 @@ to `cycles-archive-N.md` beside this file and never deletes them.
   spec; the tool's five-pass output is the incumbent being redesigned.
   Recorded in the spec as patch 1.0.2 (status note, no duty change).
 
+## Cycle 3 — the third sitting: the failure rule and the done gap (2026-11-08)
+
+- asked: by the founder, same sitting (recorded verbatim in the outer
+  repo at .docodego/01-finding/founder-directive-2026-11-08-b.md,
+  third and fourth messages): "one of the rules I want is to
+  immediately be able to document repeated failing behavior and
+  triggering some form of plan or research to prevent that from
+  happening - also think long term"; and "another issue is when
+  something is done it is not clear. In
+  /Users/code/Documents/private/docodego/webtc-reimplementation/.docodego
+  done items moved to
+  /Users/code/Documents/private/docodego/webrtc-reimplementation/.docodego/03-rising/system
+  - investigate. This might be a real gap".
+- found: both commissions investigated same-day. The done gap is REAL:
+  the webrtc record ran retirement to 177 units (system/behavioral/
+  holding a-* behaviors, the physical move defining done) while this
+  record teaches the same convention in AGENTS.md and two skills yet
+  has no command for it and no system/ — a taught-but-unbuildable
+  convention, a records-before-claims violation. Failure capture is
+  designed: a setback ledger with a wired audit escalation (warn at 2,
+  fail at 3 naming the owed plan/research). Full evidence: outer repo,
+  docs/research/record-tooling-research-2026-11-08.md, findings 8–9.
+- so: two children promoted into epic 010-canon-spec-7 ahead of
+  spec7-bundling — 140-setback-ledger and 150-retire — each walking
+  the full loop before implementation; this cycle entry exists so the
+  founder's deciding sentences live in this record layer, not only in
+  the studio's.
