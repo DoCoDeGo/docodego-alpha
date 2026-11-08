@@ -179,3 +179,6 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-09 | 510-pnpm-migration | launch-refused | L2 failed — proof path(s) vanished since delivery: package-lock.json, pnpm/action-setup... |
 | 2026-11-09 | 510-pnpm-migration | launch-refused | L2 failed — proof path(s) vanished since delivery: package-lock.json, pnpm/action-setup... |
 | 2026-11-09 | 510-pnpm-migration | launch-passed | 02-compose/01-build/510-pnpm-migration/launch.md |
+| 2026-11-09 | 520-sign-off-writes-the-record | new unit | 02-compose/01-build/520-sign-off-writes-the-record/spec.md |
+| 2026-11-09 | 520-sign-off-writes-the-record | delivered | 02-compose/01-build/520-sign-off-writes-the-record/delivered.md |
+| 2026-11-09 | 520-sign-off-writes-the-record | launch-passed | 02-compose/01-build/520-sign-off-writes-the-record/launch.md |

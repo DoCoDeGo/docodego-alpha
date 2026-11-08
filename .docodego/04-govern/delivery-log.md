@@ -70,3 +70,4 @@ is recorded here; what was learned lives in the unit's own records.
 | 2026-11-08 | 490-sequence-beyond-999 | G1,G2,G3,G4 | proof: 02-compose/01-build/490-sequence-beyond-999/metrics-after.json |
 | 2026-11-08 | 500-law-flip-1-2-4 | G1,G2,G3,G4 | proof: spec/amendments/1.2.4-EL-34.md |
 | 2026-11-09 | 510-pnpm-migration | G1,G2,G3,G4 | proof: pnpm-lock.yaml |
+| 2026-11-09 | 520-sign-off-writes-the-record | G1,G2,G3,G4 | proof: apps/cli/src/conformance.ts |

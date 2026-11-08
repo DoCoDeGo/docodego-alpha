@@ -470,3 +470,19 @@ acted on: the folder's name is founder territory — a rename question
 (name, not location; the standard still ships) awaits a founder
 decision, and a rename would touch every citation of spec/ in the
 machinery, so it is a deliberated act, not a quick one.
+
+- Mistake 7 (2026-11-09, during 520's build) — the unit's
+  implementation was written before its spec existed: the sign-off
+  record-row fix went straight from the approved sketch to code, and
+  the spec, grill, and score only caught up afterward. The loop's
+  order law — no implementation before a scored spec — was broken in
+  the letter; the work itself was small, approved, and tested before
+  it landed, but the record cannot show the order the law names.
+  Mitigation: the spec carries the slip in its own deviations line so
+  no reader has to diff commit order to find it; and the working
+  rule sharpened — an approved sketch is a license to open the unit,
+  not to skip the spec: spec → grill → score, THEN code, even when
+  the code is already clear in the head. (Also journaled same
+  session: the generated-docs check failed once and passed on
+  immediate re-run with no source change — transient, unreproduced;
+  watched, not chased.)

@@ -681,6 +681,7 @@ fact("the payload's AGENTS.md carries the two registers with the accepted lists"
   const specRoot = join(so, "spec");
   mkdirSync(join(specRoot, "amendments"), { recursive: true });
   mkdirSync(join(specRoot, "laws"), { recursive: true });
+  check("v24: init plants the record — a sign-off is a record act", run(so, ["init"]), 0);
   const lawBody = "---\nid: EL-35\ntitle: The demo law\n---\n\n# Engine law 35 — The demo law\n";
   writeFileSync(join(specRoot, "laws", "35-the-demo-law.md"), lawBody);
   const amendment = (id: string, lawHeading: string): string => `---\nid: AMEND-NEW-${id}-1.3.0\nlaw: (new) ${id} — demo\nproposed-version: 1.3.0\nstatus: draft\n---\n\n# New law ${id}\n\n## Proposed law file: ${lawHeading}\n\n> demo text\n\n## The founder's sign-off\n\nSigned: (pending — \`docodego sign-off\` records the decision; EL-19 keeps the words verbatim, beside the hash of the exact text signed)\n`;
@@ -691,7 +692,11 @@ fact("the payload's AGENTS.md carries the two registers with the accepted lists"
     const lawHash = createHash("sha256").update(lawBody).digest("hex");
     return body.includes('"Accept it"') && !body.includes("(pending") && body.includes("a typed legal identifier") && body.includes(lawHash) && body.includes("scanned for secrets") && body.includes("witnesses the act");
   });
+  check("cli302: the sign-off writes the signatures ledger row", run(so, ["check"]), 0, () => read(so, "04-govern/signatures.md").includes("| AMEND-NEW-EL-35-1.3.0 | Ada Lovelace (a typed legal identifier) | founder | amendment-signed |"));
+  check("cli303: the sign-off writes the tracker row", run(so, ["check"]), 0, () => read(so, "04-govern/01-monitor/tracker.md").includes("AMEND-NEW-EL-35-1.3.0"));
+  const ledgerAfterFirst = read(so, "04-govern/signatures.md");
   check("a second sign-off of the same act is refused — nothing changed", run(so, ["sign-off", amen1, "--quote", "Accept it again"]), 1, (r) => r.stderr.includes("DG-U115"));
+  fact("cli304: the refused second sign-off appended no ledger row", read(so, "04-govern/signatures.md") === ledgerAfterFirst);
   const amen2 = join(specRoot, "amendments", "1.3.0-EL-36-new.md");
   writeFileSync(amen2, amendment("EL-36", "laws/36-not-landed-yet.md"));
   const before2 = readFileSync(amen2, "utf8");
@@ -717,6 +722,7 @@ fact("the payload's AGENTS.md carries the two registers with the accepted lists"
     const body = readFileSync(amen3, "utf8");
     return body.includes(`Identity: ${soFp} (the ${gitName0 === null ? "system" : "git"} identity of the environment, fingerprinted)`) && body.includes("witnesses the act") && body.includes("resists a stranger's lookup, not a determined guesser");
   });
+  fact("cli305: the derived sign-off's ledger row carries the fingerprint", read(so, "04-govern/signatures.md").includes(`| AMEND-NEW-EL-37-1.3.0 | ${soFp} (the ${gitName0 === null ? "system" : "git"} identity of the environment, fingerprinted) | founder | amendment-signed |`));
   const amen4 = join(specRoot, "amendments", "1.3.0-EL-38-new.md");
   writeFileSync(amen4, amendment("EL-38", "laws/35-the-demo-law.md"));
   check("a second derived sign-off in the same record carries the same fingerprint", run(so, ["sign-off", amen4, "--quote", "Accept it"]), 0, (r) => {
@@ -730,6 +736,7 @@ fact("the payload's AGENTS.md carries the two registers with the accepted lists"
   const specRoot2 = join(so2, "spec");
   mkdirSync(join(specRoot2, "amendments"), { recursive: true });
   mkdirSync(join(specRoot2, "laws"), { recursive: true });
+  check("v24: init plants the second record", run(so2, ["init"]), 0);
   writeFileSync(join(specRoot2, "laws", "35-the-demo-law.md"), lawBody);
   const amenB = join(specRoot2, "amendments", "1.3.0-EL-35-new.md");
   writeFileSync(amenB, amendment("EL-35", "laws/35-the-demo-law.md"));

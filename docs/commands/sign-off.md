@@ -34,6 +34,14 @@ pass (the pending block replaced, in place):
   - the scan-clean line and the attestation limit sentence: the record
     witnesses the act; it does not cryptographically prove identity
 
+the act lands in the record too (a sign-off is a record act — the
+founder's ruling, 2026-11-09): one row in the signatures ledger
+(04-govern/signatures.md, key = the amendment's id) and one tracker
+row — the same dual-write a unit sign makes. The record must exist
+(the usual DG-R001/2 fatal otherwise). The receipt in the law file
+stays the evidence; the rows make the act visible to status, trace,
+and every record reader.
+
 refusals: DG-U114 secret-shaped words (nothing stored) · DG-U115 no
 pending block / already signed · DG-U116 law file unresolvable ·
 DG-U111 --name and --system together (one signer, one source)

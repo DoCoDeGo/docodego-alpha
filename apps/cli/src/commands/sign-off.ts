@@ -20,6 +20,8 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 import type { Args, Io } from "../types.ts";
 import { complain } from "./resolve.ts";
+import { loadRecord } from "../record/load.ts";
+import { appendSignature, appendTracker } from "../record/record-write.ts";
 import { loadOrCreateSalt, resolveIdentity, saltRoot } from "./identity.ts";
 import { emitJson } from "../emit/json.ts";
 
@@ -96,8 +98,15 @@ export function run(args: Args, io: Io): number {
   }
   const lawRaw = readText(lawAbs);
   if (lawRaw === null) {
-    return complain(args.json, io, { severity: "error", code: "DG-U116", message: `the law file named by ${target} is not readable` }, 1, "sign-off-refused");
+    return complain(args.json, io, { severity: "error", code: "DG-U116", message: `the law file is unreadable: ${lawAbs}` }, 1, "sign-off-refused");
   }
+
+  // a sign-off is a record act: the receipt belongs in the law file, and
+  // the act belongs in the record — the founder's ruling (cycle 8,
+  // verbatim in cycles.md: "When I sign, I would expect the changes to
+  // take place under .docodego"). The record must exist: the same
+  // DG-R001/2 fatal any record command carries.
+  const rec = loadRecord(process.cwd());
 
   if (typedName !== undefined && args.system === true) {
     return complain(args.json, io, { severity: "error", code: "DG-U111", message: "sign-off takes one identifier source: --name/--by (a typed identifier) or --system (this environment) — not both (nothing stored)" }, 2, "usage");
@@ -127,12 +136,20 @@ export function run(args: Args, io: Io): number {
   ].join("\n");
   writeText(amenAbs, raw.replace(PENDING, receipt));
 
-  const line = `SIGNED-OFF ${target} — ${date} · ${identity.kind} identity · law sha256 ${lawHash.slice(0, 12)}… · pending block replaced`;
+  // the act lands in the record too: one ledger row (the signatures
+  // ledger's own header — one row per signed act) and one tracker row,
+  // the same dual-write the unit-sign path makes. The amendment id is
+  // the row's key; the receipt in the law file stays the evidence.
+  const amendId = /^id:\s*(\S+)\s*$/m.exec(raw)?.[1] ?? target;
+  const ledgerLine = appendSignature(rec, amendId, identity.line, role, "amendment-signed");
+  appendTracker(rec, amendId, "amendment-signed", target);
+
+  const line = `SIGNED-OFF ${target} — ${date} · ${identity.kind} identity · law sha256 ${lawHash.slice(0, 12)}… · pending block replaced · ledger row "${ledgerLine}" · tracker row appended`;
   if (args.json) {
-    emitJson(io, "sign-off", { ok: true, amendment: target, law: lawRel, lawSha256: lawHash, identity: identity.line, identityKind: identity.kind, role, date, quote });
+    emitJson(io, "sign-off", { ok: true, amendment: target, law: lawRel, lawSha256: lawHash, identity: identity.line, identityKind: identity.kind, role, date, quote, amendId, recorded: ["amendment receipt", "signatures ledger row", "tracker row"] });
   } else {
     io.out(line);
-    io.err(`sign-off recorded in ${target} — quote verbatim, law hash, scan clean, attestation limit stated`);
+    io.err(`sign-off recorded — amendment receipt + signatures ledger row + tracker row: quote verbatim, law hash, scan clean, attestation limit stated`);
   }
   return 0;
 }
