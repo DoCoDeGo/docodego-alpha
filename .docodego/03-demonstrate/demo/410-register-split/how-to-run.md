@@ -9,16 +9,26 @@ recognizes paths, not pasted binaries. One honest line is a valid fill:
 
 ## see it work
 
-(fill: the commands, in order, and what each should show)
+1. `node --experimental-strip-types apps/cli/src/conformance.ts` — the
+   registers facts hold the contract: the payload's AGENTS.md carries
+   the two registers with the accepted lists; the teach inserts the
+   section into shipped-v22 bytes, is idempotent, and keeps a
+   customized copy untouched; the transition table mirrors the
+   registry hop-for-hop (v22→v23).
+2. `node --experimental-strip-types apps/spec/src/main.ts doctor` —
+   the axes side by side: payload 23 · cli 0.9.0 · spec/ 1.2.0 ·
+   delivered 1.2.0.
+3. Read `AGENTS.md`'s "The two registers" section — the invariants and
+   guidance lists, the one-line deviation form.
 
 ## run output
 
-(fill: pasted output or the path to the capture)
+Captured green at HEAD: `02-compose/01-build/410-register-split/
+proofs/conformance.txt` [evidence: suite-run] (348 checks green at
+delivery), `proofs/canon-doctor.txt` [evidence: suite-run] (no drift,
+version pair ok).
 
 ## visual evidence
 
-(fill: screenshot/recording paths, or "none — the suite is the demo".
-A path may declare its kind — `[evidence: screenshot]`,
-`[evidence: session-recording]` — from the registry: suite-run,
-test-transcript, screenshot, session-recording; the types are
-described, never ranked.)
+none — the suite is the demo: the registers are taught words plus the
+fixtures that hold them, and those outputs are the seeing.
