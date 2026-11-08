@@ -218,3 +218,6 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-09 | upgrade | v27->v28: kept AGENTS.md (the canon-rename teach already present) | .docodego/04-govern/01-monitor/tracker.md |
 | 2026-11-09 | upgrade | v27->v28: kept AGENTS.md (the canon-rename teach already present) | .docodego/04-govern/01-monitor/tracker.md |
 | 2026-11-09 | upgrade | record upgraded v27 -> v28 | .docodego/.standard/manifest.json |
+| 2026-11-09 | 590-canon-rename | delivered | 02-compose/01-build/590-canon-rename/delivered.md |
+| 2026-11-09 | 590-canon-rename | launch-passed | 02-compose/01-build/590-canon-rename/launch.md |
+| 2026-11-09 | 590-canon-rename | founder-signed | 02-compose/01-build/590-canon-rename/signature.md |

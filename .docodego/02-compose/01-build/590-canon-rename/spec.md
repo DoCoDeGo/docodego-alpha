@@ -1,7 +1,7 @@
 ---
 name: 590-canon-rename
 type: unit
-status: scored
+status: founder-signed
 deviations: the folder name `canon/` was chosen by delegation — the founder ruled the rename ("resolve all discomfort"); the record's own verb (canon publish, canon rebuild) names the tree, and no founder time was spent on a name they had already described precisely ("represents DoCoDeGo System")
 ---
 
