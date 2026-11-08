@@ -27,7 +27,7 @@ scripts/agentic-setup.sh <arena-dir>     # plants one repo per brief
 
 Then, for each repo, spawn a fresh-context agent whose task prompt is the
 shared shell in `directive.md` wrapping the brief from `briefs/<product>.md`.
-Observe live with the instrument in `docs/review-dimensions.md` (~5-minute
+Observe live with the instrument in `docs/process/review-dimensions.md` (~5-minute
 read-only rounds; findings to an improvement log like
 `docs/audits/2026-11-08-improvements.md`); on completion, grade each product against
 all eight dimensions and cite evidence per finding.

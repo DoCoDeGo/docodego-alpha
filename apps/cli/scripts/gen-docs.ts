@@ -52,20 +52,37 @@ text. Do not edit by hand; this page is the CLI's contract, verbatim.
 `;
 }
 
+/** The command families, in loop order — the index reads as the work, not
+ * as an alphabet. A command missing from every family fails the build
+ * (renderAll's caller checks coverage), so a new command must choose its
+ * row here. */
+const COMMAND_FAMILIES: Array<{ title: string; commands: string[] }> = [
+  { title: "plant & record", commands: ["init", "new", "sketch", "setback"] },
+  { title: "walk the loop", commands: ["grill", "score", "deliver", "launch", "sign", "sign-off", "retire"] },
+  { title: "read the record", commands: ["status", "trace", "check", "lint", "audit", "explain", "doctor"] },
+  { title: "version & supply", commands: ["upgrade", "skill", "completions"] },
+];
+
 function commandsIndex(): string {
-  const rows = Object.keys(COMMAND_HELP)
-    .sort()
-    .map((name) => `| [\`docodego ${name}\`](./${name}.md) | ${COMMAND_HELP[name].summary} |`)
-    .join("\n");
+  const known = new Set(Object.keys(COMMAND_HELP));
+  const families = COMMAND_FAMILIES.map((f) => {
+    const rows = f.commands
+      .filter((name) => known.has(name))
+      .map((name) => `| [\`docodego ${name}\`](./${name}.md) | ${COMMAND_HELP[name].summary} |`)
+      .join("\n");
+    return `## ${f.title}\n\n| command | what it does |\n|---|---|\n${rows}\n`;
+  }).join("\n");
+  const unfiled = [...known].filter((name) => !COMMAND_FAMILIES.some((f) => f.commands.includes(name)));
+  const extra = unfiled.length > 0
+    ? `## unfiled\n\n| command | what it does |\n|---|---|\n${unfiled.sort().map((name) => `\`docodego ${name}\``).join(" · ")}\n`
+    : "";
   return `# Command reference
 
 One page per command, generated from the same registry that powers
 \`docodego <command> --help\` — the CLI and these pages cannot diverge.
+Families follow the loop: plant, walk, read, version.
 
-| command | what it does |
-|---|---|
-${rows}
-`;
+${families}${extra}`;
 }
 
 function diagnosticsDoc(): string {

@@ -3,7 +3,7 @@
 Live observation of five autonomous founder-agents building portfolio products
 00–04 in parallel under the planted law (record spec 6, AGENTS.md v3, CLI
 0.8.0 on `core-loop`, bundle verified clean). Instrument:
-`docs/review-dimensions.md`. Rounds every ~5 minutes, read-only; findings
+`docs/process/review-dimensions.md`. Rounds every ~5 minutes, read-only; findings
 deduplicate as later rounds confirm them. Attribution: **agent** (law clear,
 agent bypassed) / **law** (law ambiguous, silent, or self-contradicted) /
 **healthy**. Provisional findings name their falsifier and are confirmed or
@@ -311,6 +311,6 @@ themselves.
 Every finding here was harvested live, attributed (agent vs law), and where
 provisional, confirmed or overturned against the record — including one
 orchestrator false positive (R0-5) and one commit-message misread (R1-1).
-The instrument (`docs/review-dimensions.md`) and the suite
+The instrument (`docs/process/review-dimensions.md`) and the suite
 (`docs/agentic-tests/`) are rerunnable; the next law change should be proven
 by re-running it.

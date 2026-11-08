@@ -4,7 +4,7 @@ Master catalog of every issue found in re-reviewing the five built
 products, per the founder's directive. This file folds in the outputs of:
 
 - **Five product auditors** (4 passes each = the 20 cycles), one per
-  product, graded against `docs/quality-audit-rubric.md`.
+  product, graded against `docs/process/quality-audit-rubric.md`.
 - **One cross-product comparator** — the divergence matrix, the
   sibling-solved list, and what the method failed to standardize.
 - **One skills/rules infrastructure analyst** — dossier at

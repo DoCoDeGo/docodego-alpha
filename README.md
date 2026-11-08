@@ -237,7 +237,7 @@ true, not the only way to read it.
 - [Architecture — compiler passes](docs/architecture.md)
 - [Command reference](docs/commands/README.md) (generated)
 - [Diagnostics reference](docs/diagnostics.md) (generated)
-- [Publishing — channels and processes](docs/distribution.md)
+- [Publishing — channels and processes](docs/process/distribution.md)
 - [Changelog](CHANGELOG.md) · [Contributing](CONTRIBUTING.md) ·
   [Security](SECURITY.md) · [License](LICENSE)
 
