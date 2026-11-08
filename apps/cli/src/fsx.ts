@@ -101,4 +101,12 @@ export function walkFiles(root: string, skip: Set<string>, cap = 2000): string[]
   return out;
 }
 
-export const today = (): string => new Date().toISOString().slice(0, 10);
+/** The writer's wall-clock date — the one calendar the record keeps
+ * (ruled 2026-11-08 after the two-calendars defect: gate rows stamped in
+ * UTC, the human's rows local, two calendars in one record). Local
+ * getters, zero-padded YYYY-MM-DD. */
+export const today = (): string => {
+  const d = new Date();
+  const pad = (n: number): string => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+};

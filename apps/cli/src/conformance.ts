@@ -18,6 +18,7 @@ import { validateVocabularyPack } from "./record/vocabulary.ts";
 import { COMMAND_HELP } from "./cli/help.ts";
 import { usageText } from "./cli/args.ts";
 import { COMPLETION_SHELLS } from "./cli/completions.ts";
+import { today } from "./fsx.ts";
 import { EXPLANATIONS, FAMILY_TITLES } from "./passes/explain.ts";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -361,6 +362,19 @@ check("restore plan exits 0 and names the restore", run(fixture, ["upgrade"]), 0
 check("restore upgrade --apply exits 0", run(fixture, ["upgrade", "--apply"]), 0);
 fact("deleted README.md NOT re-created in place", !existsSync(join(fixture, ".docodego", "README.md")));
 fact("restored copy waits as README.md.new", existsSync(join(fixture, ".docodego", "README.md.new")) && readFileSync(join(fixture, ".docodego", "README.md.new"), "utf8").includes("01-discover"));
+
+// --- v12: one calendar — the local wall-clock date is the only stamp ---
+// the two-calendars defect: gate rows in UTC, the human's rows local.
+// The assertion is implementation-shape-proofing, not clock-watching:
+// today() must equal an independent local computation of the same
+// instant (true on a UTC machine too, where the two forms agree).
+{
+  const d = new Date();
+  const pad = (n: number): string => String(n).padStart(2, "0");
+  const localNow = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  fact("today() is the local wall-clock date (YYYY-MM-DD)", /^\d{4}-\d{2}-\d{2}$/.test(today()) && today() === localNow);
+  fact("tracker rows carry a leading YYYY-MM-DD date", /^\| \d{4}-\d{2}-\d{2} \|/m.test(read(fixture, "04-govern/01-monitor/tracker.md")));
+}
 
 // --- v2: forward-compat — a newer record is refused politely ---
 const newer = mkdtempSync(join(tmpdir(), "docodego-conformance-fwd-"));

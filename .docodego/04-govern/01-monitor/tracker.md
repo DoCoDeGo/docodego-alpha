@@ -73,3 +73,6 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 160-spec7-bundling | gate-refused | G4 failed — no proof path exists on disk — looked for: <path>.new (paths resolve agains... |
 | 2026-11-08 | 160-spec7-bundling | gate-refused | G4 failed — no proof path exists on disk — looked for: README.md.new (paths resolve aga... |
 | 2026-11-08 | 160-spec7-bundling | delivered | 02-compose/01-build/160-spec7-bundling/delivered.md |
+| 2026-11-08 | 170-two-calendars | new unit | 01-document/01-discover/170-two-calendars/spec.md |
+| 2026-11-08 | 170-two-calendars | new unit | 02-compose/01-build/170-two-calendars/spec.md |
+| 2026-11-08 | 170-two-calendars | delivered | 02-compose/01-build/170-two-calendars/delivered.md |

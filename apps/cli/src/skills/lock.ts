@@ -7,7 +7,7 @@
 import { createHash } from "node:crypto";
 import { lstatSync, readdirSync, readFileSync } from "node:fs";
 import { join, resolve, sep } from "node:path";
-import { appendText, isDir, readText, writeText } from "../fsx.ts";
+import { appendText, isDir, readText, today, writeText } from "../fsx.ts";
 import { agentPresets, skillFiles, skillsIndex, TRACKER_TEMPLATE } from "../bundled/index.ts";
 import { TRACKER_REL } from "../record/load.ts";
 import type { SkillLockEntry, SkillsLock } from "../types.ts";
@@ -133,9 +133,7 @@ export function plantAgentPresets(recordRoot: string): string[] {
 export function appendTrackerLine(recordRoot: string, unit: string, event: string, evidence: string): string {
   const abs = join(recordRoot, TRACKER_REL);
   if (readText(abs) === null) writeText(abs, TRACKER_TEMPLATE);
-  const line = `| ${isoToday()} | ${unit} | ${event} | ${evidence} |\n`;
+  const line = `| ${today()} | ${unit} | ${event} | ${evidence} |\n`;
   appendText(abs, line);
   return line.trim();
 }
-
-const isoToday = (): string => new Date().toISOString().slice(0, 10);

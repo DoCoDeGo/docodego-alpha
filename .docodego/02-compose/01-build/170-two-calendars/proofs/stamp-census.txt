@@ -1,0 +1,6 @@
+# stamp-site census after the fix — no private clock remains
+(no toISOString anywhere under apps/cli/src)
+
+# the three sites now derive from fsx.today():
+apps/cli/src/record/template-docs.ts:56:  const lines = ["## grill " + today(), ""];
+apps/cli/src/skills/lock.ts:136:  const line = `| ${today()} | ${unit} | ${event} | ${evidence} |\n`;

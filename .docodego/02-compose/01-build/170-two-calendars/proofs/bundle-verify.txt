@@ -1,0 +1,2 @@
+bundle verify: clean — 36 files, spec 12, structure 4806e95233b7 — 305 studio file(s) stayed private under the boundary (allowlist v1)
+verify exit: 0 (0 = payload untouched)

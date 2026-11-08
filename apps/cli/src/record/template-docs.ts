@@ -1,4 +1,5 @@
 /** Embedded templates for documents the CLI earns into existence. */
+import { today } from "../fsx.ts";
 
 export function specTemplate(name: string, epic?: string, story?: string): string {
   const links = [
@@ -52,7 +53,7 @@ open
 
 /** One appended grill block (grill.md is append-only: newest block wins). */
 export function grillBlock(questions: { id: string; text: string }[], answers: string[]): string {
-  const lines = ["## grill " + new Date().toISOString().slice(0, 10), ""];
+  const lines = ["## grill " + today(), ""];
   questions.forEach((q, i) => {
     lines.push(`- ${q.id} asked: ${q.text}`);
     lines.push(`  answered: ${answers[i] ?? ""}`);
