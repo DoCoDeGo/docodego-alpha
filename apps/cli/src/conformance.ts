@@ -649,6 +649,9 @@ const keptDemoOriginal = read(fixture, keptDemoRel);
 write(fixture, ".docodego/" + keptDemoRel, keptDemoOriginal + "\n[evidence: seance]\n");
 check("the demo bundle is scanned too, and names its own path", run(fixture, ["check"]), 0, (r) => r.stdout.includes("DG-C019") && r.stdout.includes(keptDemoRel));
 write(fixture, ".docodego/" + keptDemoRel, keptDemoOriginal);
+write(fixture, ".docodego/" + keptProofsRel, keptProofsOriginal + "\n- the ladder taught — a claim `` `evidence: seance` `` quoted in a code span is prose about the syntax, not a declaration, and the registry says nothing\n");
+check("a backticked mention quotes the syntax instead of claiming it", run(fixture, ["check"]), 0, (r) => !r.stdout.includes("'seance'"));
+write(fixture, ".docodego/" + keptProofsRel, keptProofsOriginal);
 
 // --- v2d: the gate-rows law ships and teaches (300) ---
 fact("the payload's AGENTS.md teaches the gate-rows law", agentsMd().includes("Gate rows ride the unit's commit"));

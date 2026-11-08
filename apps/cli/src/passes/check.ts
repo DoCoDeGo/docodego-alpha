@@ -115,12 +115,16 @@ function checkUnit(rec: RecordAst, unit: UnitAst): Diagnostic[] {
  * declarations in proofs.md or the unit's demo bundle must name a
  * registry type. Unknown names are a real gap (drift), not a wording
  * nit — an unintelligible declaration is worse than none. Undeclared
- * paths keep the base law and are nobody's business here. */
+ * paths keep the base law and are nobody's business here. A declaration
+ * is a claim, and claims are written bare — an occurrence inside a
+ * code span quotes the syntax (a teaching example, a probe instruction)
+ * rather than making a claim, so it is not validated and not flagged. */
 function evidenceDeclarations(surfaces: Array<{ raw: string; file: string }>): Diagnostic[] {
   const out: Diagnostic[] = [];
   const bad = new Map<string, Set<string>>();
   for (const { raw, file } of surfaces) {
-    for (const m of raw.matchAll(/\[evidence:\s*([A-Za-z][A-Za-z0-9-]*)\]/g)) {
+    const text = raw.replace(/`[^`\n]*`/g, " ");
+    for (const m of text.matchAll(/\[evidence:\s*([A-Za-z][A-Za-z0-9-]*)\]/g)) {
       const type = (m[1] ?? "").toLowerCase();
       if (EVIDENCE_TYPES[type] !== undefined) continue;
       const files = bad.get(type) ?? new Set<string>();
