@@ -102,6 +102,7 @@ export interface Args {
   as?: string;
   quote?: string | boolean;
   dryRun?: boolean;
+  yes?: boolean;
   by?: string | boolean;
   role?: string | boolean;
 }

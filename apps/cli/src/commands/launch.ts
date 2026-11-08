@@ -68,7 +68,7 @@ export function run(args: Args, io: Io): number {
     emitJson(io, "launch", { unit: name, ok: true, gates, tracker: trackerLine });
   } else {
     io.out(gateLine);
-    io.err(`appended ${unit.dir}/launch.md + tracker row · status set to launch-passed — the next tier is a person: docodego sign ${name} --by "<legal name>"`);
+    io.err(`appended ${unit.dir}/launch.md + tracker row · status set to launch-passed — the next tier is a person: docodego sign ${name} shows the act and asks once (--yes answers headless)`);
   }
   return 0;
 }

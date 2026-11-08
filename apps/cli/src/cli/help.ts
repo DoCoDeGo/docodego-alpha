@@ -294,7 +294,8 @@ fail: prints the failed gates, records the attempt in the tracker, exit 1 —
 idempotent: a unit already launch-passed (or founder-signed) is answered
 calmly — nothing re-earned, nothing rewritten.
 
-the next tier is a person, not a gate: docodego sign <unit> --by "<legal name>".
+the next tier is a person, not a gate: docodego sign <unit> shows the act
+and asks once; --yes answers for headless runs.
 
 exit codes: 0 passed (or already passed) · 1 gate fail · 2 usage · 3 corrupt
 
@@ -302,7 +303,7 @@ example:
   docodego launch retry-webhook`,
   },
   sign: {
-    usage: "docodego sign <unit> --by \"<legal name>\" [--role <role>] [--json]",
+    usage: "docodego sign <unit> [--by \"<legal identifier or handle>\"] [--role <role>] [--yes] [--json]",
     summary: "The last tier: a named person signs the act — an attestation, honestly bounded.",
     body: `the tiers are strict: launch-passed first (DG-U112, no bypass flag exists).
 
@@ -310,6 +311,15 @@ the signature is an act receipt, and the record states its own limit: it
 witnesses that the named person ran this command over this evidence — an
 attestation by command execution. It does not cryptographically prove the
 human's identity, and no output claims otherwise.
+
+the identifier derives from the environment — a typed --by (a legal
+identifier or handle), else the git config user.name/email, else the
+system user/host; the derivation kind is named in the receipt. The whole
+act is shown before anything is recorded, and one confirmation closes it:
+an interactive run asks "sign and approve? [y/N]"; a headless run
+declares --yes; a run that is neither confirmed nor promptable refuses
+with nothing appended (DG-U118) — a signature without an actor's yes is
+furniture wearing accountability's clothes.
 
 pass (all three appended in one run):
   - the unit's signature.md — who (verbatim), role, the local-calendar
@@ -322,13 +332,13 @@ a second signature of the same act is refused as a rewritten record
 (DG-U113) — the record keeps one signature per act, appended, never
 rewritten.
 
-exit codes: 0 signed · 1 rails refused (DG-U112/DG-U113) · 2 usage · 3 corrupt
+exit codes: 0 signed · 1 rails refused (DG-U112/DG-U113/DG-U118) · 2 usage · 3 corrupt
 
 example:
-  docodego sign retry-webhook --by "Ada Lovelace"`,
+  docodego sign retry-webhook`,
   },
   "sign-off": {
-    usage: "docodego sign-off <amendment-file> --quote \"<the acceptance words, verbatim>\" [--by \"<legal name>\"] [--role <role>] [--json]",
+    usage: "docodego sign-off <amendment-file> --quote \"<the acceptance words, verbatim>\" [--by \"<legal identifier or handle>\"] [--role <role>] [--json]",
     summary: "The amendment sign-off: identity derived, secrets scanned, the pending block filled — the founder's act, one command.",
     body: `how-to-amend step 3, mechanized: the owner's sign-off recorded with the words
 verbatim beside the sha256 of the exact text signed.

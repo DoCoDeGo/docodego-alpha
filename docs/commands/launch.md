@@ -33,7 +33,8 @@ fail: prints the failed gates, records the attempt in the tracker, exit 1 —
 idempotent: a unit already launch-passed (or founder-signed) is answered
 calmly — nothing re-earned, nothing rewritten.
 
-the next tier is a person, not a gate: docodego sign <unit> --by "<legal name>".
+the next tier is a person, not a gate: docodego sign <unit> shows the act
+and asks once; --yes answers for headless runs.
 
 exit codes: 0 passed (or already passed) · 1 gate fail · 2 usage · 3 corrupt
 

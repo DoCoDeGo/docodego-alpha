@@ -44,8 +44,8 @@ const gitConfig = (key: string): string | null => {
 
 type Identity = { line: string; kind: "typed" | "git" | "system" };
 
-const deriveIdentity = (by?: string): Identity => {
-  if (by !== undefined && by !== "") return { line: `${by} (a typed legal name)`, kind: "typed" };
+export const deriveIdentity = (by?: string): Identity => {
+  if (by !== undefined && by !== "") return { line: `${by} (a typed legal identifier)`, kind: "typed" };
   const name = gitConfig("user.name");
   if (name !== null) {
     const email = gitConfig("user.email");
@@ -87,7 +87,7 @@ export function run(args: Args, io: Io): number {
   const target = args.pos[0];
   const quote = typeof args.quote === "string" ? args.quote : "";
   if (target === undefined || target === "" || quote === "") {
-    return complain(args.json, io, { severity: "error", code: "DG-U117", message: 'usage: docodego sign-off <amendment-file> --quote "<the acceptance words, verbatim>" [--by "<legal name>"] [--role <role>]' }, 2, "usage");
+    return complain(args.json, io, { severity: "error", code: "DG-U117", message: 'usage: docodego sign-off <amendment-file> --quote "<the acceptance words, verbatim>" [--by "<legal identifier or handle>"] [--role <role>]' }, 2, "usage");
   }
   const amenAbs = resolve(process.cwd(), target);
   const raw = readText(amenAbs);

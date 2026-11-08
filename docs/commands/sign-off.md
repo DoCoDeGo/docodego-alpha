@@ -5,7 +5,7 @@
 ## Usage
 
 ```
-docodego sign-off <amendment-file> --quote "<the acceptance words, verbatim>" [--by "<legal name>"] [--role <role>] [--json]
+docodego sign-off <amendment-file> --quote "<the acceptance words, verbatim>" [--by "<legal identifier or handle>"] [--role <role>] [--json]
 ```
 
 ## Contract

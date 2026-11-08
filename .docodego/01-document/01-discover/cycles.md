@@ -246,3 +246,48 @@ all, and each lands as ruled:
   deleted; `package-lock.json` stands as the lockfile.
 - SW-080 payload dedup — **held** for a batch that owes the bump chain
   anyway.
+
+**The founder's sign-flow ruling** (2026-11-08, via chat — the words
+verbatim, two messages):
+
+> my concern is why we need to record the name explictly ? also a
+> extra manual step to type personal details. Instead a popup, sign
+> and approve ?
+
+> agree with recommendation, keep it optional, but instead noting as
+> legal name - say legal identifer or handle
+
+**What this sets in motion** (recorded same day): `docodego sign` stops
+demanding a typed name — the identifier derives from the environment's
+git or system details (the mechanism the sign-off tool already runs),
+the act shown in full (who, role, evidence hashes, the attestation
+limit), and confirmed in one step: sign and approve. A typed `--by`
+stays as the override. The wording everywhere moves from "legal name"
+to "legal identifier or handle" — including the EL-34 law text, which
+amends through the tree's own procedure (a PATCH: wording, no new
+duty). The tier stays optional; nothing about who can sign changes.
+
+**The founder's standing directive — mistakes recorded, mitigated as
+detected** (2026-11-08, via chat — the words verbatim):
+
+> ensure mistakes are recorded and mitigation measure are put in
+> place as we detect them
+
+**The ledger opens with the two this session already produced** (both
+detected the same day; the tools refused loudly each time — the errors
+were the agent's sequencing, not the gates'):
+
+- Mistake 1 — the grill answers file was deleted before the grill ran,
+  so `score` refused (DG-U031) and the round cost a retry. Mitigation:
+  a scratch file dies only after the gate that consumes it has
+  accepted its output — recorded here as the practice; the gates
+  already behave right (loud refusals, nothing half-written).
+- Mistake 2 — the unit scaffolded to the default stream
+  (`01-document/01-discover`) instead of the build stream, and the
+  correction guessed the number 440 would be reused in a tracker row
+  written by hand (struck; the tool then assigned 450 — numbers are
+  never reused). Mitigation, mechanical where possible: the payload's
+  AGENTS.md `docodego new` line gains the stream hint — implementation
+  units take `--stream 02-compose/01-build`; the default stream is for
+  discovery — riding the recordVersion 24 bump this unit already owes,
+  so the next planted record teaches it from day one.

@@ -442,11 +442,11 @@ prefix (`docodego explain DG-F`) prints every page in the family.
 - law: the launch gate re-audits one delivered unit's evidence; without the name there is nothing to audit.
 - fix: 'docodego launch <unit>'.
 
-**DG-U111 — usage: docodego sign <unit> --by "<legal name>"**
+**DG-U111 — usage: docodego sign <unit>**
 
-- meaning: 'sign' was invoked without a unit name, or without --by naming the signatory.
-- law: an act receipt attests a named person's judgment — an anonymous signature would be furniture wearing accountability's clothes.
-- fix: 'docodego sign <unit> --by "<legal name>"' — --role optionally names the hat the person signs in.
+- meaning: 'sign' was invoked without a unit name, or the signer's identifier could not be derived and no --by was typed.
+- law: an act receipt attests a named person's judgment — an anonymous signature would be furniture wearing accountability's clothes; the identifier comes from git or system details, or a typed legal identifier or handle.
+- fix: 'docodego sign <unit>' — --by "<legal identifier or handle>" overrides the derivation; --role optionally names the hat the person signs in.
 
 **DG-U112 — sign refused — the tiers are strict**
 
@@ -459,6 +459,12 @@ prefix (`docodego explain DG-F`) prints every page in the family.
 - meaning: the unit carries an act receipt, and a second sign would rewrite an act the record keeps once.
 - law: an act receipt is unique: the record holds one signature per act, and the append law means the first signature stands — nothing is appended over it.
 - fix: nothing to do — the signature stands; 'docodego trace <unit>' shows who signed, when, and against which law hash.
+
+**DG-U118 — the signature was not confirmed**
+
+- meaning: the act was computed but never approved by a human: the run had no terminal to ask (or --json's headless contract) and no --yes, or the prompt was answered with anything but y/yes.
+- law: a signature is an actor's yes, recorded — the act is shown in full (who, role, evidence hashes, the attestation limit) and one confirmation closes it; without that yes, appending would sign furniture.
+- fix: run it interactively and answer the prompt once, or declare the act headlessly with --yes; a declined prompt appends nothing — run the command again when you mean it.
 
 **DG-U075 — unsupported --from source**
 

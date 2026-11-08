@@ -427,16 +427,40 @@ check("launch repairs forward: the missing demo bundle scaffolded beside the ref
 write(fixture, ".docodego/03-demonstrate/demo/kept-unit/how-to-run.md", "# how to run\n\nFilled: the suite is the demo — the conformance suite walks kept-unit's tier flow end to end.\n");
 write(fixture, ".docodego/01-document/01-discover/kept-unit/proofs/run.txt", "proof run output restored\n");
 check("launch passes on restored evidence + filled bundle", run(fixture, ["launch", "kept-unit"]), 0, (r) => r.stdout.includes("L5 how-to-run.md filled"));
-check("sign passes with a named person", run(fixture, ["sign", "kept-unit", "--by", "Testy Founder"]), 0);
+check("sign without --yes on a headless run refuses (DG-U118)", run(fixture, ["sign", "kept-unit", "--by", "Testy Founder"]), 1, (r) => r.stdout.includes("DG-U118") || r.stderr.includes("DG-U118"));
+fact("the unconfirmed signature planted nothing", !existsSync(join(fixture, ".docodego", "04-govern", "signatures.md")));
+check("sign passes with a typed identifier, declared headless", run(fixture, ["sign", "kept-unit", "--by", "Testy Founder", "--yes"]), 0);
 const ledgerBefore = read(fixture, "04-govern/signatures.md").split("\n").length;
 check("second signature refused (DG-U113)", run(fixture, ["sign", "kept-unit", "--by", "Testy Founder"]), 1, (r) => r.stdout.includes("DG-U113") || r.stderr.includes("DG-U113"));
 fact("the refused second signature appended nothing", read(fixture, "04-govern/signatures.md").split("\n").length === ledgerBefore);
 const receipt = read(fixture, "01-document/01-discover/kept-unit/signature.md");
 fact("the receipt quotes the signer verbatim", receipt.includes("signed by: Testy Founder"));
+fact("the receipt names the typed identifier as typed", receipt.includes("(a typed legal identifier)"));
 fact("the receipt carries the attestation limit", receipt.includes("attestation by command execution"));
 fact("the receipt carries the spec evidence hash", /spec\.md sha256:[0-9a-f]{64}/.test(receipt));
-fact("the signatures ledger row exists", /\| [0-9]{4}-[0-9]{2}-[0-9]{2} \| kept-unit \| Testy Founder \| founder \| founder-signed \|/.test(read(fixture, "04-govern/signatures.md")));
+fact("the signatures ledger row exists", /\| [0-9]{4}-[0-9]{2}-[0-9]{2} \| kept-unit \| Testy Founder \(a typed legal identifier\) \| founder \| founder-signed \|/.test(read(fixture, "04-govern/signatures.md")));
 check("launch is calm on a founder-signed unit", run(fixture, ["launch", "kept-unit"]), 0, (r) => r.stdout.includes("already"));
+
+// the derived path — the founder's ruling (450): no typed details. A second
+// unit walks the tiers and signs with no --by: the identifier comes from the
+// environment's git or system details, and the receipt names which.
+write(fixture, ".docodego/01-document/01-discover/derived-unit/spec.md", `---\nname: derived-unit\ntype: unit\nstatus: draft\n---\n\n# derived-unit\n\n## intent\n\nThe derived unit proves the signature derives its identifier: 2 criteria, all checkable by one command run per criterion.\n\n## scope\n\nIn: the derived-identity proof. Out: any production behavior.\n\n## acceptance\n\n- AC1: the proof file exists at 01-document/01-discover/derived-unit/proofs/run.txt after 1 command run\n- AC2: the receipt file signature.md names a derived identifier and its kind\n\n## threats\n\n- the fixture drifts from the grammar -> the conformance suite fails loudly and names the check\n`);
+write(fixture, ".docodego/01-document/01-discover/derived-unit/proofs.md", "# proofs — derived-unit\n\n- AC1 — the run: `01-document/01-discover/derived-unit/proofs/run.txt`\n");
+write(fixture, ".docodego/01-document/01-discover/derived-unit/proofs/run.txt", "proof run output\n");
+const dGrill = run(fixture, ["grill", "derived-unit", "--json"]);
+const dQids = (dGrill.stdout.match(/"id": "GQ-(?:AC)?[0-9]+"/g) ?? []).map((s) => s.match(/GQ(?:AC)?[0-9]+/)?.[0] ?? "");
+const dAnsPath = join(fixture, "gq-derived.txt");
+writeFileSync(dAnsPath, dQids.map((id) => `${id}: the fixture proves the derived path; observation: the suite asserts the receipt`).join("\n") + "\n");
+check("grill round passes on the derived fixture", run(fixture, ["grill", "derived-unit", "--answers", "gq-derived.txt"]), 0);
+rmSync(dAnsPath);
+check("score passes on the derived fixture", run(fixture, ["score", "derived-unit"]), 0, (r) => !r.stdout.includes("below the gate"));
+check("deliver passes on the derived fixture", run(fixture, ["deliver", "derived-unit"]), 0);
+write(fixture, ".docodego/03-demonstrate/demo/derived-unit/how-to-run.md", "# how to run\n\nFilled: the suite is the demo — the conformance suite walks derived-unit's tier flow end to end.\n");
+check("launch passes on the derived fixture", run(fixture, ["launch", "derived-unit"]), 0);
+check("sign passes with no --by — the identifier derives, declared headless", run(fixture, ["sign", "derived-unit", "--yes"]), 0);
+const derivedReceipt = read(fixture, "01-document/01-discover/derived-unit/signature.md");
+fact("the derived receipt names an environment identity and its kind", derivedReceipt.includes("(the git identity of the environment)") || derivedReceipt.includes("(the system identity of the environment)"));
+fact("the derived receipt carries no typed line", !derivedReceipt.includes("(a typed legal identifier)"));
 
 // --- v2: forward-compat — a newer record is refused politely ---
 const newer = mkdtempSync(join(tmpdir(), "docodego-conformance-fwd-"));
@@ -614,7 +638,7 @@ fact("the payload's AGENTS.md carries the two registers with the accepted lists"
   check("sign-off fills the pending block — quote verbatim, hash, derivation named, limit stated", run(so, ["sign-off", amen1, "--quote", "Accept it", "--by", "Ada Lovelace"]), 0, (r) => {
     const body = readFileSync(amen1, "utf8");
     const lawHash = createHash("sha256").update(lawBody).digest("hex");
-    return body.includes('"Accept it"') && !body.includes("(pending") && body.includes("a typed legal name") && body.includes(lawHash) && body.includes("scanned for secrets") && body.includes("witnesses the act");
+    return body.includes('"Accept it"') && !body.includes("(pending") && body.includes("a typed legal identifier") && body.includes(lawHash) && body.includes("scanned for secrets") && body.includes("witnesses the act");
   });
   check("a second sign-off of the same act is refused — nothing changed", run(so, ["sign-off", amen1, "--quote", "Accept it again"]), 1, (r) => r.stderr.includes("DG-U115"));
   const amen2 = join(specRoot, "amendments", "1.3.0-EL-36-new.md");

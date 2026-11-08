@@ -2,7 +2,7 @@
 import { MODES, type Args, type DocType, type Mode } from "../types.ts";
 import { DOC_TYPES } from "../types.ts";
 
-const BOOL_FLAGS = new Set(["--json", "--force", "--self-check", "--apply", "--branch", "--all-skills", "--version", "--help", "--list", "--rotate", "--dry-run"]);
+const BOOL_FLAGS = new Set(["--json", "--force", "--self-check", "--apply", "--branch", "--all-skills", "--version", "--help", "--list", "--rotate", "--dry-run", "--yes"]);
 const VALUE_FLAGS = new Set(["--mode", "--answers", "--scaffold", "--type", "--epic", "--story", "--stream", "--from-sketch", "--profile", "--from", "--vocabulary", "--respond", "--as", "--by", "--role", "--quote"]);
 
 export type ParsedArgs = { ok: true; args: Args } | { ok: false; message: string };
@@ -45,6 +45,7 @@ export function parseArgs(argv: string[]): ParsedArgs {
       else if (tok === "--version") args.version = true;
       else if (tok === "--list") args.list = true;
       else if (tok === "--dry-run") args.dryRun = true;
+      else if (tok === "--yes") args.yes = true;
       else args.help = true;
       continue;
     }
@@ -101,8 +102,8 @@ commands:
   doctor [--json]
   deliver <unit>
   launch <unit>
-  sign <unit> --by "<legal name>" [--role <role>]
-  sign-off <amendment-file> --quote "<the acceptance words, verbatim>" [--by "<legal name>"]
+  sign <unit> [--by "<legal identifier or handle>"] [--role <role>] [--yes]
+  sign-off <amendment-file> --quote "<the acceptance words, verbatim>" [--by "<legal identifier or handle>"]
   retire <unit> [--as <behavior>] [--dry-run] [--json]
   upgrade [--apply] [--branch]
   skill list [--json] | skill add <name> [--from <git-url>] [--force] | skill remove <name>
