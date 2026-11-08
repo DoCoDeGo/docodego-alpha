@@ -303,6 +303,17 @@ were the agent's sequencing, not the gates'):
   newString; and the equality facts over `COMMAND_HELP` stay in place
   as the structural net — a clobbered key cannot pass the suite.
 
+- Mistake 4 (2026-11-08, during 470's gate-row write) — editing a
+  tracker row by anchoring on a partial line
+  (`| 2026-11-08 | 470-dual-use | ` as the match) spliced the new
+  cells onto the delivered hash, leaving a five-cell row. Detected by
+  re-reading the line immediately after the edit; fixed by replacing
+  the full row with the correct four cells (the delivered hash taken
+  from the deliver command's own output, so nothing was invented).
+  Mitigation: table rows are edited whole — the oldString is the
+  complete line, never a prefix of it; re-read the edited line before
+  moving on.
+
 ## Cycle 6 — dual use and the surgical gate (2026-11-08, via chat — the directive verbatim, three messages)
 
 > Anything built with docodego should have a dual use mindset. One

@@ -1,7 +1,7 @@
 ---
 name: 470-dual-use
 type: unit
-status: scored
+status: launch-passed
 ---
 
 # 470-dual-use

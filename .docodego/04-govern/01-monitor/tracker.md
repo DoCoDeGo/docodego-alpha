@@ -151,3 +151,7 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 460-surgical-gate | delivered | 02-compose/01-build/460-surgical-gate/delivered.md |
 | 2026-11-08 | 460-surgical-gate | launch-refused | L2,L5 failed — proof path(s) vanished since delivery: cli/src/commands — evidence that ... |
 | 2026-11-08 | 460-surgical-gate | launch-passed | 02-compose/01-build/460-surgical-gate/launch.md |
+| 2026-11-08 | 470-dual-use | delivered | 02-compose/01-build/470-dual-use/delivered.md |
+| 2026-11-08 | 470-dual-use | launch-refused | L2 failed — proof path(s) vanished since delivery: conformance.ts, .new — evidence that... |
+| 2026-11-08 | 470-dual-use | launch-refused | L2 failed — proof path(s) vanished since delivery: conformance.ts, .new — evidence that... |
+| 2026-11-08 | 470-dual-use | launch-passed | 02-compose/01-build/470-dual-use/launch.md |
