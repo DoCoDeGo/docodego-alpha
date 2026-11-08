@@ -1,0 +1,44 @@
+## the mapping (kept current — AC1)
+
+Landed 2026-11-08 by 230-debt-improvement-dispositions. One row per
+item, one status each: **landed** (where), **drafted** (which draft
+owns it), **founder** (the founder decides), **unowned** (candidate
+home named), **declined** (the reason). Children update rows as they
+land; a row never sits silently between states.
+
+### the six clusters
+
+| # | cluster | owner / state |
+|---|---|---|
+| 1 | fleet launch-blockers (12 L items) | the five product records own their bugs; the founder owns the boundary ceremonies — the instruments shipped (launch 190, sign/tiers 200, coherence 220); open there, not here |
+| 2 | go-public execution | founder-owned (name decision — EL-32 reserved — org name, commit identity swap) plus the studio install story; near-launch sequencing |
+| 3 | improvement-log remainders | disposed below by 230-debt-improvement-dispositions; the unowned rows name their homes |
+| 4 | cli debt cluster | open here — next child to scaffold: the record-integrity + cli-law audits, the dogfood proof-path refusal tokens, the stale markers in docs/record-format.md, architecture.md, review-dimensions.md |
+| 5 | reference-doc TODOs | open here — child after 4: distribution.md (41), skills.md (7), vocabulary-packs.md (10), enhancements.md (20), triaged ship-now / launch-gate / decline-with-reason |
+| 6 | two calendars | done — 170-two-calendars (canon-spec-7 epic) |
+
+### the improvement items (IMP-1..7, IMP-10..23)
+
+| IMP | status | citation |
+|---|---|---|
+| 1 plan-approval protocol | founder | nothing ships until the founder bounds what an agent may auto-approve; the source doc's `plan-approval:` tracker row is the ready form |
+| 2 decisions home | landed | the planted AGENTS.md names cycles.md "the numbered log of research and decisions" (AGENTS.md, decisions line) |
+| 3 planted .gitignore | unowned | no .gitignore in the payload boundary (bundle.manifest.json); candidate: the cluster-4 child |
+| 4 gate-row fraud claim | declined | overturned by the source doc itself — the rows were gate-written, no fraud; lesson recorded there |
+| 5 structure improvisation | declined | resolved into IMP-6 by the source doc (03's structure was the streams prose, not improvisation) |
+| 6 streams fork, canonical home | landed | the type home is the one home: TYPE_HOME / DEFAULT_STREAM (record/streams.ts), `new` plants there (commands/new.ts), one scanner renders any home |
+| 7 one unit-scanner | landed | the parse-once architecture is the fix: record/load.ts loads the units once; check, status, trace, deliver all read the same AST |
+| 10 canonical event order + repair rule | unowned | no order law in the tree or the planted AGENTS.md; candidate: a small law child |
+| 11 hard/guidance registers | unowned | founder directive, large; candidate: its own law child ahead of the 1.1.0 amendment batch |
+| 12 score hash + reuse warning | unowned | score writes no hash (commands/score.ts); adjacent to the ICS 2.0 proposal (180-spec7-ics-2) but not inside it |
+| 13 solo-grill honesty | unowned | grill records rounds but marks no self-grilled flag; candidate: a grill-law child |
+| 14 warning drift/prose classes | unowned | check warnings carry no triage class; candidate: a small check child (with the node --test nit for the prove docs) |
+| 15 integrity map (compose-log, demo bundles) | drafted | the status-rails draft (EL-33, reserved 1.1.0) owns "status answers could-this-ship"; the compose-log and demo-bundle mechanics ride a later child |
+| 16 post-delivery staleness | unowned | check has no stale-proofs warning (DG-C002's wording only); candidate: a check child |
+| 17 grill drops scored | unowned | the status machinery stands; the mitigation note ships (commands/grill.ts, the re-run hint, from 130-grill-scaffold) |
+| 18 diagnostics carry the fix | landed | the explain registry: every DG code has a page with the concrete fix (passes/explain.ts; DG-U013 names the stream-path shape) |
+| 19 scratch out of the record root | landed | docodego-visual-proof: "Scratch lives in var/" (its SKILL.md); DG-S005 held — the law worked, the default was fixed |
+| 20 evidence-type ladder | unowned | no registry; visual-proof is the practice instrument, not the ladder; candidate: a demonstrate-law child (natural host: IMP-15's demo bundles) |
+| 21 gate rows committed home | unowned | practice holds in this record (gate rows ride the unit's commit) but no planted law states it; candidate: a one-line AGENTS.md law child |
+| 22 research's legal home | unowned | 01-discover/research/ still impersonates a unit to the structure pass; candidate: a structure-pass exemption child |
+| 23 visual evidence layer | landed | shipped same day per the source doc: docodego-visual-proof bundled, planted by the product-team and platform-team profiles |

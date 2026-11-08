@@ -1,0 +1,37 @@
+# citation verifications (grep transcript, 2026-11-08)
+
+## landed rows
+$ grep -n 'numbered log of research and decisions' AGENTS.md   # IMP-2
+34:founding brief, `cycles.md` the numbered log of research and decisions.
+$ grep -n 'DG-U013' apps/cli/src/passes/explain.ts | head -1  # IMP-18
+86:  { code: "DG-U013", title: "bad invocation or stream name (new/sketch)", meaning: "for 'new': the --stream value is not one of the sixteen streams. For 'ske
+$ grep -n 'Scratch lives in' .agents/skills/docodego-visual-proof/SKILL.md  # IMP-19
+54:- **Scratch lives in `var/`** — nothing tool-generated writes into
+$ ls .agents/skills/docodego-visual-proof  # IMP-23
+SKILL.md
+visual-proof.mjs
+$ grep -n 'TYPE_HOME\|DEFAULT_STREAM' apps/cli/src/record/streams.ts | head -2  # IMP-6
+22:export const DEFAULT_STREAM = "01-document/01-discover";
+25:export const TYPE_HOME: Record<string, string> = {
+$ grep -n 'home ?? DEFAULT_STREAM' apps/cli/src/commands/new.ts  # IMP-6
+118:  if (requested === undefined) return { ok: true, stream: home ?? DEFAULT_STREAM };
+$ grep -rn 'loadRecord' apps/cli/src/commands/check.ts apps/cli/src/commands/status.ts apps/cli/src/commands/trace.ts | head -3  # IMP-7
+apps/cli/src/commands/check.ts:7:import { loadRecord } from "../record/load.ts";
+apps/cli/src/commands/check.ts:16:  const rec = loadRecord(process.cwd());
+apps/cli/src/commands/status.ts:4:import { loadRecord } from "../record/load.ts";
+$ grep -n 'set it back to grilled' apps/cli/src/commands/grill.ts  # IMP-17 partial mitigation
+94:    io.err("note: this unit was scored — grilling set it back to grilled; re-run 'docodego score' before deliver");
+
+## unowned rows (the mechanism absent)
+$ grep -n 'hash\|sha' apps/cli/src/commands/score.ts apps/cli/src/passes/score.ts  # IMP-12
+(no hash lines above)
+$ grep -rn 'drift\|prose' apps/cli/src/passes/check.ts | grep -c 'class'  # IMP-14
+(no class marks)
+$ grep -c 'gitignore' apps/cli/bundle.manifest.json  # IMP-3
+0
+$ grep -rn 'research' apps/cli/src/passes/structure.ts  # IMP-22
+(no exemption)
+$ grep -rn 'stale-proofs\|supersession' apps/cli/src/passes/check.ts  # IMP-16
+(none)
+$ grep -n 'plan-approval\|canonical event order\|invariants:' AGENTS.md  # IMP-1/10/11/21
+(none planted)

@@ -1,0 +1,7 @@
+# the source docs are untouched (AC4)
+
+$ git status --porcelain docs/audits/ docs/go-public-checklist.md  (empty = untouched)
+(end)
+
+$ git diff --stat -- docs/audits/  (empty = untouched)
+(end)

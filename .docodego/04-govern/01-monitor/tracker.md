@@ -89,3 +89,5 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | record | audit: 0 failing checks, 0 with warnings — checklist updated | 04-govern/01-monitor/checklist.md |
 | 2026-11-08 | record | audit: 0 failing checks, 0 with warnings — checklist updated | 04-govern/01-monitor/checklist.md |
 | 2026-11-08 | 220-spec7-governance-pass | delivered | 02-compose/01-build/220-spec7-governance-pass/delivered.md |
+| 2026-11-08 | 230-debt-improvement-dispositions | new unit | 02-compose/01-build/230-debt-improvement-dispositions/spec.md |
+| 2026-11-08 | 230-debt-improvement-dispositions | delivered | 02-compose/01-build/230-debt-improvement-dispositions/delivered.md |

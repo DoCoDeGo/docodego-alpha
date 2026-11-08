@@ -1,0 +1,3 @@
+canon doctor · no drift — lint+verify rerun clean, structure ok, index ok, version pair ok, mirror aligned (16 mirror statutes vs 16 tree statutes)
+axes (side by side, never inferred): payload specVersion 14 · cli 0.8.0 · spec/ 1.0.5 · delivered 1.0.5
+doctor exit: 0 (delivered-baseline drift, expected pre-commit)
