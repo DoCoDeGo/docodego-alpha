@@ -1,8 +1,8 @@
 /** Check pass — record integrity: delivered units must carry proofs that exist,
  * status claims must match the markers on disk, links must resolve.
  * Pure apart from fs existence probes on proof paths. */
-import { join } from "node:path";
-import type { Diagnostic } from "../types.ts";
+import { join, isAbsolute } from "node:path";
+import { STATUS_VALUES, type Diagnostic } from "../types.ts";
 import { field } from "../record/frontmatter.ts";
 import { isDir, isFile, readText } from "../fsx.ts";
 import { parseMarkdown, type FileAst } from "../record/markdown.ts";
@@ -19,6 +19,12 @@ function checkUnit(rec: RecordAst, unit: UnitAst): Diagnostic[] {
   const out: Diagnostic[] = [];
   if (unit.spec !== null) out.push(...unit.spec.diags);
   const status = unitStatus(unit);
+  // the vocabulary is the machine (cli-law 2): a status the machine cannot
+  // parse is a status no command, board, or gate can place — lint condemns
+  // it at the spec surface; check condemns it in the living record
+  if (unit.spec !== null && !(STATUS_VALUES as readonly string[]).includes(status)) {
+    out.push({ severity: "error", code: "DG-C015", message: `status '${status}' is not in the vocabulary (${STATUS_VALUES.join(", ")}) — fix the status: line in the spec's frontmatter`, file: `${unit.dir}/spec.md` });
+  }
   const claimsGrill = status === "grilled" || status === "scored" || status === "delivered";
   const claimsScore = status === "scored" || status === "delivered";
 
@@ -77,6 +83,11 @@ function checkProofs(rec: RecordAst, unit: UnitAst): Diagnostic[] {
   // Dead EXTRA paths are warnings, not errors: an honest proofs.md narrates
   // its history (tried variants, retired proofs), and narration is not a
   // broken claim.
+  const absolute = paths.filter((p) => isAbsolute(p));
+  if (absolute.length > 0) {
+    const listed = absolute.slice(0, 3).join(", ") + (absolute.length > 3 ? ` +${absolute.length - 3} more` : "");
+    out.push({ severity: "warning", code: "DG-C002", message: `absolute proof path(s) never resolve — proofs are record-root relative: write the path as it sits under the record root, never from the machine's own filesystem (${listed})`, file: unit.markers.proofs });
+  }
   const dead = paths.filter((p) => !proofResolves(rec, unit, p));
   if (dead.length === paths.length) {
     const listed = dead.slice(0, 3).join(", ") + (dead.length > 3 ? ` +${dead.length - 3} more` : "");
@@ -98,6 +109,11 @@ function checkProofsAhead(rec: RecordAst, unit: UnitAst): Diagnostic[] {
   const proofs = parseMarkdown(unit.markers.proofs ?? "", raw);
   const paths = proofPaths(proofs);
   if (paths.length === 0) return out;
+  const absolute = paths.filter((p) => isAbsolute(p));
+  if (absolute.length > 0) {
+    const listed = absolute.slice(0, 3).join(", ") + (absolute.length > 3 ? ` +${absolute.length - 3} more` : "");
+    out.push({ severity: "warning", code: "DG-C002", message: `absolute proof path(s) never resolve — proofs are record-root relative: write the path as it sits under the record root (${listed})`, file: unit.markers.proofs ?? "" });
+  }
   const dead = paths.filter((p) => !proofResolves(rec, unit, p));
   if (dead.length === 0) return out;
   const listed = dead.slice(0, 3).join(", ") + (dead.length > 3 ? ` +${dead.length - 3} more` : "");

@@ -3,10 +3,11 @@
 import { join } from "node:path";
 import { SCORE_FLOOR } from "../types.ts";
 import { field } from "../record/frontmatter.ts";
-import { readText } from "../fsx.ts";
+import { readText, sha16 } from "../fsx.ts";
 import { acceptance, findSection } from "../record/sections.ts";
 import { lastVerdict } from "./grillq.ts";
 import { proofPaths, proofResolves, checkPass } from "./check.ts";
+import { scoreSpec } from "./score.ts";
 import { parseMarkdown } from "../record/markdown.ts";
 import type { RecordAst, UnitAst } from "../record/load.ts";
 import { TRACKER_REL } from "../record/load.ts";
@@ -97,14 +98,27 @@ function specGate(unit: UnitAst): Gate {
 function scoreGate(rec: RecordAst, unit: UnitAst): Gate {
   const raw = unit.markers.score === null ? null : readText(join(rec.root, unit.markers.score));
   if (raw === null) return { id: "G2", label: `score >= ${SCORE_FLOOR}`, passed: false, detail: "no score.md — run docodego score" };
-  const m = /(^|\n)\s*total:\s*(\d+)\s*(?:\/\s*100)?/i.exec(raw);
-  const total = m === null ? Number.NaN : Number.parseInt(m[2] ?? "", 10);
+  // the last block wins: scores append, so the final total:/spec-sha: lines
+  // are the live verdict and earlier blocks are history
+  const totals = [...raw.matchAll(/^total:\s*(\d+)\s*(?:\/\s*100)?\s*$/gim)];
+  const totalLine = totals[totals.length - 1];
+  const total = totalLine === undefined ? Number.NaN : Number.parseInt(totalLine[1] ?? "", 10);
   if (Number.isNaN(total)) return { id: "G2", label: `score >= ${SCORE_FLOOR}`, passed: false, detail: "score.md holds no 'total: n/100' line" };
+  // the gate recomputes instead of trusting prose (cli-law 10/20a): a spec
+  // edited after scoring fails stale by sha; a hand-edited total fails the
+  // recompute — neither borrows a verdict the spec no longer earns
+  const shas = [...raw.matchAll(/^spec-sha:\s*([0-9a-f]{16})\s*$/gim)];
+  const sha = shas.length === 0 ? null : shas[shas.length - 1]?.[1] ?? null;
+  const current = sha16(readText(join(rec.root, unit.dir, "spec.md")) ?? "");
+  if (sha === null) return { id: "G2", label: `score >= ${SCORE_FLOOR}`, passed: false, detail: "the score block carries no spec-sha — re-run 'docodego score' (a score must bind the spec it scored)" };
+  if (sha !== current) return { id: "G2", label: `score >= ${SCORE_FLOOR}`, passed: false, detail: `the score is stale — it binds spec sha ${sha}, the spec is now ${current}; re-run 'docodego score'` };
+  const recomputed = scoreSpec(unit).total;
+  if (total !== recomputed) return { id: "G2", label: `score >= ${SCORE_FLOOR}`, passed: false, detail: `score.md says ${total}/100 but the spec scores ${recomputed}/100 — the recorded total does not recompute; re-run 'docodego score'` };
   return {
     id: "G2",
     label: `score >= ${SCORE_FLOOR}`,
     passed: total >= SCORE_FLOOR,
-    detail: `total ${total}/100`,
+    detail: `recomputed ${recomputed}/100 — matches the recorded block (spec-sha ${current})`,
   };
 }
 

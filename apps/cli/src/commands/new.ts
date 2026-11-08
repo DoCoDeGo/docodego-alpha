@@ -117,7 +117,7 @@ function streamFor(
   const home = TYPE_HOME[docType];
   if (requested === undefined) return { ok: true, stream: home ?? DEFAULT_STREAM };
   if (!ALL_STREAMS.includes(requested)) {
-    return { ok: false, code: "DG-U013", message: `--stream '${requested}' is not one of the sixteen streams` };
+    return { ok: false, code: "DG-U013", message: `--stream '${requested}' is not one of the sixteen streams — a unit plants at its type's home stream by default (document units: 01-document/01-discover); pass a legal stream or drop --stream to use the home` };
   }
   if (home !== undefined && requested !== home) {
     return { ok: false, code: "DG-U014", message: `type '${docType}' lives in ${home} — got --stream ${requested}` };

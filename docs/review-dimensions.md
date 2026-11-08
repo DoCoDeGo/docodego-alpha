@@ -29,8 +29,9 @@ watching.
 
 ### D1 — Entry & orientation
 The agent enters through the law: reads AGENTS.md, finds the record, uses the
-planted commands (`new`, `grill`, `score`, `proofs`, `deliver`) rather than
-hand-fabricating structures.
+planted commands — the loop's spine (`new`, `grill`, `score`, `deliver`) plus
+the rest of the registry (`proofs`, `audit`, `explain`, `status`, `help`) —
+rather than hand-fabricating structures.
 *Signals of failure:* units created by hand; parallel memory systems invented
 (side docs duplicating the record); commands invoked wrongly because help was
 misread.

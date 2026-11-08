@@ -42,9 +42,11 @@ apps/cli/src/
   passes/
     registry.ts     the rule tree + selfCheck() — the linter audits itself
     structure.ts frontmatter.ts naming.ts check.ts   the lint passes
+    governance.ts   DG-C011–C014: the record's rows must match its landings
+    tree.ts         DG-C008–C010: the repo tree's stack, strays, furniture
     grillq.ts       question generation + verdict (pure)
     score.ts        the five scoring passes (pure)
-    gates.ts        G1–G4, the deliver gate (pure)
+    gates.ts        G1–G4, the deliver gate — G2 recomputes the score + sha
     explain.ts      the diagnostic-code pages (source of docs/diagnostics.md)
   emit/
     diagnostics.ts  rustc-style rendering + the explain hint line

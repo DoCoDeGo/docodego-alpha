@@ -63,7 +63,7 @@ export function grillBlock(questions: { id: string; text: string }[], answers: s
   return lines.join("\n");
 }
 
-export function scoreReport(unit: string, date: string, lines: { pass: string; max: number; got: number; note: string }[], total: number, floor: number): string {
+export function scoreReport(unit: string, date: string, lines: { pass: string; max: number; got: number; note: string }[], total: number, floor: number, specSha: string): string {
   const rows = lines
     .map((l) => `| ${l.pass} | ${l.max} | ${l.got} |`)
     .join("\n");
@@ -79,6 +79,7 @@ ${rows}
 | total | 100 | ${total} |
 
 total: ${total}/100
+spec-sha: ${specSha}
 floor: ${floor} — deliver refuses below the floor.
 
 notes:

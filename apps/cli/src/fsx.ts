@@ -8,6 +8,7 @@ import {
   statSync,
   writeFileSync,
 } from "node:fs";
+import { createHash } from "node:crypto";
 import { dirname, join } from "node:path";
 
 export const readText = (p: string): string | null => {
@@ -110,3 +111,8 @@ export const today = (): string => {
   const pad = (n: number): string => String(n).padStart(2, "0");
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 };
+
+/** The 16-hex binding hash: score.md blocks carry the spec's sha at scoring
+ * time, and the delivery gate recomputes it — a spec edited after scoring
+ * fails the gate as stale instead of landing on a borrowed verdict. */
+export const sha16 = (text: string): string => createHash("sha256").update(text).digest("hex").slice(0, 16);

@@ -1,0 +1,7 @@
+# the source docs are untouched (AC5)
+
+$ git status --porcelain docs/audits/  (empty = untouched)
+(end)
+
+$ git diff --stat -- docs/audits/  (empty = untouched)
+(end)

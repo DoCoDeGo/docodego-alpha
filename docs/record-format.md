@@ -89,10 +89,19 @@ status: draft              # draft | grilled | scored | delivered (DG-F004)
 | `grilled` | `grill` (verdict pass) | `grill.md` |
 | `scored` | `score` | `score.md` |
 | `delivered` | `deliver` (all gates green) | `delivered.md` + `proofs.md` |
+| `launch-passed` | `launch` (the launch gates) | `launch.md` |
+| `founder-signed` | `sign` (strict tiers: launch-passed first) | `signature.md` |
+
+Statuses move only along the machine (`record-write.ts`'s transition
+table): forward moves legal, a landing (`delivered` and above) is
+terminal, and exactly one backward move exists — a grill FAIL verdict
+on a landed unit demotes it to `grilled`, with a `demoted` tracker row.
+A second `deliver` is refused (`DG-U041`): one landing, one row.
 
 `check` verifies the claims: a delivered unit must hold a `proofs.md`
 whose paths exist on disk, a `grilled`/`scored` unit must hold its marker,
-and every epic/story link must name a real unit (`DG-C*`).
+a status outside the vocabulary fails (`DG-C015`), and every epic/story
+link must name a real unit (`DG-C*`).
 
 ### Marker files
 
@@ -122,8 +131,14 @@ and every epic/story link must name a real unit (`DG-C*`).
   | total | 100 | … |
 
   total: <n>/100
+  spec-sha: <16 hex>
   floor: 60 — deliver refuses below the floor.
   ```
+
+  Scores append: a re-score writes a new dated block, the last block
+  wins, and each block binds the spec it scored by `spec-sha` — the gate
+  recomputes the score and the sha, so a spec edited after scoring (or a
+  hand-edited `total:`) fails G2 instead of landing on a borrowed verdict.
 
 - **`proofs.md`** — list items naming proof files; the grammar (because it
   is law): from each item, every backticked span and the first bare token

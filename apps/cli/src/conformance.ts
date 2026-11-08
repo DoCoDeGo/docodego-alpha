@@ -159,15 +159,17 @@ check("score writes the breakdown and sets status", run(scratch, ["score", "010-
 });
 check("score of an unknown unit is a usage error", run(scratch, ["score", "ghost"]), 2);
 check("new accepts a fresh template unit", run(scratch, ["new", "030-weak-unit"]), 0);
-check("score accepts it", run(scratch, ["score", "030-weak-unit"]), 0);
+const wq = run(scratch, ["grill", "030-weak-unit", "--json"]);
+const wcount = (JSON.parse(wq.stdout) as { data?: { questions?: unknown[] } }).data?.questions?.length ?? 0;
+write(scratch, "weak-answers.txt", Array.from({ length: wcount }, () => "placeholder answers only to keep the record consistent").join("\n") + "\n");
+// the score rides a grilled unit now (cli-law 13): the weak unit grills
+// first, then scores — the floor still bites at deliver, never at score
+check("grill keeps the weak unit consistent", run(scratch, ["grill", "030-weak-unit", "--answers", "weak-answers.txt"]), 0);
+check("score accepts it — the floor bites at deliver, not at score", run(scratch, ["score", "030-weak-unit"]), 0);
 const weakRaw = read(scratch, "01-document/01-discover/030-weak-unit/score.md");
 const weakTotal = Number.parseInt(/total:\s*(\d+)/.exec(weakRaw)?.[1] ?? "100", 10);
 if (weakTotal < 60) passed += 1;
 else failed.push(`weak template spec scored ${weakTotal} — placeholders must not pass the floor`);
-const wq = run(scratch, ["grill", "030-weak-unit", "--json"]);
-const wcount = (JSON.parse(wq.stdout) as { data?: { questions?: unknown[] } }).data?.questions?.length ?? 0;
-write(scratch, "weak-answers.txt", Array.from({ length: wcount }, () => "placeholder answers only to keep the record consistent").join("\n") + "\n");
-check("grill keeps the weak unit consistent", run(scratch, ["grill", "030-weak-unit", "--answers", "weak-answers.txt"]), 0);
 check("the floor bites at deliver, not at score", run(scratch, ["deliver", "030-weak-unit"]), 1, (r) => r.stderr.includes("G2"));
 
 // --- deliver: the gate refuses, then passes, committing only on green ---
@@ -741,6 +743,90 @@ rmSync(sb, { recursive: true, force: true });
   fact("governance: a fail verdict after delivery warns DG-C014", findings().some((d) => d.code === "DG-C014" && d.severity === "warning"));
   fact("the verdict detector is the one source of truth audit's GOV-003 reads", readFileSync(join(REPO_ROOT, "apps", "cli", "src", "commands", "audit.ts"), "utf8").includes("verdictIncoherence(rec)"));
   rmSync(gov, { recursive: true, force: true });
+}
+
+// ————— cli-law writer side (240): the status machine refuses what the
+// record cannot trust — score rides a grill, landings are terminal, a fail
+// verdict demotes with a row, scores bind by sha, and the gate recomputes
+// instead of trusting prose.
+{
+  const s240 = mkdtempSync(join(tmpdir(), "docodego-cli240-"));
+  const specBody = (name: string, dir: string): string => [
+    "---",
+    `name: ${name}`,
+    "type: unit",
+    "status: draft",
+    "---",
+    "",
+    `# ${name}`,
+    "",
+    "## intent",
+    "",
+    "Adds a retry with backoff to the webhook sender so a failed POST no longer drops the event.",
+    "",
+    "## scope",
+    "",
+    "In: the retry loop, the jittered backoff, the attempt counter. Out: queue persistence, new transports.",
+    "",
+    "## acceptance",
+    "",
+    `- AC1 — when the webhook POST fails, \`retry.test.ts\` re-runs it: the file \`${dir}/retry.test.ts\` exists and passes with three attempts.`,
+    "- AC2 — the command run returns 0 and prints `3 attempts` on failure-then-recovery, recorded in proofs.md.",
+    "",
+  ].join("\n");
+  const answers = "GQ-1: adds a retry with backoff to the webhook sender\nGQ-2: the unit test counts attempts; its output is recorded in proofs.md\nGQ-3: retry storms — capped at three attempts with jittered backoff\nGQ-4: queue persistence stays out of scope\nGQ-AC1: the unit test counts exactly three attempts on a failing send\nGQ-AC2: the command returns 0 and prints 3 attempts\n";
+  const plant = (name: string, dir: string): void => {
+    write(s240, `.docodego/${dir}/spec.md`, specBody(name, dir));
+    write(s240, `.docodego/${dir}/proofs.md`, `# proofs — ${name}\n\n- AC1 — the test ran: \`${dir}/retry.test.txt\`\n`);
+    write(s240, `.docodego/${dir}/retry.test.txt`, "proof: 3 attempts, exit 0\n");
+  };
+  const specOf = (dir: string): string => `${dir}/spec.md`;
+  const scoreOf = (dir: string): string => `${dir}/score.md`;
+
+  run(s240, ["init"]);
+  run(s240, ["new", "first-unit"]);
+  plant("010-first-unit", "01-document/01-discover/010-first-unit");
+  check("cli240: score refuses a unit with no grill record", run(s240, ["score", "010-first-unit"]), 1, (r) => r.stderr.includes("DG-U031"));
+  write(s240, "ans240.txt", answers);
+  run(s240, ["grill", "010-first-unit", "--answers", "ans240.txt"]);
+  run(s240, ["score", "010-first-unit"]);
+  fact("cli240: the score block binds the spec by sha", read(s240, scoreOf("01-document/01-discover/010-first-unit")).includes("spec-sha: "));
+  run(s240, ["score", "010-first-unit"]);
+  fact("cli240: a re-score appends a dated block — two blocks on disk", (read(s240, scoreOf("01-document/01-discover/010-first-unit")).match(/^# score /gm) ?? []).length === 2);
+  check("cli240: the gate delivers a bound, recomputed score", run(s240, ["deliver", "010-first-unit"]), 0, (r) => r.stdout.includes("GATE PASS"));
+  check("cli240: a landing is terminal — deliver refuses the second pass", run(s240, ["deliver", "010-first-unit"]), 1, (r) => r.stderr.includes("DG-U041"));
+  fact("cli240: the refused re-delivery writes no second tracker row", (read(s240, "04-govern/01-monitor/tracker.md").match(/\| 010-first-unit \| delivered \|/g) ?? []).length === 1);
+  check("cli240: score refuses a delivered-class unit", run(s240, ["score", "010-first-unit"]), 1, (r) => r.stderr.includes("DG-U032"));
+  check("cli240: a passing re-grill cannot unset a landing", run(s240, ["grill", "010-first-unit", "--answers", "ans240.txt"]), 0, (r) => r.stderr.includes("a landing is terminal") && read(s240, specOf("01-document/01-discover/010-first-unit")).includes("status: delivered"));
+  write(s240, "bad240.txt", "GQ-1:\nGQ-2:\nGQ-3:\nGQ-4:\nGQ-AC1:\nGQ-AC2:\n");
+  run(s240, ["grill", "010-first-unit", "--answers", "bad240.txt"]);
+  fact("cli240: a fail verdict demotes a landing, with a tracker row", read(s240, specOf("01-document/01-discover/010-first-unit")).includes("status: grilled") && read(s240, "04-govern/01-monitor/tracker.md").includes("| demoted |"));
+  run(s240, ["grill", "010-first-unit", "--answers", "ans240.txt"]);
+  run(s240, ["score", "010-first-unit"]);
+  check("cli240: the demoted unit re-lands through the gate", run(s240, ["deliver", "010-first-unit"]), 0, (r) => r.stdout.includes("GATE PASS"));
+
+  run(s240, ["new", "second-unit"]);
+  const dir2 = "01-document/01-discover/020-second-unit";
+  plant("020-second-unit", dir2);
+  write(s240, "ans2.txt", answers);
+  run(s240, ["grill", "020-second-unit", "--answers", "ans2.txt"]);
+  run(s240, ["score", "020-second-unit"]);
+  write(s240, `.docodego/${dir2}/spec.md`, read(s240, specOf(dir2)) + "\n<!-- a late edit the score never saw -->\n");
+  check("cli240: a spec edited after scoring fails G2 stale by sha", run(s240, ["deliver", "020-second-unit"]), 1, (r) => r.stderr.includes("the score is stale"));
+  write(s240, `.docodego/${dir2}/spec.md`, specBody("020-second-unit", dir2));
+  run(s240, ["score", "020-second-unit"]);
+  // the gate reads the LAST block — the tamper must forge the live one
+  const scoreRaw = read(s240, scoreOf(dir2));
+  const lastTotal = scoreRaw.lastIndexOf("total: ");
+  write(s240, `.docodego/${dir2}/score.md`, scoreRaw.slice(0, lastTotal) + scoreRaw.slice(lastTotal).replace(/^total: \d+/, "total: 100"));
+  check("cli240: a hand-edited total fails the gate's recompute", run(s240, ["deliver", "020-second-unit"]), 1, (r) => r.stderr.includes("does not recompute"));
+  write(s240, `.docodego/${dir2}/spec.md`, read(s240, specOf(dir2)).replace("status: scored", "status: banana"));
+  check("cli240: a gibberish status fails check as DG-C015", run(s240, ["check"]), 1, (r) => r.stdout.includes("DG-C015"));
+  write(s240, `.docodego/${dir2}/spec.md`, read(s240, specOf(dir2)).replace("status: banana", "status: scored"));
+  write(s240, `.docodego/${dir2}/proofs.md`, "# proofs — 020-second-unit\n\n- proof at the machine root: `/etc/hosts`\n");
+  check("cli240: an absolute proof path is named, never probed", run(s240, ["check"]), 1, (r) => r.stdout.includes("absolute proof path"));
+  check("cli240: the board counts every vocabulary status plus other", run(s240, ["status", "--json"]), 0, (r) => r.stdout.includes('"launchPassed"') && r.stdout.includes('"founderSigned"') && r.stdout.includes('"other"'));
+  rmSync(s240, { recursive: true, force: true });
 }
 
 rmSync(fixture, { recursive: true, force: true });

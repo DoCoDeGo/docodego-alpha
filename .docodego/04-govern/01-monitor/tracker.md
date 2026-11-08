@@ -84,10 +84,14 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 200-spec7-transition-table | delivered | 02-compose/01-build/200-spec7-transition-table/delivered.md |
 | 2026-11-08 | 210-spec7-shelf-and-stack | new unit | 02-compose/01-build/210-spec7-shelf-and-stack/spec.md |
 | 2026-11-08 | 210-spec7-shelf-and-stack | delivered | 02-compose/01-build/210-spec7-shelf-and-stack/delivered.md |
-| 2026-11-08 | 210-spec7-shelf-and-stack | delivered | 02-compose/01-build/210-spec7-shelf-and-stack/delivered.md |
+| ~~2026-11-08 | 210-spec7-shelf-and-stack | delivered | 02-compose/01-build/210-spec7-shelf-and-stack/delivered.md~~ struck 2026-11-08 by 240 — the re-delivery bug (cli-law 17) wrote this row twice; one landing, one row |
+| 2026-11-08 | 240-cli-debt-cluster | repair | struck the doubled 210-spec7-shelf-and-stack landing rows (tracker, delivery-log, delivered.md) — deliver lacked an idempotency guard; the guard ships in this unit |
 | 2026-11-08 | 220-spec7-governance-pass | new unit | 02-compose/01-build/220-spec7-governance-pass/spec.md |
 | 2026-11-08 | record | audit: 0 failing checks, 0 with warnings — checklist updated | 04-govern/01-monitor/checklist.md |
 | 2026-11-08 | record | audit: 0 failing checks, 0 with warnings — checklist updated | 04-govern/01-monitor/checklist.md |
 | 2026-11-08 | 220-spec7-governance-pass | delivered | 02-compose/01-build/220-spec7-governance-pass/delivered.md |
 | 2026-11-08 | 230-debt-improvement-dispositions | new unit | 02-compose/01-build/230-debt-improvement-dispositions/spec.md |
 | 2026-11-08 | 230-debt-improvement-dispositions | delivered | 02-compose/01-build/230-debt-improvement-dispositions/delivered.md |
+| 2026-11-08 | 240-cli-debt-cluster | new unit | 02-compose/01-build/240-cli-debt-cluster/spec.md |
+| 2026-11-08 | 240-cli-debt-cluster | gate-refused | G2 failed — the score block carries no spec-sha — re-run 'docodego score' (a score must... |
+| 2026-11-08 | 240-cli-debt-cluster | delivered | 02-compose/01-build/240-cli-debt-cluster/delivered.md |

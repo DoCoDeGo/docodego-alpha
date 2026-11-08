@@ -1,0 +1,12 @@
+# the doubled 210 rows struck, never deleted (AC4)
+
+$ grep -n 'struck 2026-11-08 by 240' .docodego/04-govern/01-monitor/tracker.md .docodego/04-govern/delivery-log.md .docodego/02-compose/01-build/210-spec7-shelf-and-stack/delivered.md
+.docodego/04-govern/01-monitor/tracker.md:87:| ~~2026-11-08 | 210-spec7-shelf-and-stack | delivered | 02-compose/01-build/210-spec7-shelf-and-stack/delivered.md~~ struck 2026-11-08 by 240 — the re-delivery bug (cli-law 17) wrote this row twice; one landing, one row |
+.docodego/04-govern/delivery-log.md:42:| ~~2026-11-08 | 210-spec7-shelf-and-stack | G1,G2,G3,G4 | proof: 02-compose/01-build/210-spec7-shelf-and-stack/proofs/conformance.txt~~ struck 2026-11-08 by 240 — the re-delivery bug's duplicate; see the tracker's repair row |
+.docodego/02-compose/01-build/210-spec7-shelf-and-stack/delivered.md:10:  struck 2026-11-08 by 240-cli-debt-cluster — the re-delivery bug (cli-law 17) appended this block twice; one landing, one block. The idempotency guard ships in 240.
+
+$ the live landing rows (one each):
+1
+
+$ the repair row:
+| 2026-11-08 | 240-cli-debt-cluster | repair | struck the doubled 210-spec7-shelf-and-stack landing rows (tracker, delivery-log, delivered.md) — deliver lacked an idempotency guard; the guard ships in this unit |

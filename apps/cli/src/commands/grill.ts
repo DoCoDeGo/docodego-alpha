@@ -12,10 +12,10 @@ import { createInterface } from "node:readline/promises";
 import { join, resolve } from "node:path";
 import type { Args, Io } from "../types.ts";
 import { appendText, readText, today, writeText } from "../fsx.ts";
-import { loadRecord } from "../record/load.ts";
+import { loadRecord, unitStatus } from "../record/load.ts";
 import { parseAnswers } from "../record/answers.ts";
 import { grillBlock } from "../record/template-docs.ts";
-import { setStatus } from "../record/record-write.ts";
+import { appendTracker, setStatus } from "../record/record-write.ts";
 import { grillQuestions, verdictFor } from "../passes/index.ts";
 import { vocabularyPack } from "../bundled/index.ts";
 import { complain, resolveUnitOrComplain, unitFile } from "./resolve.ts";
@@ -74,7 +74,19 @@ export async function run(args: Args, io: Io): Promise<number> {
   const grillPath = unitFile(rec, unit, "grill.md");
   appendText(grillPath, grillBlock(questions, answers));
   const specRaw = readText(join(rec.root, unit.dir, "spec.md")) ?? "";
-  if (verdict === "pass") setStatus(join(rec.root, unit.dir, "spec.md"), "grilled");
+  const status = unitStatus(unit);
+  const landed = status === "delivered" || status === "launch-passed" || status === "founder-signed";
+  // a landing is terminal in the forward direction: a passing re-grill of a
+  // landed unit records the round but leaves the status standing — grilling
+  // cannot unset what the gate set (cli-law 14's writer side)
+  if (verdict === "pass" && !landed) setStatus(join(rec.root, unit.dir, "spec.md"), "grilled");
+  if (verdict === "fail" && landed) {
+    // the one sanctioned backward move (cli-law 15): a fail verdict after a
+    // landing demotes to grilled — with a tracker row, so the demotion is a
+    // record event, never a silent byte-patch
+    setStatus(join(rec.root, unit.dir, "spec.md"), "grilled");
+    appendTracker(rec, unit.name, "demoted", `grill verdict fail on a ${status} unit — demoted to grilled; re-grill, re-score, re-deliver`);
+  }
 
   const empty = questions.map((q, i) => (answers[i]?.trim() === "" ? q.id : null)).filter((s) => s !== null);
   if (args.json) {
@@ -86,12 +98,18 @@ export async function run(args: Args, io: Io): Promise<number> {
     } else if (verdict === "fail") {
       io.err(`all ${questions.length} answered — the answers fell short of the bar (the questions and your answers are in grill.md)`);
     }
-    io.err(`recorded in ${unit.dir}/grill.md${verdict === "pass" ? " · status set to grilled" : ""}`);
+    io.err(`recorded in ${unit.dir}/grill.md${verdict === "pass" && !landed ? " · status set to grilled" : ""}`);
   }
   // the silent demotion, made audible: a pass regrill of a scored unit
   // drops it back to grilled — the score no longer stands until re-run
   if (verdict === "pass" && /^status:\s*scored\s*$/m.test(specRaw)) {
     io.err("note: this unit was scored — grilling set it back to grilled; re-run 'docodego score' before deliver");
+  }
+  if (verdict === "pass" && landed) {
+    io.err(`note: ${unit.name} is ${status} — a landing is terminal; the passing round is recorded but the status stands (a FAIL round is what demotes, with a tracker row)`);
+  }
+  if (verdict === "fail" && landed) {
+    io.err(`demoted: ${unit.name} was ${status} — the fail verdict demotes it to grilled (tracker row appended); re-run the loop from the grill`);
   }
   return verdict === "pass" ? 0 : 1;
 }

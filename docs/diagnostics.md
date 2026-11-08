@@ -202,6 +202,12 @@ prefix (`docodego explain DG-F`) prints every page in the family.
 - law: status is earned and stays earned only while the evidence holds — a fail verdict after delivery means the record contradicts itself; audit's GOV-003 reports the same fact as an error.
 - fix: re-grill the unit to a pass, or set the status back to what the record actually evidences — never edit the verdict line.
 
+**DG-C015 — status outside the vocabulary**
+
+- meaning: a spec's status: line holds a word the status machine does not know — no command, board row, or gate can place the unit.
+- law: the vocabulary is the machine: draft, grilled, scored, delivered, launch-passed, founder-signed — and the machine's transition table is the only way a status changes; lint condemns a bad word at the spec surface, check condemns it in the living record.
+- fix: set the status: line to a legal word and re-run the loop from the command that earns it (grill, score, deliver, launch, sign).
+
 ### DG-P — parse — recoverable markdown events
 
 **DG-P002 — malformed frontmatter line skipped**

@@ -41,6 +41,31 @@ export function appendSignature(rec: RecordAst, unit: string, by: string, role: 
   return line.trim();
 }
 
+/** The status machine — the transitions the writers may mint. Forward moves
+ * follow the vocabulary's order; re-grilling a scored unit may drop it back
+ * to `grilled` (audible note, re-score before deliver); re-scoring a scored
+ * unit appends a fresh block. Delivered-class is terminal: only grill's FAIL
+ * verdict may demote it, and that demotion writes a `demoted` tracker row —
+ * it never rides a bare setStatus. One writer, one refusal, the fix named. */
+const TRANSITIONS: Record<string, string[]> = {
+  draft: ["grilled", "scored"],
+  grilled: ["grilled", "scored"],
+  scored: ["grilled", "scored", "delivered"],
+  delivered: ["launch-passed"],
+  "launch-passed": ["founder-signed"],
+  "founder-signed": [],
+};
+
+/** Null when `from → to` is a legal move; otherwise the refusal message,
+ * naming the state, the move, and the one door out of a terminal state. */
+export function assertTransition(unit: string, from: string, to: string): string | null {
+  if ((TRANSITIONS[from] ?? []).includes(to)) return null;
+  const why = ["delivered", "launch-passed", "founder-signed"].includes(from)
+    ? `${unit} is '${from}' — a landing is terminal: the status machine refuses '${from}' → '${to}' (only a grill FAIL verdict demotes, with a tracker row)`
+    : `${unit} is '${from}' — the status machine refuses '${from}' → '${to}' (legal moves: ${(TRANSITIONS[from] ?? []).join(", ") || "none — terminal"})`;
+  return why;
+}
+
 /**
  * Update `status:` in a spec's frontmatter, preserving every other byte of the
  * file. Returns false (writing nothing) when there is no frontmatter to patch.

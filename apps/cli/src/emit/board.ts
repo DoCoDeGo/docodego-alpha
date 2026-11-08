@@ -2,6 +2,7 @@
 import { field } from "../record/frontmatter.ts";
 import { unitStatus, type RecordAst } from "../record/load.ts";
 import { MOVEMENTS, STREAMS } from "../record/streams.ts";
+import { STATUS_VALUES } from "../types.ts";
 
 export interface UnitRow {
   name: string;
@@ -24,7 +25,7 @@ export interface StatusData {
   pattern: string;
   ring: string;
   recordVersion: number;
-  counts: { units: number; draft: number; grilled: number; scored: number; delivered: number; sketches: number };
+  counts: { units: number; draft: number; grilled: number; scored: number; delivered: number; launchPassed: number; founderSigned: number; other: number; sketches: number };
   movements: { movement: string; units: UnitRow[] }[];
   epics: Rollup[];
   stories: Rollup[];
@@ -45,6 +46,9 @@ export function statusData(rec: RecordAst): StatusData {
     grilled: rows.filter((r) => r.status === "grilled").length,
     scored: rows.filter((r) => r.status === "scored").length,
     delivered: rows.filter((r) => r.status === "delivered").length,
+    launchPassed: rows.filter((r) => r.status === "launch-passed").length,
+    founderSigned: rows.filter((r) => r.status === "founder-signed").length,
+    other: rows.filter((r) => !STATUS_VALUES.includes(r.status as never)).length,
     sketches: rec.sketches.length,
   };
   return {
@@ -80,7 +84,7 @@ export function renderBoard(rec: RecordAst): string {
   const lines: string[] = [];
   lines.push(`docodego — ${d.pattern} · mode ${d.mode} · record v${d.recordVersion} · code state ${d.codeState}`);
   lines.push(
-    `units ${d.counts.units} · draft ${d.counts.draft} · grilled ${d.counts.grilled} · scored ${d.counts.scored} · delivered ${d.counts.delivered} · sketches ${d.counts.sketches}`,
+    `units ${d.counts.units} · draft ${d.counts.draft} · grilled ${d.counts.grilled} · scored ${d.counts.scored} · delivered ${d.counts.delivered} · launch-passed ${d.counts.launchPassed} · founder-signed ${d.counts.founderSigned} · other ${d.counts.other} · sketches ${d.counts.sketches}`,
   );
   for (const m of d.movements) {
     lines.push("", `${m.movement}`);

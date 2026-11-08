@@ -6,9 +6,9 @@
 import { join } from "node:path";
 import type { Args, Io } from "../types.ts";
 import { appendText, today } from "../fsx.ts";
-import { loadRecord } from "../record/load.ts";
+import { loadRecord, unitStatus } from "../record/load.ts";
 import { deliverGates } from "../passes/index.ts";
-import { appendTracker, appendDeliveryLog, setStatus } from "../record/record-write.ts";
+import { assertTransition, appendTracker, appendDeliveryLog, setStatus } from "../record/record-write.ts";
 import { complain, resolveUnitOrComplain, unitFile } from "./resolve.ts";
 import { envelope } from "../emit/json.ts";
 
@@ -21,6 +21,14 @@ export function run(args: Args, io: Io): number {
   const resolved = resolveUnitOrComplain(rec, name, io, args.json);
   if (typeof resolved === "number") return resolved;
   const unit = resolved;
+
+  // the gate lands a unit once (cli-law 17): a second delivery would double
+  // every landing row — the status machine refuses before any gate runs, so
+  // the refusal never spams the tracker either
+  const refused = assertTransition(unit.name, unitStatus(unit), "delivered");
+  if (refused !== null) {
+    return complain(args.json, io, { severity: "error", code: "DG-U041", message: `${refused} — its landing rows already stand; see 'docodego trace ${unit.name}'` }, 1, "state");
+  }
 
   const gates = deliverGates(rec, unit);
   const failed = gates.filter((g) => !g.passed);
