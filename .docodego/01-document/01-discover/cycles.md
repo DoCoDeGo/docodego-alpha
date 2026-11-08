@@ -330,6 +330,20 @@ were the agent's sequencing, not the gates'):
   v25-planted records re-teach), never a silent fold-in and never a
   history rewrite.
 
+- Mistake 6 (2026-11-08, opening 490) — `docodego new sequence-beyond-999
+  --from-sketch sequence-beyond-999` ran without `--stream`, scaffolding
+  450-sequence-beyond-999 into the default discovery stream — Mistake 2's
+  class, second occurrence, despite the AGENTS.md stream hint Mistake 2
+  planted. The hint educates the reader, not the caller: graduation is
+  exactly when the stream question arises, and nothing in the tool
+  surfaces it. The repair followed the 440 precedent immediately
+  (template-only dir struck, tracker strike row appended, 450 stays spent
+  in 01-document/01-discover, re-homed as 490 in the build stream).
+  Mitigation, held as debt rather than folded into 490 (whose scope is
+  the numbering scanner): a graduation nudge — when a sketch graduates
+  with no explicit `--stream`, the tool prints a one-line reminder that
+  implementation units take `--stream 02-compose/01-build`.
+
 ## Cycle 6 — dual use and the surgical gate (2026-11-08, via chat — the directive verbatim, three messages)
 
 > Anything built with docodego should have a dual use mindset. One

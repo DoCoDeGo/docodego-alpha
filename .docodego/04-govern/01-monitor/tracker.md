@@ -159,3 +159,13 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 480-sign-identity-privacy | delivered | 02-compose/01-build/480-sign-identity-privacy/delivered.md |
 | 2026-11-08 | 480-sign-identity-privacy | launch-refused | L5 failed — 03-demonstrate/demo/480-sign-identity-privacy/how-to-run.md is still the un... |
 | 2026-11-08 | 480-sign-identity-privacy | launch-passed | 02-compose/01-build/480-sign-identity-privacy/launch.md |
+| 2026-11-08 | sketch-sequence-beyond-999 | sketch opened | 01-document/01-discover/sketch-sequence-beyond-999.md |
+| 2026-11-08 | 450-sequence-beyond-999 | new unit (from sketch sequence-beyond-999) | 01-document/01-discover/450-sequence-beyond-999/spec.md |
+| 2026-11-08 | 450-sequence-beyond-999 | new unit — scaffolded to the default stream by mistake (Mistake-2 class, second occurrence: `--from-sketch` ran without `--stream`), struck and re-homed seconds later (nothing but the template was written); 450 stays spent in 01-document/01-discover, re-homed as 490 in the build stream | ~~01-document/01-discover/450-sequence-beyond-999/spec.md~~ |
+| 2026-11-08 | 490-sequence-beyond-999 | new unit (from sketch sequence-beyond-999, --stream 02-compose/01-build) | 02-compose/01-build/490-sequence-beyond-999/spec.md |
+| 2026-11-08 | 490-sequence-beyond-999 | new unit (from sketch sequence-beyond-999) | 02-compose/01-build/490-sequence-beyond-999/spec.md |
+| 2026-11-08 | 490-sequence-beyond-999 | gate-refused | G4 failed — no proof path exists on disk — looked for: system/behavioral/a-late (paths ... |
+| 2026-11-08 | 490-sequence-beyond-999 | gate-refused | G4 failed — proofs.md holds no path entries — write list items like: - path/to/proof.tx... |
+| 2026-11-08 | 490-sequence-beyond-999 | gate-refused | G4 failed — proofs.md holds no path entries — write list items like: - path/to/proof.tx... |
+| 2026-11-08 | 490-sequence-beyond-999 | delivered | 02-compose/01-build/490-sequence-beyond-999/delivered.md |
+| 2026-11-08 | 490-sequence-beyond-999 | launch-passed | 02-compose/01-build/490-sequence-beyond-999/launch.md |

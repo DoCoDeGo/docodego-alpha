@@ -26,7 +26,7 @@ export function namingPass(rec: RecordAst): Diagnostic[] {
     // names carry order (the founder's rule): a unit folder shows its build
     // sequence in the listing, so a cold reader sees the order of work
     // without reading the tracker — see spec7-naming
-    if (!/^\d{3}-/.test(unit.name)) {
+    if (!/^\d{3,}-/.test(unit.name)) {
       out.push({
         severity: "warning", class: "drift",
         code: "DG-N004",

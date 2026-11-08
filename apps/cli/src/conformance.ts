@@ -8,7 +8,7 @@
  * Run:   node --experimental-strip-types src/conformance.ts
  * Exit 0 = every check green; exit 1 = at least one failed (named). */
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, renameSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir, userInfo, hostname } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -1429,6 +1429,59 @@ rmSync(sb, { recursive: true, force: true });
   rmSync(join(mx, "src/b.ts"));
   check("cli286: gate passes surgical change covered by --retires", run(mx, ["metrics", "gate", "--baseline", "before.json", "--root", "src", "--retires", "b.ts"]), 0, (r) => r.stdout.includes("METRICS GATE PASS") && r.stdout.includes("credit 40"));
   rmSync(mx, { recursive: true, force: true });
+}
+
+// --- cli287+: the sequence beyond 999 — the unit-number grammar is \d{3,} ---
+{
+  const nb = mkdtempSync(join(tmpdir(), "docodego-conformance-seq999-"));
+  const TRACKER = join(nb, ".docodego", "04-govern", "01-monitor", "tracker.md");
+  const readdress = (from: string, to: string): void => {
+    writeFileSync(TRACKER, readFileSync(TRACKER, "utf8").replaceAll(from, to));
+    const spec = join(nb, ".docodego", "02-compose", "01-build", to, "spec.md");
+    writeFileSync(spec, readFileSync(spec, "utf8").replaceAll(`name: ${from}`, `name: ${to}`));
+  };
+  check("cli287: init plants the numbering record", run(nb, ["init"]), 0);
+  check("cli288: three-digit assignment is unchanged (010- after empty)", run(nb, ["new", "over-the-line", "--stream", "02-compose/01-build"]), 0, () => existsSync(join(nb, ".docodego", "02-compose", "01-build", "010-over-the-line", "spec.md")));
+  renameSync(join(nb, ".docodego", "02-compose", "01-build", "010-over-the-line"), join(nb, ".docodego", "02-compose", "01-build", "1000-over-the-line"));
+  readdress("010-over-the-line", "1000-over-the-line");
+  check("cli289: assignment past a live four-digit unit yields 1010, never the DG-U012-forever collision", run(nb, ["new", "next-one", "--stream", "02-compose/01-build"]), 0, () => existsSync(join(nb, ".docodego", "02-compose", "01-build", "1010-next-one", "spec.md")));
+  check("cli290: the second assignment saw 1010 and yields 1020", run(nb, ["new", "next-two", "--stream", "02-compose/01-build"]), 0, () => existsSync(join(nb, ".docodego", "02-compose", "01-build", "1020-next-two", "spec.md")));
+  check("cli291: a four-digit unit carries no DG-N004 drift warning", run(nb, ["lint", "--json"]), 0, (r) => !r.stdout.includes("DG-N004"));
+  check("cli292: the identity strip works at four digits (true duplicate refused)", run(nb, ["new", "over-the-line", "--stream", "02-compose/01-build"]), 1, (r) => (r.stdout + r.stderr).includes("DG-U012"));
+  run(nb, ["new", "ninth", "--stream", "02-compose/01-build"]);
+  renameSync(join(nb, ".docodego", "02-compose", "01-build", "1030-ninth"), join(nb, ".docodego", "02-compose", "01-build", "990-ninth"));
+  readdress("1030-ninth", "990-ninth");
+  {
+    const rec = loadRecord(nb);
+    const build = rec.units.filter((u) => u.stream === "02-compose/01-build").map((u) => u.name);
+    fact("cli293: listings order 990 before 1000 — the lexical lie (1000 first) is absent", build.indexOf("990-ninth") < build.indexOf("1000-over-the-line") && build[0] === "990-ninth");
+  }
+  write(nb, ".docodego/02-compose/01-build/unnumbered/spec.md", `---\nname: unnumbered\ntype: unit\nstatus: draft\n---\n\n# unnumbered\n\n## intent\n\nThe DG-N004 probe: an un-numbered folder must still drift-warn.\n\n## scope\n\nIn: the warning. Out: everything else.\n\n## acceptance\n\n- AC1: the naming pass names this folder.\n\n## threats\n\n- the probe drifts -> the suite names it\n`);
+  check("cli294: DG-N004 still fires for a genuinely un-numbered folder", run(nb, ["lint", "--json"]), 0, (r) => r.stdout.includes("DG-N004") && r.stdout.includes("unnumbered"));
+  rmSync(join(nb, ".docodego", "02-compose", "01-build", "unnumbered"), { recursive: true, force: true });
+  write(nb, ".docodego/04-govern/01-monitor/tracker.md", `| ${today()} | 1000-gone | delivered | 01-document/01-discover/1000-gone/spec.md |\n`);
+  check("cli295: a tracker-only four-digit number stays spent (1010 assigned, not 1000)", run(nb, ["new", "gone-too", "--stream", "01-document/01-discover"]), 0, () => existsSync(join(nb, ".docodego", "01-document", "01-discover", "1010-gone-too", "spec.md")) && !existsSync(join(nb, ".docodego", "01-document", "01-discover", "1000-gone")));
+  check("cli296: a pre-numbered four-digit name is honored, never double-numbered", run(nb, ["new", "1010-late", "--stream", "02-compose/01-build"]), 0, () => existsSync(join(nb, ".docodego", "02-compose", "01-build", "1010-late", "spec.md")));
+  // retire a delivered four-digit unit: the tomb's behavior name carries the identity, not the number
+  write(nb, ".docodego/02-compose/01-build/1010-late/spec.md", "---\nname: 1010-late\ntype: unit\nstatus: delivered\n---\n\n# 1010-late\n");
+  write(nb, ".docodego/02-compose/01-build/1010-late/grill.md", "# grill\n");
+  write(nb, ".docodego/02-compose/01-build/1010-late/score.md", "# score\n");
+  write(nb, ".docodego/02-compose/01-build/1010-late/proofs.md", "# proofs — 1010-late\n\n- AC1 — the run: `02-compose/01-build/1010-late/proofs/run.txt`\n");
+  write(nb, ".docodego/02-compose/01-build/1010-late/proofs/run.txt", "proof run output\n");
+  write(nb, ".docodego/02-compose/01-build/1010-late/delivered.md", "# delivered\n");
+  check("cli297: retiring a four-digit unit writes a-late — identity without the sequence number", run(nb, ["retire", "1010-late"]), 0, () => existsSync(join(nb, ".docodego", "system", "behavioral", "a-late", "spec.md")));
+  rmSync(nb, { recursive: true, force: true });
+  // three-digit regression on a second fresh record: nothing below 1000 moved
+  const nb2 = mkdtempSync(join(tmpdir(), "docodego-conformance-seq999-regression-"));
+  check("cli298: init plants the regression record", run(nb2, ["init"]), 0);
+  check("cli299: first assignment is 010-", run(nb2, ["new", "first", "--stream", "02-compose/01-build"]), 0, () => existsSync(join(nb2, ".docodego", "02-compose", "01-build", "010-first", "spec.md")));
+  check("cli300: second assignment is 020- (step of ten unchanged)", run(nb2, ["new", "second", "--stream", "02-compose/01-build"]), 0, () => existsSync(join(nb2, ".docodego", "02-compose", "01-build", "020-second", "spec.md")));
+  {
+    const rec = loadRecord(nb2);
+    const build = rec.units.filter((u) => u.stream === "02-compose/01-build").map((u) => u.name);
+    fact("cli301: three-digit listings keep today's order", build[0] === "010-first" && build[1] === "020-second");
+  }
+  rmSync(nb2, { recursive: true, force: true });
 }
 
 rmSync(fixture, { recursive: true, force: true });

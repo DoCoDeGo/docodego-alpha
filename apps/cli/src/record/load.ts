@@ -106,7 +106,7 @@ export function loadRecord(cwd: string): RecordAst {
     for (const stream of STREAMS[movement]) {
       const streamDir = join(root, movement, stream);
       if (!isDir(streamDir)) continue;
-      for (const name of listDirs(streamDir)) {
+      for (const name of byNumericHead(listDirs(streamDir))) {
         // IMP-22: research is a first-class non-unit. A folder named
         // `research` directly in 01-discover holds grounding material —
         // walk notes, findings — and never impersonates a unit. Exact
@@ -171,6 +171,25 @@ const unreadable = (file: string): Diagnostic => ({
   message: "record file exists but could not be read",
   file,
 });
+
+/* Unit folders carry their build order in a leading number (010-, 480-,
+ * and past 999 a four-digit 1000-). Lexical order — the fs walk's default —
+ * sorts "1000-" before "480-" and the listing lies about build order, so
+ * unit names are ordered by numeric head first, lexical as the fallback
+ * for non-numbered names. Scoped here, not in the fs helpers: those serve
+ * callers whose lexical order is load-bearing. */
+function byNumericHead(names: string[]): string[] {
+  const head = (name: string): number | null => {
+    const m = /^(\d+)-/.exec(name);
+    return m === null ? null : Number(m[1]);
+  };
+  return names.sort((a, b) => {
+    const ha = head(a);
+    const hb = head(b);
+    if (ha !== null && hb !== null && ha !== hb) return ha - hb;
+    return a < b ? -1 : a > b ? 1 : 0;
+  });
+}
 
 export function unitsNamed(rec: RecordAst, name: string): UnitAst[] {
   return rec.units.filter((u) => u.name === name);

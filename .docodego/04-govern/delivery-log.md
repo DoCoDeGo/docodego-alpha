@@ -67,3 +67,4 @@ is recorded here; what was learned lives in the unit's own records.
 | 2026-11-08 | 460-surgical-gate | G1,G2,G3,G4 | proof: metrics-before.json |
 | 2026-11-08 | 470-dual-use | G1,G2,G3,G4 | proof: inventory.md |
 | 2026-11-08 | 480-sign-identity-privacy | G1,G2,G3,G4 | proof: spec/amendments/1.2.4-EL-34.md |
+| 2026-11-08 | 490-sequence-beyond-999 | G1,G2,G3,G4 | proof: 02-compose/01-build/490-sequence-beyond-999/metrics-after.json |

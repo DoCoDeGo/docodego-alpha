@@ -32,7 +32,7 @@ export interface Tomb {
 }
 
 export function findRetired(rec: RecordAst, name: string): Tomb | null {
-  const identity = name.replace(/^\d{3}-/, "");
+  const identity = name.replace(/^\d{3,}-/, "");
   const dir = join(rec.root, BEHAVIORAL_REL, `a-${identity}`);
   const spec = join(dir, "spec.md");
   if (!existsSync(spec)) return null;
@@ -91,7 +91,7 @@ export function run(args: Args, io: Io): number {
     return complain(args.json, io, { severity: "error", code: "DG-U103", message: `'${args.as}' is not kebab-case — behaviors are named like units, minus the number (--as <kebab-name>)` }, 2, "usage");
   }
   const rec = loadRecord(process.cwd());
-  const behavior = args.as ?? name.replace(/^\d{3}-/, "");
+  const behavior = args.as ?? name.replace(/^\d{3,}-/, "");
   const tombRel = `${BEHAVIORAL_REL}/a-${behavior}`;
   if (existsSync(join(rec.root, tombRel))) {
     return complain(args.json, io, { severity: "error", code: "DG-U104", message: `${tombRel}/ already exists — a tomb is final; retire under a different --as name` }, 1, "retire");
