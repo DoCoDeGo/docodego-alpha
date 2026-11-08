@@ -770,6 +770,56 @@ fact("the payload's AGENTS.md states the event order and the repair rule", agent
   rmSync(rh, { recursive: true, force: true });
 }
 
+// --- the deliver flip: a landing moves the status line the score bound ---
+{
+  // a delivered unit whose only post-score change is the status flip
+  // (scored -> delivered, written by the gate) is NOT drift: the number
+  // still certifies the content. A real content edit after delivery is.
+  const fh = mkdtempSync(join(tmpdir(), "docodego-conformance-flip-"));
+  check("flip: init", run(fh, ["init"]), 0);
+  check("flip: new", run(fh, ["new", "landed-unit"]), 0);
+  write(fh, join(".docodego", "01-document", "01-discover", "010-landed-unit", "spec.md"), `---
+name: 010-landed-unit
+type: unit
+status: draft
+---
+
+# 010-landed-unit
+
+## intent
+
+Add a retry with backoff to the webhook sender so flaky networks stop dropping deliveries.
+
+## scope
+
+In: the webhook sender module and its retry policy.
+Out: queue persistence and dead-letter handling.
+
+## acceptance
+
+- a failed webhook send retries exactly 3 times with exponential backoff, verified by a unit test counting attempts
+- the final attempt's failure is logged once, verified by the same test's warning assertion
+
+## threats
+
+- retry storms -> the cap bounds attempts; the test asserts the count
+`);
+  const qf = run(fh, ["grill", "010-landed-unit", "--json"]);
+  const fq = (JSON.parse(qf.stdout) as { data?: { questions?: unknown[] } }).data?.questions?.length ?? 0;
+  write(fh, "ans.txt", Array.from({ length: fq }, () => "yes — evidence in the unit test output").join("\n") + "\n");
+  check("flip: grill", run(fh, ["grill", "010-landed-unit", "--answers", "ans.txt"]), 0);
+  check("flip: score", run(fh, ["score", "010-landed-unit"]), 0);
+  write(fh, join(".docodego", "01-document", "01-discover", "010-landed-unit", "proofs.md"), "# proofs\n\n- 01-document/01-discover/010-landed-unit/spec.md — the delivered spec, cited by path\n");
+  check("flip: deliver", run(fh, ["deliver", "010-landed-unit"]), 0, () => read(fh, join("01-document", "01-discover", "010-landed-unit", "spec.md")).includes("status: delivered"));
+  const after = run(fh, ["check"]);
+  fact("check is quiet on the deliver flip alone", !after.stdout.includes("DG-C018"));
+  const spec = read(fh, join("01-document", "01-discover", "010-landed-unit", "spec.md"));
+  write(fh, join(".docodego", "01-document", "01-discover", "010-landed-unit", "spec.md"), spec.replace("## intent", "## intent (edited after the landing)"));
+  const drifted = run(fh, ["check"]);
+  fact("check still warns when delivered content truly changes", drifted.stdout.includes("DG-C018"));
+  rmSync(fh, { recursive: true, force: true });
+}
+
 // --- v2j: the triage classes render (360) ---
 {
   const ph = mkdtempSync(join(tmpdir(), "docodego-conformance-prose-"));

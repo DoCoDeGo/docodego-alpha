@@ -56,9 +56,19 @@ function checkUnit(rec: RecordAst, unit: UnitAst): Diagnostic[] {
       const shas = [...scoreRaw.matchAll(/^spec-sha:\s*([0-9a-f]{16})\s*$/gim)];
       const bound = shas.length === 0 ? null : shas[shas.length - 1]?.[1] ?? null;
       if (bound !== null) {
-        const current = sha16(readText(join(rec.root, unit.dir, "spec.md")) ?? "");
+        const raw = readText(join(rec.root, unit.dir, "spec.md")) ?? "";
+        const current = sha16(raw);
         if (bound !== current) {
-          out.push({ severity: "warning", class: "drift", code: "DG-C018", message: `the recorded score binds an older spec (sha ${bound}, the spec is now ${current}) — the number certifies content it never graded; re-run 'docodego score'`, file: unit.markers.score });
+          // The deliver flip: deliver rewrites the status line in the very
+          // file the score bound, so a delivered unit's hash moves by that
+          // one line even when the graded content is untouched. Recompute
+          // the spec as it stood at scoring time — the status line set back
+          // to 'scored'. A match proves the number still certifies this
+          // content; anything else is real drift and keeps its warning.
+          const flipped = status === "delivered" ? raw.replace(/^status: delivered$/m, "status: scored") : raw;
+          if (bound !== sha16(flipped)) {
+            out.push({ severity: "warning", class: "drift", code: "DG-C018", message: `the recorded score binds an older spec (sha ${bound}, the spec is now ${current}) — the number certifies content it never graded; re-run 'docodego score'`, file: unit.markers.score });
+          }
         }
       }
     }
