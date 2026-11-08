@@ -269,24 +269,54 @@ const EVENT_ORDER_TEXT = [
   "repaired forward, never rewritten.",
 ].join("\n");
 
-export function teachEventOrder(root: string): string {
-  const repoRoot = dirname(root);
-  const abs = join(repoRoot, "AGENTS.md");
+/** The conservative teach contract, shared by every AGENTS.md teacher: a
+ * shipped-shaped copy gains the law in place; an already-taught copy is
+ * kept with a reason; a customized copy is kept untouched, the refreshed
+ * scaffold riding as AGENTS.md.new; and a stale .new twin beside a
+ * now-identical live file is removed. The strings are fixture-pinned —
+ * never reword them here. */
+interface TeachPlan {
+  present: { sentinel: string; label: string };
+  anchor: string;
+  anchorLabel: string;
+  teach: (raw: string) => string;
+  note: string;
+}
+
+/** The shared skeleton behind every anchor-form teacher. */
+function teachAnchor(root: string, plan: TeachPlan): string {
+  const abs = join(dirname(root), "AGENTS.md");
   if (!existsSync(abs)) return "kept AGENTS.md (absent — nothing to teach)";
   const raw = readText(abs) ?? "";
-  if (raw.includes("repaired forward, never rewritten")) return "kept AGENTS.md (event-order law already present)";
-  if (!raw.includes(EVENT_ORDER_ANCHOR)) {
-    return "kept AGENTS.md (anchor sentence not found — your copy is customized; the refreshed scaffold rides as AGENTS.md.new)";
+  if (raw.includes(plan.present.sentinel)) return `kept AGENTS.md (${plan.present.label} already present)`;
+  if (!raw.includes(plan.anchor)) {
+    return `kept AGENTS.md (${plan.anchorLabel} not found — your copy is customized; the refreshed scaffold rides as AGENTS.md.new)`;
   }
-  const taught = raw.replace(EVENT_ORDER_ANCHOR, `no implementation before a scored spec, no delivery without a proof that\n${EVENT_ORDER_TEXT}`);
+  return finishTeach(abs, plan.teach(raw), plan.note);
+}
+
+/** Land the taught bytes in place and sweep the .new twin once the live
+ * file matches it — the twin only exists to carry the refreshed scaffold
+ * to a customized copy, and a matching twin is the engine's own duplicate. */
+function finishTeach(abs: string, taught: string, note: string): string {
   writeText(abs, taught);
-  let note = "updated AGENTS.md (event-order sentences inserted after the order line)";
-  const twin = join(repoRoot, "AGENTS.md.new");
+  let out = note;
+  const twin = `${abs}.new`;
   if (existsSync(twin) && (readText(twin) ?? "") === taught) {
     rmSync(twin);
-    note += " — AGENTS.md.new removed (now identical to the refreshed file)";
+    out += " — AGENTS.md.new removed (now identical to the refreshed file)";
   }
-  return note;
+  return out;
+}
+
+export function teachEventOrder(root: string): string {
+  return teachAnchor(root, {
+    present: { sentinel: "repaired forward, never rewritten", label: "event-order law" },
+    anchor: EVENT_ORDER_ANCHOR,
+    anchorLabel: "anchor sentence",
+    teach: (raw) => raw.replace(EVENT_ORDER_ANCHOR, `no implementation before a scored spec, no delivery without a proof that\n${EVENT_ORDER_TEXT}`),
+    note: "updated AGENTS.md (event-order sentences inserted after the order line)",
+  });
 }
 
 /** v21 -> v22: teach AGENTS.md the evidence declaration — the evidence
@@ -298,23 +328,13 @@ const EVIDENCE_LADDER_ANCHOR = "- **Evidence is a path that exists.** No path, n
 const EVIDENCE_LADDER_TEXT = " A claim may declare the kind of seeing it\n  offers — `[evidence: screenshot]`, `[evidence: test-transcript]`,\n  `[evidence: session-recording]`, `[evidence: suite-run]` — the registry's\n  types, described never ranked; the declaration rides the path, and the\n  reader judges the substitution.";
 
 export function teachEvidenceLadder(root: string): string {
-  const repoRoot = dirname(root);
-  const abs = join(repoRoot, "AGENTS.md");
-  if (!existsSync(abs)) return "kept AGENTS.md (absent — nothing to teach)";
-  const raw = readText(abs) ?? "";
-  if (raw.includes("described never ranked")) return "kept AGENTS.md (evidence-ladder law already present)";
-  if (!raw.includes(EVIDENCE_LADDER_ANCHOR)) {
-    return "kept AGENTS.md (anchor sentence not found — your copy is customized; the refreshed scaffold rides as AGENTS.md.new)";
-  }
-  const taught = raw.replace(EVIDENCE_LADDER_ANCHOR, `${EVIDENCE_LADDER_ANCHOR}${EVIDENCE_LADDER_TEXT}`);
-  writeText(abs, taught);
-  let note = "updated AGENTS.md (evidence declaration sentence added to the evidence bullet)";
-  const twin = join(repoRoot, "AGENTS.md.new");
-  if (existsSync(twin) && (readText(twin) ?? "") === taught) {
-    rmSync(twin);
-    note += " — AGENTS.md.new removed (now identical to the refreshed file)";
-  }
-  return note;
+  return teachAnchor(root, {
+    present: { sentinel: "described never ranked", label: "evidence-ladder law" },
+    anchor: EVIDENCE_LADDER_ANCHOR,
+    anchorLabel: "anchor sentence",
+    teach: (raw) => raw.replace(EVIDENCE_LADDER_ANCHOR, `${EVIDENCE_LADDER_ANCHOR}${EVIDENCE_LADDER_TEXT}`),
+    note: "updated AGENTS.md (evidence declaration sentence added to the evidence bullet)",
+  });
 }
 
 /** v22 -> v23: teach AGENTS.md the two registers — the honesty law's
@@ -343,23 +363,13 @@ const REGISTERS_SECTION = [
 ].join("\n");
 
 export function teachRegisters(root: string): string {
-  const repoRoot = dirname(root);
-  const abs = join(repoRoot, "AGENTS.md");
-  if (!existsSync(abs)) return "kept AGENTS.md (absent — nothing to teach)";
-  const raw = readText(abs) ?? "";
-  if (raw.includes("## The two registers")) return "kept AGENTS.md (registers already present)";
-  if (!raw.includes(REGISTERS_ANCHOR)) {
-    return "kept AGENTS.md (anchor heading not found — your copy is customized; the refreshed scaffold rides as AGENTS.md.new)";
-  }
-  const taught = raw.replace(REGISTERS_ANCHOR, REGISTERS_SECTION + REGISTERS_ANCHOR);
-  writeText(abs, taught);
-  let note = "updated AGENTS.md (the two registers inserted before the commands)";
-  const twin = join(repoRoot, "AGENTS.md.new");
-  if (existsSync(twin) && (readText(twin) ?? "") === taught) {
-    rmSync(twin);
-    note += " — AGENTS.md.new removed (now identical to the refreshed file)";
-  }
-  return note;
+  return teachAnchor(root, {
+    present: { sentinel: "## The two registers", label: "registers" },
+    anchor: REGISTERS_ANCHOR,
+    anchorLabel: "anchor heading",
+    teach: (raw) => raw.replace(REGISTERS_ANCHOR, REGISTERS_SECTION + REGISTERS_ANCHOR),
+    note: "updated AGENTS.md (the two registers inserted before the commands)",
+  });
 }
 
 /** v15 -> v16: teach AGENTS.md the gate-rows law — a delivery carries its
@@ -376,23 +386,13 @@ const GATE_ROWS_BULLET = [
 ].join("\n");
 
 export function teachGateRowsHome(root: string): string {
-  const repoRoot = dirname(root);
-  const abs = join(repoRoot, "AGENTS.md");
-  if (!existsSync(abs)) return "kept AGENTS.md (absent — nothing to teach)";
-  const raw = readText(abs) ?? "";
-  if (raw.includes("Gate rows ride")) return "kept AGENTS.md (gate-rows law already present)";
-  if (!raw.includes(GATE_ROWS_ANCHOR)) {
-    return "kept AGENTS.md (anchor line not found — your copy is customized; the refreshed scaffold rides as AGENTS.md.new)";
-  }
-  const taught = raw.replace(GATE_ROWS_ANCHOR, `${GATE_ROWS_ANCHOR}\n${GATE_ROWS_BULLET}`);
-  writeText(abs, taught);
-  let note = "updated AGENTS.md (gate-rows bullet inserted after the failure-is-evidence bullet)";
-  const twin = join(repoRoot, "AGENTS.md.new");
-  if (existsSync(twin) && (readText(twin) ?? "") === taught) {
-    rmSync(twin);
-    note += " — AGENTS.md.new removed (now identical to the refreshed file)";
-  }
-  return note;
+  return teachAnchor(root, {
+    present: { sentinel: "Gate rows ride", label: "gate-rows law" },
+    anchor: GATE_ROWS_ANCHOR,
+    anchorLabel: "anchor line",
+    teach: (raw) => raw.replace(GATE_ROWS_ANCHOR, `${GATE_ROWS_ANCHOR}\n${GATE_ROWS_BULLET}`),
+    note: "updated AGENTS.md (gate-rows bullet inserted after the failure-is-evidence bullet)",
+  });
 }
 
 /** The registry must cover [0..target] contiguously — Terraform's ladder
@@ -476,23 +476,13 @@ const NAMING_PARAGRAPH = [
  * riding the plan as .new. Cleans up the matching .new once the live file is
  * current. */
 function teachNamingLaw(root: string): string {
-  const repoRoot = dirname(root);
-  const abs = join(repoRoot, "AGENTS.md");
-  if (!existsSync(abs)) return "kept AGENTS.md (absent — nothing to teach)";
-  const raw = readText(abs) ?? "";
-  if (raw.includes("`NNN-<name>`")) return "kept AGENTS.md (naming law already present)";
-  if (!raw.includes(NAMING_ANCHOR)) {
-    return "kept AGENTS.md (anchor line not found — your copy is customized; the refreshed scaffold rides as AGENTS.md.new)";
-  }
-  const taught = raw.replace(NAMING_ANCHOR, `${NAMING_ANCHOR}\n${NAMING_PARAGRAPH}`);
-  writeText(abs, taught);
-  let note = "updated AGENTS.md (naming paragraph inserted after the movements list)";
-  const twin = join(repoRoot, "AGENTS.md.new");
-  if (existsSync(twin) && (readText(twin) ?? "") === taught) {
-    rmSync(twin);
-    note += " — AGENTS.md.new removed (now identical to the refreshed file)";
-  }
-  return note;
+  return teachAnchor(root, {
+    present: { sentinel: "`NNN-<name>`", label: "naming law" },
+    anchor: NAMING_ANCHOR,
+    anchorLabel: "anchor line",
+    teach: (raw) => raw.replace(NAMING_ANCHOR, `${NAMING_ANCHOR}\n${NAMING_PARAGRAPH}`),
+    note: "updated AGENTS.md (naming paragraph inserted after the movements list)",
+  });
 }
 
 export function migrationsFor(from: number, target: number): Migration[] {
@@ -513,23 +503,13 @@ const RETIRE_TAUGHT = [
 ].join("\n");
 
 function teachRetirement(root: string): string {
-  const repoRoot = dirname(root);
-  const abs = join(repoRoot, "AGENTS.md");
-  if (!existsSync(abs)) return "kept AGENTS.md (absent — nothing to teach)";
-  const raw = readText(abs) ?? "";
-  if (raw.includes("`docodego retire")) return "kept AGENTS.md (retire verb already present)";
-  if (!raw.includes(RETIRE_ANCHOR)) {
-    return "kept AGENTS.md (anchor sentence not found — your copy is customized; the refreshed scaffold rides as AGENTS.md.new)";
-  }
-  const taught = raw.replace(RETIRE_ANCHOR, RETIRE_TAUGHT);
-  writeText(abs, taught);
-  let note = "updated AGENTS.md (retire verb inserted into the growth paragraph)";
-  const twin = join(repoRoot, "AGENTS.md.new");
-  if (existsSync(twin) && (readText(twin) ?? "") === taught) {
-    rmSync(twin);
-    note += " — AGENTS.md.new removed (now identical to the refreshed file)";
-  }
-  return note;
+  return teachAnchor(root, {
+    present: { sentinel: "`docodego retire", label: "retire verb" },
+    anchor: RETIRE_ANCHOR,
+    anchorLabel: "anchor sentence",
+    teach: (raw) => raw.replace(RETIRE_ANCHOR, RETIRE_TAUGHT),
+    note: "updated AGENTS.md (retire verb inserted into the growth paragraph)",
+  });
 }
 
 /** v12 -> v13: teach the launch tiers. AGENTS.md's command list gains the
@@ -538,25 +518,15 @@ function teachRetirement(root: string): string {
  * contract as its sibling teachers: the anchor sentence must be present in
  * a shipped-shaped copy, else the refreshed scaffold rides as .new. */
 function teachLaunchSign(root: string): string {
-  const repoRoot = dirname(root);
-  const abs = join(repoRoot, "AGENTS.md");
-  if (!existsSync(abs)) return "kept AGENTS.md (absent — nothing to teach)";
-  const raw = readText(abs) ?? "";
-  if (raw.includes("`docodego launch")) return "kept AGENTS.md (launch verbs already present)";
   const anchor = "- `docodego deliver <unit>` — the gate: four checks, then delivered.md + tracker + delivery-log rows.\n";
-  if (!raw.includes(anchor)) {
-    return "kept AGENTS.md (anchor line not found — your copy is customized; the refreshed scaffold rides as AGENTS.md.new)";
-  }
   const additions = "- `docodego launch <unit>` — the launch gate: the delivered unit's evidence re-audited (proofs still resolve, record check clean) — status launch-passed.\n- `docodego sign <unit> --by \"<legal name>\"` — the last tier: a named person's attestation, recorded as an act receipt — status founder-signed.\n";
-  const taught = raw.replace(anchor, anchor + additions);
-  writeText(abs, taught);
-  let note = "updated AGENTS.md (launch and sign verbs inserted after deliver)";
-  const twin = join(repoRoot, "AGENTS.md.new");
-  if (existsSync(twin) && (readText(twin) ?? "") === taught) {
-    rmSync(twin);
-    note += " — AGENTS.md.new removed (now identical to the refreshed file)";
-  }
-  return note;
+  return teachAnchor(root, {
+    present: { sentinel: "`docodego launch", label: "launch verbs" },
+    anchor,
+    anchorLabel: "anchor line",
+    teach: (raw) => raw.replace(anchor, anchor + additions),
+    note: "updated AGENTS.md (launch and sign verbs inserted after deliver)",
+  });
 }
 
 /** v13 -> v14: teach AGENTS.md the rules layer — the section that names
@@ -565,25 +535,15 @@ function teachLaunchSign(root: string): string {
  * still shaped like the shipped scaffold gains the section in place;
  * anything else is kept, the refreshed copy riding the plan as .new. */
 function teachShelfAndRules(root: string): string {
-  const repoRoot = dirname(root);
-  const abs = join(repoRoot, "AGENTS.md");
-  if (!existsSync(abs)) return "kept AGENTS.md (absent — nothing to teach)";
-  const raw = readText(abs) ?? "";
-  if (raw.includes("## The rules")) return "kept AGENTS.md (the rules layer already present)";
   const anchor = "## Growing the record";
-  if (!raw.includes(anchor)) {
-    return "kept AGENTS.md (anchor heading not found — your copy is customized; the refreshed scaffold rides as AGENTS.md.new)";
-  }
   const section = "## The rules\n\n`.agents/rules/` holds the five invariant rules, each rule file naming\nwho reads it, what failure it prevents, and what holds it\n(`enforced-by`). A rule whose enforced-by names nothing live is\nfurniture: `docodego check` lists it, and deletion is human-confirmed —\nrules are law, and auto-deleting law is an interruption-safety\nviolation. The two mechanical rules run as check warnings (the stack\nscan, the untracked-source scan); the practice rules hold by their\nnamed instruments. The map: `.agents/rules/README.md`.\n\n";
-  const taught = raw.replace(anchor, section + anchor);
-  writeText(abs, taught);
-  let note = "updated AGENTS.md (the rules section inserted before Growing the record)";
-  const twin = join(repoRoot, "AGENTS.md.new");
-  if (existsSync(twin) && (readText(twin) ?? "") === taught) {
-    rmSync(twin);
-    note += " — AGENTS.md.new removed (now identical to the refreshed file)";
-  }
-  return note;
+  return teachAnchor(root, {
+    present: { sentinel: "## The rules", label: "the rules layer" },
+    anchor,
+    anchorLabel: "anchor heading",
+    teach: (raw) => raw.replace(anchor, section + anchor),
+    note: "updated AGENTS.md (the rules section inserted before Growing the record)",
+  });
 }
 
 /** v11 -> v12: drop the decorative frontmatter `version:` line from
@@ -604,14 +564,7 @@ function dropAgentsVersion(root: string): string {
   const head = raw.slice(0, raw.indexOf("---", 3));
   const dropped = head.replace(/^version:\s*\S+.*\n/m, "");
   const taught = dropped + raw.slice(raw.indexOf("---", 3));
-  writeText(abs, taught);
-  let note = "updated AGENTS.md (decorative frontmatter version line dropped — the record manifest is the version)";
-  const twin = join(repoRoot, "AGENTS.md.new");
-  if (existsSync(twin) && (readText(twin) ?? "") === taught) {
-    rmSync(twin);
-    note += " — AGENTS.md.new removed (now identical to the refreshed file)";
-  }
-  return note;
+  return finishTeach(abs, taught, "updated AGENTS.md (decorative frontmatter version line dropped — the record manifest is the version)");
 }
 
 /** Create-only step: the file appears if absent, otherwise untouched. */
