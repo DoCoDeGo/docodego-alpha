@@ -310,7 +310,35 @@ export const MIGRATIONS: Migration[] = [
     ],
     steps: [teachFounderMarker],
   },
+  {
+    from: 29,
+    to: 30,
+    notes: [
+      "sign without a unit shows the unsigned (the founder's ruling, 2026-11-09, unit 620): docodego sign on a terminal lists the launch-passed units awaiting the founder tier and asks — pick by number or name, or all; --all names the batch expressly (every act shown, one confirmation, each unit signs independently, refusals reported, honest exit); --all --yes is the headless batch; sign with no target on a headless run refuses with DG-U119 naming the contract; --json signs one named unit — the envelope is fixed",
+      "the laws hold unchanged: the tiers are strict (only launch-passed is signable), one signature per act, the whole act shown and confirmed once, the founder-tier marker riding derived signings (600), the consent split and the encoding rethink untouched",
+      "AGENTS.md's sign bullet gains the picker rule in place, anchor-matched (the .new twin rule: a customized copy is never overwritten)",
+    ],
+    steps: [teachSignPicker],
+  },
 ];
+
+/** v29 -> v30: the sign-picker teach. AGENTS.md's sign bullet gains the
+ * picker rule as an indented sub-bullet, anchored on the marker
+ * sub-bullet's tail. Same conservative contract as every AGENTS.md
+ * teacher. */
+const SIGN_PICKER_ANCHOR = "typed `--name` founders sign unmarked";
+const SIGN_PICKER_SENTENCE =
+  "\n  - sign with no unit shows the unsigned — the launch-passed units awaiting the founder tier — and asks once: pick by number or name, or all; --all signs every unsigned unit (shown whole, asked once; headless batch: --all --yes); --json signs one named unit";
+
+export function teachSignPicker(root: string): string {
+  return teachAnchor(root, {
+    present: { sentinel: "sign with no unit shows the unsigned", label: "the sign-picker teach" },
+    anchor: SIGN_PICKER_ANCHOR,
+    anchorLabel: "the shipped-v29 marker sub-bullet",
+    teach: (raw) => raw.replace(SIGN_PICKER_ANCHOR, SIGN_PICKER_ANCHOR + SIGN_PICKER_SENTENCE),
+    note: "updated AGENTS.md (the sign bullet teaches the picker)",
+  });
+}
 
 /** v28 -> v29: the founder-marker teach. AGENTS.md's sign bullet gains
  * the provisional-marker rule as an indented sub-bullet, anchored on the

@@ -129,4 +129,15 @@ fact("the typed founder signature carries no provisional marker (600)", !namedRe
 fact("the typed ledger row carries no marker (600)", !(read(fixture, "04-govern/signatures.md").split("\n").find((l) => l.includes("| named-unit |")) ?? "").includes("provisional"));
 fact("the ledger carries the typed row and the encoded rows side by side", read(fixture, "04-govern/signatures.md").includes("Ada Lovelace (a typed legal identifier)") && read(fixture, "04-govern/signatures.md").includes(sysEnc) && read(fixture, "04-govern/signatures.md").includes(expectedEnvEnc));
 fact("the legacy salt file stands untouched — the sign path never reads it now", read(fixture, "04-govern/signature-salt").trim() === SALT);
+
+// --- 620: the target-less sign — the picker's refusals, the founder's batch ---
+walkTo("batch-a", "The batch-a unit proves the founder batch:");
+walkTo("batch-b", "The batch-b unit proves the founder batch:");
+check("sign with no unit on a headless run refuses with the contract (DG-U119)", run(fixture, ["sign"]), 2, (r) => (r.stdout + r.stderr).includes("DG-U119"));
+check("sign --json with no named unit refuses — the envelope is fixed (DG-U119)", run(fixture, ["sign", "--json"]), 2, (r) => (r.stdout + r.stderr).includes("DG-U119"));
+check("sign takes one target: a unit and --all together refuse (DG-U119)", run(fixture, ["sign", "batch-a", "--all"]), 2, (r) => (r.stdout + r.stderr).includes("DG-U119"));
+check("sign --all --yes signs every unsigned unit — shown whole, asked once, declared headless", run(fixture, ["sign", "--all", "--yes"]), 0, (r) => r.stdout.includes("SIGNED batch-a") && r.stdout.includes("SIGNED batch-b"));
+fact("the batch receipts carry the marker on derived signings (600, 620)", read(fixture, "01-document/01-discover/batch-a/signature.md").includes("provisional") && read(fixture, "01-document/01-discover/batch-b/signature.md").includes("provisional"));
+fact("the ledger holds both batch rows", read(fixture, "04-govern/signatures.md").includes("batch-a") && read(fixture, "04-govern/signatures.md").includes("batch-b"));
+check("a batch with nothing to sign is honest and calm", run(fixture, ["sign", "--all", "--yes"]), 0, (r) => r.stdout.includes("nothing to sign"));
 }

@@ -34,7 +34,10 @@ idempotent: a unit already launch-passed (or founder-signed) is answered
 calmly — nothing re-earned, nothing rewritten.
 
 the next tier is a person, not a gate: docodego sign <unit> shows the act
-and asks once; --yes answers for headless runs.
+and asks once; --yes answers for headless runs. sign with no unit shows
+the unsigned — the launch-passed units awaiting the founder tier — and
+asks: pick by number or name, or "all"; --all signs every unsigned unit
+(shown whole, asked once; headless batch: --all --yes).
 
 exit codes: 0 passed (or already passed) · 1 gate fail · 2 usage · 3 corrupt
 

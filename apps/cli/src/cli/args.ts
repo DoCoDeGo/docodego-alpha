@@ -2,7 +2,7 @@
 import { MODES, type Args, type DocType, type Mode } from "../types.ts";
 import { DOC_TYPES } from "../types.ts";
 
-const BOOL_FLAGS = new Set(["--json", "--force", "--self-check", "--apply", "--branch", "--all-skills", "--version", "--help", "--list", "--rotate", "--dry-run", "--yes", "--system"]);
+const BOOL_FLAGS = new Set(["--json", "--force", "--self-check", "--apply", "--branch", "--all-skills", "--version", "--help", "--list", "--rotate", "--dry-run", "--yes", "--system", "--all"]);
 const VALUE_FLAGS = new Set(["--mode", "--answers", "--scaffold", "--type", "--epic", "--story", "--stream", "--from-sketch", "--profile", "--from", "--vocabulary", "--respond", "--as", "--by", "--name", "--role", "--quote", "--root", "--baseline", "--max-new", "--max-growth", "--retires", "--decode"]);
 
 export type ParsedArgs = { ok: true; args: Args } | { ok: false; message: string };
@@ -47,6 +47,7 @@ export function parseArgs(argv: string[]): ParsedArgs {
       else if (tok === "--dry-run") args.dryRun = true;
       else if (tok === "--yes") args.yes = true;
       else if (tok === "--system") args.system = true;
+      else if (tok === "--all") args.all = true;
       else args.help = true;
       continue;
     }

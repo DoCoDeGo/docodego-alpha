@@ -467,6 +467,12 @@ prefix (`docodego explain DG-F`) prints every page in the family.
 - law: a signature is an actor's yes, recorded — the act is shown in full (who, role, evidence hashes, the attestation limit) and one confirmation closes it; without that yes, appending would sign furniture.
 - fix: run it interactively and answer the prompt once, or declare the act headlessly with --yes; a declined prompt appends nothing — run the command again when you mean it.
 
+**DG-U119 — sign has no target it can act on**
+
+- meaning: 'sign' was invoked with no unit and no --all on a run that cannot show the picker (headless or --json), or with both a unit and --all, or with --json and --all.
+- law: the founder tier is an act per unit over a shown list: an interactive run shows the unsigned (the launch-passed units) and asks; a headless run must name its target expressly — a batch without a shown act would sign furniture in bulk.
+- fix: run 'docodego sign' on a terminal to pick by number or name (or 'all'); name the unit; or declare the batch headlessly with '--all --yes'. --json signs one named unit — the envelope is fixed.
+
 **DG-U119 — new file over the metrics ceiling**
 
 - meaning: the gated change set adds a source file whose line count exceeds the new-file ceiling (derived from the baseline's own 90th-percentile size, or --max-new).

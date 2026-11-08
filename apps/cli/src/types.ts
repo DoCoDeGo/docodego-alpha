@@ -112,6 +112,7 @@ export interface Args {
   name?: string | boolean;
   system?: boolean;
   role?: string | boolean;
+  all?: boolean;
   decode?: string | boolean;
 }
 

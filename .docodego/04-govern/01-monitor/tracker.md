@@ -233,3 +233,6 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-09 | 610-supersession-recognition | delivered | 02-compose/01-build/610-supersession-recognition/delivered.md |
 | 2026-11-09 | 610-supersession-recognition | launch-passed | 02-compose/01-build/610-supersession-recognition/launch.md |
 | 2026-11-09 | 610-supersession-recognition | founder-signed | 02-compose/01-build/610-supersession-recognition/signature.md |
+| 2026-11-09 | 620-sign-picker | new unit | 02-compose/01-build/620-sign-picker/spec.md |
+| 2026-11-09 | upgrade | v29->v30: updated AGENTS.md (the sign bullet teaches the picker) — AGENTS.md.new removed (now identical to the refreshed file) | .docodego/04-govern/01-monitor/tracker.md |
+| 2026-11-09 | upgrade | record upgraded v29 -> v30 | .docodego/.standard/manifest.json |

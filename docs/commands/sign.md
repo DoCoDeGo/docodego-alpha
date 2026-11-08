@@ -5,7 +5,7 @@
 ## Usage
 
 ```
-docodego sign <unit> [--name "<legal identifier or handle>"] [--system] [--role <role>] [--yes] [--json] (--by is an alias of --name)
+docodego sign [<unit> | --all] [--name "<legal identifier or handle>"] [--system] [--role <role>] [--yes] [--json] (--by is an alias of --name)
 ```
 
 ## Contract
