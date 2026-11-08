@@ -1,0 +1,1 @@
+| 2026-11-08 | 410-register-split | plan-approval: auto — the task is record-side law work (registers teaching + teach migration + bump chain), bounded per the founder's IMP-1 ruling of 2026-11-08 (repo-only); no human present, the judgment recorded here | 01-document/01-discover/cycles.md |

@@ -244,6 +244,15 @@ export const MIGRATIONS: Migration[] = [
     ],
     steps: [teachEvidenceLadder],
   },
+  {
+    from: 22,
+    to: 23,
+    notes: [
+      "the register split lands (IMP-11, accepted by the founder 2026-11-08): the honesty law's rules carry one of two marks — invariants (verbatim intent, append-only, records-before-claims, earned statuses, real proof paths, honored refusals) and guidance (unit home, artifact layout, ADR pattern, phases' depth, score as a checklist) — with guidance deviations on one recorded line: deviations: <what> — <why> in the unit spec's frontmatter, carried verbatim into the compose log at deliver (020-canon-debts/410)",
+      "AGENTS.md gains the two-registers section before the commands, taught in place by the v22->v23 migration: shipped-v22 bytes gain it, customized copies keep their words, the refreshed scaffold riding the plan as .new; no line is removed — a payload rule line removed would be a MAJOR bump, and this teach is pure insertion",
+    ],
+    steps: [teachRegisters],
+  },
 ];
 
 /** v16 -> v17: teach AGENTS.md the event order and the repair rule.
@@ -300,6 +309,51 @@ export function teachEvidenceLadder(root: string): string {
   const taught = raw.replace(EVIDENCE_LADDER_ANCHOR, `${EVIDENCE_LADDER_ANCHOR}${EVIDENCE_LADDER_TEXT}`);
   writeText(abs, taught);
   let note = "updated AGENTS.md (evidence declaration sentence added to the evidence bullet)";
+  const twin = join(repoRoot, "AGENTS.md.new");
+  if (existsSync(twin) && (readText(twin) ?? "") === taught) {
+    rmSync(twin);
+    note += " — AGENTS.md.new removed (now identical to the refreshed file)";
+  }
+  return note;
+}
+
+/** v22 -> v23: teach AGENTS.md the two registers — the honesty law's
+ * rules marked invariants or guidance, guidance deviations on one
+ * recorded line. Same conservative contract as the prior teaches:
+ * shipped-v22 bytes gain the section in place (pure insertion — a
+ * payload rule line removed would be a MAJOR bump); anything else is
+ * kept untouched, the refreshed copy riding the plan as .new. Exported
+ * for the conformance fixture that holds the teach contract in place. */
+const REGISTERS_ANCHOR = "## The commands";
+const REGISTERS_SECTION = [
+  "## The two registers",
+  "",
+  "The law's rules carry one of two marks. **Invariants** — the record's",
+  "spine, never bargained: verbatim intent, append-only records, records",
+  "before claims, statuses earned at gates, real proof paths, honored",
+  "refusals. **Guidance** — the conventions that keep units legible: the",
+  "unit home, artifact layout, the ADR pattern, the phases' depth, the",
+  "score as a checklist. Guidance bends when the work demands it, on one",
+  "recorded line — `deviations: <what> — <why>` in the unit spec's",
+  "frontmatter, carried verbatim into the compose log at deliver. An",
+  "invariant has no one-line form: it holds, or the work stops and says",
+  "why on the record.",
+  "",
+  "",
+].join("\n");
+
+export function teachRegisters(root: string): string {
+  const repoRoot = dirname(root);
+  const abs = join(repoRoot, "AGENTS.md");
+  if (!existsSync(abs)) return "kept AGENTS.md (absent — nothing to teach)";
+  const raw = readText(abs) ?? "";
+  if (raw.includes("## The two registers")) return "kept AGENTS.md (registers already present)";
+  if (!raw.includes(REGISTERS_ANCHOR)) {
+    return "kept AGENTS.md (anchor heading not found — your copy is customized; the refreshed scaffold rides as AGENTS.md.new)";
+  }
+  const taught = raw.replace(REGISTERS_ANCHOR, REGISTERS_SECTION + REGISTERS_ANCHOR);
+  writeText(abs, taught);
+  let note = "updated AGENTS.md (the two registers inserted before the commands)";
   const twin = join(repoRoot, "AGENTS.md.new");
   if (existsSync(twin) && (readText(twin) ?? "") === taught) {
     rmSync(twin);

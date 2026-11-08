@@ -15,3 +15,4 @@ delivered through this room yet.
 | 2026-11-08 | 010-demo-bundles | ce751c8ccba6df2a | none recorded |
 | 2026-11-08 | 390-evidence-ladder | e5212c575ff98eda | the browser-contention half of IMP-20 stays out — the ladder makes the substitution legible instead, which is the audit's own boundary |
 | 2026-11-08 | 400-law-flip-1-1-0 | 517da91087c3c8ca | the sign command cannot sign amendment files (unit-scoped, launch-gated) — the sign-off lands in the founder-directed written form instead, with the mechanization named as direction |
+| 2026-11-08 | 410-register-split | 6cf9ab1ff1e8d317 | none recorded |

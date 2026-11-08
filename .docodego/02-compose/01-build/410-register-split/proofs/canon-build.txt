@@ -1,0 +1,1 @@
+canon build · 47 file(s), 33 law(s), structure 618925c54843… → SPEC.md, law-index.json, manifest.json

@@ -576,6 +576,29 @@ fact("the payload's AGENTS.md teaches the declaration sentence", agentsMd().incl
   rmSync(ag, { recursive: true, force: true });
   rmSync(custom, { recursive: true, force: true });
 }
+// --- v23: the register split (410) ---
+fact("the payload's AGENTS.md carries the two registers with the accepted lists", agentsMd().includes("## The two registers") && agentsMd().includes("verbatim intent, append-only records") && agentsMd().includes("score as a checklist") && agentsMd().includes("`deviations: <what> — <why>`"));
+{
+  const { teachRegisters } = await import("./versioning/migrations.ts");
+  const ag = mkdtempSync(join(tmpdir(), "docodego-conformance-teach7-"));
+  const rec = join(ag, ".docodego");
+  mkdirSync(rec, { recursive: true });
+  const v22 = "## The honesty law\n\n- **Records append.** Superseded text is struck or archived, never deleted.\n\n## The commands\n\n- `docodego check` — record integrity.\n";
+  writeFileSync(join(ag, "AGENTS.md"), v22);
+  const first = teachRegisters(rec);
+  const taught = readFileSync(join(ag, "AGENTS.md"), "utf8");
+  const second = teachRegisters(rec);
+  const custom = mkdtempSync(join(tmpdir(), "docodego-conformance-teach8-"));
+  mkdirSync(join(custom, ".docodego"), { recursive: true });
+  writeFileSync(join(custom, "AGENTS.md"), "# my own law\n\nno commands heading here\n");
+  const keptNote = teachRegisters(join(custom, ".docodego"));
+  const keptBody = readFileSync(join(custom, "AGENTS.md"), "utf8");
+  fact("the registers teach inserts the section into shipped-v22 bytes", first.includes("updated AGENTS.md") && taught.includes("## The two registers") && taught.includes("honored\nrefusals") && taught.indexOf("## The two registers") < taught.indexOf("## The commands"));
+  fact("the registers teach is idempotent", second.includes("already present") && taught === readFileSync(join(ag, "AGENTS.md"), "utf8"));
+  fact("the registers teach keeps a customized AGENTS.md untouched", keptNote.includes("customized") && keptBody === "# my own law\n\nno commands heading here\n");
+  rmSync(ag, { recursive: true, force: true });
+  rmSync(custom, { recursive: true, force: true });
+}
 // the detector, over a real delivered unit: an unknown declaration fails
 // check naming the registry; a declared one passes; the demo bundle is
 // scanned with its own path named

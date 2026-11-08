@@ -63,6 +63,19 @@ founding brief, `cycles.md` the numbered log of research and decisions.
   `explore.md` inside a unit is scratch: deleted at completion, declared
   ephemeral in its own header, never cited as evidence.
 
+## The two registers
+
+The law's rules carry one of two marks. **Invariants** — the record's
+spine, never bargained: verbatim intent, append-only records, records
+before claims, statuses earned at gates, real proof paths, honored
+refusals. **Guidance** — the conventions that keep units legible: the
+unit home, artifact layout, the ADR pattern, the phases' depth, the
+score as a checklist. Guidance bends when the work demands it, on one
+recorded line — `deviations: <what> — <why>` in the unit spec's
+frontmatter, carried verbatim into the compose log at deliver. An
+invariant has no one-line form: it holds, or the work stops and says
+why on the record.
+
 ## The commands
 
 - `docodego init` — plant the record layer, law, agent presets, and skills (already done here if `.docodego/` exists).

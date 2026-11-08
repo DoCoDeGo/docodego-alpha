@@ -1,0 +1,2 @@
+bundle: 2 change(s), minimum bump minor, declared specVersion 23 (committed 22) — 581 studio file(s) stayed private under the boundary (allowlist v2)
+bundle: wrote payload.ts + manifest.json — 52 files, structure 84668fbecc05, 18 skills, boundary v2, 581 studio file(s) stayed private
