@@ -56,6 +56,49 @@ export function digestSkillDir(absDir: string): string {
   return `sha256:${h.digest("hex")}`;
 }
 
+/** sha256 over an in-memory file map — the SAME recipe (sorted per level,
+ * relpath + NUL + bytes) without the second read. The install law this
+ * closes (enhancement 15): a remote tree is read once into a map, and the
+ * digest is computed over that map — the exact bytes the install plants —
+ * never over a re-read of the folder after the fact. A tree that shifts
+ * between two reads used to earn a lockfile digest over bytes nobody
+ * planted; now the recorded digest is bound to the planted bytes by
+ * construction. The tree walk mirrors digestSkillDir: nested maps sorted
+ * per level, because a flat sort of full paths walks in a different order
+ * than a directory walk ("a.txt" sorts before "a/b", but walks after it). */
+export function digestFiles(files: Record<string, string>): string {
+  type Node = Map<string, Node | string>;
+  const root: Node = new Map();
+  for (const [rel, body] of Object.entries(files)) {
+    const parts = rel.split("/");
+    let node = root;
+    for (const part of parts.slice(0, -1)) {
+      const next = node.get(part);
+      if (next === undefined || typeof next === "string") {
+        const branch: Node = new Map();
+        node.set(part, branch);
+        node = branch;
+      } else node = next;
+    }
+    node.set(parts[parts.length - 1] ?? "", body);
+  }
+  const h = createHash("sha256");
+  const visit = (node: Node, base: string): void => {
+    for (const key of [...node.keys()].sort()) {
+      const rel = base === "" ? key : `${base}/${key}`;
+      const value = node.get(key);
+      if (value === undefined) continue;
+      if (typeof value === "string") {
+        h.update(rel);
+        h.update("\0");
+        h.update(value, "utf8");
+      } else visit(value, rel);
+    }
+  };
+  visit(root, "");
+  return `sha256:${h.digest("hex")}`;
+}
+
 export function readLock(recordRoot: string): SkillsLock | null {
   const raw = readText(join(recordRoot, LOCK_REL));
   if (raw === null) return null;

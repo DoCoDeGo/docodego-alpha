@@ -18,6 +18,7 @@ import { governanceFindings } from "./passes/governance.ts";
 import { loadRecord } from "./record/load.ts";
 import { STREAM_README_PATHS, ALL_STREAMS } from "./record/streams.ts";
 import { validateVocabularyPack } from "./record/vocabulary.ts";
+import { digestFiles, digestSkillDir } from "./skills/lock.ts";
 import { COMMAND_HELP } from "./cli/help.ts";
 import { usageText } from "./cli/args.ts";
 import { COMPLETION_SHELLS } from "./cli/completions.ts";
@@ -454,6 +455,42 @@ check("integrity mismatch is a finding with exit 1", (() => {
   return run(sf, ["skill", "list"]);
 })(), 1, (r) => r.stderr.includes("integrity mismatch"));
 rmSync(sf, { recursive: true, force: true });
+
+// --- v2b: the install digest binds the planted bytes (280) ---
+// The recipe identity: digestFiles (over the in-memory map — the bytes the
+// install plants) and digestSkillDir (over the folder on disk) are one
+// algorithm. The end-to-end proof: a real file:// clone installs, its lock
+// entry verifies, list re-verifies green, and re-adding the unchanged
+// remote skill is idempotent — which only works if install-time map digest
+// and verify-time folder digest agree.
+{
+  const map: Record<string, string> = { "SKILL.md": "---\nname: probe\nversion: 1.2.3\n---\n\nbody\n", "refs/deep.txt": "nested\n", "a.txt": "flat\n" };
+  const dirTmp = mkdtempSync(join(tmpdir(), "docodego-digest-"));
+  mkdirSync(join(dirTmp, "refs"), { recursive: true });
+  writeFileSync(join(dirTmp, "SKILL.md"), map["SKILL.md"] ?? "");
+  writeFileSync(join(dirTmp, "refs", "deep.txt"), map["refs/deep.txt"] ?? "");
+  writeFileSync(join(dirTmp, "a.txt"), map["a.txt"] ?? "");
+  fact("digestFiles and digestSkillDir agree — one recipe, two surfaces", digestFiles(map) === digestSkillDir(dirTmp));
+  rmSync(dirTmp, { recursive: true, force: true });
+
+  const repo = mkdtempSync(join(tmpdir(), "docodego-skill-repo-"));
+  mkdirSync(join(repo, "probe-skill"), { recursive: true });
+  writeFileSync(join(repo, "probe-skill", "SKILL.md"), "---\nname: probe-skill\nversion: 9.9.9\ndescription: the remote fixture\n---\n\nprobe body\n");
+  runRaw(repo, "git", ["init", "-q", "."]);
+  runRaw(repo, "git", ["add", "."]);
+  runRaw(repo, "git", ["-c", "user.name=fixture", "-c", "user.email=fixture@localhost", "commit", "-qm", "probe skill"]);
+  const st280 = mkdtempSync(join(tmpdir(), "docodego-conformance-skill280-"));
+  check("skill280: init plants the record", run(st280, ["init"]), 0);
+  check("skill280: skill add --from file:// installs the remote skill", run(st280, ["skill", "add", "probe-skill", "--from", `file://${repo}`]), 0, () => {
+    const lock = JSON.parse(read(st280, "skills-lock.json")) as { installed: { name: string; version: string; integrity: string }[] };
+    const e = lock.installed.find((x) => x.name === "probe-skill");
+    return e !== undefined && e.version === "9.9.9" && e.integrity.startsWith("sha256:");
+  });
+  check("skill280: skill list re-verifies the remote install green", run(st280, ["skill", "list"]), 0);
+  check("skill280: re-adding the unchanged remote skill is idempotent (map digest == folder digest)", run(st280, ["skill", "add", "probe-skill", "--from", `file://${repo}`]), 0, (r) => r.stdout.includes("unchanged"));
+  rmSync(st280, { recursive: true, force: true });
+  rmSync(repo, { recursive: true, force: true });
+}
 
 // --- v5: vocabulary packs — words change, the contract does not ---
 // The pack law, enforced at every layer: embedded packs pass the validator,

@@ -15,7 +15,7 @@ import type { Args, Io, SkillLockEntry, SkillsLock } from "../types.ts";
 import { isDir, readText } from "../fsx.ts";
 import { loadRecord, RecordFatal } from "../record/load.ts";
 import { PROFILES, profiles as profileMap, ruleFiles, skillFiles, skillsIndex } from "../bundled/index.ts";
-import { digestSkillDir, emptyLock, LOCK_REL, plantSkill, readLock, SKILL_NAME_OK, verifyInstalled, writeLock } from "../skills/lock.ts";
+import { digestFiles, digestSkillDir, emptyLock, LOCK_REL, plantSkill, readLock, SKILL_NAME_OK, verifyInstalled, writeLock } from "../skills/lock.ts";
 import { complain } from "./resolve.ts";
 import { envelope } from "../emit/json.ts";
 
@@ -127,8 +127,10 @@ function incomingSkill(args: Args, io: Io, root: string, name: string): SkillLoc
 }
 
 /** Opt-in remote: shallow clone into a temp dir, locate <name>/SKILL.md by
- * frontmatter name, copy the folder in, record the digest (computed over the
- * exact bytes that get planted, so list's re-verify matches). The source URL
+ * frontmatter name, read the tree once into a map, and record the digest
+ * computed over that map (digestFiles) — the exact bytes that get planted,
+ * never a re-read of the temp folder; list's re-verify matches by
+ * construction. The source URL
  * is validated by the caller before this runs — only named transports reach
  * git, so ext::/fd:: and option-shaped strings never do. Symlinks inside the
  * cloned tree are skipped (lstat), never followed. */
@@ -147,8 +149,19 @@ function fetchRemote(args: Args, io: Io, name: string): (SkillLockEntry & { file
     }
     const files: Record<string, string> = {};
     for (const rel of walkDir(dir)) files[rel] = readFileSync(join(dir, rel), "utf8");
+    // the tree is read ONCE; everything after this works on the map. The
+    // name re-check closes the read window: if the SKILL.md in the map no
+    // longer names the skill, the tree shifted mid-read — refuse outright
+    // rather than plant bytes under a name they no longer claim.
+    if (frontmatter(files["SKILL.md"] ?? "", "name") !== name) {
+      complain(args.json, io, { severity: "error", code: "DG-K004", message: `the cloned tree shifted mid-read — SKILL.md no longer names '${name}'; nothing installed` }, 1, "usage");
+      return null;
+    }
     const version = frontmatter(files["SKILL.md"] ?? "", "version") || "0.0.0";
-    return { name, version, source: args.from ?? "", integrity: digestSkillDir(dir), files };
+    // the digest is computed over the exact bytes that get planted — the
+    // map, not a re-read of the temp folder. The lockfile entry and the
+    // install can no longer disagree about which bytes they mean.
+    return { name, version, source: args.from ?? "", integrity: digestFiles(files), files };
   } finally {
     rmSync(tmp, { recursive: true, force: true });
   }
