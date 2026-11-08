@@ -31,3 +31,4 @@ delivered through this room yet.
 | 2026-11-09 | 550-fix-l2-path-extractor | 60c629fec4a354b2 | none recorded |
 | 2026-11-09 | 560-stranger-legibility | 66ed00a7f79aa48d | none recorded |
 | 2026-11-09 | 570-message-nits | d49a73b17b5ee47f | none recorded |
+| 2026-11-09 | 580-conformance-split | 6c12865c12bce041 | none recorded |

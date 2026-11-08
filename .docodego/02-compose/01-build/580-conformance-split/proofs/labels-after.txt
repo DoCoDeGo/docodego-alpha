@@ -1,0 +1,406 @@
+check init plants the record
+fact the planted line names record files, agent files, and skills separately
+check init refuses over an existing record
+check init --force fills without overwriting
+fact init planted AGENTS.md at the repo root
+fact init planted the agent presets
+fact init wrote the skills lockfile
+fact default profile (product-team) skills are installed
+fact planted skills live in .agents/skills
+check sketch plants an idea file
+check new --from-sketch graduates the sketch
+check new's line names the scaffolded unit beside its spec path (570)
+check new --type epic lands in 01-discover
+check new --type story lands in 02-refine
+check epic outside its home stream is refused
+check unknown --type is a usage error
+check non-kebab name is a usage error
+check unknown --stream is a usage error
+check duplicate unit is refused
+check grill --json lists the questions
+check grill without a TTY and without answers is refused
+check grill of an unknown unit is a usage error
+check grill pass records the round and sets status
+check grill fail records the failed round and exits 1
+check grill pass again — the last verdict wins
+check grill accepts a structured answers file
+check structured answers with an unknown question id exit 2
+check score writes the breakdown and sets status
+check score of an unknown unit is a usage error
+check new accepts a fresh template unit
+check grill keeps the weak unit consistent
+check score accepts it — the floor bites at deliver, not at score
+check the floor bites at deliver, not at score
+check deliver fails the gate with nothing committed
+check deliver passes all four gates
+fact deliver appends the compose room's row — once, on green only
+fact the compose row binds the delivered spec's on-disk hash
+fact an undeclared deviation lands as none recorded in the live record
+check check holds the record together
+check check's green line states its verified scope (570)
+check lint reports nothing
+check lint --self-check validates the rule registry
+check status renders the board
+check status's counter line is labeled by current status (570)
+check status --json is an envelope
+check status --epic narrows to the rollup
+check trace replays the full arc
+check trace --json is an envelope
+check trace of a bare draft shows just the created line
+check trace of an unknown unit is a usage error
+check trace without a unit name is a usage error
+check retire of an undelivered unit is refused
+check retire of an unknown unit is a usage error
+check retire without a unit name is a usage error
+check retire --dry-run prints the plan and moves nothing
+check retire --json is an envelope
+check retire moves the delivered unit to the second home
+check retire re-addresses citations and appends both rows
+check a second retire is refused — the tomb is final
+check a same-named tomb via --as is refused too
+check trace follows the unit into the tomb
+check status shows the tombstone
+check the retired number is never reused (live siblings counted)
+check explain carries the retire refusals
+check ghost: init
+check ghost: grill pass
+check ghost: score over the floor
+check ghost: delivered
+check ghost: retired to the second home
+check ghost: the next unit mints 020 — the tomb spent 010 forever
+check doctor is green on the healthy record
+check doctor --json is an envelope
+check doctor on an empty dir exits 0 and reports the missing record
+check doctor --json carries the absent check honestly
+check a corrupt manifest is a failed check with exit 1 — never exit 3
+check quickstart: init --mode review
+check quickstart: sketch plants the idea
+check quickstart: new --from-sketch graduates it
+check quickstart: grill pass
+check quickstart: score clears the floor
+check quickstart: deliver passes all four gates
+check upgrade reports the record current
+check upgrade --apply is additive and calm
+check status without a record exits 3
+check unknown command is a usage error
+check no command is a usage error
+fact the bundle carries exactly the 16 stream READMEs
+check bundle drift gate: bundle --verify is clean
+check parser fuzz: seeded broken input never crashes the parser and goldens match
+check self-application: the fresh CLI checks its own repo
+check self-application: the fresh CLI lints its own repo
+check fixture upgrade plan exits 0
+check fixture upgrade --apply exits 0
+fact fixture manifest stamped to the bundled spec
+fact fixture skills-lock.json exists
+fact fixture tracker carries the migration line
+fact fixture unit content unchanged byte-for-byte
+fact fixture received the bundled record files
+check re-upgrade with a conflict exits 0
+fact user-modified README.md NOT overwritten
+fact bundled version landed side-by-side as README.md.new
+check restore plan exits 0 and names the restore
+check restore upgrade --apply exits 0
+fact deleted README.md NOT re-created in place
+fact restored copy waits as README.md.new
+fact today() is the local wall-clock date (YYYY-MM-DD)
+fact tracker rows carry a leading YYYY-MM-DD date
+fact the transition table mirrors the migration registry hop for hop
+fact the regression: version strings are not proof paths
+fact the honest shapes still extract
+fact the skips still skip: envelope schemas, trailing punctuation, bare directories
+check grill round passes on the fixture
+check score passes on the fixture
+check score rows print the why — each axis carries its own note (560)
+check deliver refuses G4 with no proofs and scaffolds it beside the refusal (create-only, 560)
+check deliver with the unfilled scaffold refuses again and never rewrites it
+check deliver passes with a warning naming the dangling span (exit 0 — the gate is not blocked)
+check check with version strings in proofs stays clean — they are not phantom evidence
+check launch with version strings in proofs refuses nothing about them — L2 sees the real path only
+check sign refused before launch (DG-U112)
+check launch refused on vanished evidence (exit 1)
+check launch repairs forward: the missing demo bundle scaffolded beside the refusal
+check launch passes on restored evidence + filled bundle
+check sign without --yes on a headless run refuses (DG-U118)
+fact the unconfirmed signature planted nothing
+check sign passes with a typed identifier, declared headless
+check second signature refused (DG-U113)
+fact the refused second signature appended nothing
+fact the receipt quotes the signer verbatim
+fact the receipt names the typed identifier as typed
+fact the receipt carries the attestation limit
+fact the receipt carries the spec evidence hash
+fact the signatures ledger row exists
+check launch is calm on a founder-signed unit
+check grill round passes on the derived fixture
+check score passes on the derived fixture
+check deliver passes on the derived fixture
+check launch passes on the derived fixture
+check sign passes with no --by — the identifier derives, declared headless
+fact the derived receipt names an environment identity and its kind
+fact the derived receipt carries no typed line
+fact the derived receipt stores the exact encoded form
+fact the stored form decodes back to the raw — the ruled reveal
+fact the derived receipt names no raw environment identity
+check sign --system stores the system identity encoded, exact token, clause named
+fact the --system receipt carries the exact encoded form and kind
+fact the encoded receipt carries the honest clause
+fact the --system receipt names no raw system identity
+check sign --name and --system together is a usage refusal (DG-U111), nothing appended
+fact the refused conflict appended nothing
+check sign --name stores the typed identifier verbatim
+fact the --name receipt is byte-identical in shape to the --by receipt
+fact the ledger carries the typed row and the encoded rows side by side
+fact the legacy salt file stands untouched — the sign path never reads it now
+check newer record: upgrade exits 0 with the forward-compat line
+fact newer record: nothing was changed
+check init --profile docs-only plants a docs-only record
+fact docs-only profile installs exactly its set
+check skill list audits the lockfile
+check skill add of a bundled skill outside the profile installs it
+check skill remove takes the folder and the lockfile entry
+check skill add of an unknown name is a usage error
+check skill with no subcommand is a usage error
+check skill list --json is an envelope
+check integrity mismatch is a finding with exit 1
+fact digestFiles and digestSkillDir agree — one recipe, two surfaces
+check skill280: init plants the record
+check skill280: skill add --from file:// installs the remote skill
+check skill280: skill list re-verifies the remote install green
+check skill280: re-adding the unchanged remote skill is idempotent (map digest == folder digest)
+fact the sweep reads the whole payload boundary (52 planted rows)
+fact the planted prose names only shipped paths — no repo-side or dead-tree references
+fact the payload plants the record's gitignore with both rules
+fact the compose log template names its readers and its grammar
+check compose fixture init
+fact the planted log matches the shipped template bytes
+fact an undeclared deviation lands as none recorded
+fact a declared deviation lands verbatim
+fact a pipe in the declaration is escaped, not paraphrased
+fact rows carry the delivered spec hash
+fact a lost log is recreated with its header on the next append
+fact the demo room anchor names its readers and the not-there-yet truth
+fact the demo scaffold carries the three fill sections and the honesty line
+fact init plants the demo room anchor
+fact deliver scaffolded the delivered unit's bundle — byte-identical to the template, all sections present
+fact the evidence registry ships with declared strengths, described never ranked
+fact the demo scaffold teaches the declaration grammar and the registry
+fact the payload's AGENTS.md teaches the declaration sentence
+fact the evidence teach inserts the declaration sentence into shipped-v21 bytes
+fact the evidence teach is idempotent
+fact the evidence teach keeps a customized AGENTS.md untouched
+fact the payload's AGENTS.md carries the two registers with the accepted lists
+fact the registers teach inserts the section into shipped-v22 bytes
+fact the registers teach is idempotent
+fact the registers teach keeps a customized AGENTS.md untouched
+check v24: init plants the record — a sign-off is a record act
+check sign-off fills the pending block — quote verbatim, hash, derivation named, limit stated
+check cli302: the sign-off writes the signatures ledger row
+check cli303: the sign-off writes the tracker row
+check a second sign-off of the same act is refused — nothing changed
+fact cli304: the refused second sign-off appended no ledger row
+check a secret-shaped quote is refused and stores nothing
+check a secret-shaped --name identifier is refused too — the scan covers the typed source, whichever flag carried it
+check an unresolvable law file is refused (DG-U116)
+check sign-off without --quote is a usage error
+check without --by the receipt names the derivation kind (git or system), encoded, and the limit
+fact cli305: the derived sign-off's ledger row carries the encoded identity
+check a second derived sign-off in the same record carries the same encoded value
+fact no salt file is created by the encoding-era sign path
+check v24: init plants the second record
+check the same environment in a second record encodes identically — the documented trade
+fact the consent-split teach rewrites the shipped-v24 sign line
+fact the second-use teach inserts before the honesty law
+fact both teaches are idempotent
+fact the v26 repair swaps the planted dead paths for the clean text
+fact the repair is idempotent
+fact the teaches keep a customized AGENTS.md untouched
+fact the repair keeps a customized AGENTS.md untouched
+fact the encoding clause appears wherever a signature shows — the ledger template, all three help bodies
+fact the encoding teach rewrites the shipped-v25 sign line in place
+fact the whoami line is inserted after the sign line
+fact the encoding teach is idempotent
+fact the teach keeps a customized AGENTS.md untouched
+check whoami shows the plain identity, its kind, and the exact stored form — no record needed
+check cli306: --decode reveals the stored form — the ruled flag
+check cli307: --decode refuses an fp row with the one-way honesty
+check cli308: --decode refuses a value that is not an enc token
+check cli309: whoami --json carries raw, kind, stored
+check an unknown evidence declaration is flagged (DG-C019 warning, registry named)
+check a declared registry evidence type checks clean — no DG-C019
+check the demo bundle is scanned too, and names its own path
+check a backticked mention quotes the syntax instead of claiming it
+fact the payload's AGENTS.md teaches the gate-rows law
+fact the teach step inserts the gate-rows bullet into shipped-v15 bytes
+fact the teach step is idempotent
+fact the teach step keeps a customized AGENTS.md untouched
+fact the payload's AGENTS.md states the event order and the repair rule
+fact the event-order teach inserts the sentences into shipped-v16 bytes
+fact the event-order teach is idempotent
+fact the event-order teach keeps a customized AGENTS.md untouched
+fact check is quiet while evidence predates the delivery day
+fact check warns DG-C017 when cited evidence gains a post-delivery commit
+fact the research home lints clean — no DG-F001 for 01-discover/research
+fact a spec-less sibling folder still earns the broken-unit finding
+check grillmode: init
+check grillmode: new
+check grillmode: a plain round
+check grillmode: a named round
+check reuse: init
+check reuse: new
+check reuse: grill
+check reuse: score
+fact check is quiet while the score binds the living spec
+fact check warns DG-C018 when the spec moves past its recorded score
+fact a drift-class warning renders its class
+check flip: init
+check flip: new
+check flip: grill
+check flip: score
+check flip: deliver
+fact check is quiet on the deliver flip alone
+fact check still warns when delivered content truly changes
+check prose: init
+check prose: new
+check prose: grill
+check prose: score
+fact a prose-class warning renders its class
+fact three packs ship: plain, agile, babok
+fact every bundled pack passes the pack validator
+check init --vocabulary babok plants the dialect
+fact all sixteen stream READMEs carry the pack's words, byte for byte
+fact the manifest records the birth dialect
+fact the glossary bridge is planted with a real entry set
+fact the statutes are untouched by the pack
+fact AGENTS.md movement glosses carry the pack's words, tags intact
+check grill asks the pack's phrasing under the canonical id
+check an unknown --vocabulary is a usage error
+check a vocabulary on an existing record is refused — words are chosen at birth
+check default init still plants the canonical voice
+check init plants the record's gitignore
+fact default manifest carries no vocabulary key
+check canonical grill asks the canonical question
+check a traversing name is refused at add
+check a traversing name is refused at remove
+check ext:: transports are refused before git runs
+check option-shaped sources are refused
+check bare paths are refused — named transports only
+check a file:// remote install works end to end
+fact installed craft carries the remote's bytes
+fact the lockfile entry is metadata-only — no file contents
+check skill list re-verifies the remote install
+check a remote tree with a symlink installs cleanly
+fact the symlink was skipped, not followed — no arbitrary read
+fact the outside secret never entered the craft
+check the record still verifies clean after the remote adds
+fact symlink probe skipped — filesystem does not support symlinks
+check a remote declaring a traversing name is refused before any clone
+fact nothing escaped the skills directory
+check upgrade --branch exits 0
+fact the upgrade branch exists
+fact the commit message is plain
+fact manifest was stamped on the branch
+fact every law command has a help page
+fact the global usage lists every command
+check an unknown command is never helped — even with --help
+check global --help advertises the per-command contract and explain
+check explain prints a code page
+check explain prints a family
+check explain --list covers the codes with family headers
+check explain --json is an envelope
+check explain of an unknown code is a usage error
+check explain resolves a bare gate id to its GATE page (560)
+check explain accepts the case the gates print, lower too
+check explain resolves the long form too
+check explain --list carries the gate family
+check explain without a target is a usage error
+check completions of an unknown shell is a usage error
+check completions without a shell is a usage error
+fact the explanation registry covers every family
+fact the explanation registry covers the whole emitted surface
+check generated docs match their registries
+check envelope: init
+check envelope: new
+check envelope: sketch
+check envelope: grill questions
+check envelope: grill verdict
+check envelope: score
+check envelope: check
+check envelope: lint
+check envelope: status
+check envelope: upgrade plan
+check envelope: deliver fail lands on stderr
+check diagnostics carry an explain hint
+check envelope: lint findings carry ok:false
+check --version prints cli and record spec versions
+check init for the setback record
+check setback refuses a bite without text
+check setback refuses a non-kebab class
+check first bite plants the ledger and counts 1
+check second bite counts 2
+check audit warns at two bites but exits 0
+check third bite counts 3
+check audit fails at three, naming the owed work
+check respond appends a count-0 row
+check audit is silent after a real response
+check a post-response bite counts from the response
+check a response naming no resolvable path is warned
+check setback --list prints the class index
+check a ledger past its bound is warned
+check audit --rotate archives setbacks rows
+fact rotation keeps the newest rows live (tracker bound minus tombstone)
+fact the rules layer plants six files: the README map + five invariant rules
+fact stack scan: plain JS beside a typed stack warns DG-C008
+fact rules floor: a practice rule with a named instrument holds
+fact rules floor: an empty enforced-by lists the rule as furniture (DG-C010)
+check governance fixture: init runs clean
+fact governance: a gate-written record holds its silence
+fact governance: deleting the tracker row fails DG-C011 as an error
+fact governance: deleting the delivery-log row fails DG-C012 as an error
+fact governance: a ghost delivery-log row warns DG-C013
+fact governance: a fail verdict after delivery warns DG-C014
+fact the verdict detector is the one source of truth audit's GOV-003 reads
+fact the payload types are declared once — in types.ts
+fact bundle.ts holds no interface copy
+fact the generated payload holds no interface copy
+fact the generated payload imports the shared types
+check cli240: score refuses a unit with no grill record
+fact cli240: the score block binds the spec by sha
+fact cli240: a re-score appends a dated block — two blocks on disk
+check cli240: the gate delivers a bound, recomputed score
+check cli240: a landing is terminal — deliver refuses the second pass
+fact cli240: the refused re-delivery writes no second tracker row
+check cli240: score refuses a delivered-class unit
+check cli240: a passing re-grill cannot unset a landing
+fact cli240: a fail verdict demotes a landing, with a tracker row
+check cli240: the demoted unit re-lands through the gate
+check cli240: a spec edited after scoring fails G2 stale by sha
+check cli240: a hand-edited total fails the gate's recompute
+check cli240: a gibberish status fails check as DG-C015
+check cli240: an absolute proof path is named, never probed
+check cli240: the board counts every vocabulary status plus other
+check cli270: a manifest naming an unbundled pack fails check as DG-C016
+check cli270: doctor's tally counts the same one error — one detector, both surfaces
+check cli270: a valid pack stays green
+check cli280: metrics report emits the v1 snapshot
+check cli281: metrics report in text renders the structure map
+check cli282: gate refuses without a baseline (DG-U122)
+check cli283: gate refuses an oversized new file (DG-U119)
+check cli284: gate refuses growth past the ceiling (DG-U120)
+check cli285: gate refuses an uncovered net addition (DG-U121)
+check cli286: gate passes surgical change covered by --retires
+check cli287: init plants the numbering record
+check cli288: three-digit assignment is unchanged (010- after empty)
+check cli289: assignment past a live four-digit unit yields 1010, never the DG-U012-forever collision
+check cli290: the second assignment saw 1010 and yields 1020
+check cli291: a four-digit unit carries no DG-N004 drift warning
+check cli292: the identity strip works at four digits (true duplicate refused)
+fact cli293: listings order 990 before 1000 — the lexical lie (1000 first) is absent
+check cli294: DG-N004 still fires for a genuinely un-numbered folder
+check cli295: a tracker-only four-digit number stays spent (1010 assigned, not 1000)
+check cli296: a pre-numbered four-digit name is honored, never double-numbered
+check cli297: retiring a four-digit unit writes a-late — identity without the sequence number
+check cli298: init plants the regression record
+check cli299: first assignment is 010-
+check cli300: second assignment is 020- (step of ten unchanged)
+fact cli301: three-digit listings keep today's order

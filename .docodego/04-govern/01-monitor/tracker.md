@@ -210,3 +210,7 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-09 | 570-message-nits | delivered | 02-compose/01-build/570-message-nits/delivered.md |
 | 2026-11-09 | 570-message-nits | launch-passed | 02-compose/01-build/570-message-nits/launch.md |
 | 2026-11-09 | 570-message-nits | founder-signed | 02-compose/01-build/570-message-nits/signature.md |
+| 2026-11-09 | 580-conformance-split | new unit | 02-compose/01-build/580-conformance-split/spec.md |
+| 2026-11-09 | 580-conformance-split | delivered | 02-compose/01-build/580-conformance-split/delivered.md |
+| 2026-11-09 | 580-conformance-split | launch-passed | 02-compose/01-build/580-conformance-split/launch.md |
+| 2026-11-09 | 580-conformance-split | founder-signed | 02-compose/01-build/580-conformance-split/signature.md |

@@ -76,3 +76,4 @@ is recorded here; what was learned lives in the unit's own records.
 | 2026-11-09 | 550-fix-l2-path-extractor | G1,G2,G3,G4 | proof: apps/cli/src/passes/check.ts · warning: 1 path-like span(s) do not resolve (src/run.txt) — launch will refuse if they are proof paths |
 | 2026-11-09 | 560-stranger-legibility | G1,G2,G3,G4 | proof: apps/cli/src/bundled/index.ts |
 | 2026-11-09 | 570-message-nits | G1,G2,G3,G4 | proof: apps/cli/src/commands/init.ts |
+| 2026-11-09 | 580-conformance-split | G1,G2,G3,G4 | proof: 02-compose/01-build/580-conformance-split/proofs/labels-before.txt |
