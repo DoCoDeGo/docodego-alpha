@@ -78,7 +78,7 @@ fact("restored copy waits as README.md.new", existsSync(join(fixture, ".docodego
     hop: `${m[1]}->${m[2]}`,
     text: (m[3] ?? "").replace(/`/g, ""),
   }));
-  const regRows = MIGRATIONS.map((m) => ({ hop: `${m.from}->${m.to}`, text: m.notes.join("; ") }));
+  const regRows = MIGRATIONS.map((m) => ({ hop: `${m.from}->${m.to}`, text: m.notes.join("; ").replace(/`/g, "") }));
   const hops = JSON.stringify(docRows.map((r) => r.hop)) === JSON.stringify(regRows.map((r) => r.hop));
   const prose = docRows.every((r, i) => {
     const reg = regRows[i];
