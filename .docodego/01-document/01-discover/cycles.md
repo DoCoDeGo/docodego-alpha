@@ -225,3 +225,24 @@ With Cycle 4 fully landed, the founder opened the next stretch:
   suite green after every batch. The catalog is the finding; the
   execution is the work. Nothing payload-boundary-changing without the
   bump chain it owes.
+
+**The founder's ruling on the sweep's five founder-held rows** (2026-11-08,
+via popup — the answer verbatim):
+
+> Agree with your recommendations
+
+The rows went up with recommendations attached; the answer accepts them
+all, and each lands as ruled:
+
+- SW-076 EL-18 — **archive**. The draft's baseline-hash names the law
+  tree at 1.1.0, which shipped without it (EL-33 and EL-34 took the
+  batch), so it can never be signed. The archive moves through the law
+  tree's own chain — version 1.2.2, the amendments log row, canon
+  rebuild — changing no law text, accepting nothing.
+- SW-077 hop v0→v1 — **keep**. Upgrade history is evidence; retiring a
+  hop rewrites what v0 records lived through.
+- SW-078 fixtures — **keep unwired**. They double as demo-bundle props.
+- SW-079 lockfile — **npm**. `pnpm-lock.yaml` and `pnpm-workspace.yaml`
+  deleted; `package-lock.json` stands as the lockfile.
+- SW-080 payload dedup — **held** for a batch that owes the bump chain
+  anyway.

@@ -264,11 +264,11 @@ survive re-verification), or **founder-held** (untouched, [F]).
 | SW-073 fsx ordering | declined | pure motion with zero removals — the sweep's bias is against rearrangement |
 | SW-074 conformance size | declined | no seam found that doesn't touch byte-pinned checks — the file stays whole |
 | SW-075 migrations size | declined | teachAnchor already extracted the helper layer (788dc1b); the hop table stays |
-| SW-076 EL-18 | founder-held | the founder's call |
-| SW-077 hop v0→v1 | founder-held | the founder's call |
-| SW-078 fixtures wiring | founder-held | the founder's call |
-| SW-079 lockfile | founder-held | the founder's call |
-| SW-080 bump-chain batch | founder-held | the founder's call |
+| SW-076 EL-18 | founder-held | ruled 2026-11-08: archived (spec 1.2.2 — see the ruling block below) |
+| SW-077 hop v0→v1 | founder-held | ruled 2026-11-08: kept |
+| SW-078 fixtures wiring | founder-held | ruled 2026-11-08: kept unwired |
+| SW-079 lockfile | founder-held | ruled 2026-11-08: npm — pnpm files deleted |
+| SW-080 bump-chain batch | founder-held | ruled 2026-11-08: held for a chain-owing batch |
 
 Tally at close: **38 executed, 27 declined with recorded reasons, 5
 founder-held, 10 folded** (sub-item rows absorbed by their parent rows'
@@ -278,6 +278,16 @@ flip (SW-068), the prose-vs-declaration principle (SW-069), the 404
 cross-hint (SW-034), the seven missing pages (SW-031), DG-F004's stale
 states (SW-032), the global-usage drift (SW-035), and 14 dead locals the
 strict flag surfaced.
+
+**Founder ruling (2026-11-08, after close):** the five founder-held rows
+went up with recommendations; the answer, recorded verbatim in cycles.md:
+"Agree with your recommendations". Landed as ruled — SW-076 EL-18
+archived (its baseline names no shipped state; the archive rode the law
+tree's own chain: SPEC 1.2.2, the amendments log row, canon rebuild, dist
+in the same commit — no law text changed, nothing accepted); SW-077 hop
+v0→v1 kept; SW-078 fixtures kept unwired; SW-079 npm is the lockfile
+(pnpm files deleted); SW-080 held for a batch that owes the bump chain
+anyway.
 
 ## count
 

@@ -139,3 +139,4 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 430-refactor-sweep | new unit | 02-compose/01-build/430-refactor-sweep/spec.md |
 | 2026-11-08 | 430-refactor-sweep | delivered | 02-compose/01-build/430-refactor-sweep/delivered.md |
 | 2026-11-08 | 430-refactor-sweep | launch-passed | 02-compose/01-build/430-refactor-sweep/launch.md |
+| 2026-11-08 | 430-refactor-sweep | plan-approval: auto — the founder ruled on the sweep's five founder-held rows ("Agree with your recommendations", verbatim in cycles.md); the landing is record-side law work (EL-18 archive + spec 1.2.2 chain, pnpm deletions per the npm ruling), bounded per the founder's IMP-1 ruling (repo-only) | 01-document/01-discover/cycles.md |
