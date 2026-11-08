@@ -93,7 +93,7 @@ example:
   docodego setback --list`,
   },
   grill: {
-    usage: "docodego grill <unit> [--answers <file>] [--scaffold <file>] [--json]",
+    usage: "docodego grill <unit> [--answers <file>] [--scaffold <file>] [--by <who>] [--json]",
     summary: "The adversarial Q&A: fixed gate questions plus one per acceptance criterion.",
     body: `the count contract: FOUR fixed questions plus ONE per acceptance
 criterion in the unit's spec — a five-criterion unit asks nine.

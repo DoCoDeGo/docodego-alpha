@@ -51,9 +51,16 @@ open
 `;
 }
 
-/** One appended grill block (grill.md is append-only: newest block wins). */
-export function grillBlock(questions: { id: string; text: string }[], answers: string[]): string {
-  const lines = ["## grill " + today(), ""];
+/** One appended grill block (grill.md is append-only: newest block wins).
+ * The round names its mode: who answered. A round with no --by is a
+ * self-grilled round — the agent answering its own questions — and says so
+ * plainly (IMP-13): the form of independence must never be recorded as the
+ * fact of it. */
+export function grillBlock(questions: { id: string; text: string }[], answers: string[], by?: string): string {
+  const lines = ["## grill " + today()];
+  if (by !== undefined && by !== "") lines.push("", `- round: answered by ${by}`);
+  else lines.push("", "- round: self-grilled — the agent answered its own questions; the form of independence is not the fact of it");
+  lines.push("");
   questions.forEach((q, i) => {
     lines.push(`- ${q.id} asked: ${q.text}`);
     lines.push(`  answered: ${answers[i] ?? ""}`);

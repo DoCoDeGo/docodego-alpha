@@ -594,6 +594,24 @@ fact("the payload's AGENTS.md states the event order and the repair rule", agent
   rmSync(rh, { recursive: true, force: true });
 }
 
+// --- v2h: the grill round names its mode (340) ---
+{
+  const gh = mkdtempSync(join(tmpdir(), "docodego-conformance-grillmode-"));
+  check("grillmode: init", run(gh, ["init"]), 0);
+  check("grillmode: new", run(gh, ["new", "mode-unit"]), 0);
+  write(gh, "ans.txt", "GQ-1: the intent holds\nGQ-2: by the proofs\nGQ-3: none\nGQ-4: none\nGQ-AC1: by the capture\nGQ-AC2: same\n");
+  check("grillmode: a plain round", run(gh, ["grill", "010-mode-unit", "--answers", "ans.txt"]), 0, () => {
+    const md = read(gh, join("01-document", "01-discover", "010-mode-unit", "grill.md"));
+    return md.includes("round: self-grilled — the agent answered its own questions");
+  });
+  write(gh, "ans.txt", "GQ-1: the intent holds\nGQ-2: by the proofs\nGQ-3: none\nGQ-4: none\nGQ-AC1: by the capture\nGQ-AC2: same\n");
+  check("grillmode: a named round", run(gh, ["grill", "010-mode-unit", "--answers", "ans.txt", "--by", "Founder"]), 0, (r) => {
+    const md = read(gh, join("01-document", "01-discover", "010-mode-unit", "grill.md"));
+    return md.includes("round: answered by Founder");
+  });
+  rmSync(gh, { recursive: true, force: true });
+}
+
 // --- v5: vocabulary packs — words change, the contract does not ---
 // The pack law, enforced at every layer: embedded packs pass the validator,
 // cover exactly the canonical keys, keep ids and paths intact, init applies

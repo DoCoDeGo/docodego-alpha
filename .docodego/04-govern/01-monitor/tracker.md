@@ -114,3 +114,4 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 320-stale-proofs | delivered | 02-compose/01-build/320-stale-proofs/delivered.md |
 | 2026-11-08 | 330-research-home | new unit | 02-compose/01-build/330-research-home/spec.md |
 | 2026-11-08 | 330-research-home | delivered | 02-compose/01-build/330-research-home/delivered.md |
+| 2026-11-08 | 340-grill-mode | new unit | 02-compose/01-build/340-grill-mode/spec.md |

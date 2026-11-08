@@ -24,7 +24,7 @@ import { envelope } from "../emit/json.ts";
 export async function run(args: Args, io: Io): Promise<number> {
   const name = args.pos[0];
   if (name === undefined || name === "") {
-    return complain(args.json, io, { severity: "error", code: "DG-U020", message: "usage: docodego grill <unit> [--answers <file>] [--scaffold <file>] [--json]" }, 2, "usage");
+    return complain(args.json, io, { severity: "error", code: "DG-U020", message: "usage: docodego grill <unit> [--answers <file>] [--scaffold <file>] [--by <who>] [--json] — a round with no --by is recorded as self-grilled" }, 2, "usage");
   }
   const rec = loadRecord(process.cwd());
   const resolved = resolveUnitOrComplain(rec, name, io, args.json);
@@ -72,7 +72,7 @@ export async function run(args: Args, io: Io): Promise<number> {
 
   const verdict = verdictFor(questions, answers);
   const grillPath = unitFile(rec, unit, "grill.md");
-  appendText(grillPath, grillBlock(questions, answers));
+  appendText(grillPath, grillBlock(questions, answers, typeof args.by === "string" ? args.by : undefined));
   const specRaw = readText(join(rec.root, unit.dir, "spec.md")) ?? "";
   const status = unitStatus(unit);
   const landed = status === "delivered" || status === "launch-passed" || status === "founder-signed";
@@ -125,6 +125,8 @@ function scaffoldFor(unit: string, questions: { id: string; text: string }[]): s
     `# the contract: one answer per question id below, any order, first wins.`,
     `# end a key line with | to answer in a multi-line block (the indented`,
     `# lines after it are the answer). an empty answer fails the round.`,
+    `# a round answered by the agent itself is recorded as self-grilled;`,
+    `# name the human with --by <who> when a person answers.`,
     `# four questions are fixed; one more per acceptance criterion`,
     `# (${questions.length} total for this unit).`,
     `#`,

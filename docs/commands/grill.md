@@ -5,7 +5,7 @@
 ## Usage
 
 ```
-docodego grill <unit> [--answers <file>] [--scaffold <file>] [--json]
+docodego grill <unit> [--answers <file>] [--scaffold <file>] [--by <who>] [--json]
 ```
 
 ## Contract
