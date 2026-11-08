@@ -43,3 +43,4 @@ is recorded here; what was learned lives in the unit's own records.
 | 2026-11-08 | 220-spec7-governance-pass | G1,G2,G3,G4 | proof: 02-compose/01-build/220-spec7-governance-pass/proofs/conformance.txt |
 | 2026-11-08 | 230-debt-improvement-dispositions | G1,G2,G3,G4 | proof: 02-compose/01-build/230-debt-improvement-dispositions/proofs/mapping.txt |
 | 2026-11-08 | 240-cli-debt-cluster | G1,G2,G3,G4 | proof: 02-compose/01-build/240-cli-debt-cluster/proofs/conformance.txt |
+| 2026-11-08 | 250-reference-doc-triage | G1,G2,G3,G4 | proof: 02-compose/01-build/250-reference-doc-triage/proofs/triage.txt |

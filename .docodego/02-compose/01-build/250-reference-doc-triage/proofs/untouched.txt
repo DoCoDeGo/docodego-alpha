@@ -1,0 +1,7 @@
+# the four source docs are untouched (AC3)
+
+$ git status --porcelain docs/enhancements.md docs/distribution.md docs/skills.md docs/vocabulary-packs.md  (empty = untouched)
+(end)
+
+$ git diff --stat -- docs/enhancements.md docs/distribution.md docs/skills.md docs/vocabulary-packs.md  (empty = untouched)
+(end)

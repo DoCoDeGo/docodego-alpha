@@ -95,3 +95,5 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 240-cli-debt-cluster | new unit | 02-compose/01-build/240-cli-debt-cluster/spec.md |
 | 2026-11-08 | 240-cli-debt-cluster | gate-refused | G2 failed — the score block carries no spec-sha — re-run 'docodego score' (a score must... |
 | 2026-11-08 | 240-cli-debt-cluster | delivered | 02-compose/01-build/240-cli-debt-cluster/delivered.md |
+| 2026-11-08 | 250-reference-doc-triage | new unit | 02-compose/01-build/250-reference-doc-triage/spec.md |
+| 2026-11-08 | 250-reference-doc-triage | delivered | 02-compose/01-build/250-reference-doc-triage/delivered.md |
