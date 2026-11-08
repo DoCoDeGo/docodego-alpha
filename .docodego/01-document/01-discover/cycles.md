@@ -139,3 +139,33 @@ to `cycles-archive-N.md` beside this file and never deletes them.
 
 *(awaiting founder answers — nothing in this entry is decided; the
 agent's recommendations above are research output, not law.)*
+
+### Answers (2026-11-08, via popup — recorded verbatim)
+
+The founder answered the same day, in the popup, one answer per
+question. Each answer is recorded exactly as it arrived; the
+"(Recommended)" suffix on options 2–4 was the offered label's
+annotation, not the founder's words.
+
+1. IMP-1 — "auto depending on task, decision limited to this repo only"
+2. IMP-11 — "Accept the split as law"
+3. EL-33/EL-34 — "Accept both for signature"
+4. R10-5 — "ICS 2.0 owns it"
+
+**What each decision sets in motion** (recorded same day):
+
+- IMP-1: plan approval runs auto by task judgment — and the allowance
+  is scoped to this repository's operation only; it is not shipped into
+  the product's law. The ruling's home is this record layer: compose
+  units that proceed agent-only record it, and the bounded-by-task
+  judgment stays with the agent, auditable in the tracker.
+- IMP-11: the two-register split is accepted as law — the invariants /
+  guidance lists quoted above are the starting text, guidance
+  deviations recorded as one `deviation:` line. A new unit walks the
+  split into the planted law.
+- EL-33/EL-34: both drafts are accepted for signature — the 1.1.0
+  batch moves: the law files, the version stamp, and the log rows land
+  under the amendment law's own process.
+- R10-5: scorer satisfiability becomes a named requirement of the
+  ICS 2.0 redesign — recorded in that redesign's spec, not invented
+  as a mechanism here.
