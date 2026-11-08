@@ -1,13 +1,17 @@
 /** `grill <unit>` — the adversarial Q&A. Fixed gate questions plus one per
  * acceptance criterion. Interactive on a TTY; `--answers <file>` reads an
  * answers file — one answer per line (legacy) or keyed by question id
- * (structured: `GQ-1: text`, `|` blocks for multi-line); `--json` without
- * answers emits the questions. Q&A + verdict append to grill.md; pass sets
- * status `grilled`. */
+ * (structured: `GQ-1: text`, `|` blocks for multi-line); `--scaffold <file>`
+ * writes the keyed skeleton with every question's text under a
+ * contract-and-ephemeral header, so the tool generates its own input;
+ * `--json` without answers emits the questions. Q&A + verdict append to
+ * grill.md; pass sets status `grilled`. A failing round names the empty
+ * ids and the expected count — a miscount is a named failure, never a
+ * silent pad. */
 import { createInterface } from "node:readline/promises";
 import { join, resolve } from "node:path";
 import type { Args, Io } from "../types.ts";
-import { appendText, readText, today } from "../fsx.ts";
+import { appendText, readText, today, writeText } from "../fsx.ts";
 import { loadRecord } from "../record/load.ts";
 import { parseAnswers } from "../record/answers.ts";
 import { grillBlock } from "../record/template-docs.ts";
@@ -20,7 +24,7 @@ import { envelope } from "../emit/json.ts";
 export async function run(args: Args, io: Io): Promise<number> {
   const name = args.pos[0];
   if (name === undefined || name === "") {
-    return complain(args.json, io, { severity: "error", code: "DG-U020", message: "usage: docodego grill <unit> [--answers <file>] [--json]" }, 2, "usage");
+    return complain(args.json, io, { severity: "error", code: "DG-U020", message: "usage: docodego grill <unit> [--answers <file>] [--scaffold <file>] [--json]" }, 2, "usage");
   }
   const rec = loadRecord(process.cwd());
   const resolved = resolveUnitOrComplain(rec, name, io, args.json);
@@ -30,6 +34,18 @@ export async function run(args: Args, io: Io): Promise<number> {
   // ids stay canonical, so answers files and verdicts are dialect-blind
   const pack = vocabularyPack(rec.manifest.vocabulary);
   const questions = grillQuestions(unit.spec!, pack?.gateQuestions);
+
+  if (args.scaffold !== undefined) {
+    const body = scaffoldFor(unit.name, questions);
+    writeText(resolve(process.cwd(), args.scaffold), body);
+    if (args.json) {
+      io.out(JSON.stringify(envelope("grill", { unit: unit.name, scaffold: args.scaffold, count: questions.length, questions }, true), null, 2));
+    } else {
+      io.out(`scaffold written: ${args.scaffold} — ${questions.length} questions (four fixed + one per acceptance criterion)`);
+      io.err(`fill one answer per GQ id, then: docodego grill ${unit.name} --answers ${args.scaffold}`);
+    }
+    return 0;
+  }
 
   if (args.json && args.answers === undefined) {
     io.out(JSON.stringify(envelope("grill", { unit: name, questions }), null, 2));
@@ -57,15 +73,54 @@ export async function run(args: Args, io: Io): Promise<number> {
   const verdict = verdictFor(questions, answers);
   const grillPath = unitFile(rec, unit, "grill.md");
   appendText(grillPath, grillBlock(questions, answers));
+  const specRaw = readText(join(rec.root, unit.dir, "spec.md")) ?? "";
   if (verdict === "pass") setStatus(join(rec.root, unit.dir, "spec.md"), "grilled");
 
+  const empty = questions.map((q, i) => (answers[i]?.trim() === "" ? q.id : null)).filter((s) => s !== null);
   if (args.json) {
-    io.out(JSON.stringify(envelope("grill", { unit: name, verdict, answers, recorded: grillPath }, verdict === "pass"), null, 2));
+    io.out(JSON.stringify(envelope("grill", { unit: unit.name, verdict, answers, recorded: grillPath, expected: questions.length, empty }, verdict === "pass"), null, 2));
   } else {
     io.out(`verdict: ${verdict}`);
+    if (verdict === "fail" && empty.length > 0) {
+      io.err(`empty answers: ${empty.join(", ")} — ${questions.length} answers expected, one per question; 'docodego grill ${unit.name} --scaffold <file>' generates the skeleton`);
+    } else if (verdict === "fail") {
+      io.err(`all ${questions.length} answered — the answers fell short of the bar (the questions and your answers are in grill.md)`);
+    }
     io.err(`recorded in ${unit.dir}/grill.md${verdict === "pass" ? " · status set to grilled" : ""}`);
   }
+  // the silent demotion, made audible: a pass regrill of a scored unit
+  // drops it back to grilled — the score no longer stands until re-run
+  if (verdict === "pass" && /^status:\s*scored\s*$/m.test(specRaw)) {
+    io.err("note: this unit was scored — grilling set it back to grilled; re-run 'docodego score' before deliver");
+  }
   return verdict === "pass" ? 0 : 1;
+}
+
+/** The skeleton the tool answers into: the keyed shape the parser accepts,
+ * each question's text in a comment above its id, the contract and the
+ * file's ephemerality up top. Comment lines never parse as mappings (the
+ * grammar anchors on ^GQ-), so prose guidance is safe. */
+function scaffoldFor(unit: string, questions: { id: string; text: string }[]): string {
+  const lines = [
+    `# grill answers — ${unit}`,
+    `#`,
+    `# the contract: one answer per question id below, any order, first wins.`,
+    `# end a key line with | to answer in a multi-line block (the indented`,
+    `# lines after it are the answer). an empty answer fails the round.`,
+    `# four questions are fixed; one more per acceptance criterion`,
+    `# (${questions.length} total for this unit).`,
+    `#`,
+    `# this file is ephemeral: fill it, run`,
+    `#   docodego grill ${unit} --answers <file>`,
+    `# then delete it — do not commit it.`,
+    ``,
+  ];
+  questions.forEach((q, i) => {
+    lines.push(`# ${i + 1} of ${questions.length}: ${q.text}`);
+    lines.push(`${q.id}: `);
+    lines.push(``);
+  });
+  return lines.join("\n");
 }
 
 async function askTty(questions: { id: string; text: string }[]): Promise<string[]> {

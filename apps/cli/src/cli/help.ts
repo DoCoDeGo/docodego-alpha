@@ -70,21 +70,36 @@ example:
   docodego sketch retry-webhook-idea`,
   },
   grill: {
-    usage: "docodego grill <unit> [--answers <file>] [--json]",
+    usage: "docodego grill <unit> [--answers <file>] [--scaffold <file>] [--json]",
     summary: "The adversarial Q&A: fixed gate questions plus one per acceptance criterion.",
-    body: `flags:
-  --answers <file>  one answer per line, in question order (empty line = fail)
+    body: `the count contract: FOUR fixed questions plus ONE per acceptance
+criterion in the unit's spec — a five-criterion unit asks nine.
+
+flags:
+  --scaffold <file> write the answers skeleton: every question's id and
+                    text under a contract header. fill one answer per
+                    GQ id, then grill with --answers. the file is
+                    ephemeral — delete it after the round.
+  --answers <file>  two formats, detected by content:
+                    structured — 'GQ-1: answer' keyed lines (any order,
+                    first wins); end a line with | for a multi-line block
+                    legacy      — one answer per line, in question order
+                    (empty line = fail; a file short of the count fails
+                    with the missing ids named — a miscount is never a
+                    silent pad)
   --json            without --answers: emit the questions as docodego/grill/v1
-                    with --answers: emit the verdict envelope
+                    with --answers: emit the verdict envelope (expected
+                    count and empty ids included)
 
 the round appends to <unit>/grill.md (append-only; the last verdict wins).
-a pass sets status 'grilled'; a fail records the failed round and exits 1 —
-the attempt is evidence either way.
+a pass sets status 'grilled' — regrilling a scored unit demotes it back
+(the hint prints; re-run score before deliver). a fail records the failed
+round and exits 1 — the attempt is evidence either way.
 
 exit codes: 0 pass · 1 fail (recorded) · 2 usage / no TTY · 3 record corrupt
 
 example:
-  docodego grill retry-webhook --json > questions.json
+  docodego grill retry-webhook --scaffold answers.txt
   docodego grill retry-webhook --answers answers.txt`,
   },
   score: {

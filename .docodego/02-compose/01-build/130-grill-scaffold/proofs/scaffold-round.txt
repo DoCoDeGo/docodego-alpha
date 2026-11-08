@@ -1,0 +1,17 @@
+-- AC1: scaffold written, no round recorded
+scaffold written: answers.txt — 6 questions (four fixed + one per acceptance criterion)
+fill one answer per GQ id, then: docodego grill 010-alpha --answers answers.txt
+-- header + first two ids:
+# then delete it — do not commit it.
+
+# 1 of 6: What does this unit do, in one sentence a stranger can verify?
+GQ-1: 
+
+# 2 of 6: What evidence proves each acceptance criterion actually ran?
+keyed lines: 6
+spec.md (no grill.md — nothing recorded)
+-- AC2: fill the scaffold, run the round
+error[DG-U081]: structured answers file: unknown question id 'GQ-X0'
+  help: docodego explain DG-U081
+-- AC5: score then regrill a scored unit
+note: this unit was scored — grilling set it back to grilled; re-run 'docodego score' before deliver

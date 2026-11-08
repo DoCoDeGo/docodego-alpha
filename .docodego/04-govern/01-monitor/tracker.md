@@ -35,3 +35,5 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | record | audit: 0 failing checks, 0 with warnings — checklist updated | 04-govern/01-monitor/checklist.md |
 | 2026-11-08 | record | audit: 0 failing checks, 0 with warnings — checklist updated | 04-govern/01-monitor/checklist.md |
 | 2026-11-08 | 120-spec7-audit | delivered | 02-compose/01-build/120-spec7-audit/delivered.md |
+| 2026-11-08 | 130-grill-scaffold | new unit | 02-compose/01-build/130-grill-scaffold/spec.md |
+| 2026-11-08 | 130-grill-scaffold | delivered | 02-compose/01-build/130-grill-scaffold/delivered.md |

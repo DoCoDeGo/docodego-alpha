@@ -16,3 +16,4 @@ is recorded here; what was learned lives in the unit's own records.
 | 2026-11-08 | spec7-surgical | G1,G2,G3,G4 | proof: 02-compose/01-build/spec7-surgical/proofs/init-above.txt |
 | 2026-11-08 | 110-spec7-naming | G1,G2,G3,G4 | proof: 02-compose/01-build/110-spec7-naming/proofs/rename-integrity.txt |
 | 2026-11-08 | 120-spec7-audit | G1,G2,G3,G4 | proof: 02-compose/01-build/120-spec7-audit/proofs/healthy-run.txt |
+| 2026-11-08 | 130-grill-scaffold | G1,G2,G3,G4 | proof: 02-compose/01-build/130-grill-scaffold/proofs/scaffold-round.txt |

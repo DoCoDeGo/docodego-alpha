@@ -1,0 +1,3 @@
+-- legacy: four lines for six questions:
+verdict: fail
+empty answers: GQ-AC1, GQ-AC2 — 6 answers expected, one per question; 'docodego grill 010-delta --scaffold <file>' generates the skeleton
