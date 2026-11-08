@@ -12,7 +12,7 @@ at founder pace, the CLI at gate pace (ADR 0012).*
 | `lint` | yes | document-standard conformance over the spec tree |
 | `verify` | yes | referential integrity: enforced-by names a live gate, links and anchors resolve, the version circle closes |
 | `build` | yes | SPEC.md bundle + law-index.json + manifest with structure hash, version-sanity refusal |
-| `amend` | yes | scaffold an amendment record (anchor, baseline hash, the three questions); the founder signs via `docodego sign` |
+| `amend` | yes | scaffold an amendment record (anchor, baseline hash, the three questions); the founder accepts via `docodego sign-off` |
 | `diff` | yes | semantic law diff with a suggested bump class (tool suggests, human declares) |
 | `coverage` | no | the enforceability map, orphan gates, `--impact` |
 | `doctor` | yes | drift across spec ↔ build ↔ payload (gates rerun, mirror checked; exit 1 holds a payload release) |

@@ -36,9 +36,12 @@ that list is the launch gate.
 - [ ] **8. Branch protection + CODEOWNERS** (go-public §4). Auto-release on
       push is the superpower and the liability — one typo is a public
       release with no review gate.
-- [ ] **9. Deduplicate the Payload interface.** Defined in bundle.ts and
+- [x] **9. Deduplicate the Payload interface.** Defined in bundle.ts and
       again in the file bundle.ts generates; synced by hand; no gate
       watches it. The one quiet rot in the tree.
+      (done 2026-11-08 — 260-payload-interface-dedupe: `Payload` and
+      `SkillIndexEntry` are declared once in `apps/cli/src/types.ts`; the
+      generated bundle re-exports the type; conformance holds the gate.)
 - [ ] **10. A first-party skill repository.** `skill add --from` is
       hardened (v0.7.1) and points at nothing. Three curated skills at a
       real URL make the supply-chain story demonstrable.

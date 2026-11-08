@@ -38,7 +38,12 @@ apps/cli/src/
     markdown.ts     error-recovering markdown parser (fences, sections)
     frontmatter.ts  key:value frontmatter with per-line recovery
     streams.ts      the fixed geography: four movements, sixteen streams
-    template-docs.ts  embedded templates (spec, sketch, grill, score)
+    sections.ts     section extraction from parsed markdown
+    answers.ts      grill answers parsing (structured GQ-* and legacy forms)
+    detect.ts       find the record root by walking up
+    record-write.ts the append-side writers: tracker rows, setStatus, compose log
+    template-docs.ts  embedded templates (sketch, grill, score)
+    vocabulary.ts   the vocabulary packs a profile may plant
   passes/
     registry.ts     the rule tree + selfCheck() — the linter audits itself
     structure.ts frontmatter.ts naming.ts check.ts   the lint passes
@@ -50,16 +55,23 @@ apps/cli/src/
     explain.ts      the diagnostic-code pages (source of docs/diagnostics.md)
   emit/
     diagnostics.ts  rustc-style rendering + the explain hint line
-    json.ts         the --json envelope builders
+    json.ts         the --json envelope builders + the one pour (emitJson)
+    board.ts        the status board rendering
+    exit.ts         the exit-code vocabulary
   versioning/       migrations: ordered, version-keyed, create-only
+    plan.ts         the upgrade plan: what moves, what rides as .new
+    v1-scaffold.ts  the legacy v1 dialect's scaffold shapes
   skills/           lockfile, install/remove, folder digests
   bundled/          GENERATED — the payload (record + law + skills), hashes
   conformance.ts    the law's test suite
 
 apps/cli/scripts/
   bundle.ts         payload builder + bump guard + drift verify
-  gen-docs.ts       renders docs/commands/*.md + docs/diagnostics.md
+  compile-statutes.ts  statutes mirror compile (spec → payload bytes)
+  gen-docs.ts       renders docs/commands/*.md + docs/diagnostics.md (orphan-checked)
   build.ts          chains the release gates, emits dist/
+  fuzz.ts           property fuzzing over the record parser
+  verify-checksums.mjs  release checksum verification
 ```
 
 ## The exit-code contract
