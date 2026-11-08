@@ -48,3 +48,4 @@ is recorded here; what was learned lives in the unit's own records.
 | 2026-11-08 | 270-doctor-vocabulary-check | G1,G2,G3,G4 | proof: 02-compose/01-build/270-doctor-vocabulary-check/proofs/conformance.txt |
 | 2026-11-08 | 280-install-toctou | G1,G2,G3,G4 | proof: 02-compose/01-build/280-install-toctou/proofs/conformance.txt |
 | 2026-11-08 | 290-planted-prose-sweep | G1,G2,G3,G4 | proof: 02-compose/01-build/290-planted-prose-sweep/proofs/sweep.txt |
+| 2026-11-08 | 300-gate-rows-home | G1,G2,G3,G4 | proof: proofs/law.txt |

@@ -1,0 +1,6 @@
+nothing to report
+canon lint · 46 file(s) · 31 law(s) · 0 error(s), 0 warning(s)
+nothing to report
+canon verify · 46 file(s) · 31 law(s) · 20 live CLI command(s) · 0 error(s), 0 warning(s)
+canon doctor · no drift — lint+verify rerun clean, structure ok, index ok, version pair ok, mirror aligned (16 mirror statutes vs 16 tree statutes)
+axes (side by side, never inferred): payload specVersion 16 · cli 0.8.0 · spec/ 1.0.7 · delivered 1.0.7

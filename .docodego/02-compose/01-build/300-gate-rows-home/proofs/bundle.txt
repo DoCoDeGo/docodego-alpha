@@ -1,0 +1,1 @@
+bundle verify: clean — 51 files, spec 16, structure 73e441b37e7e — 442 studio file(s) stayed private under the boundary (allowlist v1)

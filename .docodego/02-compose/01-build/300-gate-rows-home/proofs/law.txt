@@ -1,0 +1,7 @@
+=== the law in the planted scaffold:
+49:- **Gate rows ride the unit's commit.** The tracker and delivery-log
+
+=== the teach step's contract (migrations.ts):
+191:    steps: [teachGateRowsHome],
+199:const GATE_ROWS_ANCHOR = "  did not, for this repository's purposes, happen.";
+208:export function teachGateRowsHome(root: string): string {

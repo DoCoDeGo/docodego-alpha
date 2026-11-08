@@ -118,6 +118,6 @@ land; a row never sits silently between states.
 | 18 diagnostics carry the fix | landed | the explain registry: every DG code has a page with the concrete fix (passes/explain.ts; DG-U013 names the stream-path shape) |
 | 19 scratch out of the record root | landed | docodego-visual-proof: "Scratch lives in var/" (its SKILL.md); DG-S005 held — the law worked, the default was fixed |
 | 20 evidence-type ladder | unowned | no registry; visual-proof is the practice instrument, not the ladder; candidate: a demonstrate-law child (natural host: IMP-15's demo bundles) |
-| 21 gate rows committed home | unowned | practice holds in this record (gate rows ride the unit's commit) but no planted law states it; candidate: a one-line AGENTS.md law child |
+| 21 gate rows committed home | landed | 300-gate-rows-home: the honesty law gains "gate rows ride the unit's commit" (record contract 16, taught in place by the migration, customized copies kept) |
 | 22 research's legal home | unowned | 01-discover/research/ still impersonates a unit to the structure pass; candidate: a structure-pass exemption child |
 | 23 visual evidence layer | landed | shipped same day per the source doc: docodego-visual-proof bundled, planted by the product-team and platform-team profiles |

@@ -2,7 +2,7 @@
 name: 300-gate-rows-home
 type: unit
 epic: 020-canon-debts
-status: scored
+status: delivered
 ---
 
 # 300-gate-rows-home
