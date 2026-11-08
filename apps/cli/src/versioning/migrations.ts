@@ -253,6 +253,15 @@ export const MIGRATIONS: Migration[] = [
     ],
     steps: [teachRegisters],
   },
+  {
+    from: 23,
+    to: 24,
+    notes: [
+      "the signature flow simplifies (the founder's ruling, recorded verbatim 2026-11-08, 020-canon-debts/450): docodego sign derives the signer's identifier from git or system details (or a typed --by legal identifier or handle), shows the whole act, and confirms in one step — an interactive run asks once, a headless run declares --yes, and an unconfirmed run appends nothing (DG-U118); every live mention of 'legal name' rewords to 'legal identifier or handle'",
+      "AGENTS.md's sign line and new line are taught in place by the v23->v24 migration: shipped-v23 bytes gain the new wording in place (anchor-matched), customized copies keep their words, the refreshed scaffold riding the plan as .new",
+    ],
+    steps: [teachSignFlow],
+  },
 ];
 
 /** v16 -> v17: teach AGENTS.md the event order and the repair rule.
@@ -369,6 +378,32 @@ export function teachRegisters(root: string): string {
     anchorLabel: "anchor heading",
     teach: (raw) => raw.replace(REGISTERS_ANCHOR, REGISTERS_SECTION + REGISTERS_ANCHOR),
     note: "updated AGENTS.md (the two registers inserted before the commands)",
+  });
+}
+
+/** v23 -> v24: teach AGENTS.md the simplified sign flow — the founder's
+ * ruling (2026-11-08, recorded verbatim in the record's cycles log,
+ * unit 450): no typed personal details — `docodego sign` derives the
+ * identifier from git or system details, shows the whole act, and one
+ * confirmation closes it; "legal name" rewords to "legal identifier or
+ * handle". Anchor-matched replacement (the shipped-v23 lines are
+ * recognized byte for byte); customized copies keep their words, the
+ * refreshed scaffold riding the plan as .new. Also carries the
+ * mis-homed-scaffold mitigation: the `docodego new` line names the
+ * build stream. Exported for the conformance fixture that holds the
+ * teach contract in place. */
+const SIGN_LINE_ANCHOR = "- `docodego sign <unit> --by \"<legal name>\"` — the last tier: a named person's attestation, recorded as an act receipt — status founder-signed.";
+const SIGN_LINE_TEXT = "- `docodego sign <unit>` — the last tier: a named person's attestation (the identifier derives from git or system details, or a typed `--by` legal identifier or handle; the act is shown and confirmed once — `--yes` for headless runs), recorded as an act receipt — status founder-signed.";
+const NEW_LINE_ANCHOR = "- `docodego new <unit>` — scaffold a unit (or epic/story document) in a stream.";
+const NEW_LINE_TEXT = "- `docodego new <unit>` — scaffold a unit (or epic/story document); implementation units take `--stream 02-compose/01-build` (the default stream is for discovery).";
+
+export function teachSignFlow(root: string): string {
+  return teachAnchor(root, {
+    present: { sentinel: "docodego sign <unit>` — the last tier: a named person's attestation (the identifier derives", label: "the sign-flow teach" },
+    anchor: SIGN_LINE_ANCHOR,
+    anchorLabel: "the shipped sign line",
+    teach: (raw) => raw.replace(SIGN_LINE_ANCHOR, SIGN_LINE_TEXT).replace(NEW_LINE_ANCHOR, NEW_LINE_TEXT),
+    note: "updated AGENTS.md (the sign line reworded to the derived, confirmed flow; the new line names the build stream)",
   });
 }
 

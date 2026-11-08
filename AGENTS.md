@@ -79,7 +79,7 @@ why on the record.
 ## The commands
 
 - `docodego init` — plant the record layer, law, agent presets, and skills (already done here if `.docodego/` exists).
-- `docodego new <unit>` — scaffold a unit (or epic/story document) in a stream.
+- `docodego new <unit>` — scaffold a unit (or epic/story document); implementation units take `--stream 02-compose/01-build` (the default stream is for discovery).
 - `docodego sketch <name>` — capture an idea near zero ceremony.
 - `docodego grill <unit>` — adversarial grilling round, recorded.
 - `docodego score <unit>` — score a spec against the ICS gates.
@@ -88,7 +88,7 @@ why on the record.
 - `docodego status` — where the work stands.
 - `docodego deliver <unit>` — the gate: four checks, then delivered.md + tracker + delivery-log rows.
 - `docodego launch <unit>` — the launch gate: the delivered unit's evidence re-audited (proofs still resolve, record check clean, the demo bundle filled) — status launch-passed.
-- `docodego sign <unit> --by "<legal name>"` — the last tier: a named person's attestation, recorded as an act receipt — status founder-signed.
+- `docodego sign <unit>` — the last tier: a named person's attestation (the identifier derives from git or system details, or a typed `--by` legal identifier or handle; the act is shown and confirmed once — `--yes` for headless runs), recorded as an act receipt — status founder-signed.
 - `docodego upgrade` — plan the record's move to the CLI's bundled record version (`--apply`, `--branch`).
 - `docodego skill list|add|remove` — the installed craft, audited via the lockfile.
 - `docodego explain <code>` — the page for a diagnostic code: what it means, the law behind it, how to fix it.
