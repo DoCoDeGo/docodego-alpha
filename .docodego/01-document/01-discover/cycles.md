@@ -291,3 +291,36 @@ were the agent's sequencing, not the gates'):
   units take `--stream 02-compose/01-build`; the default stream is for
   discovery — riding the recordVersion 24 bump this unit already owes,
   so the next planted record teaches it from day one.
+
+## Cycle 6 — dual use and the surgical gate (2026-11-08, via chat — the directive verbatim, three messages)
+
+> Anything built with docodego should have a dual use mindset. One
+> example is test fixtures. While they are useful for e2e automated
+> testing, they can also be publishable to demonstrate the capabilities
+> of the product as a dedicated app. Investigate what dual use means
+> for us and ensure anything built by docodego is useful in more than
+> one way. This will guide good code structure and practices. This
+> could be a skill or tool.
+
+> DoCoDeGo should always fallback to do surgical changes instead of
+> writing excessive code, continuously improving and refactoring
+> throughout the development cycles. This could be ensure through a our
+> custom built code, structure, file and size compexity tool we run
+> regularly before and after each development cycle. This needs to be
+> perfect. Adding new files and writing new code should first pass a
+> check or a gate. However, sometimes writing new code to retire old
+> code is needed. So there needs to be a balance.
+
+(The third message asked for the refactoring report — delivered in
+chat, 2026-11-08.)
+
+**What this sets in motion** (recorded same day): the dual-use
+investigation walks the whole tree naming each artifact's second use —
+fixtures as publishable demos, proofs as tutorials, law as the
+published site, conformance as living documentation — and lands as a
+taught principle plus whatever enforcement earns its keep. The
+surgical gate: a complexity tool (per-file size, structure, growth
+delta per cycle) run before and after each unit — new code passes the
+gate first, and code written to retire code earns retirement credit
+against the balance. The held SW-080 payload dedup and the dual-use
+teach ride the same future chain.

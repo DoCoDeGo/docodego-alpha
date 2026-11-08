@@ -146,3 +146,5 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 450-sign-flow | delivered | 02-compose/01-build/450-sign-flow/delivered.md |
 | 2026-11-08 | 450-sign-flow | launch-passed | 02-compose/01-build/450-sign-flow/launch.md |
 | 2026-11-08 | 430-refactor-sweep | founder-signed | 02-compose/01-build/430-refactor-sweep/signature.md |
+| 2026-11-08 | 460-surgical-gate | new unit | 02-compose/01-build/460-surgical-gate/spec.md |
+| 2026-11-08 | 470-dual-use | new unit | 02-compose/01-build/470-dual-use/spec.md |
