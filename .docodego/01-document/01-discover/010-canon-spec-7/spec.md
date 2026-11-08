@@ -159,3 +159,19 @@ Cross-reference: the debt epic `020-canon-debts` (beside this epic)
 owns the catalogued docs/fleet debts, organized 2026-11-08 on the
 founder's demand that ALL pending work be owned, specced, and grilled
 before implementation — its children cite this epic's loop.
+
+## R10-5 (appended 2026-11-08, via popup — the answer verbatim)
+
+Review finding R10-5: the scorer passed an unsatisfiable spec 100/100 —
+a spec whose criteria could not all be met scored as if it were merely
+vague. Asked whether the ICS 2.0 redesign owns satisfiability as a
+named requirement, the founder answered: "ICS 2.0 owns it".
+
+The requirement is therefore named in child 7's scope (spec7-ics-2):
+the redesign must detect an unsatisfiable spec — criteria that cannot
+all be met, whatever their clarity — and refuse it as a scored contract,
+not grade its vagueness alone. R10-5's finding is the requirement's
+motivating evidence and rides into child 7's unit spec when that child
+is walked. The redesign's standing constraints hold: deterministic
+checks first, judged dimensions marked honestly, acceptance the
+founder's.
