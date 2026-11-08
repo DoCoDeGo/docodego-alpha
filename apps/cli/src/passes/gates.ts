@@ -156,7 +156,11 @@ function proofsGate(rec: RecordAst, unit: UnitAst): Gate {
       detail: "proofs.md holds no path entries — write list items like: - path/to/proof.txt — what ran",
     };
   const existing = paths.filter((p) => proofResolves(rec, unit, p));
-  if (existing.length > 0) return { id: "G4", label: "at least one existing proof path", passed: true, detail: `proof: ${existing[0]}` };
+  if (existing.length > 0) {
+    const dead = paths.filter((p) => !proofResolves(rec, unit, p));
+    const warn = dead.length === 0 ? "" : ` · warning: ${dead.length} path-like span(s) do not resolve (${dead.slice(0, 3).join(", ")}) — launch will refuse if they are proof paths`;
+    return { id: "G4", label: "at least one existing proof path", passed: true, detail: `proof: ${existing[0]}${warn}` };
+  }
   const shown = paths.slice(0, 4).join(", ");
   const more = paths.length > 4 ? ` +${paths.length - 4} more` : "";
   return {

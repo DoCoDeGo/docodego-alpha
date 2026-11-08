@@ -282,8 +282,14 @@ export function proofPaths(proofs: FileAst): string[] {
   return out;
 }
 
-/** A path carries a separator or ends in a short file extension. */
-const PATH_LIKE = /[/\\]|\.[A-Za-z0-9]{1,8}$/;
+/** A path carries a separator, or ends in a short extension that
+ * contains at least one letter. A purely numeric tail is not an
+ * extension — it is the tail of a version string or a number, which
+ * the v27 test round caught masquerading as a vanished proof (a
+ * proofs.md citing `1.3.0` passed deliver, then launch declared it
+ * "vanished"). Real files end in .txt/.md/.ts/.json; numbers end in
+ * digits. */
+const PATH_LIKE = /[/\\]|\.[A-Za-z0-9]*[A-Za-z][A-Za-z0-9]{0,7}$/;
 
 /** Envelope schema identifiers (docodego/<command>/v1) ride proofs.md
  * as documentation of the emitted envelope — they name no file on disk, and

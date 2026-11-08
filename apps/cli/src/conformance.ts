@@ -403,6 +403,15 @@ fact("restored copy waits as README.md.new", existsSync(join(fixture, ".docodego
   fact("the transition table mirrors the migration registry hop for hop", JSON.stringify(docRows) === JSON.stringify(regRows));
 }
 
+// --- 550: the proof-path grammar — deliver and launch agree ---
+{
+  const { proofPaths } = await import("./passes/check.ts");
+  const { parseMarkdown } = await import("./record/markdown.ts");
+  const ast = (src: string) => parseMarkdown("proofs.md", src);
+  fact("the regression: version strings are not proof paths", JSON.stringify(proofPaths(ast("- AC1 — the run: `src/run.txt` — patched to 1.3.0 then 2.10.5, floor 1.0.0\n"))) === JSON.stringify(["src/run.txt"]));
+  fact("the honest shapes still extract", JSON.stringify(proofPaths(ast("- proof.txt — the bare first token\n- `a/b/span.md`\n- AC1 — label first: `c/d/late.txt`\n"))) === JSON.stringify(["proof.txt", "a/b/span.md", "c/d/late.txt"]));
+  fact("the skips still skip: envelope schemas, trailing punctuation, bare directories", JSON.stringify(proofPaths(ast("- the envelope docodego/whoami/v1 documents the shape\n- the run (`src/x.md`), then a directory `proofs/`\n"))) === JSON.stringify(["src/x.md"]));
+};
 // --- v13: the launch tiers — delivered -> launch-passed -> founder-signed ---
 // the tiers are gate-written and strict: launch audits reality over a
 // delivered unit; sign requires launch-passed and records a named
@@ -417,7 +426,14 @@ writeFileSync(ansPath, qids.map((id) => `${id}: the fixture proves the tier flow
 check("grill round passes on the fixture", run(fixture, ["grill", "kept-unit", "--answers", "gq.txt"]), 0);
 rmSync(ansPath);
 check("score passes on the fixture", run(fixture, ["score", "kept-unit"]), 0, (r) => !r.stdout.includes("below the gate"));
-check("deliver passes on the fixture", run(fixture, ["deliver", "kept-unit"]), 0);
+const v13Proofs = "# proofs — kept-unit\n\n- AC1 — the run: `01-document/01-discover/kept-unit/proofs/run.txt`\n";
+write(fixture, ".docodego/01-document/01-discover/kept-unit/proofs.md", v13Proofs + "- extra — a dangling span: `01-document/01-discover/kept-unit/proofs/missing.txt`\n");
+check("deliver passes with a warning naming the dangling span (exit 0 — the gate is not blocked)", run(fixture, ["deliver", "kept-unit"]), 0, (r) => (r.stdout + r.stderr).includes("warning:") && (r.stdout + r.stderr).includes("missing.txt") && (r.stdout + r.stderr).includes("launch will refuse"));
+write(fixture, ".docodego/01-document/01-discover/kept-unit/proofs.md", v13Proofs);
+write(fixture, ".docodego/01-document/01-discover/kept-unit/proofs.md", v13Proofs + "- outputs — the expected versions: `1.3.0`, `2.10.5`\n");
+check("check with version strings in proofs stays clean — they are not phantom evidence", run(fixture, ["check"]), 0, (r) => !(r.stdout + r.stderr).includes("1.3.0") && !(r.stdout + r.stderr).includes("vanished"));
+check("launch with version strings in proofs refuses nothing about them — L2 sees the real path only", run(fixture, ["launch", "kept-unit"]), 1, (r) => (r.stdout + r.stderr).includes("1 proof path(s), all present") && !(r.stdout + r.stderr).includes("1.3.0") && !(r.stdout + r.stderr).includes("vanished"));
+write(fixture, ".docodego/01-document/01-discover/kept-unit/proofs.md", v13Proofs);
 check("sign refused before launch (DG-U112)", run(fixture, ["sign", "kept-unit", "--by", "Testy Founder"]), 1, (r) => r.stdout.includes("DG-U112") || r.stderr.includes("DG-U112"));
 rmSync(join(fixture, ".docodego", "01-document", "01-discover", "kept-unit", "proofs", "run.txt"));
 check("launch refused on vanished evidence (exit 1)", run(fixture, ["launch", "kept-unit"]), 1, (r) => r.stdout.includes("vanished") || r.stderr.includes("vanished"));

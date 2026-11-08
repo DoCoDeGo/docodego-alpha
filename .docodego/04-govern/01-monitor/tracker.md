@@ -194,3 +194,8 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-09 | 540-law-flip-1-2-5 | delivered | 02-compose/01-build/540-law-flip-1-2-5/delivered.md |
 | 2026-11-09 | 540-law-flip-1-2-5 | launch-passed | 02-compose/01-build/540-law-flip-1-2-5/launch.md |
 | 2026-11-09 | 540-law-flip-1-2-5 | founder-signed | 02-compose/01-build/540-law-flip-1-2-5/signature.md |
+| 2026-11-09 | 550-fix-l2-path-extractor | new unit | 02-compose/01-build/550-fix-l2-path-extractor/spec.md |
+| 2026-11-09 | 550-fix-l2-path-extractor | gate-refused | G4 failed — no proof path exists on disk — looked for: src/run.txt (paths resolve again... |
+| 2026-11-09 | 550-fix-l2-path-extractor | launch-refused | L1,L2,L3,L4 failed — no delivered.md — the launch tiers start from a delivered unit (do... |
+| 2026-11-09 | 550-fix-l2-path-extractor | delivered | 02-compose/01-build/550-fix-l2-path-extractor/delivered.md |
+| 2026-11-09 | 550-fix-l2-path-extractor | launch-refused | L2 failed — proof path(s) vanished since delivery: src/run.txt — evidence that no longe... |
