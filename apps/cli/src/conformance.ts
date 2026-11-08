@@ -558,6 +558,30 @@ fact("the payload's AGENTS.md states the event order and the repair rule", agent
   rmSync(custom, { recursive: true, force: true });
 }
 
+// --- v2f: the stale-proofs light fires on post-delivery commits (320) ---
+{
+  const g = mkdtempSync(join(tmpdir(), "docodego-conformance-stale-"));
+  const git = (args: string[], when?: string) => spawnSync("git", args, { cwd: g, encoding: "utf8", env: when === undefined ? process.env : { ...process.env, GIT_AUTHOR_DATE: when, GIT_COMMITTER_DATE: when } });
+  git(["init", "-q", "."]);
+  write(g, "evidence.txt", "v1\n");
+  git(["add", "."]);
+  git(["-c", "user.name=f", "-c", "user.email=f@l", "commit", "-qm", "evidence at day one"], "2026-01-01T09:00:00");
+  const spec = ["---", "name: early-unit", "type: unit", "status: delivered", "---", "", "# early-unit", "", "## intent", "", "cite the evidence file.", "", "## acceptance", "", "- AC — the evidence file proves it."].join("\n");
+  write(g, join(".docodego", ".standard", "manifest.json"), `{\n  "recordVersion": ${specVersion()}\n}\n`);
+  write(g, join(".docodego", "02-compose", "01-build", "early-unit", "spec.md"), spec);
+  write(g, join(".docodego", "02-compose", "01-build", "early-unit", "delivered.md"), "## delivered 2026-01-02\n");
+  write(g, join(".docodego", "02-compose", "01-build", "early-unit", "proofs.md"), "- AC — the evidence file proves it: `evidence.txt`\n");
+  write(g, join(".docodego", "02-compose", "01-build", "early-unit", "score.md"), "score 80 — ok\n");
+  const before = run(g, ["check"]);
+  write(g, "evidence.txt", "v2\n");
+  git(["add", "."]);
+  git(["-c", "user.name=f", "-c", "user.email=f@l", "commit", "-qm", "evidence moves after delivery"], "2026-01-05T09:00:00");
+  const after = run(g, ["check"]);
+  fact("check is quiet while evidence predates the delivery day", !before.stdout.includes("DG-C017"));
+  fact("check warns DG-C017 when cited evidence gains a post-delivery commit", after.stdout.includes("DG-C017") && after.stdout.includes("recapture the proof or record the supersession row"));
+  rmSync(g, { recursive: true, force: true });
+}
+
 // --- v5: vocabulary packs — words change, the contract does not ---
 // The pack law, enforced at every layer: embedded packs pass the validator,
 // cover exactly the canonical keys, keep ids and paths intact, init applies

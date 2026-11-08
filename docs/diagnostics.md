@@ -214,6 +214,12 @@ prefix (`docodego explain DG-F`) prints every page in the family.
 - law: the dialect is part of the record: a record naming an absent pack is a downgrade (older CLI) or a typo, and silence about it is the defect — one detector here, surfaced by check and by doctor's record-check tally alike.
 - fix: fix the manifest's vocabulary field to a bundled pack, or run this record with a CLI that bundles the pack it names.
 
+**DG-C017 — proof evidence moved after the delivery day**
+
+- meaning: a file a delivered unit's proofs cite carries commits dated after the delivery — the proofs describe the tree as it was, not as it is.
+- law: a delivery's evidence is a claim about a moment; when the tree moves past that moment the claim goes stale, and silence about the drift is the defect (IMP-16). Commit dates decide, never file times — clones must not lie.
+- fix: recapture the proof against the current tree and update proofs.md, or record the supersession row that says the evidence describes an older tree on purpose.
+
 ### DG-P — parse — recoverable markdown events
 
 **DG-P002 — malformed frontmatter line skipped**

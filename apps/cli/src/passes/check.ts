@@ -2,6 +2,7 @@
  * status claims must match the markers on disk, links must resolve.
  * Pure apart from fs existence probes on proof paths. */
 import { join, isAbsolute } from "node:path";
+import { spawnSync } from "node:child_process";
 import { STATUS_VALUES, type Diagnostic } from "../types.ts";
 import { vocabularyPack, VOCABULARY_NAMES } from "../bundled/index.ts";
 import { field } from "../record/frontmatter.ts";
@@ -105,7 +106,52 @@ function checkProofs(rec: RecordAst, unit: UnitAst): Diagnostic[] {
     const listed = dead.slice(0, 3).join(", ") + (dead.length > 3 ? ` +${dead.length - 3} more` : "");
     out.push({ severity: "warning", code: "DG-C002", message: `proof path(s) not on disk (quoted variants or stale entries): ${listed}`, file: unit.markers.proofs });
   }
+  // IMP-16: the stale-proofs light. A delivered unit's proofs describe the
+  // tree at delivery; a cited external file that gains commits after the
+  // delivery day means the evidence describes an older tree. Commit dates,
+  // not mtimes — they survive clones, so a fresh checkout cannot
+  // false-fire. The unit's own folder is excluded: its proof files are the
+  // claim itself, and their record commits are captures, not drift.
+  const deliveryDay = deliveredDay(rec, unit);
+  if (deliveryDay !== null && gitWorktree(rec.cwd)) {
+    const stale: string[] = [];
+    for (const p of paths) {
+      const abs = proofAbsolute(rec, unit, p);
+      if (abs === null || abs.startsWith(join(rec.root, unit.dir))) continue;
+      const log = spawnSync("git", ["log", "-1", "--format=%cI", "--", abs], { cwd: rec.cwd, encoding: "utf8" });
+      const day = (log.stdout ?? "").trim().slice(0, 10);
+      if (day > deliveryDay) stale.push(p);
+    }
+    if (stale.length > 0) {
+      const listed = stale.slice(0, 3).join(", ") + (stale.length > 3 ? ` +${stale.length - 3} more` : "");
+      out.push({ severity: "warning", code: "DG-C017", message: `proof evidence has commits after the delivery day — the proofs describe an older tree: recapture the proof or record the supersession row (${listed})`, file: unit.markers.proofs });
+    }
+  }
   return out;
+}
+
+/** The delivery day: the date in delivered.md's header line. */
+function deliveredDay(rec: RecordAst, unit: UnitAst): string | null {
+  const raw = unit.markers.delivered === null ? null : readText(join(rec.root, unit.markers.delivered));
+  if (raw === null) return null;
+  const m = /^## delivered (\d{4}-\d{2}-\d{2})$/m.exec(raw);
+  return m === null ? null : m[1] ?? null;
+}
+
+/** True when the working directory sits in a git worktree; the staleness
+ * probe only speaks where git can answer, and stays silent otherwise. */
+function gitWorktree(cwd: string): boolean {
+  const probe = spawnSync("git", ["rev-parse", "--is-inside-work-tree"], { cwd, encoding: "utf8" });
+  return (probe.stdout ?? "").trim() === "true";
+}
+
+/** The absolute path a proof path resolves to, in the gate's own order
+ * (cwd, record root, unit dir) — null when nothing resolves. */
+function proofAbsolute(rec: RecordAst, unit: UnitAst, p: string): string | null {
+  for (const cand of [join(rec.cwd, p), join(rec.root, p), join(rec.root, unit.dir, p)]) {
+    if (isFile(cand)) return cand;
+  }
+  return null;
 }
 
 /** Pre-delivery proofs check: the gate's own resolution logic, run by `check`,
