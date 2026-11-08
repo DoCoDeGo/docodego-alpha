@@ -262,6 +262,16 @@ export const MIGRATIONS: Migration[] = [
     ],
     steps: [teachSignFlow],
   },
+  {
+    from: 24,
+    to: 25,
+    notes: [
+      "the consent split lands (the founder's ruling, recorded verbatim 2026-11-08, unit 480): docodego sign and sign-off take --name (typed, stored verbatim; --by is its documented alias) or --system (this environment), and derived identifiers fingerprint before storage — fp:v1:<hex>, scrypt, salted per record at .docodego/04-govern/signature-salt (committed, create-only); no record file stores a raw environment identity from this version forward — existing rows stand as recorded (append-only)",
+      "the receipt, the ledger template, and the help name the encoding: ', fingerprinted' and the honest clause — privacy, not anonymity: it resists a stranger's lookup, not a determined guesser; --yes and the one-signature-per-act rails are untouched",
+      "AGENTS.md gains the second-use section (470's staged draft lands — dual use as structural practice) and the sign line reteaches in place, anchor-matched; SW-023's twin-text dedup stays held (its site map is its own batch)",
+    ],
+    steps: [teachSignIdentity, teachSecondUse],
+  },
 ];
 
 /** v16 -> v17: teach AGENTS.md the event order and the repair rule.
@@ -427,6 +437,58 @@ export function teachGateRowsHome(root: string): string {
     anchorLabel: "anchor line",
     teach: (raw) => raw.replace(GATE_ROWS_ANCHOR, `${GATE_ROWS_ANCHOR}\n${GATE_ROWS_BULLET}`),
     note: "updated AGENTS.md (gate-rows bullet inserted after the failure-is-evidence bullet)",
+  });
+}
+
+/** v24 -> v25: the consent split (the founder's ruling, recorded
+ * verbatim 2026-11-08, unit 480): the sign line reteaches — `--name`
+ * (typed, stored verbatim; `--by` its documented alias), `--system`
+ * (this environment), or the derived ladder fingerprinted per record
+ * (`fp:v1:<hex>` — the raw environment string is never stored).
+ * Anchor-matched replacement of the shipped-v24 line; customized copies
+ * keep their words, the refreshed scaffold riding the plan as .new. */
+const SIGN_IDENTITY_ANCHOR = SIGN_LINE_TEXT;
+const SIGN_IDENTITY_TEXT = "- `docodego sign <unit>` — the last tier: a named person's attestation — `--name` (typed, stored verbatim; `--by` its alias), `--system` (this environment), or the derived ladder, fingerprinted per record (`fp:v1:<hex>` — the raw environment string is never stored); the act is shown and confirmed once — `--yes` for headless runs — status founder-signed.";
+
+export function teachSignIdentity(root: string): string {
+  return teachAnchor(root, {
+    present: { sentinel: "fingerprinted per record (`fp:v1:<hex>`", label: "the sign-identity teach" },
+    anchor: SIGN_IDENTITY_ANCHOR,
+    anchorLabel: "the shipped-v24 sign line",
+    teach: (raw) => raw.replace(SIGN_IDENTITY_ANCHOR, SIGN_IDENTITY_TEXT),
+    note: "updated AGENTS.md (the sign line names --name/--system and the per-record fingerprint)",
+  });
+}
+
+/** v24 -> v25 also carries the second-use teach — 470's staged draft
+ * (`.docodego/02-compose/01-build/470-dual-use/teach-staged.md`):
+ * dual use as structural practice, inserted before the honesty law
+ * heading. Same conservative contract. */
+const SECOND_USE_HEADING_ANCHOR = "## The honesty law";
+const SECOND_USE_SECTION = [
+  "## The second use — anything built here works twice",
+  "",
+  "Dual use is structural practice here, not a slogan: every artifact",
+  "family names its second audience or honestly records that it has",
+  "none. The worked pairs: the conformance fixtures prove the engine and",
+  "their curated set demos it; the proofs bind evidence at deliver and",
+  "teach a cold contributor how to verify; the spec tree governs the",
+  "build and `canon publish` renders it as the public site; the explain",
+  "pages fix refusals and gloss the law.",
+  "",
+  "Before delivering: ask whether what you built teaches someone who",
+  "was not in the room. If yes, name the second audience where the",
+  "artifact lives. If no, say so — a recorded \"none yet\" beats an",
+  "invented audience.",
+].join("\n");
+
+export function teachSecondUse(root: string): string {
+  return teachAnchor(root, {
+    present: { sentinel: "The second use — anything built here works twice", label: "the second-use teach" },
+    anchor: SECOND_USE_HEADING_ANCHOR,
+    anchorLabel: "the honesty law heading",
+    teach: (raw) => raw.replace(SECOND_USE_HEADING_ANCHOR, `${SECOND_USE_SECTION}\n\n${SECOND_USE_HEADING_ANCHOR}`),
+    note: "updated AGENTS.md (the second-use section inserted before the honesty law)",
   });
 }
 

@@ -9,7 +9,7 @@
  * Exit 0 = every check green; exit 1 = at least one failed (named). */
 import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
-import { tmpdir } from "node:os";
+import { tmpdir, userInfo, hostname } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { recordFiles, agentsMd, profiles as bundledProfiles, cliVersion, specVersion, skillsIndex, ruleFiles, vocabularies, VOCABULARY_NAMES, vocabularyPack, COMPOSE_LOG_TEMPLATE, DEMO_README_TEMPLATE, DEMO_HOWTO_TEMPLATE, EVIDENCE_TYPES } from "./bundled/index.ts";
@@ -25,7 +25,7 @@ import { COMPLETION_SHELLS } from "./cli/completions.ts";
 import { today, sha16 } from "./fsx.ts";
 import { appendComposeLog } from "./record/record-write.ts";
 import { MIGRATIONS } from "./versioning/migrations.ts";
-import { createHash } from "node:crypto";
+import { createHash, scryptSync } from "node:crypto";
 import { EXPLANATIONS, FAMILY_TITLES } from "./passes/explain.ts";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -457,10 +457,61 @@ check("score passes on the derived fixture", run(fixture, ["score", "derived-uni
 check("deliver passes on the derived fixture", run(fixture, ["deliver", "derived-unit"]), 0);
 write(fixture, ".docodego/03-demonstrate/demo/derived-unit/how-to-run.md", "# how to run\n\nFilled: the suite is the demo — the conformance suite walks derived-unit's tier flow end to end.\n");
 check("launch passes on the derived fixture", run(fixture, ["launch", "derived-unit"]), 0);
+// the consent split (480): the fixture controls the salt — written
+// before the first derived sign, the expected fingerprint computed
+// here with the same scrypt params and pinned byte-for-byte. The
+// source ladder is replicated (git, then system) so the pin holds on
+// any machine.
+const SALT = "0123456789abcdef0123456789abcdef";
+write(fixture, ".docodego/04-govern/signature-salt", `${SALT}\n`);
+const scryptFp = (raw: string, salt: string): string => `fp:v1:${scryptSync(raw, salt, 32, { N: 16384, r: 8, p: 1 }).toString("hex")}`;
+const gitCfg = (k: string): string | null => { const r = spawnSync("git", ["config", "--get", k], { encoding: "utf8" }); const v = (r.stdout ?? "").trim(); return r.status === 0 && v !== "" ? v : null; };
+const gitName0 = gitCfg("user.name");
+const gitMail0 = gitName0 !== null ? gitCfg("user.email") : null;
+const envRaw = gitName0 === null ? `${userInfo().username}@${hostname()}` : gitMail0 === null ? gitName0 : `${gitName0} <${gitMail0}>`;
+const expectedEnvFp = scryptFp(envRaw, SALT);
 check("sign passes with no --by — the identifier derives, declared headless", run(fixture, ["sign", "derived-unit", "--yes"]), 0);
 const derivedReceipt = read(fixture, "01-document/01-discover/derived-unit/signature.md");
-fact("the derived receipt names an environment identity and its kind", derivedReceipt.includes("(the git identity of the environment)") || derivedReceipt.includes("(the system identity of the environment)"));
+fact("the derived receipt names an environment identity and its kind", derivedReceipt.includes("(the git identity of the environment, fingerprinted)") || derivedReceipt.includes("(the system identity of the environment, fingerprinted)"));
 fact("the derived receipt carries no typed line", !derivedReceipt.includes("(a typed legal identifier)"));
+fact("the derived receipt stores the exact fixture-salted fingerprint", derivedReceipt.includes(`signed by: ${expectedEnvFp} (`));
+fact("the derived receipt names no raw environment identity", !derivedReceipt.includes(envRaw));
+
+// --system forces the environment identity (git skipped); --name is the
+// typed consent; together they are one refusal (DG-U111, one signer one
+// source). A helper walks a unit to launch-passed so each source has an
+// act to land on.
+const walkTo = (unit: string, lead: string): void => {
+  write(fixture, `.docodego/01-document/01-discover/${unit}/spec.md`, `---\nname: ${unit}\ntype: unit\nstatus: draft\n---\n\n# ${unit}\n\n## intent\n\n${lead} 2 criteria, all checkable by one command run per criterion.\n\n## scope\n\nIn: the proof. Out: any production behavior.\n\n## acceptance\n\n- AC1: the proof file exists at 01-document/01-discover/${unit}/proofs/run.txt after 1 command run\n- AC2: the receipt file signature.md exists after signing\n\n## threats\n\n- the fixture drifts from the grammar -> the conformance suite fails loudly and names the check\n`);
+  write(fixture, `.docodego/01-document/01-discover/${unit}/proofs.md`, `# proofs — ${unit}\n\n- AC1 — the run: \`01-document/01-discover/${unit}/proofs/run.txt\`\n`);
+  write(fixture, `.docodego/01-document/01-discover/${unit}/proofs/run.txt`, "proof run output\n");
+  const gj = run(fixture, ["grill", unit, "--json"]);
+  const ids = (gj.stdout.match(/"id": "GQ-(?:AC)?[0-9]+"/g) ?? []).map((s) => s.match(/GQ(?:AC)?[0-9]+/)?.[0] ?? "");
+  const ap = join(fixture, `gq-${unit}.txt`);
+  writeFileSync(ap, ids.map((id) => `${id}: the fixture proves the flow; observation: the suite asserts the receipt`).join("\n") + "\n");
+  check(`grill round passes on ${unit}`, run(fixture, ["grill", unit, "--answers", `gq-${unit}.txt`]), 0);
+  rmSync(ap);
+  check(`score passes on ${unit}`, run(fixture, ["score", unit]), 0, (r) => !r.stdout.includes("below the gate"));
+  check(`deliver passes on ${unit}`, run(fixture, ["deliver", unit]), 0);
+  write(fixture, `.docodego/03-demonstrate/demo/${unit}/how-to-run.md`, "# how to run\n\nFilled: the suite is the demo — the conformance suite walks the tier flow end to end.\n");
+  check(`launch passes on ${unit}`, run(fixture, ["launch", unit]), 0);
+};
+walkTo("system-unit", "The system-unit proves the forced system source:");
+const sysFp = scryptFp(`${userInfo().username}@${hostname()}`, SALT);
+check("sign --system stores the system fingerprint, exact hex, clause named", run(fixture, ["sign", "system-unit", "--system", "--yes"]), 0);
+const sysReceipt = read(fixture, "01-document/01-discover/system-unit/signature.md");
+fact("the --system receipt carries the exact fixture-salted fingerprint and kind", sysReceipt.includes(`signed by: ${sysFp} (the system identity of the environment, fingerprinted)`));
+fact("the fingerprinted receipt carries the honest clause", sysReceipt.includes("resists a stranger's lookup, not a determined guesser"));
+fact("the --system receipt names no raw system identity", !sysReceipt.includes(`${userInfo().username}@${hostname()}`));
+walkTo("named-unit", "The named-unit proves the typed --name source:");
+const ledgerBefore480 = read(fixture, "04-govern/signatures.md").split("\n").length;
+check("sign --name and --system together is a usage refusal (DG-U111), nothing appended", run(fixture, ["sign", "named-unit", "--name", "Ada Lovelace", "--system"]), 2, (r) => (r.stdout + r.stderr).includes("DG-U111") && (r.stdout + r.stderr).includes("one identifier source"));
+fact("the refused conflict appended nothing", read(fixture, "04-govern/signatures.md").split("\n").length === ledgerBefore480);
+check("sign --name stores the typed identifier verbatim", run(fixture, ["sign", "named-unit", "--name", "Ada Lovelace", "--yes"]), 0);
+const namedReceipt = read(fixture, "01-document/01-discover/named-unit/signature.md");
+fact("the --name receipt is byte-identical in shape to the --by receipt", namedReceipt.includes("signed by: Ada Lovelace (a typed legal identifier)") && namedReceipt.includes("attestation by command execution"));
+fact("the ledger carries the typed row and the fingerprint rows side by side", read(fixture, "04-govern/signatures.md").includes("Ada Lovelace (a typed legal identifier)") && read(fixture, "04-govern/signatures.md").includes(sysFp) && read(fixture, "04-govern/signatures.md").includes(expectedEnvFp));
+fact("the salt is used, not regenerated — bytes unchanged after every sign", read(fixture, "04-govern/signature-salt").trim() === SALT);
 
 // --- v2: forward-compat — a newer record is refused politely ---
 const newer = mkdtempSync(join(tmpdir(), "docodego-conformance-fwd-"));
@@ -652,11 +703,77 @@ fact("the payload's AGENTS.md carries the two registers with the accepted lists"
   check("sign-off without --quote is a usage error", run(so, ["sign-off", amen2]), 2, (r) => r.stderr.includes("DG-U117"));
   const amen3 = join(specRoot, "amendments", "1.3.0-EL-37-new.md");
   writeFileSync(amen3, amendment("EL-37", "laws/35-the-demo-law.md"));
-  check("without --by the receipt names the derivation kind (git or system) and the limit", run(so, ["sign-off", amen3, "--quote", "Accept it"]), 0, (r) => {
+  const SO_SALT = "fedcba98765432fedcba9876543210aa";
+  write(so, ".docodego/04-govern/signature-salt", `${SO_SALT}\n`);
+  const soFp = `fp:v1:${scryptSync(envRaw, SO_SALT, 32, { N: 16384, r: 8, p: 1 }).toString("hex")}`;
+  check("without --by the receipt names the derivation kind (git or system), fingerprinted, and the limit", run(so, ["sign-off", amen3, "--quote", "Accept it"]), 0, (r) => {
     const body = readFileSync(amen3, "utf8");
-    return /identity of the environment\)/.test(body) && body.includes("witnesses the act");
+    return body.includes(`Identity: ${soFp} (the ${gitName0 === null ? "system" : "git"} identity of the environment, fingerprinted)`) && body.includes("witnesses the act") && body.includes("resists a stranger's lookup, not a determined guesser");
+  });
+  const amen4 = join(specRoot, "amendments", "1.3.0-EL-38-new.md");
+  writeFileSync(amen4, amendment("EL-38", "laws/35-the-demo-law.md"));
+  check("a second derived sign-off in the same record carries the same fingerprint", run(so, ["sign-off", amen4, "--quote", "Accept it"]), 0, (r) => {
+    const body = readFileSync(amen4, "utf8");
+    return body.includes(`Identity: ${soFp} (`);
+  });
+  fact("the sign-off salt is used, not regenerated", readFileSync(join(so, ".docodego", "04-govern", "signature-salt"), "utf8").trim() === SO_SALT);
+  // cross-record unlinkability: the same environment, a different
+  // record's salt, a different fingerprint
+  const so2 = mkdtempSync(join(tmpdir(), "docodego-conformance-signoff2-"));
+  const specRoot2 = join(so2, "spec");
+  mkdirSync(join(specRoot2, "amendments"), { recursive: true });
+  mkdirSync(join(specRoot2, "laws"), { recursive: true });
+  writeFileSync(join(specRoot2, "laws", "35-the-demo-law.md"), lawBody);
+  const amenB = join(specRoot2, "amendments", "1.3.0-EL-35-new.md");
+  writeFileSync(amenB, amendment("EL-35", "laws/35-the-demo-law.md"));
+  write(so2, ".docodego/04-govern/signature-salt", `${SALT}\n`);
+  check("the same environment in a second record (different salt) fingerprints differently", run(so2, ["sign-off", amenB, "--quote", "Accept it"]), 0, (r) => {
+    const body = readFileSync(amenB, "utf8");
+    return body.includes("fp:v1:") && !body.includes(soFp);
   });
   rmSync(so, { recursive: true, force: true });
+  rmSync(so2, { recursive: true, force: true });
+}
+
+// --- v25: the consent-split and second-use teach (480) ---
+{
+  const { teachSignIdentity, teachSecondUse } = await import("./versioning/migrations.ts");
+  const ag = mkdtempSync(join(tmpdir(), "docodego-conformance-v25teach-"));
+  mkdirSync(join(ag, ".docodego"), { recursive: true });
+  const v24 = [
+    "# AGENTS.md",
+    "",
+    "## The loop",
+    "",
+    "Work runs in delivery units.",
+    "",
+    "## The honesty law",
+    "",
+    "- **Records append.** Superseded text is struck or archived, never deleted.",
+    "",
+    "## The commands",
+    "",
+    "- `docodego sign <unit>` — the last tier: a named person's attestation (the identifier derives from git or system details, or a typed `--by` legal identifier or handle; the act is shown and confirmed once — `--yes` for headless runs), recorded as an act receipt — status founder-signed.",
+    "",
+  ].join("\n");
+  writeFileSync(join(ag, "AGENTS.md"), v24);
+  const recDir = join(ag, ".docodego");
+  const n1 = teachSignIdentity(recDir);
+  const n2 = teachSecondUse(recDir);
+  const taught = readFileSync(join(ag, "AGENTS.md"), "utf8");
+  fact("the consent-split teach rewrites the shipped-v24 sign line", n1.includes("updated AGENTS.md") && taught.includes("`--name` (typed, stored verbatim; `--by` its alias)") && taught.includes("fingerprinted per record (`fp:v1:<hex>`") && !taught.includes("or a typed `--by` legal identifier or handle; the act is shown"));
+  fact("the second-use teach inserts before the honesty law", n2.includes("updated AGENTS.md") && taught.includes("The second use — anything built here works twice") && taught.indexOf("## The second use") < taught.indexOf("## The honesty law"));
+  const n3 = teachSignIdentity(recDir);
+  const n4 = teachSecondUse(recDir);
+  fact("both teaches are idempotent", n3.includes("already present") && n4.includes("already present") && readFileSync(join(ag, "AGENTS.md"), "utf8") === taught);
+  const custom = mkdtempSync(join(tmpdir(), "docodego-conformance-v25kept-"));
+  mkdirSync(join(custom, ".docodego"), { recursive: true });
+  writeFileSync(join(custom, "AGENTS.md"), "# my own law\n\nno sign line or honesty heading here\n");
+  const keptNote = teachSecondUse(join(custom, ".docodego"));
+  const keptBody = readFileSync(join(custom, "AGENTS.md"), "utf8");
+  fact("the teaches keep a customized AGENTS.md untouched", keptNote.includes("customized") && keptBody === "# my own law\n\nno sign line or honesty heading here\n");
+  rmSync(ag, { recursive: true, force: true });
+  rmSync(custom, { recursive: true, force: true });
 }
 // the detector, over a real delivered unit: an unknown declaration fails
 // check naming the registry; a declared one passes; the demo bundle is

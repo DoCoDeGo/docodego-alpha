@@ -109,6 +109,8 @@ export interface Args {
   maxGrowth?: string | boolean;
   retires?: string | boolean;
   by?: string | boolean;
+  name?: string | boolean;
+  system?: boolean;
   role?: string | boolean;
 }
 

@@ -226,6 +226,16 @@ witnesses an attestation: the named person ran the signing command over
 the named evidence. The evidence hashes live in the unit's own
 signature.md.
 
+Reading the signed-by column: a typed identifier appears verbatim — a
+human typed it, that is the consent. A value of the form fp:v1:<hex>
+is a versioned fingerprint of a derived environment identity (git or
+system), salted per record: the same fingerprint in two rows of this
+ledger means the same environment signed both acts; it does not mean
+anyone can learn which machine or human it was — a fingerprint is
+privacy, not anonymity: it resists a stranger's lookup, not a
+determined guesser. One direction only: a different fingerprint does
+not imply a different environment.
+
 | date | unit | signed by | role | act |
 |---|---|---|---|
 `;

@@ -22,7 +22,7 @@ Families follow the loop: plant, walk, read, version.
 | [`docodego deliver`](./deliver.md) | The gate. Four decisions; only an all-green gate writes anything. |
 | [`docodego launch`](./launch.md) | The first post-delivery tier: the record survives a fresh audit of reality. |
 | [`docodego sign`](./sign.md) | The last tier: a named person signs the act — an attestation, honestly bounded. |
-| [`docodego sign-off`](./sign-off.md) | The amendment sign-off: identity derived, secrets scanned, the pending block filled — the founder's act, one command. |
+| [`docodego sign-off`](./sign-off.md) | The amendment sign-off: identity chosen, secrets scanned, the pending block filled — the founder's act, one command. |
 | [`docodego retire`](./retire.md) | Move a delivered unit to system/behavioral/ as a named behavior — done is a place. |
 
 ## read the record

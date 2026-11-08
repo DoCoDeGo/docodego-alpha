@@ -2,8 +2,8 @@
 import { MODES, type Args, type DocType, type Mode } from "../types.ts";
 import { DOC_TYPES } from "../types.ts";
 
-const BOOL_FLAGS = new Set(["--json", "--force", "--self-check", "--apply", "--branch", "--all-skills", "--version", "--help", "--list", "--rotate", "--dry-run", "--yes"]);
-const VALUE_FLAGS = new Set(["--mode", "--answers", "--scaffold", "--type", "--epic", "--story", "--stream", "--from-sketch", "--profile", "--from", "--vocabulary", "--respond", "--as", "--by", "--role", "--quote", "--root", "--baseline", "--max-new", "--max-growth", "--retires"]);
+const BOOL_FLAGS = new Set(["--json", "--force", "--self-check", "--apply", "--branch", "--all-skills", "--version", "--help", "--list", "--rotate", "--dry-run", "--yes", "--system"]);
+const VALUE_FLAGS = new Set(["--mode", "--answers", "--scaffold", "--type", "--epic", "--story", "--stream", "--from-sketch", "--profile", "--from", "--vocabulary", "--respond", "--as", "--by", "--name", "--role", "--quote", "--root", "--baseline", "--max-new", "--max-growth", "--retires"]);
 
 export type ParsedArgs = { ok: true; args: Args } | { ok: false; message: string };
 
@@ -46,6 +46,7 @@ export function parseArgs(argv: string[]): ParsedArgs {
       else if (tok === "--list") args.list = true;
       else if (tok === "--dry-run") args.dryRun = true;
       else if (tok === "--yes") args.yes = true;
+      else if (tok === "--system") args.system = true;
       else args.help = true;
       continue;
     }
@@ -62,6 +63,7 @@ export function parseArgs(argv: string[]): ParsedArgs {
       else if (tok === "--as") args.as = value;
       else if (tok === "--quote") args.quote = value;
       else if (tok === "--by") args.by = value;
+      else if (tok === "--name") args.name = value;
       else if (tok === "--role") args.role = value;
       else if (tok === "--type") {
         const docType = value as DocType;
@@ -107,8 +109,8 @@ commands:
   doctor [--json]
   deliver <unit>
   launch <unit>
-  sign <unit> [--by "<legal identifier or handle>"] [--role <role>] [--yes]
-  sign-off <amendment-file> --quote "<the acceptance words, verbatim>" [--by "<legal identifier or handle>"]
+  sign <unit> [--name "<legal identifier or handle>"] [--system] [--role <role>] [--yes] (--by is an alias of --name)
+  sign-off <amendment-file> --quote "<the acceptance words, verbatim>" [--name "<legal identifier or handle>"] [--system]
   metrics report [--root <dir>] [--json]
   metrics gate --baseline <snapshot.json> [--max-new N] [--max-growth N] [--retires p1,p2]
   retire <unit> [--as <behavior>] [--dry-run] [--json]

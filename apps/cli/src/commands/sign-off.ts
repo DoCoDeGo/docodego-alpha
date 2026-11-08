@@ -2,20 +2,25 @@
  * step 3, mechanized: the owner's sign-off recorded with the words
  * verbatim beside the sha256 of the exact text signed. The founder
  * directed the form (2026-11-08, recorded verbatim in the record's
- * cycle 4): identity derived from git or system details, the stored
- * words scanned for secrets before anything is recorded, the whole act
- * as easy as one command. The scanner refuses rather than redacts —
- * verbatim text is stored whole or not at all (EL-19), and the receipt
- * always states the attestation limit: it witnesses the act, it does
- * not prove identity. Pass: the amendment's pending block replaced. A
- * second sign-off rewrites an act the record keeps once — refused. */
+ * cycle 4): identity from one chosen source — a typed `--name` (the
+ * consented words, stored verbatim; `--by` is its alias), `--system`
+ * (this environment), or the git-then-system ladder — with derived
+ * identifiers fingerprinted before storage (the consent split, the
+ * founder's ruling in cycle 6), the stored words scanned for secrets
+ * before anything is recorded, the whole act as easy as one command.
+ * The scanner refuses rather than redacts — verbatim text is stored
+ * whole or not at all (EL-19), and the receipt always states the
+ * attestation limit: it witnesses the act, it does not prove identity;
+ * a fingerprinted identifier adds its honest clause — it resists
+ * lookup, not a determined guesser. Pass: the amendment's pending
+ * block replaced. A second sign-off rewrites an act the record keeps
+ * once — refused. */
 import { sha256, readText, today, writeText } from "../fsx.ts";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
-import { hostname, userInfo } from "node:os";
 import { dirname, join, relative, resolve } from "node:path";
-import { spawnSync } from "node:child_process";
 import type { Args, Io } from "../types.ts";
 import { complain } from "./resolve.ts";
+import { loadOrCreateSalt, resolveIdentity, saltRoot } from "./identity.ts";
 import { emitJson } from "../emit/json.ts";
 
 /** The secret shapes the scan knows. Short, named, exported for the
@@ -35,29 +40,6 @@ function scanForSecrets(text: string): string | null {
   for (const p of SECRET_PATTERNS) if (p.re.test(text)) return p.name;
   return null;
 }
-
-const gitConfig = (key: string): string | null => {
-  const r = spawnSync("git", ["config", "--get", key], { encoding: "utf8" });
-  const v = (r.stdout ?? "").trim();
-  return r.status === 0 && v !== "" ? v : null;
-};
-
-type Identity = { line: string; kind: "typed" | "git" | "system" };
-
-export const deriveIdentity = (by?: string): Identity => {
-  if (by !== undefined && by !== "") return { line: `${by} (a typed legal identifier)`, kind: "typed" };
-  const name = gitConfig("user.name");
-  if (name !== null) {
-    const email = gitConfig("user.email");
-    return { line: email === null ? `${name} (the git identity of the environment)` : `${name} <${email}> (the git identity of the environment)`, kind: "git" };
-  }
-  try {
-    const u = userInfo();
-    return { line: `${u.username}@${hostname()} (the system identity of the environment)`, kind: "system" };
-  } catch {
-    return { line: "unresolvable (no typed name, no git identity, no system user)", kind: "system" };
-  }
-};
 
 /** The law file the amendment signs: the proposed-law-file heading for a
  * new-law draft (laws/<file>.md under the amendment's spec root), else
@@ -87,7 +69,7 @@ export function run(args: Args, io: Io): number {
   const target = args.pos[0];
   const quote = typeof args.quote === "string" ? args.quote : "";
   if (target === undefined || target === "" || quote === "") {
-    return complain(args.json, io, { severity: "error", code: "DG-U117", message: 'usage: docodego sign-off <amendment-file> --quote "<the acceptance words, verbatim>" [--by "<legal identifier or handle>"] [--role <role>]' }, 2, "usage");
+    return complain(args.json, io, { severity: "error", code: "DG-U117", message: 'usage: docodego sign-off <amendment-file> --quote "<the acceptance words, verbatim>" [--name "<legal identifier or handle>"] [--system] [--role <role>] (--by is an alias of --name)' }, 2, "usage");
   }
   const amenAbs = resolve(process.cwd(), target);
   const raw = readText(amenAbs);
@@ -98,7 +80,8 @@ export function run(args: Args, io: Io): number {
   // the scan runs first and stores nothing: the words are checked before
   // the act is written anywhere (the founder's directive, verbatim in
   // cycle 4: "detect security risks like API keys and avoid storing that")
-  const scanned = scanForSecrets(quote) ?? (typeof args.by === "string" ? scanForSecrets(args.by) : null) ?? (typeof args.role === "string" ? scanForSecrets(args.role) : null);
+  const typedName = typeof args.name === "string" && args.name.trim() !== "" ? args.name.trim() : typeof args.by === "string" && args.by.trim() !== "" ? args.by.trim() : undefined;
+  const scanned = scanForSecrets(quote) ?? (typedName !== undefined ? scanForSecrets(typedName) : null) ?? (typeof args.role === "string" ? scanForSecrets(args.role) : null);
   if (scanned !== null) {
     return complain(args.json, io, { severity: "error", code: "DG-U114", message: `the words carry a secret shape (${scanned}) — nothing stored; reword the quote and run again (verbatim text is stored whole or not at all)` }, 1, "sign-off-refused");
   }
@@ -116,17 +99,30 @@ export function run(args: Args, io: Io): number {
     return complain(args.json, io, { severity: "error", code: "DG-U116", message: `the law file named by ${target} is not readable` }, 1, "sign-off-refused");
   }
 
-  const identity = deriveIdentity(typeof args.by === "string" && args.by !== "" ? args.by : undefined);
+  if (typedName !== undefined && args.system === true) {
+    return complain(args.json, io, { severity: "error", code: "DG-U111", message: "sign-off takes one identifier source: --name/--by (a typed identifier) or --system (this environment) — not both (nothing stored)" }, 2, "usage");
+  }
+  const salt = loadOrCreateSalt(saltRoot());
+  const identity = resolveIdentity({ name: typedName, system: args.system === true }, salt);
+  if (identity === "unsaltable") {
+    return complain(args.json, io, { severity: "error", code: "DG-U111", message: "the signature salt at .docodego/04-govern/signature-salt is unreadable — a derived identity fingerprints with the record's own salt, and regenerating would orphan every row already keyed to it; repair the file and run again" }, 1, "sign-off-refused");
+  }
+  if (identity === "unresolvable") {
+    return complain(args.json, io, { severity: "error", code: "DG-U111", message: 'a sign-off needs an identifier and none could be derived from git or system details — type --name "<legal identifier or handle>"' }, 2, "usage");
+  }
   const role = typeof args.role === "string" && args.role !== "" ? args.role : "founder";
   const date = today();
   const lawHash = sha256(lawRaw);
   const lawRel = relative(dirname(amenAbs), lawAbs);
+  const limitLine = identity.kind === "typed"
+    ? "The attestation limit: this record witnesses the act; it does not cryptographically prove identity."
+    : "The attestation limit: this record witnesses the act; it does not cryptographically prove identity. The identifier is fingerprinted: privacy, not anonymity — it resists a stranger's lookup, not a determined guesser.";
   const receipt = [
     `Signed: ${date}. The founder's acceptance words, recorded verbatim: "${quote}"`,
     `Identity: ${identity.line}; role: ${role}.`,
     `Evidence: the exact text signed is \`${lawRel}\`, sha256 \`${lawHash}\`.`,
     "The stored words were scanned for secrets before recording — clean.",
-    "The attestation limit: this record witnesses the act; it does not cryptographically prove identity.",
+    limitLine,
     "",
   ].join("\n");
   writeText(amenAbs, raw.replace(PENDING, receipt));

@@ -1,11 +1,11 @@
 # docodego sign-off
 
-> The amendment sign-off: identity derived, secrets scanned, the pending block filled — the founder's act, one command.
+> The amendment sign-off: identity chosen, secrets scanned, the pending block filled — the founder's act, one command.
 
 ## Usage
 
 ```
-docodego sign-off <amendment-file> --quote "<the acceptance words, verbatim>" [--by "<legal identifier or handle>"] [--role <role>] [--json]
+docodego sign-off <amendment-file> --quote "<the acceptance words, verbatim>" [--name "<legal identifier or handle>"] [--system] [--role <role>] [--json] (--by is an alias of --name)
 ```
 
 ## Contract
@@ -14,13 +14,19 @@ docodego sign-off <amendment-file> --quote "<the acceptance words, verbatim>" [-
 how-to-amend step 3, mechanized: the owner's sign-off recorded with the words
 verbatim beside the sha256 of the exact text signed.
 
-the command derives the identity — a typed --by, else the environment's
-git config user.name/email, else the system user/host; the derivation kind
-is named in the receipt. Before anything is stored, the words are scanned
-for secret shapes (API keys, tokens, private keys): a match refuses the
-act with nothing written (DG-U114) — verbatim text is stored whole or not
-at all. The scanner's list is short and named; it cannot catch every
-shape, and the receipt says what it did.
+the identity comes from one source, chosen expressly: a typed --name
+(stored verbatim — a human who typed it consented to it; --by is a
+documented alias), --system (this environment, skipping git), or the
+default ladder — git config user.name/email, else system user/host.
+The consent split (the founder's ruling, 2026-11-08): a typed
+identifier stays verbatim; a derived identifier is stored as fp:v1:<hex>
+— a versioned fingerprint, salted per record — privacy, not anonymity:
+it resists a stranger's lookup, not a determined guesser. Before
+anything is stored, the words (and the typed identifier) are scanned
+for secret shapes (API keys, tokens, private keys): a match refuses
+the act with nothing written (DG-U114) — verbatim text is stored whole
+or not at all. The scanner's list is short and named; it cannot catch
+every shape, and the receipt says what it did.
 
 pass (the pending block replaced, in place):
   - the quote verbatim, the local-calendar date, the identity line
@@ -29,7 +35,8 @@ pass (the pending block replaced, in place):
     witnesses the act; it does not cryptographically prove identity
 
 refusals: DG-U114 secret-shaped words (nothing stored) · DG-U115 no
-pending block / already signed · DG-U116 law file unresolvable
+pending block / already signed · DG-U116 law file unresolvable ·
+DG-U111 --name and --system together (one signer, one source)
 
 exit codes: 0 signed-off · 1 refused · 2 usage
 

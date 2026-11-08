@@ -37,6 +37,21 @@ repaired forward, never rewritten. When a task outgrows the loop (whether-to-bui
 direction), record it in `01-document/01-discover/` — `intent.md` holds the
 founding brief, `cycles.md` the numbered log of research and decisions.
 
+## The second use — anything built here works twice
+
+Dual use is structural practice here, not a slogan: every artifact
+family names its second audience or honestly records that it has
+none. The worked pairs: the conformance fixtures prove the engine and
+their curated set demos it; the proofs bind evidence at deliver and
+teach a cold contributor how to verify; the spec tree governs the
+build and `canon publish` renders it as the public site; the explain
+pages fix refusals and gloss the law.
+
+Before delivering: ask whether what you built teaches someone who
+was not in the room. If yes, name the second audience where the
+artifact lives. If no, say so — a recorded "none yet" beats an
+invented audience.
+
 ## The honesty law
 
 - **Records append.** Superseded text is struck or archived, never deleted,
@@ -88,7 +103,7 @@ why on the record.
 - `docodego status` — where the work stands.
 - `docodego deliver <unit>` — the gate: four checks, then delivered.md + tracker + delivery-log rows.
 - `docodego launch <unit>` — the launch gate: the delivered unit's evidence re-audited (proofs still resolve, record check clean, the demo bundle filled) — status launch-passed.
-- `docodego sign <unit>` — the last tier: a named person's attestation (the identifier derives from git or system details, or a typed `--by` legal identifier or handle; the act is shown and confirmed once — `--yes` for headless runs), recorded as an act receipt — status founder-signed.
+- `docodego sign <unit>` — the last tier: a named person's attestation — `--name` (typed, stored verbatim; `--by` its alias), `--system` (this environment), or the derived ladder, fingerprinted per record (`fp:v1:<hex>` — the raw environment string is never stored); the act is shown and confirmed once — `--yes` for headless runs — status founder-signed.
 - `docodego upgrade` — plan the record's move to the CLI's bundled record version (`--apply`, `--branch`).
 - `docodego skill list|add|remove` — the installed craft, audited via the lockfile.
 - `docodego explain <code>` — the page for a diagnostic code: what it means, the law behind it, how to fix it.

@@ -155,3 +155,4 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 470-dual-use | launch-refused | L2 failed — proof path(s) vanished since delivery: conformance.ts, .new — evidence that... |
 | 2026-11-08 | 470-dual-use | launch-refused | L2 failed — proof path(s) vanished since delivery: conformance.ts, .new — evidence that... |
 | 2026-11-08 | 470-dual-use | launch-passed | 02-compose/01-build/470-dual-use/launch.md |
+| 2026-11-08 | 480-sign-identity-privacy | new unit | 02-compose/01-build/480-sign-identity-privacy/spec.md |

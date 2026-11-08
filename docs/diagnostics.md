@@ -444,9 +444,9 @@ prefix (`docodego explain DG-F`) prints every page in the family.
 
 **DG-U111 — usage: docodego sign <unit>**
 
-- meaning: 'sign' was invoked without a unit name, or the signer's identifier could not be derived and no --by was typed.
-- law: an act receipt attests a named person's judgment — an anonymous signature would be furniture wearing accountability's clothes; the identifier comes from git or system details, or a typed legal identifier or handle.
-- fix: 'docodego sign <unit>' — --by "<legal identifier or handle>" overrides the derivation; --role optionally names the hat the person signs in.
+- meaning: 'sign' was invoked without a unit name, with --name/--by and --system together (one signer, one source — never silently picked), or no identifier could be derived and none was typed; sign-off shares the source rules.
+- law: an act receipt attests a named person's judgment — an anonymous signature would be furniture wearing accountability's clothes; the identity is chosen expressly: a typed --name (consented, stored verbatim) or a derived identifier fingerprinted per record (never stored raw).
+- fix: 'docodego sign <unit>' — pass one source: --name "<legal identifier or handle>" (or its documented alias --by), --system to force this environment, or nothing for the git-then-system ladder; drop the extra flag when both were given; --role optionally names the hat the person signs in.
 
 **DG-U112 — sign refused — the tiers are strict**
 
