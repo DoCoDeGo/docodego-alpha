@@ -143,3 +143,4 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 440-sign-flow | new unit — scaffolded to the default stream by mistake, struck and re-homed seconds later (nothing but the template was written); the build stream's next number was 450, 440 stays spent | ~~01-document/01-discover/440-sign-flow/spec.md~~ |
 | 2026-11-08 | 440-sign-flow | ~~new unit~~ — struck: this row guessed the build stream would reuse 440; it does not (numbers are never reused) | ~~02-compose/01-build/440-sign-flow/spec.md~~ |
 | 2026-11-08 | 450-sign-flow | new unit | 02-compose/01-build/450-sign-flow/spec.md |
+| 2026-11-08 | 450-sign-flow | delivered | 02-compose/01-build/450-sign-flow/delivered.md |

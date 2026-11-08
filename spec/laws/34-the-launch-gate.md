@@ -29,12 +29,12 @@ gate refuses on any failed check and records the attempt; the tier is
 never written over a refusal.
 
 **founder-signed** — a named person attested the act. The signature is
-an act receipt: who (a legal name, recorded verbatim), what role, when
-(the local calendar date), over what evidence (the sha256 of the
-unit's spec and delivered receipt at signing time). The tiers are
-strict — no signature without launch-passed, no bypass flag — and one
-signature per act: a second signature rewrites a record the ledger
-keeps once, and is refused.
+an act receipt: who (a legal identifier or handle, recorded verbatim),
+what role, when (the local calendar date), over what evidence (the
+sha256 of the unit's spec and delivered receipt at signing time). The
+tiers are strict — no signature without launch-passed, no bypass flag —
+and one signature per act: a second signature rewrites a record the
+ledger keeps once, and is refused.
 
 The signature's honest limit, stated wherever the record shows one: a
 signature is an attestation by command execution. It witnesses that
