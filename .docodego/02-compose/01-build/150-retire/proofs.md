@@ -82,12 +82,13 @@
 - The retire gate's DG-U102 fires when proofs.md names NO resolvable
   path (the spec's law). The first implementation refused on ANY
   unresolvable token and the gate bit twice on honest prose: 050's
-  fixture-tree citation (`amendments/1.0.1-ST-2.md`, which lives under
-  apps/spec/fixtures/) and 140's envelope-schema citation
+  fixture-tree citation (`apps/spec/fixtures/diff-spec/amendments/1.0.1-ST-2.md`)
+  and 140's envelope-schema citation
   (`docodego/setback/v1`). The spec won: prose tokens are not gates.
   The bite also exposed a real bug — ENVELOPE_SCHEMA's regex matched a
   phantom `docodego-<pass>/` shape; the emitter produces
-  `docodego/<command>/v1` — fixed in check.ts so schema documentation
+  three-segment envelopes (`docodego/check/v1` and its siblings) —
+  fixed in check.ts so schema documentation
   tokens stop reading as paths.
 - GOV-006 warn after the sweep, resolved in tool: the conformance-stale
   response named 140's then-live path; a fresh `--respond` row

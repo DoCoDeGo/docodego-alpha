@@ -7,7 +7,7 @@
   and "the demo room anchor names its readers and the not-there-yet
   truth"; 335 checks green at HEAD).
 - AC2 — deliver writes the scaffold: the scratch record's delivery
-  leaves `demo/010-first-unit/how-to-run.md` byte-identical to the
+  leaves its own first-unit bundle byte-identical to the
   shipped template, three fill sections and the honesty line included
   (`proofs/conformance.txt`, facts "deliver scaffolded the delivered
   unit's bundle" and "the demo scaffold carries the three fill
@@ -26,7 +26,7 @@
   `proofs/conformance.txt`, `proofs/bundle.txt`.
 - AC5 — this record carries it: the live anchor planted create-only
   with template bytes, and this unit's own delivery scaffolded
-  `demo/010-demo-bundles/how-to-run.md`, filled before launch
+  `03-demonstrate/demo/010-demo-bundles/how-to-run.md`, filled before launch
   (`proofs/live-demo.txt` — the record's own demo room after delivery).
 - AC6 — the suite green at the new pairs: conformance green, tsc clean,
   canon no-drift at spec/ 1.0.12 · delivered 1.0.12, payload spec 21,
