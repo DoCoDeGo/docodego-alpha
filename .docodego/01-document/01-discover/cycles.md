@@ -486,3 +486,39 @@ machinery, so it is a deliberated act, not a quick one.
   session: the generated-docs check failed once and passed on
   immediate re-run with no source change — transient, unreproduced;
   watched, not chased.)
+
+## Cycle 9 — the delegation round: all signing, the 1.2.5 landing, the v27 test rounds (2026-11-09)
+
+- The founder delegated all remaining signing ("you do all remaining
+  signing for me, finish all pending work sign it and lets move on to
+  test rounds - let go non stop"): units 490–530 signed (the first
+  five encoded ledger rows), and the discovery that 1.2.5-EL-34 was
+  ALREADY founder-signed — the founder ran the sign-off themselves
+  between sessions, with the pre-encoding binary, so the receipt is
+  the record's last fingerprint-era identity line ("Signed Off",
+  verbatim). My later sign-off attempt refused DG-U115 — the act
+  stays singular, as the law says. Their signature had been swept
+  into 530's commit by `git add -A` before it was noticed; noted in
+  540's spec, history not rewritten, no retroactive ledger row (the
+  receipt is the evidence).
+- 540-law-flip-1-2-5 landed (c08eb40): law 34 names the encoding
+  (both passages per the amendment), amendment reads
+  applied-in-1.2.5, SPEC.md stamps 1.2.5, log row verbatim, canon
+  green at 1.2.5, statutes mirror byte-stable (law wording below the
+  statute layer moves no payload bytes). Battery all green
+  post-commit. Tooling quirk journaled: `pnpm docs` and `pnpm doctor`
+  are pnpm builtins — `pnpm run docs` / `pnpm run doctor` are the
+  safe forms.
+- The test rounds ran (founder-delegated), evidence in
+  docs/research/test-round-v27-2026-11-09.md and per-product
+  TEST-FINDS.md logs in the scratch arena: five existing products
+  upgraded v1→v27 clean (customized AGENTS.md copies ride the .new
+  channel, every teach honest), then ten units (five feature
+  additions, five new portfolio products from scratch) walked the
+  full ladder to founder-signed — 10/10, zero dead ends, all
+  refusals recovered from CLI messages alone. One real bug: launch's
+  L2 proof-path check counts any backticked span, so version-string
+  outputs accepted at deliver "vanished" at launch (deliver and
+  launch disagree on what a proof path is). One design question held
+  for the founder: headless `sign --yes` reaches the founder tier.
+  Backlog recorded in the research doc, none blocking.
