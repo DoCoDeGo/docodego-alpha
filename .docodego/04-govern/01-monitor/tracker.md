@@ -28,3 +28,6 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | spec7-surgical | new unit | 02-compose/01-build/spec7-surgical/spec.md |
 | 2026-11-08 | spec7-surgical | delivered | 02-compose/01-build/spec7-surgical/delivered.md |
 | 2026-11-08 | spec7-proof-semantics | new unit | 02-compose/01-build/spec7-proof-semantics/spec.md |
+| 2026-11-08 | spec7-naming | new unit | 02-compose/01-build/spec7-naming/spec.md |
+| 2026-11-08 | record | units renumbered with NNN- sequence prefixes (tracker order, step of 10) — addresses corrected in proofs and receipts, rows and verdicts unchanged | 01-document/01-discover/010-canon-spec-7/spec.md |
+| 2026-11-08 | 110-spec7-naming | delivered | 02-compose/01-build/110-spec7-naming/delivered.md |

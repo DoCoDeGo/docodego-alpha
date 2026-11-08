@@ -1,0 +1,2 @@
+exit 0
+self-check: rule registry holds together (16 rules).

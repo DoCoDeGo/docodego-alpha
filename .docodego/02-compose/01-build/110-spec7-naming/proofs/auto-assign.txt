@@ -1,0 +1,7 @@
+02-compose/01-build/010-alpha/spec.md
+02-compose/01-build/020-beta/spec.md
+02-compose/01-build/050-gamma/spec.md
+-- folders:
+010-alpha
+020-beta
+050-gamma

@@ -1,0 +1,16 @@
+0 error(s), 1 warning(s)
+exit 0
+-- units in tracker order:
+010-canon-foundation
+020-canon-build
+030-canon-coverage
+040-canon-diff
+050-canon-amend
+060-canon-doctor
+070-canon-publish
+080-cli-statutes-recompile
+090-spec7-surgical
+100-spec7-proof-semantics
+110-spec7-naming
+-- renumbering disclosure row:
+| 2026-11-08 | record | units renumbered with NNN- sequence prefixes (tracker order, step of 10) — addresses corrected in proofs and receipts, rows and verdicts unchanged | 01-document/01-discover/010-canon-spec-7/spec.md |

@@ -3,7 +3,7 @@
   "codeState": "growing",
   "pattern": "compiler-passes",
   "ring": "stable",
-  "recordVersion": 9,
+  "recordVersion": 10,
   "detect": {
     "gitDepth": 0,
     "tests": true,

@@ -1,0 +1,4 @@
+-- lint with one unprefixed unit:
+warning[DG-N004]: unit folder 'oldstyle' carries no NNN- sequence prefix — rename to <NNN>-oldstyle in tracker order (step of ten)
+  help: docodego explain DG-N004
+-- exit: 0

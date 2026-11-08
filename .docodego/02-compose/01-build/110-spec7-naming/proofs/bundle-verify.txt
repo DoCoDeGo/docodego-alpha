@@ -1,0 +1,4 @@
+bundle drift: 2 change(s) + manifest.json out of sync with payload.ts
+  AGENTS.md — minor — AGENTS.md rule line(s) added
+  specVersion (declared) — none — declared 9 -> 10
+verify exit: 1 (1 = pre-commit drift, expected)

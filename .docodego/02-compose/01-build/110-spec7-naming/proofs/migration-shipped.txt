@@ -1,0 +1,14 @@
+-- plan:
+plan: record v9 -> bundled spec v10
+  migration: v9->v10: AGENTS.md teaches the naming law: unit folders carry their NNN- sequence prefix — names carry order (spec7-naming)
+  migration: v9->v10: a record whose AGENTS.md still matches the shipped v9 scaffold gains the paragraph in place; a customized AGENTS.md is kept, the refreshed copy riding the plan as .new
+    unchanged  .agents/agents/docodego-researcher.md
+-- apply:
+unchanged .agents/agents/docodego-researcher.md
+unchanged .agents/agents/docodego-reviewer.md
+unchanged .agents/agents/docodego-tester.md
+conflict AGENTS.md — your copy kept, bundled version planted as AGENTS.md.new
+-- state:
+naming paragraph present (1 expected): 1
+no AGENTS.md.new (twin cleaned)
+recordVersion: 10

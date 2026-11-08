@@ -21,6 +21,11 @@ document, compose, demonstrate, govern. The folder numbers carry the order:
 3. `.docodego/03-demonstrate/` — working proof and the delivery gate (DE)
 4. `.docodego/04-govern/` — the loop closed: tracker, delivery log, improvement (GO)
 
+Units carry the same discipline: every unit folder is `NNN-<name>` — its build
+order in the listing, step of ten (010-, 020-, …), so a cold reader sees the
+order of work without reading the tracker. `docodego new` assigns the next
+number automatically.
+
 The loop is weighted to the work, never forced onto it: a one-line fix may
 move sketch → spec → proof → deliver in minutes; a complex feature earns the
 full round of grilling and scoring. What is never skipped is the order —

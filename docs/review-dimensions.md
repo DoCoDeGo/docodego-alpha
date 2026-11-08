@@ -8,9 +8,9 @@ improvement lives.
 
 Built from: the 50-cycle lived-records research
 (`docs/research/lived-records-research.md`), the two-agent acceptance findings
-(`docs/acceptance-2agent-2026-11-08.md`), and the method's own claims. First
+(`docs/audits/2026-11-08-acceptance-2agent.md`), and the method's own claims. First
 deployed live on the five-product creativity round (2026-11-08); log at
-`docs/improvements-2026-11-08.md`.
+`docs/audits/2026-11-08-improvements.md`.
 
 ## The attribution rule
 

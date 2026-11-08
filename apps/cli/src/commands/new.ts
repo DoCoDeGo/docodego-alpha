@@ -32,9 +32,21 @@ export function run(args: Args, io: Io): number {
   }
   const stream = picked.stream;
   const rec = loadRecord(process.cwd());
-  const unitDir = join(rec.root, stream, name);
+  // names carry order: units take the next NNN- prefix in their stream
+  // (step of ten, tracker order) unless the caller already numbered it
+  let unitName = name;
+  if (!/^\d{3}-/.test(unitName)) {
+    let max = 0;
+    for (const u of rec.units) {
+      if (!u.dir.startsWith(`${stream}/`)) continue;
+      const m = /^(\d{3})-/.exec(u.dir.split("/").pop() ?? "");
+      if (m !== null) max = Math.max(max, Number(m[1]));
+    }
+    unitName = `${String(max + 10).padStart(3, "0")}-${unitName}`;
+  }
+  const unitDir = join(rec.root, stream, unitName);
   if (isDir(unitDir)) {
-    return complain(args.json, io, { severity: "error", code: "DG-U012", message: `unit '${name}' already exists in ${stream}/ — delivery units are never silently overwritten` }, 1, "new");
+    return complain(args.json, io, { severity: "error", code: "DG-U012", message: `unit '${unitName}' already exists in ${stream}/ — delivery units are never silently overwritten` }, 1, "new");
   }
   const g = guidance(docType);
   let intent = g.intent;
@@ -50,19 +62,19 @@ export function run(args: Args, io: Io): number {
     scope = `In: graduated from sketch ${sketch.path}.\nOut: unchanged from the sketch.`;
     const evidence = findSection(sketch.file, "evidence-of-running");
     criteria = (evidence?.items ?? []).length > 0 ? (evidence?.items ?? []) : [`run ${sketch.name} and record what was seen`];
-    sketchNote = `\n> graduated -> ${stream}/${name} on ${today()}\n`;
+    sketchNote = `\n> graduated -> ${stream}/${unitName} on ${today()}\n`;
   }
-  const specRel = `${stream}/${name}/spec.md`;
-  const specPath = join(rec.root, stream, name, "spec.md");
-  writeText(specPath, specBody(name, docType, intent, scope, criteria, args.epic, args.story));
+  const specRel = `${stream}/${unitName}/spec.md`;
+  const specPath = join(rec.root, stream, unitName, "spec.md");
+  writeText(specPath, specBody(unitName, docType, intent, scope, criteria, args.epic, args.story));
   if (sketchNote !== "" && args.fromSketch !== undefined) {
     const sketch = rec.sketches.find((s) => s.name === args.fromSketch);
     if (sketch !== undefined) appendText(join(rec.root, sketch.path), sketchNote);
   }
   const event = `new ${docType}` + (args.fromSketch !== undefined ? ` (from sketch ${args.fromSketch})` : "");
-  const trackerLine = appendTracker(rec, name, event, specRel);
+  const trackerLine = appendTracker(rec, unitName, event, specRel);
   if (args.json) {
-    io.out(JSON.stringify(envelope("new", { unit: name, type: docType, stream, spec: specRel, tracker: trackerLine }), null, 2));
+    io.out(JSON.stringify(envelope("new", { unit: unitName, type: docType, stream, spec: specRel, tracker: trackerLine }), null, 2));
   } else {
     io.out(specRel);
     io.err(`tracker: ${trackerLine}`);

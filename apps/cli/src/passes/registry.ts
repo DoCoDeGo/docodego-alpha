@@ -27,6 +27,7 @@ export const RULES: Rule[] = [
   { id: "DG-N001", scope: "naming", severity: "error", summary: "unit folder is not kebab-case" },
   { id: "DG-N002", scope: "naming", severity: "error", summary: "sketch file must be sketch-<kebab>.md" },
   { id: "DG-N003", scope: "naming", severity: "warning", summary: "a stream holds a folder that is not a unit" },
+  { id: "DG-N004", scope: "naming", severity: "warning", summary: "unit folder carries no NNN- sequence prefix" },
 ];
 
 const ID_RE = /^DG-[SFN]\d{3}$/;

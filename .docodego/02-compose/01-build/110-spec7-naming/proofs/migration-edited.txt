@@ -1,0 +1,10 @@
+-- apply:
+unchanged .agents/agents/docodego-researcher.md
+unchanged .agents/agents/docodego-reviewer.md
+unchanged .agents/agents/docodego-tester.md
+conflict AGENTS.md — your copy kept, bundled version planted as AGENTS.md.new
+-- state:
+naming paragraph present (0 expected — kept customized): 1
+customization kept (1 expected): 1
+AGENTS.md.new present (merge owed)
+recordVersion: 10

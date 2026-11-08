@@ -1,0 +1,28 @@
+-- docs/ layout:
+README.md
+agentic-tests
+architecture.md
+audits
+commands
+diagnostics.md
+distribution.md
+enhancements.md
+getting-started.md
+go-public-checklist.md
+quality-audit-rubric.md
+quality-outcomes.md
+record-format.md
+review-dimensions.md
+skills.md
+versioning.md
+vocabulary-packs.md
+-- audits:
+2026-11-08-acceptance-2agent.md
+2026-11-08-cli-law-audit.md
+2026-11-08-dogfood.md
+2026-11-08-improvements.md
+2026-11-08-issues-catalog.md
+2026-11-08-record-integrity-audit.md
+2026-11-08-security-audit.md
+-- no stale cross-refs:
+(empty = clean)

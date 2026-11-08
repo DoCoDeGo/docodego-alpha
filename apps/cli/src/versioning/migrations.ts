@@ -7,7 +7,7 @@ import { existsSync, rmSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { readText, writeText } from "../fsx.ts";
 import { emptyLock, writeLock, LOCK_REL } from "../skills/lock.ts";
-import { DELIVERY_LOG_TEMPLATE, INTENT_TEMPLATE, CYCLES_TEMPLATE, specVersion, recordFiles } from "../bundled/index.ts";
+import { DELIVERY_LOG_TEMPLATE, INTENT_TEMPLATE, CYCLES_TEMPLATE, specVersion, recordFiles, agentsMd } from "../bundled/index.ts";
 import { DELIVERY_LOG_REL } from "../record/record-write.ts";
 import { V1_README, V1_STATUTES, V1_TECH_RADAR, V1_TRACKER } from "./v1-scaffold.ts";
 
@@ -122,6 +122,15 @@ export const MIGRATIONS: Migration[] = [
     ],
     steps: [refreshStatutesMirror],
   },
+  {
+    from: 9,
+    to: 10,
+    notes: [
+      "AGENTS.md teaches the naming law: unit folders carry their NNN- sequence prefix — names carry order (spec7-naming)",
+      "a record whose AGENTS.md still matches the shipped v9 scaffold gains the paragraph in place; a customized AGENTS.md is kept, the refreshed copy riding the plan as .new",
+    ],
+    steps: [teachNamingLaw],
+  },
 ];
 
 /** The registry must cover [0..target] contiguously — Terraform's ladder
@@ -223,6 +232,40 @@ function refreshStatutesMirror(root: string): string {
 }
 
 /** The migrations to run to move `from` -> target, in order, any skip-distance. */
+const NAMING_ANCHOR = "4. `.docodego/04-govern/` — the loop closed: tracker, delivery log, improvement (GO)";
+const NAMING_PARAGRAPH = [
+  "",
+  "Units carry the same discipline: every unit folder is `NNN-<name>` — its build",
+  "order in the listing, step of ten (010-, 020-, …), so a cold reader sees the",
+  "order of work without reading the tracker. `docodego new` assigns the next",
+  "number automatically.",
+].join("\n");
+
+/** v9 -> v10: teach AGENTS.md the naming law. Engine-owned scaffold, not user
+ * content — but the edit is conservative: a shipped-v9 copy gains the
+ * paragraph in place; anything else is kept untouched, the refreshed copy
+ * riding the plan as .new. Cleans up the matching .new once the live file is
+ * current. */
+function teachNamingLaw(root: string): string {
+  const repoRoot = dirname(root);
+  const abs = join(repoRoot, "AGENTS.md");
+  if (!existsSync(abs)) return "kept AGENTS.md (absent — nothing to teach)";
+  const raw = readText(abs) ?? "";
+  if (raw.includes("`NNN-<name>`")) return "kept AGENTS.md (naming law already present)";
+  if (!raw.includes(NAMING_ANCHOR)) {
+    return "kept AGENTS.md (anchor line not found — your copy is customized; the refreshed scaffold rides as AGENTS.md.new)";
+  }
+  const taught = raw.replace(NAMING_ANCHOR, `${NAMING_ANCHOR}\n${NAMING_PARAGRAPH}`);
+  writeText(abs, taught);
+  let note = "updated AGENTS.md (naming paragraph inserted after the movements list)";
+  const twin = join(repoRoot, "AGENTS.md.new");
+  if (existsSync(twin) && (readText(twin) ?? "") === taught) {
+    rmSync(twin);
+    note += " — AGENTS.md.new removed (now identical to the refreshed file)";
+  }
+  return note;
+}
+
 export function migrationsFor(from: number, target: number): Migration[] {
   return MIGRATIONS.filter((m) => m.from >= from && m.to <= target);
 }

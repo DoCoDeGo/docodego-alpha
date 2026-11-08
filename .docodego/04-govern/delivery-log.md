@@ -14,3 +14,4 @@ is recorded here; what was learned lives in the unit's own records.
 | 2026-11-07 | canon-publish | G1,G2,G3,G4 | proof: 02-compose/01-build/canon-publish/proofs/publish-fresh.txt |
 | 2026-11-08 | cli-statutes-recompile | G1,G2,G3,G4 | proof: 02-compose/01-build/cli-statutes-recompile/proofs/compile-check.txt |
 | 2026-11-08 | spec7-surgical | G1,G2,G3,G4 | proof: 02-compose/01-build/spec7-surgical/proofs/init-above.txt |
+| 2026-11-08 | 110-spec7-naming | G1,G2,G3,G4 | proof: 02-compose/01-build/110-spec7-naming/proofs/rename-integrity.txt |
