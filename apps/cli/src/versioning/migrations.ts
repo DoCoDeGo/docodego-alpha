@@ -181,7 +181,49 @@ export const MIGRATIONS: Migration[] = [
     ],
     steps: [],
   },
+  {
+    from: 15,
+    to: 16,
+    notes: [
+      "AGENTS.md teaches the gate-rows law: the tracker and delivery-log lines a gate writes ride the unit's own commit — a delivered unit whose rows sit uncommitted is a broken record (020-canon-debts/300)",
+      "a record whose AGENTS.md still matches the shipped v15 scaffold gains the bullet in place; a customized AGENTS.md is kept, the refreshed copy riding the plan as .new",
+    ],
+    steps: [teachGateRowsHome],
+  },
 ];
+
+/** v15 -> v16: teach AGENTS.md the gate-rows law — a delivery carries its
+ * evidence rows. Same conservative contract as teachNamingLaw:
+ * shipped-v15 bytes gain the bullet in place; anything else is kept
+ * untouched, the refreshed copy riding the plan as .new. */
+const GATE_ROWS_ANCHOR = "  did not, for this repository's purposes, happen.";
+const GATE_ROWS_BULLET = [
+  "- **Gate rows ride the unit's commit.** The tracker and delivery-log",
+  "  lines a gate writes are part of the delivery itself: a commit that",
+  "  lands a unit carries its evidence rows. A delivered unit whose rows",
+  "  sit uncommitted is a broken record — commit them home, or the",
+  "  delivery never happened.",
+].join("\n");
+
+export function teachGateRowsHome(root: string): string {
+  const repoRoot = dirname(root);
+  const abs = join(repoRoot, "AGENTS.md");
+  if (!existsSync(abs)) return "kept AGENTS.md (absent — nothing to teach)";
+  const raw = readText(abs) ?? "";
+  if (raw.includes("Gate rows ride")) return "kept AGENTS.md (gate-rows law already present)";
+  if (!raw.includes(GATE_ROWS_ANCHOR)) {
+    return "kept AGENTS.md (anchor line not found — your copy is customized; the refreshed scaffold rides as AGENTS.md.new)";
+  }
+  const taught = raw.replace(GATE_ROWS_ANCHOR, `${GATE_ROWS_ANCHOR}\n${GATE_ROWS_BULLET}`);
+  writeText(abs, taught);
+  let note = "updated AGENTS.md (gate-rows bullet inserted after the failure-is-evidence bullet)";
+  const twin = join(repoRoot, "AGENTS.md.new");
+  if (existsSync(twin) && (readText(twin) ?? "") === taught) {
+    rmSync(twin);
+    note += " — AGENTS.md.new removed (now identical to the refreshed file)";
+  }
+  return note;
+}
 
 /** The registry must cover [0..target] contiguously — Terraform's ladder
  * check, Angular's never-consolidate law. A behind record walking the chain

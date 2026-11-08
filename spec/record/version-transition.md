@@ -64,6 +64,7 @@ compares the two, so this table cannot drift from the engine.
 | v12 | v13 | the launch tiers: launch re-audits delivered evidence, sign records a named person's attestation |
 | v13 | v14 | the nine-skill shelf (six bundled, three auto-add) and the rules layer: five invariant rules plant create-only, check gains the tree scans |
 | v14 | v15 | the planted prose sweep: dead references fixed at their sources (no .framework tree, the visual-proof driver at its planted path, skill bumped to 1.0.1), the sweep itself a conformance gate over every planted row |
+| v15 | v16 | the gate-rows law: AGENTS.md's honesty law gains "gate rows ride the unit's commit" — a delivery carries its tracker and delivery-log rows; taught in place by the v15→v16 migration, customized copies kept |
 
 ## Conformance
 

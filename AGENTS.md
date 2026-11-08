@@ -46,6 +46,11 @@ founding brief, `cycles.md` the numbered log of research and decisions.
 - **Failure is evidence.** Proof files may show what failed; a refused gate
   records its attempt in the tracker. What the record cannot reconstruct
   did not, for this repository's purposes, happen.
+- **Gate rows ride the unit's commit.** The tracker and delivery-log
+  lines a gate writes are part of the delivery itself: a commit that
+  lands a unit carries its evidence rows. A delivered unit whose rows
+  sit uncommitted is a broken record — commit them home, or the
+  delivery never happened.
 - **Ephemeral artifacts delete themselves.** A working `plan.md` or
   `explore.md` inside a unit is scratch: deleted at completion, declared
   ephemeral in its own header, never cited as evidence.

@@ -12,7 +12,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, 
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { recordFiles, profiles as bundledProfiles, cliVersion, specVersion, skillsIndex, ruleFiles, vocabularies, VOCABULARY_NAMES, vocabularyPack } from "./bundled/index.ts";
+import { recordFiles, agentsMd, profiles as bundledProfiles, cliVersion, specVersion, skillsIndex, ruleFiles, vocabularies, VOCABULARY_NAMES, vocabularyPack } from "./bundled/index.ts";
 import { treeFindings } from "./passes/tree.ts";
 import { governanceFindings } from "./passes/governance.ts";
 import { loadRecord } from "./record/load.ts";
@@ -508,6 +508,30 @@ rmSync(sf, { recursive: true, force: true });
   }
   fact("the sweep reads the whole payload boundary (51 planted rows)", rows.length === 51);
   fact("the planted prose names only shipped paths — no repo-side or dead-tree references", offenders.length === 0);
+}
+
+// --- v2d: the gate-rows law ships and teaches (300) ---
+fact("the payload's AGENTS.md teaches the gate-rows law", agentsMd().includes("Gate rows ride the unit's commit"));
+{
+  const { teachGateRowsHome } = await import("./versioning/migrations.ts");
+  const ag = mkdtempSync(join(tmpdir(), "docodego-conformance-teach-"));
+  const rec = join(ag, ".docodego");
+  mkdirSync(rec, { recursive: true });
+  const v15 = "## The honesty law\n\n- **Failure is evidence.** Proof files may show what failed; a refused gate\n  records its attempt in the tracker. What the record cannot reconstruct\n  did not, for this repository's purposes, happen.\n";
+  writeFileSync(join(ag, "AGENTS.md"), v15);
+  const first = teachGateRowsHome(rec);
+  const taught = readFileSync(join(ag, "AGENTS.md"), "utf8");
+  const second = teachGateRowsHome(rec);
+  const custom = mkdtempSync(join(tmpdir(), "docodego-conformance-teach2-"));
+  mkdirSync(join(custom, ".docodego"), { recursive: true });
+  writeFileSync(join(custom, "AGENTS.md"), "# my own house rules\n\nnothing here matches the scaffold\n");
+  const keptNote = teachGateRowsHome(join(custom, ".docodego"));
+  const keptBody = readFileSync(join(custom, "AGENTS.md"), "utf8");
+  fact("the teach step inserts the gate-rows bullet into shipped-v15 bytes", first.includes("updated AGENTS.md") && taught.includes("Gate rows ride"));
+  fact("the teach step is idempotent", second.includes("already present") && taught === readFileSync(join(ag, "AGENTS.md"), "utf8"));
+  fact("the teach step keeps a customized AGENTS.md untouched", keptNote.includes("customized") && keptBody === "# my own house rules\n\nnothing here matches the scaffold\n");
+  rmSync(ag, { recursive: true, force: true });
+  rmSync(custom, { recursive: true, force: true });
 }
 
 // --- v5: vocabulary packs — words change, the contract does not ---
