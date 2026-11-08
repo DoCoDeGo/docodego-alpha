@@ -300,7 +300,35 @@ export const MIGRATIONS: Migration[] = [
     ],
     steps: [teachCanonRename],
   },
+  {
+    from: 28,
+    to: 29,
+    notes: [
+      "the founder-tier marker lands (cycle 11 ruling, option C — the vocabulary marker): a founder signature from a derived (encoded) identity is marked provisional on the receipt, the ledger row, and the sign line — the confirming act is a named-person founder signature; typed --name founders sign unmarked, the status value stays founder-signed and the status machine is untouched",
+      "the twin-text dedup lands (SW-023, mapped cycle 10): the transition table's prose is the migration registry's notes verbatim — one authored text, the mirror pinned word for word (backticks are the doc's typography, stripped before compare); the vocabulary sentence (words change, the contract does not) becomes one shared constant spoken by help and init; site 3 of the map verified already single-sourced (identity.line is built once — the pins assert its bytes, which is pinning, not twinning)",
+      "AGENTS.md's sign bullet gains the marker rule in place, anchor-matched (the .new twin rule: a customized copy is never overwritten)",
+    ],
+    steps: [teachFounderMarker],
+  },
 ];
+
+/** v28 -> v29: the founder-marker teach. AGENTS.md's sign bullet gains
+ * the provisional-marker rule as an indented sub-bullet, anchored on the
+ * shipped bullet's tail. Same conservative contract as every AGENTS.md
+ * teacher. */
+const FOUNDER_MARKER_ANCHOR = "for headless runs — status founder-signed.";
+const FOUNDER_MARKER_SENTENCE =
+  "\n  - the founder-tier marker: a founder signature from a derived (encoded) identity is marked provisional — the confirming act is a named-person founder signature; typed `--name` founders sign unmarked";
+
+export function teachFounderMarker(root: string): string {
+  return teachAnchor(root, {
+    present: { sentinel: "the founder-tier marker: a founder signature from a derived", label: "the founder-marker teach" },
+    anchor: FOUNDER_MARKER_ANCHOR,
+    anchorLabel: "the shipped-v28 sign bullet",
+    teach: (raw) => raw.replace(FOUNDER_MARKER_ANCHOR, FOUNDER_MARKER_ANCHOR + FOUNDER_MARKER_SENTENCE),
+    note: "updated AGENTS.md (the sign bullet teaches the founder-tier marker)",
+  });
+}
 
 /** v27 -> v28: the canon-rename teach. AGENTS.md's dual-use prose names
  * the tree ("the spec tree governs the build"); the rename retunes that

@@ -9,7 +9,7 @@ import type { Args, Io, Manifest, Mode } from "../types.ts";
 import { isDir, readText, today, writeText } from "../fsx.ts";
 import { detect } from "../record/detect.ts";
 import { MANIFEST_REL, RECORD_DIR, TRACKER_REL } from "../record/load.ts";
-import { agentsMd, recordFiles, ruleFiles, specVersion, COMPOSE_LOG_TEMPLATE, DEMO_README_TEMPLATE, DEFAULT_PROFILE, PROFILES, profiles as profileMap, skillsIndex, TRACKER_TEMPLATE, INTENT_TEMPLATE, CYCLES_TEMPLATE, DELIVERY_LOG_TEMPLATE, vocabularyPack, VOCABULARY_NAMES } from "../bundled/index.ts";
+import { agentsMd, recordFiles, ruleFiles, specVersion, COMPOSE_LOG_TEMPLATE, DEMO_README_TEMPLATE, DEFAULT_PROFILE, PROFILES, profiles as profileMap, skillsIndex, TRACKER_TEMPLATE, INTENT_TEMPLATE, CYCLES_TEMPLATE, DELIVERY_LOG_TEMPLATE, vocabularyPack, VOCABULARY_MOTTO, VOCABULARY_NAMES } from "../bundled/index.ts";
 import { COMPOSE_LOG_REL, DEMO_DIR_REL, DELIVERY_LOG_REL } from "../record/record-write.ts";
 import { applyMovementGlosses, renderVocabularyMd, type VocabularyPack } from "../record/vocabulary.ts";
 import { installBundledSkill, plantAgentPresets, writeLock, emptyLock, LOCK_REL } from "../skills/lock.ts";
@@ -132,7 +132,7 @@ export function run(args: Args, io: Io): number {
     const vocabNote = pack !== undefined ? `, vocabulary ${pack.name}` : "";
     io.out(`${RECORD_DIR}/ ready — mode ${mode}, code state ${detection.codeState}, record v${specVersion()}, profile ${profileName}${vocabNote}`);
     io.err(`skills installed: ${installed.length ? installed.join(", ") : "(none)"}`);
-    if (pack !== undefined) io.err(`vocabulary: ${pack.name} — words change, the contract does not`);
+    if (pack !== undefined) io.err(`vocabulary: ${pack.name} — ${VOCABULARY_MOTTO}`);
     io.err(`detected: ${detectionLine}`);
     const recordCount = created.filter((l) => l.startsWith(`${RECORD_DIR}/`)).length;
     const agentCount = created.length - recordCount;

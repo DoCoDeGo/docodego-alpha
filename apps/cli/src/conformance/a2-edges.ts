@@ -68,13 +68,26 @@ fact("restored copy waits as README.md.new", existsSync(join(fixture, ".docodego
 
 // --- v13: the transition table cannot drift from the registry ---
 // canon/record/version-transition.md carries the shipped hops as law; this
-// fact is the binding: same hop count, same from/to pairs, or the suite
-// fails and the doc gets fixed before anything ships.
+// fact is the binding: same hop count, same from/to pairs, and — since
+// 600 — same words: each row's prose is the registry's notes verbatim
+// (backticks are the doc's typography, stripped before compare). One
+// authored text; the mirror is pinned, not trusted.
 {
   const doc = readFileSync(join(REPO_ROOT, "canon", "record", "version-transition.md"), "utf8");
-  const docRows = [...doc.matchAll(/^\| v(\d+) \| v(\d+) \|(.+?)\|?$/gm)].map((m) => `${m[1]}->${m[2]}`);
-  const regRows = MIGRATIONS.map((m) => `${m.from}->${m.to}`);
-  fact("the transition table mirrors the migration registry hop for hop", JSON.stringify(docRows) === JSON.stringify(regRows));
+  const docRows = [...doc.matchAll(/^\| v(\d+) \| v(\d+) \| (.+?) \|$/gm)].map((m) => ({
+    hop: `${m[1]}->${m[2]}`,
+    text: (m[3] ?? "").replace(/`/g, ""),
+  }));
+  const regRows = MIGRATIONS.map((m) => ({ hop: `${m.from}->${m.to}`, text: m.notes.join("; ") }));
+  const hops = JSON.stringify(docRows.map((r) => r.hop)) === JSON.stringify(regRows.map((r) => r.hop));
+  const prose = docRows.every((r, i) => {
+    const reg = regRows[i];
+    return reg !== undefined && r.text === reg.text;
+  });
+  fact(
+    "the transition table mirrors the migration registry hop for hop and word for word",
+    hops && prose,
+  );
 }
 
 // --- 550: the proof-path grammar — deliver and launch agree ---

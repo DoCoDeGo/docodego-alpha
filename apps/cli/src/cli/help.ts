@@ -2,7 +2,7 @@
  * command's own page: usage, what it does, flags, exit codes, examples, and
  * the shape of its --json envelope. These pages are the single source for the
  * generated command reference (scripts/gen-docs.ts) — they cannot diverge. */
-import { VOCABULARY_NAMES } from "../bundled/index.ts";
+import { VOCABULARY_MOTTO, VOCABULARY_NAMES } from "../bundled/index.ts";
 
 export interface CommandHelp {
   usage: string;
@@ -19,7 +19,7 @@ export const COMMAND_HELP: Record<string, CommandHelp> = {
   --profile <p>   which default skill set to install (default: product-team)
   --all-skills    install every bundled skill, ignoring the profile
   --vocabulary <pack>   the dialect the record is born speaking (${VOCABULARY_NAMES.join(" | ")} | none);
-                  words change, the contract does not — paths, ids, codes stay canonical
+                  ${VOCABULARY_MOTTO} — paths, ids, codes stay canonical
   --force         fill in missing scaffold files; never overwrite existing content
   --json          emit docodego/init/v1 on stdout
 

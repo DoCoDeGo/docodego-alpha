@@ -89,6 +89,8 @@ fact("the derived receipt carries no typed line", !derivedReceipt.includes("(a t
 fact("the derived receipt stores the exact encoded form", derivedReceipt.includes(`signed by: ${expectedEnvEnc} (`));
 fact("the stored form decodes back to the raw — the ruled reveal", Buffer.from(expectedEnvEnc.slice("enc:v1:".length), "base64").toString("utf8") === envRaw);
 fact("the derived receipt names no raw environment identity", !derivedReceipt.includes(envRaw));
+fact("the derived founder signature is marked provisional — the ruled marker (600)", derivedReceipt.includes("role: founder (provisional — a derived identity signed"));
+fact("the derived ledger row carries the marker (600)", read(fixture, "04-govern/signatures.md").includes("provisional — a derived identity signed"));
 
 // --system forces the environment identity (git skipped); --name is the
 // typed consent; together they are one refusal (DG-U111, one signer one
@@ -123,6 +125,8 @@ fact("the refused conflict appended nothing", read(fixture, "04-govern/signature
 check("sign --name stores the typed identifier verbatim", run(fixture, ["sign", "named-unit", "--name", "Ada Lovelace", "--yes"]), 0);
 const namedReceipt = read(fixture, "01-document/01-discover/named-unit/signature.md");
 fact("the --name receipt is byte-identical in shape to the --by receipt", namedReceipt.includes("signed by: Ada Lovelace (a typed legal identifier)") && namedReceipt.includes("attestation by command execution"));
+fact("the typed founder signature carries no provisional marker (600)", !namedReceipt.includes("provisional"));
+fact("the typed ledger row carries no marker (600)", !(read(fixture, "04-govern/signatures.md").split("\n").find((l) => l.includes("| named-unit |")) ?? "").includes("provisional"));
 fact("the ledger carries the typed row and the encoded rows side by side", read(fixture, "04-govern/signatures.md").includes("Ada Lovelace (a typed legal identifier)") && read(fixture, "04-govern/signatures.md").includes(sysEnc) && read(fixture, "04-govern/signatures.md").includes(expectedEnvEnc));
 fact("the legacy salt file stands untouched — the sign path never reads it now", read(fixture, "04-govern/signature-salt").trim() === SALT);
 }

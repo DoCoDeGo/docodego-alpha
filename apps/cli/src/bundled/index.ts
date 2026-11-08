@@ -10,6 +10,11 @@ import type { VocabularyPack } from "../record/vocabulary.ts";
 export type { Payload, SkillIndexEntry, VocabularyPack };
 export { PAYLOAD };
 
+/** The vocabulary motto — one authored sentence, spoken by the help
+ * page and by init when it hands over a vocabulary pack (600: SW-023
+ * site 2 — the sentence was maintained as twins in two files). */
+export const VOCABULARY_MOTTO = "words change, the contract does not";
+
 export const specVersion = (): number => PAYLOAD.specVersion;
 export const cliVersion = (): string => PAYLOAD.cliVersion;
 export const structureHash = (): string => PAYLOAD.structureHash;

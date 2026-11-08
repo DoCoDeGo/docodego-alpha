@@ -78,6 +78,17 @@ export function run(args: Args, io: Io): number {
   const evidence = `spec.md sha256:${specHash ?? "unavailable"}${deliveredHash === null ? "" : ` · delivered.md sha256:${deliveredHash}`}`;
   const act = actLine(identity);
 
+  // The founder-tier marker (cycle 11 ruling, option C — 600): a founder
+  // signature from a derived (encoded) identity is marked provisional —
+  // the confirming act is a named-person founder signature. Typed --name
+  // founders sign unmarked; the status value stays founder-signed and
+  // the machine is untouched; the marker travels on the receipt, the
+  // ledger row, and the sign line.
+  const roleMarked =
+    role === "founder" && identity.kind !== "typed"
+      ? `${role} (provisional — a derived identity signed; the confirming act is a named-person founder signature)`
+      : role;
+
   // One confirmation, one path per world: --yes declares the act for
   // headless callers; a TTY is shown the whole act and asked once;
   // everything else refuses with nothing appended (DG-U118).
@@ -87,7 +98,7 @@ export function run(args: Args, io: Io): number {
     }
     io.out(`about to sign ${name} — founder-signed ${date}`);
     io.out(`  signed by: ${identity.line}`);
-    io.out(`  role: ${role}`);
+    io.out(`  role: ${roleMarked}`);
     io.out(`  act: ${act}`);
     io.out(`  evidence: ${evidence}`);
     io.out("sign and approve? [y/N]");
@@ -99,13 +110,13 @@ export function run(args: Args, io: Io): number {
     }
   }
 
-  const receipt = `## founder-signed ${date}\n\n- signed by: ${identity.line}\n- role: ${role}\n- act: ${act}\n- evidence: ${evidence}\n`;
+  const receipt = `## founder-signed ${date}\n\n- signed by: ${identity.line}\n- role: ${roleMarked}\n- act: ${act}\n- evidence: ${evidence}\n`;
   writeText(unitFile(rec, unit, "signature.md"), `# signature — ${name}\n\n${receipt}`);
-  const ledgerLine = appendSignature(rec, name, identity.line, role, "founder-signed");
+  const ledgerLine = appendSignature(rec, name, identity.line, roleMarked, "founder-signed");
   const trackerLine = appendTracker(rec, name, "founder-signed", `${unit.dir}/signature.md`);
   setStatus(join(rec.root, unit.dir, "spec.md"), "founder-signed");
 
-  const line = `SIGNED ${name} — founder-signed ${date} · by ${identity.line} (${role}) · receipt ${unit.dir}/signature.md`;
+  const line = `SIGNED ${name} — founder-signed ${date} · by ${identity.line} (${roleMarked}) · receipt ${unit.dir}/signature.md`;
   if (args.json) {
     emitJson(io, "sign", { unit: name, ok: true, by: identity.line, identityKind: identity.kind, role, date, receipt: `${unit.dir}/signature.md`, ledger: ledgerLine, tracker: trackerLine });
   } else {

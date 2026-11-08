@@ -104,6 +104,7 @@ why on the record.
 - `docodego deliver <unit>` — the gate: four checks, then delivered.md + tracker + delivery-log rows.
 - `docodego launch <unit>` — the launch gate: the delivered unit's evidence re-audited (proofs still resolve, record check clean, the demo bundle filled) — status launch-passed.
 - `docodego sign <unit>` — the last tier: a named person's attestation — `--name` (typed, stored verbatim; `--by` its alias), `--system` (this environment), or the derived ladder, stored as a versioned reversible encoding (`enc:v1:<base64>` — revealed on demand by `docodego whoami --decode`); the act is shown and confirmed once — `--yes` for headless runs — status founder-signed.
+  - the founder-tier marker: a founder signature from a derived (encoded) identity is marked provisional — the confirming act is a named-person founder signature; typed `--name` founders sign unmarked
 - `docodego whoami` — the signer's identity in the open: what this environment derives and how it is stored (encoded), with `--decode <value>` revealing any encoded row.
 - `docodego upgrade` — plan the record's move to the CLI's bundled record version (`--apply`, `--branch`).
 - `docodego skill list|add|remove` — the installed craft, audited via the lockfile.
