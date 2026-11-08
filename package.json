@@ -13,6 +13,11 @@
     "typescript": "^7.0.2"
   },
   "scripts": {
+    "docodego": "node apps/cli/src/main.ts",
+    "canon": "node --experimental-strip-types apps/spec/src/main.ts",
+    "check": "node apps/cli/src/main.ts check",
+    "status": "node apps/cli/src/main.ts status",
+    "doctor": "node apps/cli/src/main.ts doctor",
     "typecheck": "tsc -p apps/cli/tsconfig.json --noEmit && tsc -p apps/spec/tsconfig.json --noEmit",
     "test": "npm run conformance && npm run fuzz",
     "conformance": "npm --prefix apps/cli run -s conformance",
