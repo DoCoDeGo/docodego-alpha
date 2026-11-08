@@ -44,3 +44,8 @@ Families follow the loop: plant, walk, read, version.
 | [`docodego upgrade`](./upgrade.md) | Move the record to this CLI's bundled record version — create-only, never rewriting yours. |
 | [`docodego skill`](./skill.md) | The installed craft, audited: every skill recorded in skills-lock.json with its digest. |
 | [`docodego completions`](./completions.md) | Shell completion scripts for bash, zsh, and fish — generated from this registry. |
+## unfiled
+
+| command | what it does |
+|---|---|
+`docodego metrics`

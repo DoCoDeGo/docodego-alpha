@@ -103,6 +103,11 @@ export interface Args {
   quote?: string | boolean;
   dryRun?: boolean;
   yes?: boolean;
+  root?: string;
+  baseline?: string;
+  maxNew?: string | boolean;
+  maxGrowth?: string | boolean;
+  retires?: string | boolean;
   by?: string | boolean;
   role?: string | boolean;
 }

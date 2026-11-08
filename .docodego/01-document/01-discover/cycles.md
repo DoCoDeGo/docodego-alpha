@@ -292,6 +292,17 @@ were the agent's sequencing, not the gates'):
   discovery — riding the recordVersion 24 bump this unit already owes,
   so the next planted record teaches it from day one.
 
+- Mistake 3 (2026-11-08, during 460's build) — inserting the
+  `metrics` entry into the help registry replaced the `"sign-off": {`
+  key opening instead of inserting before it, which would have left
+  the registry malformed. Detected within the same turn (the editor's
+  newString had not re-included the anchor), restored immediately,
+  and the suite's registry-equality fact ("every law command has a
+  help page") would have caught it at test time regardless. Mitigation:
+  edits that insert a registry entry must re-emit the anchor line in
+  newString; and the equality facts over `COMMAND_HELP` stay in place
+  as the structural net — a clobbered key cannot pass the suite.
+
 ## Cycle 6 — dual use and the surgical gate (2026-11-08, via chat — the directive verbatim, three messages)
 
 > Anything built with docodego should have a dual use mindset. One

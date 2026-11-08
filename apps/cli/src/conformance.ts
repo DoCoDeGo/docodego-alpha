@@ -981,7 +981,7 @@ rmSync(bf, { recursive: true, force: true });
 // --- v3: the contract surface — per-command --help, explain, generated docs ---
 // The planted AGENTS.md promises "run any command with --help for its own
 // contract"; these checks are that promise, enforced.
-const LAW_COMMANDS = ["init", "new", "sketch", "setback", "grill", "score", "audit", "check", "lint", "status", "trace", "doctor", "deliver", "launch", "sign", "sign-off", "retire", "upgrade", "skill", "explain", "completions"];
+const LAW_COMMANDS = ["init", "new", "sketch", "setback", "grill", "score", "audit", "check", "lint", "status", "trace", "doctor", "deliver", "launch", "sign", "sign-off", "metrics", "retire", "upgrade", "skill", "explain", "completions"];
 fact("every law command has a help page", JSON.stringify(Object.keys(COMMAND_HELP).sort()) === JSON.stringify([...LAW_COMMANDS].sort()));
 fact("the global usage lists every command", LAW_COMMANDS.every((c) => usageText().includes(c)));
 for (const c of LAW_COMMANDS) {
@@ -1264,6 +1264,32 @@ rmSync(sb, { recursive: true, force: true });
   write(s240, ".docodego/.standard/manifest.json", JSON.stringify(manifest, null, 2));
   check("cli270: a valid pack stays green", run(s240, ["check"]), 0);
   rmSync(s240, { recursive: true, force: true });
+}
+
+// --- v25: the surgical gate — metrics report + gate (460) ---
+{
+  const mx = mkdtempSync(join(tmpdir(), "docodego-conformance-metrics-"));
+  const stockA = Array.from({ length: 18 }, (_, i) => `export const a${i} = ${i};`).join("\n");
+  const stockB = Array.from({ length: 60 }, (_, i) => `export const b${i} = ${i};`).join("\n");
+  write(mx, "src/a.ts", stockA);
+  write(mx, "src/b.ts", stockB);
+  const rep = run(mx, ["metrics", "report", "--root", "src", "--json"]);
+  check("cli280: metrics report emits the v1 snapshot", rep, 0, (r) => r.stdout.includes("docodego/metrics/v1") && r.stdout.includes("\"codeLines\""));
+  check("cli281: metrics report in text renders the structure map", run(mx, ["metrics", "report", "--root", "src"]), 0, (r) => r.stdout.includes("metrics report") && r.stdout.includes("structure"));
+  write(mx, "before.json", rep.stdout);
+  check("cli282: gate refuses without a baseline (DG-U122)", run(mx, ["metrics", "gate"]), 2, (r) => (r.stdout + r.stderr).includes("DG-U122"));
+  const oversized = Array.from({ length: 300 }, (_, i) => `export const big${i} = ${i};`).join("\n");
+  write(mx, "src/big.ts", oversized);
+  check("cli283: gate refuses an oversized new file (DG-U119)", run(mx, ["metrics", "gate", "--baseline", "before.json", "--root", "src"]), 1, (r) => (r.stdout + r.stderr).includes("DG-U119") && (r.stdout + r.stderr).includes("big.ts"));
+  rmSync(join(mx, "src/big.ts"));
+  write(mx, "src/a.ts", stockA + "\n" + Array.from({ length: 50 }, (_, i) => `export const g${i} = ${i};`).join("\n"));
+  check("cli284: gate refuses growth past the ceiling (DG-U120)", run(mx, ["metrics", "gate", "--baseline", "before.json", "--root", "src"]), 1, (r) => (r.stdout + r.stderr).includes("DG-U120"));
+  write(mx, "src/a.ts", stockA);
+  write(mx, "src/c.ts", Array.from({ length: 40 }, (_, i) => `export const c${i} = ${i};`).join("\n"));
+  check("cli285: gate refuses an uncovered net addition (DG-U121)", run(mx, ["metrics", "gate", "--baseline", "before.json", "--root", "src"]), 1, (r) => (r.stdout + r.stderr).includes("DG-U121"));
+  rmSync(join(mx, "src/b.ts"));
+  check("cli286: gate passes surgical change covered by --retires", run(mx, ["metrics", "gate", "--baseline", "before.json", "--root", "src", "--retires", "b.ts"]), 0, (r) => r.stdout.includes("METRICS GATE PASS") && r.stdout.includes("credit 40"));
+  rmSync(mx, { recursive: true, force: true });
 }
 
 rmSync(fixture, { recursive: true, force: true });

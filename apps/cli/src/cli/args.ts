@@ -3,7 +3,7 @@ import { MODES, type Args, type DocType, type Mode } from "../types.ts";
 import { DOC_TYPES } from "../types.ts";
 
 const BOOL_FLAGS = new Set(["--json", "--force", "--self-check", "--apply", "--branch", "--all-skills", "--version", "--help", "--list", "--rotate", "--dry-run", "--yes"]);
-const VALUE_FLAGS = new Set(["--mode", "--answers", "--scaffold", "--type", "--epic", "--story", "--stream", "--from-sketch", "--profile", "--from", "--vocabulary", "--respond", "--as", "--by", "--role", "--quote"]);
+const VALUE_FLAGS = new Set(["--mode", "--answers", "--scaffold", "--type", "--epic", "--story", "--stream", "--from-sketch", "--profile", "--from", "--vocabulary", "--respond", "--as", "--by", "--role", "--quote", "--root", "--baseline", "--max-new", "--max-growth", "--retires"]);
 
 export type ParsedArgs = { ok: true; args: Args } | { ok: false; message: string };
 
@@ -71,6 +71,11 @@ export function parseArgs(argv: string[]): ParsedArgs {
       else if (tok === "--story") args.story = value;
       else if (tok === "--stream") args.stream = value;
       else if (tok === "--from-sketch") args.fromSketch = value;
+      else if (tok === "--root") args.root = value;
+      else if (tok === "--baseline") args.baseline = value;
+      else if (tok === "--max-new") args.maxNew = value;
+      else if (tok === "--max-growth") args.maxGrowth = value;
+      else if (tok === "--retires") args.retires = value;
       else if (tok === "--profile") args.profile = value;
       else if (tok === "--from") args.from = value;
       else if (tok === "--vocabulary") args.vocabulary = value;
@@ -104,6 +109,8 @@ commands:
   launch <unit>
   sign <unit> [--by "<legal identifier or handle>"] [--role <role>] [--yes]
   sign-off <amendment-file> --quote "<the acceptance words, verbatim>" [--by "<legal identifier or handle>"]
+  metrics report [--root <dir>] [--json]
+  metrics gate --baseline <snapshot.json> [--max-new N] [--max-growth N] [--retires p1,p2]
   retire <unit> [--as <behavior>] [--dry-run] [--json]
   upgrade [--apply] [--branch]
   skill list [--json] | skill add <name> [--from <git-url>] [--force] | skill remove <name>

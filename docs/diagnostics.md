@@ -466,6 +466,30 @@ prefix (`docodego explain DG-F`) prints every page in the family.
 - law: a signature is an actor's yes, recorded — the act is shown in full (who, role, evidence hashes, the attestation limit) and one confirmation closes it; without that yes, appending would sign furniture.
 - fix: run it interactively and answer the prompt once, or declare the act headlessly with --yes; a declined prompt appends nothing — run the command again when you mean it.
 
+**DG-U119 — new file over the metrics ceiling**
+
+- meaning: the gated change set adds a source file whose line count exceeds the new-file ceiling (derived from the baseline's own 90th-percentile size, or --max-new).
+- law: the surgical gate (the founder's cycle-6 rule): new code passes a check first — a file born oversized is excessive code before it has done anything; the stock is baselined, the flow is gated.
+- fix: split the file along its natural seams, or shrink it, or cover the addition with --retires after retiring equivalent code; the ceiling itself is overridable per run with --max-new when the work genuinely needs the space.
+
+**DG-U120 — one file grew past the growth ceiling**
+
+- meaning: an existing source file grew by more than the growth ceiling (--max-growth, default 40) between the baseline snapshot and now.
+- law: surgical changes over excessive code: a file that balloons in one cycle is the drift the gate exists to catch — growth is gated, history is not (existing size never fails retroactively).
+- fix: extract the addition into its own file (under the new-file ceiling), split the change across cycles, or declare --retires to cover the addition with retired code.
+
+**DG-U121 — net addition uncovered**
+
+- meaning: the change set adds more lines than it retires: no --retires was declared, or the retired paths' measured reduction does not cover the addition.
+- law: the balance the founder stated: sometimes writing new code to retire old code is needed — that is the balance, not the exception; the gate holds the balance by making the retirement explicit instead of assuming it.
+- fix: declare --retires <paths> (comma separated, the report's own file names relative to --root, measured against the baseline snapshot) for the code this change retires, or shrink the change until the set is net-covered.
+
+**DG-U122 — usage: docodego metrics**
+
+- meaning: 'metrics' was invoked without a mode (report|gate), gate ran without --baseline, or the baseline file is not a metrics snapshot (schema docodego/metrics/v1).
+- law: the gate answers only to a recorded baseline: refusing to run without one is the same honesty as a gate that refuses without evidence — no baseline, no delta, no verdict.
+- fix: generate the snapshot at cycle open: 'docodego metrics report --root <dir> --json > <unit>/metrics-before.json'; then 'docodego metrics gate --baseline <unit>/metrics-before.json'.
+
 **DG-U075 — unsupported --from source**
 
 - meaning: --from accepts https://, ssh://, git:// and file:// URLs only; bare paths, ext::/fd:: command transports, and option-shaped strings are refused before git runs.
