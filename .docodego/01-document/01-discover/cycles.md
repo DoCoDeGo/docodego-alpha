@@ -553,3 +553,12 @@ machinery, so it is a deliberated act, not a quick one.
   before any record write; status stayed draft). The rule from
   Mistake 8 restated: gate commands run bare, verdict read, nothing
   else on the line — cleanup is its own command.
+- Cycle 10 (2026-11-09, closing the day) — SW-023's site map is
+  recorded (sketch-sw023-twin-text-map.md): three twin-text classes
+  (transition-table prose hand-mirrored into the law doc with a
+  count-only pin; the vocabulary sentence twice; the sign-identity
+  clause across four surfaces). Cost verdict: only site 3 forces
+  the v28 payload hop; recommendation recorded — one unit, all
+  three sites, the hop paid once. The dedup unit itself stays
+  unopened tonight (a mapped, scoped next move beats a stranded
+  half-built one).
