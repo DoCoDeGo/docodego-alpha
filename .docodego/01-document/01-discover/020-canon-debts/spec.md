@@ -107,7 +107,7 @@ land; a row never sits silently between states.
 | 5 structure improvisation | declined | resolved into IMP-6 by the source doc (03's structure was the streams prose, not improvisation) |
 | 6 streams fork, canonical home | landed | the type home is the one home: TYPE_HOME / DEFAULT_STREAM (record/streams.ts), `new` plants there (commands/new.ts), one scanner renders any home |
 | 7 one unit-scanner | landed | the parse-once architecture is the fix: record/load.ts loads the units once; check, status, trace, deliver all read the same AST |
-| 10 canonical event order + repair rule | unowned | no order law in the tree or the planted AGENTS.md; candidate: a small law child |
+| 10 canonical event order + repair rule | landed | 310-event-order: the loop paragraph names the status events (new → grill → score → deliver) and the refused-gate path (attempt recorded, re-enter at the refused step, repaired forward) — record contract 17, taught in place |
 | 11 hard/guidance registers | unowned | founder directive, large; candidate: its own law child ahead of the 1.1.0 amendment batch |
 | 12 score hash + reuse warning | unowned | score writes no hash (commands/score.ts); adjacent to the ICS 2.0 proposal (180-spec7-ics-2) but not inside it |
 | 13 solo-grill honesty | unowned | grill records rounds but marks no self-grilled flag; candidate: a grill-law child |

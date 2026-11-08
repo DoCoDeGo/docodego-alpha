@@ -2,7 +2,7 @@
 name: 310-event-order
 type: unit
 epic: 020-canon-debts
-status: scored
+status: delivered
 ---
 
 # 310-event-order
