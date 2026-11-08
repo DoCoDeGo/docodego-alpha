@@ -2,18 +2,25 @@
   "name": "docodego",
   "private": true,
   "type": "module",
-  "workspaces": ["apps/*"],
-  "engines": { "node": ">=22.6" },
-  "devDependencies": { "@types/node": "^24", "typescript": "^7.0.2" },
+  "workspaces": [
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=22.6"
+  },
+  "devDependencies": {
+    "@types/node": "^24",
+    "typescript": "^7.0.2"
+  },
   "scripts": {
-    "typecheck": "tsc -p apps/cli/tsconfig.json --noEmit",
+    "typecheck": "tsc -p apps/cli/tsconfig.json --noEmit && tsc -p apps/spec/tsconfig.json --noEmit",
     "test": "npm run conformance && npm run fuzz",
-    "conformance": "node --experimental-strip-types apps/cli/src/conformance.ts",
-    "bundle": "node --experimental-strip-types apps/cli/scripts/bundle.ts",
-    "bundle:verify": "node --experimental-strip-types apps/cli/scripts/bundle.ts --verify",
-    "docs": "node --experimental-strip-types apps/cli/scripts/gen-docs.ts",
-    "docs:verify": "node --experimental-strip-types apps/cli/scripts/gen-docs.ts --verify",
-    "fuzz": "node --experimental-strip-types apps/cli/scripts/fuzz.ts",
-    "build": "node --experimental-strip-types apps/cli/scripts/build.ts"
+    "conformance": "npm --prefix apps/cli run -s conformance",
+    "fuzz": "npm --prefix apps/cli run -s fuzz",
+    "bundle": "npm --prefix apps/cli run -s bundle",
+    "bundle:verify": "npm --prefix apps/cli run -s bundle:verify",
+    "docs": "npm --prefix apps/cli run -s docs",
+    "docs:verify": "npm --prefix apps/cli run -s docs:verify",
+    "build": "npm --prefix apps/cli run -s build"
   }
 }

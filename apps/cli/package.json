@@ -4,9 +4,17 @@
   "description": "The intent-and-evidence CLI: bundles its own record, parses it once, runs pure passes, emits rustc-style diagnostics.",
   "license": "MIT",
   "type": "module",
-  "bin": { "docodego": "dist/docodego.js" },
-  "files": ["dist/docodego.js", "README.md", "LICENSE"],
-  "engines": { "node": ">=22.6" },
+  "bin": {
+    "docodego": "dist/docodego.js"
+  },
+  "files": [
+    "dist/docodego.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22.6"
+  },
   "homepage": "https://docodego.com",
   "repository": {
     "type": "git",
@@ -22,7 +30,9 @@
     "governance",
     "records"
   ],
-  "publishConfig": { "access": "public" },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "bundle": "node --experimental-strip-types scripts/bundle.ts",
     "bundle:verify": "node --experimental-strip-types scripts/bundle.ts --verify",
@@ -30,6 +40,8 @@
     "docs:verify": "node --experimental-strip-types scripts/gen-docs.ts --verify",
     "typecheck": "tsc --noEmit",
     "conformance": "node --experimental-strip-types src/conformance.ts",
-    "build": "node --experimental-strip-types scripts/build.ts"
-  }
+    "build": "node --experimental-strip-types scripts/build.ts",
+    "fuzz": "node --experimental-strip-types scripts/fuzz.ts"
+  },
+  "private": true
 }
