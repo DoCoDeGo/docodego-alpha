@@ -2,7 +2,7 @@
 name: 350-score-reuse
 type: unit
 epic: 020-canon-debts
-status: scored
+status: delivered
 ---
 
 # 350-score-reuse

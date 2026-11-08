@@ -117,3 +117,4 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-08 | 340-grill-mode | new unit | 02-compose/01-build/340-grill-mode/spec.md |
 | 2026-11-08 | 340-grill-mode | delivered | 02-compose/01-build/340-grill-mode/delivered.md |
 | 2026-11-08 | 350-score-reuse | new unit | 02-compose/01-build/350-score-reuse/spec.md |
+| 2026-11-08 | 350-score-reuse | delivered | 02-compose/01-build/350-score-reuse/delivered.md |
