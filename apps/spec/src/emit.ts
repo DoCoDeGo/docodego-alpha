@@ -5,10 +5,9 @@ import type { Diagnostic } from "./types.ts";
 
 export function renderDiagnostic(d: Diagnostic): string {
   const head = `spec ${d.severity}[${d.code}]: ${d.message}`;
-  const hint = `  help: docodego explain ${d.code}`;
-  if (d.file === undefined) return `${head}\n${hint}`;
+  if (d.file === undefined) return head;
   const loc = d.span !== undefined ? `${d.file}:${d.span.start.line}:${d.span.start.col}` : d.file;
-  return `${head}\n  --> ${loc}\n${hint}`;
+  return `${head}\n  --> ${loc}`;
 }
 
 export function countsOf(diags: Diagnostic[]): { errors: number; warnings: number } {
