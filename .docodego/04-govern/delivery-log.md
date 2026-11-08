@@ -62,3 +62,4 @@ is recorded here; what was learned lives in the unit's own records.
 | 2026-11-08 | 400-law-flip-1-1-0 | G1,G2,G3,G4 | proof: proofs/canon-lint.txt |
 | 2026-11-08 | 410-register-split | G1,G2,G3,G4 | proof: proofs/bundle-build.txt |
 | 2026-11-08 | 420-sign-off | G1,G2,G3,G4 | proof: proofs/bundle-build.txt |
+| 2026-11-08 | 430-refactor-sweep | G1,G2,G3,G4 | proof: proofs/conformance.txt |

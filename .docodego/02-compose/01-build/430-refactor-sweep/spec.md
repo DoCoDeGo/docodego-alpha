@@ -2,7 +2,7 @@
 name: 430-refactor-sweep
 type: unit
 epic: 020-canon-debts
-status: scored
+status: delivered
 ---
 
 # 430-refactor-sweep

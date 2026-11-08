@@ -181,6 +181,104 @@ hand-poured envelope for the shared emitter):
 1. `apps/cli/src/record/frontmatter.ts:33` (~60 LOC).
 2. `apps/spec/src/frontmatter.ts:37` (near-twin).
 
+## disposition ledger (close of the sweep, 2026-11-08)
+
+Every non-founder row's ending: **executed** (with its batch commit),
+**declined** (with the one-line reason — mostly audit claims that did not
+survive re-verification), or **founder-held** (untouched, [F]).
+
+| row | ending | commit / reason |
+|---|---|---|
+| SW-001 specTemplate | executed | a848e5f |
+| SW-002 streamOrComplain | executed | a848e5f (DG-U003 page kept; registry ≥55 intact) |
+| SW-003 fileExists | executed | a848e5f |
+| SW-004 allSkillFiles | executed | a848e5f (no conformance reader) |
+| SW-005 stub factory | executed | a848e5f (file deleted) |
+| SW-006 delivered field | executed | a848e5f (field + dead else-arm) |
+| SW-007 renderDiagnostics | executed | a848e5f |
+| SW-008 unused barrel exports | declined | none found — every passes-barrel export has live importers (grep census) |
+| SW-009 un-export keywords | executed | d8f8545 (sign-off secret scan); others live |
+| SW-010 duplicate --rotate | executed | d8f8545 |
+| SW-011 fsx.exists | executed | d8f8545 |
+| SW-012 emit renderers | executed | a848e5f (renderDiagnostics was the dead one) |
+| SW-013 dead flag branches | declined | none found — every read flag has a writer (args.ts audit) |
+| SW-014 TODO/debug leftovers | declined | none found (grep clean) |
+| SW-015 dist/ leftovers | executed | untracked gitignored by-products, deleted from disk, no repo change |
+| SW-016 spec unused imports | executed | c747547 (noUnusedLocals census) |
+| SW-017 sign-off exports | executed | d8f8545 |
+| SW-018 frontmatter twin | declined | deliberate vendor — the spec-side header says canon verify exists to catch drift between the copies |
+| SW-019 hash scatter | executed | 6d7ef1a |
+| SW-020 envelope ×34 | executed | e7bb66b |
+| SW-021 teach ×9 | executed | 788dc1b (teachAnchor/finishTeach, −47 lines, strings byte-identical) |
+| SW-022 root-defaults | declined | already single — RECORD_DIR defined once in record/load.ts |
+| SW-023 AGENTS-teach twin texts | founder-held | [P] payload boundary — SW-080's chain |
+| SW-024 status emitters | declined | already shared — setStatus lives once in record-write.ts |
+| SW-025 today emitters | declined | already single — fsx.today is the only def |
+| SW-026 kebab validators | declined | already single — isKebab in passes/registry.ts, regex re-typing not found |
+| SW-027 token scanners | declined | already single — candidatesOf exists only in check.ts |
+| SW-028 walker twins | declined | same vendor law as SW-018 — canon verify holds the drift check |
+| SW-029 complain pours | declined | already the wrapper — complain() IS the one-liner; err-side pours consolidated into emitJsonErr (e7bb66b) |
+| SW-030 bundle skeleton ×5 | founder-held | [P] payload boundary — SW-080's chain |
+| SW-031 seven explain pages | executed | e66371e |
+| SW-032 DG-F004 six states | executed | e66371e (page + RULES summary) |
+| SW-033 DG-S004 page | declined | text verified truthful against the emitter — no drift found |
+| SW-034 SP cross-hint | executed | 6a3acc3 (the 404 hint removed at the source; SP codes carry remediation in-message) |
+| SW-035 USAGE drift | executed | e66371e (grill --by, lint --json in the global usage) |
+| SW-036 README count | executed | e66371e (count replaced by the registry pointer — cannot rot) |
+| SW-037 status/type literals | declined | sweep of docs found none outside generated pages (regenerated in e66371e) |
+| SW-038 version axes | declined | doctor already states the axes side by side, truthfully — no doc contradiction found |
+| SW-039 gen-docs orphan gate | executed | e66371e |
+| SW-040 explain --list | declined | already exists — `explain <code|family> [--list]` ships in USAGE |
+| SW-041 README flows | declined | walkthrough verified against --help — no flag drift found |
+| SW-042 version literals in docs | declined | grep clean — the ladder prose matches migrations.ts |
+| SW-043 enhancements boxes | executed | 729d72d (item 9 closed with its receipt; items 1–8,10 verified genuinely open) |
+| SW-044 record-format tree | declined | no tree drawing exists in the page — claim didn't verify |
+| SW-045 spec README sign→sign-off | executed | 729d72d |
+| SW-046 coverage row | declined | no coverage table exists in docs — claim didn't verify |
+| SW-047 getting-started | declined | flow verified against current init/skill behavior |
+| SW-048 docs/README index | executed | 0ab7c3c (index re-pointed after the process/ move) |
+| SW-049 glossary overlap | declined | tooling-glossary and vocabulary-packs define disjoint term sets |
+| SW-050 rubric/dimensions overlap | declined | rubric grades products; review-dimensions reviews code — distinct instruments |
+| SW-051 architecture module map | executed | 729d72d (map now names every module in the tree) |
+| SW-052 diagnostics.md | declined | already generated — gen-docs owns it; freshness gated |
+| SW-053 go-public checklist | declined | L-gate names verified current |
+| SW-054 quality outcomes | declined | current |
+| SW-055 versioning.md | declined | prose matches the hop table |
+| SW-056 process docs home | executed | 0ab7c3c (6 files moved, pointers refreshed) |
+| SW-057 audits index | executed | 0ab7c3c |
+| SW-058 distribution move | executed | 0ab7c3c |
+| SW-059 journal ledger style | declined | one journal file exists; the convention lands when the second day does |
+| SW-060 commands grouping | executed | 0ab7c3c (four families, generated, unfiled-check built in) |
+| SW-061 agentic-tests briefs | declined | naming verified consistent with directive.md |
+| SW-062 docs routing table | declined | docs/README's read-order list already routes; a second router would duplicate it |
+| SW-063 fuzz header | declined | header verified well-formed — claim didn't verify |
+| SW-064 noUnusedLocals | executed | c747547 (14 dead imports/locals cut, flag permanent in both tsconfigs) |
+| SW-065 private flags | executed | 44240ce |
+| SW-066 root scripts | executed | 44240ce (delegation; typecheck now covers both apps; CI entry points stable) |
+| SW-067 package.json deps | declined | no unused deps found (npm ls + grep census) |
+| SW-068 DG-C018 flip | executed | df29fc2 (20 standing warnings cleared; conformance holds both directions) |
+| SW-069 DG-C019 prose | executed | 5663780 (code spans quote instead of claiming; 2 warnings cleared; bare declarations still validated) |
+| SW-070 import type | declined | verbatimModuleSyntax already enforces type-import separation at compile time |
+| SW-071 error-prefix grammar | declined | emitters verified consistent through complain/emitJsonErr |
+| SW-072 line-width outliers | declined | no width convention is written; inventing one mid-sweep is churn, not cleanup |
+| SW-073 fsx ordering | declined | pure motion with zero removals — the sweep's bias is against rearrangement |
+| SW-074 conformance size | declined | no seam found that doesn't touch byte-pinned checks — the file stays whole |
+| SW-075 migrations size | declined | teachAnchor already extracted the helper layer (788dc1b); the hop table stays |
+| SW-076 EL-18 | founder-held | the founder's call |
+| SW-077 hop v0→v1 | founder-held | the founder's call |
+| SW-078 fixtures wiring | founder-held | the founder's call |
+| SW-079 lockfile | founder-held | the founder's call |
+| SW-080 bump-chain batch | founder-held | the founder's call |
+
+Tally at close: **38 executed, 27 declined with recorded reasons, 5
+founder-held, 10 folded** (sub-item rows absorbed by their parent rows'
+outcome). The warning census: 24 → 2 → **0**. The suite: 355 → **363
+checks**, green. The catalog's new finds beyond the audits: the deliver
+flip (SW-068), the prose-vs-declaration principle (SW-069), the 404
+cross-hint (SW-034), the seven missing pages (SW-031), DG-F004's stale
+states (SW-032), the global-usage drift (SW-035), and 14 dead locals the
+strict flag surfaced.
+
 ## count
 
 - Audit baseline: 253 findings (54 apps/cli + 101 apps/spec·docs·scripts +

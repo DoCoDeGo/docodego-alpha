@@ -17,3 +17,4 @@ delivered through this room yet.
 | 2026-11-08 | 400-law-flip-1-1-0 | 517da91087c3c8ca | the sign command cannot sign amendment files (unit-scoped, launch-gated) — the sign-off lands in the founder-directed written form instead, with the mechanization named as direction |
 | 2026-11-08 | 410-register-split | 6cf9ab1ff1e8d317 | none recorded |
 | 2026-11-08 | 420-sign-off | 9a8eeacaf4e3b1a6 | none recorded |
+| 2026-11-08 | 430-refactor-sweep | e8273af6846073f3 | none recorded |

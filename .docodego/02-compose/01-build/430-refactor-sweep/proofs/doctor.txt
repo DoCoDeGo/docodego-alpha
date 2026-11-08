@@ -1,0 +1,2 @@
+canon doctor · no drift — lint+verify rerun clean, structure ok, index ok, version pair ok, mirror aligned (16 mirror statutes vs 16 tree statutes)
+axes (side by side, never inferred): payload specVersion 23 · cli 0.9.0 · spec/ 1.2.1 · delivered 1.2.1

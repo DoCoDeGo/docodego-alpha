@@ -1,0 +1,2 @@
+check: record holds together.
+exit 0

@@ -1,0 +1,8 @@
+specTemplate: 0
+streamOrComplain: 0
+fileExists: 0
+allSkillFiles: 0
+renderDiagnostics in apps/spec/src: 0
+stubs.ts on disk: ls: cannot access 'apps/spec/src/commands/stubs.ts': No such file or directory
+duplicate --rotate branches: 2
+rotate literal occurrences (BOOL_FLAGS set + the one parse branch): 2
