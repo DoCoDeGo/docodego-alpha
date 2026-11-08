@@ -3,18 +3,18 @@
  * enforced-by against these sets plus the LIVE CLI's command table (read
  * from apps/cli/src/cli/help.ts at run time — never a copy). */
 
-/** The eight canon commands, registered up front with their delivery state
- * (ADR 0012 build order: foundation → lint+verify → build → coverage+diff
- * → amend → doctor+publish). An undelivered command answers honestly. */
-export const CANON_COMMANDS: Record<string, { delivered: boolean; summary: string }> = {
-  lint: { delivered: true, summary: "document-standard conformance over the spec tree" },
-  verify: { delivered: true, summary: "referential integrity: enforced-by, links, anchors, versions" },
-  build: { delivered: true, summary: "SPEC.md bundle + law-index.json + manifest with structure hash" },
-  amend: { delivered: true, summary: "scaffold an amendment record; the founder signs via docodego sign" },
-  diff: { delivered: true, summary: "semantic law diff with a suggested bump class" },
-  coverage: { delivered: true, summary: "the enforceability map as data: classification, weighted score, orphan gates, --impact" },
-  doctor: { delivered: true, summary: "drift across spec/ ↔ build ↔ payload" },
-  publish: { delivered: true, summary: "version-directory site, llms.txt, verification badge" },
+/** The eight canon commands (ADR 0012 build order: foundation →
+ * lint+verify → build → coverage+diff → amend → doctor+publish). All
+ * eight are delivered; the registry carries their summaries. */
+export const CANON_COMMANDS: Record<string, { summary: string }> = {
+  lint: { summary: "document-standard conformance over the spec tree" },
+  verify: { summary: "referential integrity: enforced-by, links, anchors, versions" },
+  build: { summary: "SPEC.md bundle + law-index.json + manifest with structure hash" },
+  amend: { summary: "scaffold an amendment record; the founder signs via docodego sign" },
+  diff: { summary: "semantic law diff with a suggested bump class" },
+  coverage: { summary: "the enforceability map as data: classification, weighted score, orphan gates, --impact" },
+  doctor: { summary: "drift across spec/ ↔ build ↔ payload" },
+  publish: { summary: "version-directory site, llms.txt, verification badge" },
 };
 
 /** Enforcers that are honest without being commands: some laws are enforced

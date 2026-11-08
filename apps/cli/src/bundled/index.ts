@@ -108,11 +108,6 @@ never deleted).
 |---|---|---|---|
 `;
 
-/** All bundled skill files as `.agents/skills/<name>/<file>` -> body. */
-export function allSkillFiles(): Record<string, string> {
-  return filesUnder(".agents/skills/");
-}
-
 /** The tracker header planted into fresh records (and recreated when a
  * command needs to append and the tracker is absent). Append-only after that. */
 export const TRACKER_TEMPLATE = `# Tracker

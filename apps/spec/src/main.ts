@@ -12,7 +12,6 @@ import * as diff from "./commands/diff.ts";
 import * as amend from "./commands/amend.ts";
 import * as doctor from "./commands/doctor.ts";
 import * as publish from "./commands/publish.ts";
-import { stub } from "./commands/stubs.ts";
 
 const io: Io = {
   out: (s) => process.stdout.write(`${s}\n`),
@@ -32,7 +31,7 @@ const ROUTES: Record<string, (args: Args, io: Io) => number> = {
 
 function usageText(): string {
   const cmds = Object.entries(CANON_COMMANDS)
-    .map(([name, c]) => `  ${name.padEnd(9)} ${c.summary}${c.delivered ? "" : "   (not built yet)"}`)
+    .map(([name, c]) => `  ${name.padEnd(9)} ${c.summary}`)
     .join("\n");
   return `canon — the spec workbench for the DoCoDeGo System (bin docodego-spec)
 

@@ -1,39 +1,6 @@
 /** Embedded templates for documents the CLI earns into existence. */
 import { today } from "../fsx.ts";
 
-export function specTemplate(name: string, epic?: string, story?: string): string {
-  const links = [
-    epic !== undefined && epic !== "" ? `epic: ${epic}\n` : "",
-    story !== undefined && story !== "" ? `story: ${story}\n` : "",
-  ].join("");
-  return `---
-name: ${name}
-type: unit
-${links}status: draft
----
-
-# ${name}
-
-## intent
-
-One sentence: what this unit does, and why it exists now.
-
-## scope
-
-In: what this unit covers.
-Out: what it deliberately leaves alone.
-
-## acceptance
-
-- criterion one — observable and countable
-- criterion two
-
-## threats
-
-- the biggest threat to landing → its mitigation
-`;
-}
-
 export function sketchTemplate(name: string): string {
   return `# sketch: ${name}
 

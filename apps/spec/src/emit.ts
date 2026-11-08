@@ -11,13 +11,6 @@ export function renderDiagnostic(d: Diagnostic): string {
   return `${head}\n  --> ${loc}\n${hint}`;
 }
 
-export function renderDiagnostics(diags: Diagnostic[]): string {
-  const body = diags.map(renderDiagnostic).join("\n");
-  const c = countsOf(diags);
-  const tail = `${c.errors} error(s), ${c.warnings} warning(s)`;
-  return body === "" ? tail : `${body}\n\n${tail}`;
-}
-
 export function countsOf(diags: Diagnostic[]): { errors: number; warnings: number } {
   return {
     errors: diags.filter((d) => d.severity === "error").length,
