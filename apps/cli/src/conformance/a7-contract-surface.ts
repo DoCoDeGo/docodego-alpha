@@ -386,4 +386,17 @@ rmSync(sb, { recursive: true, force: true });
   }
   rmSync(nb2, { recursive: true, force: true });
 }
+
+// --- 650: the workflow least-privilege pin (enhancement 7's verifiable
+// half) — the permission blocks are asserted byte-exactly, so widening
+// the write surface fails the suite; the files live outside the payload
+// boundary, so these facts read the repo root directly ---
+{
+  const repoRoot = join(import.meta.dirname, "../../../..");
+  const release = readFileSync(join(repoRoot, ".github/workflows/release.yml"), "utf8");
+  const ci = readFileSync(join(repoRoot, ".github/workflows/ci.yml"), "utf8");
+  fact("650: release.yml's write surface is exactly contents:write at the top, scoped reads + id-token on the npm job", release.includes("permissions:\n  contents: write\n") && release.includes("permissions:\n      contents: read\n      id-token: write\n"));
+  fact("650: ci.yml declares no permissions — the default read-only surface", !ci.includes("permissions:"));
+  fact("650: both npm publishes carry --provenance (the evidence law holds in CI)", release.split("npm publish --provenance").length - 1 === 2);
+}
 }

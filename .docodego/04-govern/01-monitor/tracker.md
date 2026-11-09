@@ -262,3 +262,4 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-09 | 640-go-public-surface | launch-refused | L2 failed — proof path(s) vanished since delivery: feature.yml, config.yml — evidence t... |
 | 2026-11-09 | 640-go-public-surface | launch-passed | 02-compose/01-build/640-go-public-surface/launch.md |
 | 2026-11-09 | 640-go-public-surface | founder-signed | 02-compose/01-build/640-go-public-surface/signature.md |
+| 2026-11-09 | 650-enhancements-triage | new unit | 02-compose/01-build/650-enhancements-triage/spec.md |
