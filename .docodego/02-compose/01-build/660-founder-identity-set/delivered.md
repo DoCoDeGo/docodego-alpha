@@ -24,3 +24,7 @@
 `DoCoDeGo <DoCoDeGo@users.noreply.github.com>`.
 `cat .docodego/02-compose/01-build/660-founder-identity-set/signature.md`
 — the typed, unmarked receipt.
+## delivered 2026-11-09
+
+- gates: G1, G2, G3, G4 all passed
+- detail: frontmatter, intent and acceptance in place; recomputed 72/100 — matches the recorded block (spec-sha 544006494cba3458); latest verdict: pass; proof: ../AGENTS.md

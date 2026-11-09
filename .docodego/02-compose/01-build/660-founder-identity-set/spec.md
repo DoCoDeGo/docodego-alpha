@@ -1,7 +1,7 @@
 ---
 name: 660-founder-identity-set
 type: unit
-status: scored
+status: founder-signed
 ---
 
 # 660-founder-identity-set

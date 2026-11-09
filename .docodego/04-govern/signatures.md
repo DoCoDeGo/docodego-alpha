@@ -29,3 +29,4 @@ signature.md.
 | 2026-11-09 | 630-sign-dialog | enc:v1:Y29kZUBhZG1pbnMtTUJQLm5ibg== (the system identity of the environment, encoded) | founder (provisional — a derived identity signed; the confirming act is a named-person founder signature) | founder-signed |
 | 2026-11-09 | 640-go-public-surface | enc:v1:Y29kZUBhZG1pbnMtTUJQLm5ibg== (the system identity of the environment, encoded) | founder (provisional — a derived identity signed; the confirming act is a named-person founder signature) | founder-signed |
 | 2026-11-09 | 650-enhancements-triage | enc:v1:Y29kZUBhZG1pbnMtTUJQLm5ibg== (the system identity of the environment, encoded) | founder (provisional — a derived identity signed; the confirming act is a named-person founder signature) | founder-signed |
+| 2026-11-09 | 660-founder-identity-set | DoCoDeGo (a typed legal identifier) | founder | founder-signed |
