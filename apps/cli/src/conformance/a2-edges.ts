@@ -38,9 +38,21 @@ fact("fixture received the bundled record files", existsSync(join(fixture, ".doc
 // --- v2: conflict law — user-modified files are never overwritten ---
 write(fixture, ".docodego/README.md", `${read(fixture, "README.md")}\nMY OWN EDIT — do not lose this line\n`);
 write(fixture, ".docodego/.standard/manifest.json", `{\n  "recordVersion": 1\n}\n`);
-check("re-upgrade with a conflict exits 0", run(fixture, ["upgrade", "--apply"]), 0);
+check("re-upgrade with a conflict exits 0", run(fixture, ["upgrade", "--apply"]), 0, (r) => r.stdout.includes("walk summary: v1 -> ") && r.stdout.includes("migration steps applied:"));
 fact("user-modified README.md NOT overwritten", read(fixture, "README.md").includes("MY OWN EDIT"));
 fact("bundled version landed side-by-side as README.md.new", existsSync(join(fixture, ".docodego", "README.md.new")) && readFileSync(join(fixture, ".docodego", "README.md.new"), "utf8").includes("01-discover"));
+
+// --- 670: upgrade honesty — reconcile the conflicts, report the walk ---
+// the conflict line was true when printed; the reconciliation names the
+// END state: surviving twins measured in differing lines, swept twins
+// named resolved, lockfile stamped alongside the manifest
+{
+  let walked = "";
+  check("670: apply ends with the walk summary", run(fixture, ["upgrade", "--apply"]), 0, (r) => { walked = r.stdout; return walked.includes("walk summary:") && walked.includes("twins remaining:"); });
+  fact("670: the surviving twin's residual is counted in differing lines", /twins remaining: 1 \(carrying [1-9][0-9]* differing line/.test(walked));
+  fact("670: the walk summary names the hops crossed", /walk summary: v31 -> v31 · migration steps applied: 0 · twins resolved in place: 0 · twins remaining: 1/.test(walked));
+  fact("670: the lockfile's recordSpecVersion matches the manifest after apply", JSON.parse(read(fixture, "skills-lock.json")).recordSpecVersion === JSON.parse(read(fixture, ".standard/manifest.json")).recordVersion);
+}
 
 // --- v12: restore law — a deleted engine file is never silently re-created ---
 // a record at the bundled version that LOST a planted file gets the copy

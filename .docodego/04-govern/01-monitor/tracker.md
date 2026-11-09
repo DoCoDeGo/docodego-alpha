@@ -274,3 +274,4 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-09 | 660-founder-identity-set | delivered | 02-compose/01-build/660-founder-identity-set/delivered.md |
 | 2026-11-09 | 660-founder-identity-set | launch-passed | 02-compose/01-build/660-founder-identity-set/launch.md |
 | 2026-11-09 | 660-founder-identity-set | founder-signed | 02-compose/01-build/660-founder-identity-set/signature.md |
+| 2026-11-10 | 670-upgrade-honesty | new unit | 02-compose/01-build/670-upgrade-honesty/spec.md |

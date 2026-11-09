@@ -12,6 +12,7 @@
  * every step is idempotent and leaves tracker evidence. */
 import { spawnSync } from "node:child_process";
 import { join } from "node:path";
+import { existsSync } from "node:fs";
 import type { Args, Io, Manifest } from "../types.ts";
 import { loadRecord, MANIFEST_REL, RECORD_DIR, type RecordAst } from "../record/load.ts";
 import { checkPass } from "../passes/index.ts";
@@ -19,7 +20,7 @@ import { renderDiagnostics } from "../emit/diagnostics.ts";
 import { migrationsFor } from "../versioning/migrations.ts";
 import { applyPlan, computePlan, renderPlan, type PlanEntry } from "../versioning/plan.ts";
 import { agentsMd, agentPresets, introductions, recordFiles, ruleFiles, skillFiles, skillsIndex, specVersion, DEFAULT_PROFILE, profiles as profileMap, vocabularyPack } from "../bundled/index.ts";
-import { appendTrackerLine, plantSkill, readLock } from "../skills/lock.ts";
+import { appendTrackerLine, plantSkill, readLock, writeLock } from "../skills/lock.ts";
 import { readText, writeText } from "../fsx.ts";
 import { emitJson } from "../emit/json.ts";
 
@@ -83,13 +84,38 @@ function apply(args: Args, io: Io, rec: RecordAst, current: number, target: numb
   }
   suggestion(io, root, lock);
   // migrations in order, one tracker line per step (the resumability ledger)
-  for (const m of migrationsFor(current, target)) {
+  const migrations = migrationsFor(current, target);
+  const stepCount = migrations.reduce((n, m) => n + m.steps.length, 0);
+  for (const m of migrations) {
     for (const step of m.steps) {
       const outcome = step(root);
       appendTrackerLine(root, "upgrade", `v${m.from}->v${m.to}: ${outcome}`, `${RECORD_DIR}/04-govern/01-monitor/tracker.md`);
       applied.push(outcome);
     }
   }
+  // twin reconciliation (670): a plan conflict line was true when printed,
+  // but migrations may have brought the kept copy to the bundled bytes —
+  // the sweep then removed that twin inside this same apply. Report the
+  // END state: resolved twins named, surviving twins measured. Never
+  // auto-merged — the words are the operator's; we only count.
+  let sweptTwins = 0;
+  let keptTwins = 0;
+  let residualLines = 0;
+  for (const e of plan.filter((p) => p.action === "conflict")) {
+    const twinAbs = join(repoRoot, `${e.path}.new`);
+    if (!existsSync(twinAbs)) {
+      sweptTwins++;
+      applied.push(`resolved in place (twin swept): ${e.path} — the kept copy was brought current by the walk; nothing to merge`);
+      continue;
+    }
+    keptTwins++;
+    const keptRaw = readText(join(repoRoot, e.path));
+    const twinRaw = readText(twinAbs);
+    const d = keptRaw === null || twinRaw === null ? -1 : residualDiffLines(keptRaw, twinRaw);
+    if (d > 0) residualLines += d;
+    applied.push(`${e.path}.new — the kept copy was also taught in place; the twin still carries ${d >= 0 ? d : "unknown"} differing line(s) — merge or delete knowingly`);
+  }
+  applied.push(`walk summary: v${from} -> v${target} · migration steps applied: ${stepCount} · twins resolved in place: ${sweptTwins} · twins remaining: ${keptTwins}${keptTwins > 0 ? ` (carrying ${residualLines} differing line(s))` : ""}`);
   // validate before stamping: re-read the record, run the check pass
   const reloaded = loadRecord(repoRoot);
   const findings = [...reloaded.loadDiags, ...checkPass(reloaded)];
@@ -122,13 +148,35 @@ function skillSummary(root: string): string {
   return `${lock.installed.length} installed (per skills-lock.json)`;
 }
 
-/** Stamp recordVersion into the manifest, preserving every other key. */
+/** Stamp recordVersion into the manifest, preserving every other key —
+ * and stamp the skills lockfile's recordSpecVersion to match (670): a
+ * lockfile stating a version the manifest outgrew is a lie the next
+ * reader can verify. A record without a lockfile is untouched. */
 function stampVersion(root: string, target: number): void {
   const abs = join(root, MANIFEST_REL);
   const raw = readText(abs);
   if (raw === null) return;
   const manifest = { ...(JSON.parse(raw) as Partial<Manifest>), recordVersion: target };
   writeText(abs, `${JSON.stringify(manifest, null, 2)}\n`);
+  const lock = readLock(root);
+  if (lock !== null && lock.recordSpecVersion !== target) {
+    writeLock(root, { ...lock, recordSpecVersion: target });
+  }
+}
+
+/** Line-multiset symmetric difference — honest "how much differs" without
+ * shipping a diff engine. Equal bytes -> 0; one edited line -> 2. */
+function residualDiffLines(a: string, b: string): number {
+  const counts = new Map<string, number>();
+  for (const line of a.split("\n")) counts.set(line, (counts.get(line) ?? 0) + 1);
+  let residual = 0;
+  for (const line of b.split("\n")) {
+    const c = counts.get(line) ?? 0;
+    if (c > 0) counts.set(line, c - 1);
+    else residual++;
+  }
+  for (const v of counts.values()) residual += v;
+  return residual;
 }
 
 function makeBranch(repoRoot: string, from: number, to: number, io: Io): boolean {
