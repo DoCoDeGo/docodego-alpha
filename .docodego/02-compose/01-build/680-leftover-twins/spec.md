@@ -1,7 +1,7 @@
 ---
 name: 680-leftover-twins
 type: unit
-status: delivered
+status: founder-signed
 ---
 
 ## intent

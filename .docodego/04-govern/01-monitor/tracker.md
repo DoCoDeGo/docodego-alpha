@@ -283,3 +283,6 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-10 | 680-leftover-twins | new unit | 02-compose/01-build/680-leftover-twins/spec.md |
 | 2026-11-10 | 680-leftover-twins | delivered | 02-compose/01-build/680-leftover-twins/delivered.md |
 | 2026-11-10 | 680-leftover-twins | launch-refused | L2 failed — proof path(s) vanished since delivery: .new, 01-discover/README.md.new, .do... |
+| 2026-11-10 | 680-leftover-twins | launch-refused | L2 failed — proof path(s) vanished since delivery: .new, 01-discover/README.md.new, .do... |
+| 2026-11-10 | 680-leftover-twins | launch-passed | 02-compose/01-build/680-leftover-twins/launch.md |
+| 2026-11-10 | 680-leftover-twins | founder-signed | 02-compose/01-build/680-leftover-twins/signature.md |
