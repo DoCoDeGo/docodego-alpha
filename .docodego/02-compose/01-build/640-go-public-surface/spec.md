@@ -1,7 +1,7 @@
 ---
 name: 640-go-public-surface
 type: unit
-status: delivered
+status: founder-signed
 ---
 
 # 640-go-public-surface
