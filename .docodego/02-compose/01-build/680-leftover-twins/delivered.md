@@ -27,3 +27,7 @@ instead of silently pinning the wrong shape.
 `pnpm -C apps/cli run -s conformance` — 495 green. On a real record:
 `docodego upgrade --apply` and read the last line; every `.new` on
 disk appears above it, counted.
+## delivered 2026-11-10
+
+- gates: G1, G2, G3, G4 all passed
+- detail: frontmatter, intent and acceptance in place; recomputed 71/100 — matches the recorded block (spec-sha 6b1b901829450e2e); latest verdict: pass; proof: apps/cli/src/commands/upgrade.ts · warning: 3 path-like span(s) do not resolve (.new, 01-discover/README.md.new, .docodego/README.md.new) — launch will refuse if they are proof paths

@@ -1,7 +1,7 @@
 ---
 name: 680-leftover-twins
 type: unit
-status: scored
+status: delivered
 ---
 
 ## intent
