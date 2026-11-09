@@ -7,6 +7,7 @@
  * found a real problem. An available record upgrade is information, not a
  * finding: the record moves only when a human runs 'docodego upgrade'. */
 import { spawnSync } from "node:child_process";
+import { readdirSync } from "node:fs";
 import { join } from "node:path";
 import type { Args, Diagnostic, Io, Manifest, SkillsLock } from "../types.ts";
 import { specVersion } from "../bundled/index.ts";
@@ -69,7 +70,60 @@ function triage(): Check[] {
     ...(isDir(root) ? recordChecks(root) : absentRecord()),
     registryCheck(),
     lockCheck(root),
+    decisionLineage(),
   ];
+}
+
+/** Decision-record lineage (700): the ADR anti-conflict law, verified.
+ * Absent-able — products carry no docs/decisions/; the check is a
+ * studio concern and reports its absence honestly without failing. */
+function decisionLineage(): Check {
+  const dir = join(process.cwd(), "docs", "decisions");
+  if (!isDir(dir)) return { name: "decision lineage", ok: true, absent: true, detail: "no docs/decisions/ here — nothing to verify" };
+  const problems = adrLineageProblems(dir);
+  const files = readdirSync(dir).filter((f) => /^\d{4}-.*\.md$/.test(f)).length;
+  return problems.length === 0
+    ? fine("decision lineage", `${files} ADR${files === 1 ? "" : "s"} indexed, pointers intact`)
+    : sick("decision lineage", `${problems.length} problem${problems.length === 1 ? "" : "s"}: ${problems.join("; ")}`);
+}
+
+/** The lineage scanner, pure and exported for conformance: dir in,
+ * problem strings out — an empty list is a healthy lineage. Checks
+ * file ↔ index-row parity in both directions, dead links, and the
+ * supersede pointers: a Superseded ADR's index row names its successor
+ * (`by NNNN`), the file itself carries the same number, and a file
+ * whose own status says Superseded cannot hide behind an unmarked row. */
+export function adrLineageProblems(dir: string): string[] {
+  const readme = readText(join(dir, "README.md"));
+  if (readme === null) return ["docs/decisions/README.md missing — the index is the current-law surface"];
+  const problems: string[] = [];
+  const files = new Set(readdirSync(dir).filter((f) => /^\d{4}-.*\.md$/.test(f)));
+  const rows = [...readme.matchAll(/\|\s*\[(\d{4})\]\(\.\/([^)|\s]+\.md)\)\s*\|\s*([^|]+)\|\s*([^|]+)\|/g)];
+  const indexed = new Set(rows.map((m) => m[2]));
+  for (const f of files) if (!indexed.has(f)) problems.push(`${f} has no index row`);
+  for (const m of rows) {
+    const file = m[2] ?? "";
+    const statusCell = m[4] ?? "";
+    if (!files.has(file)) {
+      problems.push(`index row points at a missing file: ${file}`);
+      continue;
+    }
+    if (!/\bSuperseded\b/.test(statusCell)) continue;
+    const by = /by\s+\[?(\d{4})\]?/.exec(statusCell)?.[1];
+    if (by === undefined) {
+      problems.push(`${file} is marked Superseded without naming its successor`);
+      continue;
+    }
+    const raw = readText(join(dir, file)) ?? "";
+    if (!new RegExp(`\\b${by}\\b`).test(raw)) problems.push(`${file} is marked Superseded by ${by} but the file never mentions ${by}`);
+  }
+  for (const f of files) {
+    const head = (readText(join(dir, f)) ?? "").slice(0, 400);
+    if (!/\bSuperseded\b/.test(head)) continue;
+    const row = rows.find((m) => m[2] === f);
+    if (row === undefined || !/\bSuperseded\b/.test(row[4] ?? "")) problems.push(`${f} carries Superseded in its status but its index row does not`);
+  }
+  return problems;
 }
 
 /** The record family when there is no layer: every record check reports

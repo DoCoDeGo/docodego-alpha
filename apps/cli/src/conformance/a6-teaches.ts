@@ -106,12 +106,12 @@ fact("the payload's AGENTS.md states the event order and the repair rule", agent
   const gh = mkdtempSync(join(tmpdir(), "docodego-conformance-grillmode-"));
   check("grillmode: init", run(gh, ["init"]), 0);
   check("grillmode: new", run(gh, ["new", "mode-unit"]), 0);
-  write(gh, "ans.txt", "GQ-1: the intent holds\nGQ-2: by the proofs\nGQ-3: none\nGQ-4: none\nGQ-AC1: by the capture\nGQ-AC2: same\n");
+  write(gh, "ans.txt", "GQ-1: the intent holds\nGQ-2: by the proofs\nGQ-3: none\nGQ-4: none\nGQ-5: none — new ground\nGQ-AC1: by the capture\nGQ-AC2: same\n");
   check("grillmode: a plain round", run(gh, ["grill", "010-mode-unit", "--answers", "ans.txt"]), 0, () => {
     const md = read(gh, join("01-document", "01-discover", "010-mode-unit", "grill.md"));
     return md.includes("round: self-grilled — the agent answered its own questions");
   });
-  write(gh, "ans.txt", "GQ-1: the intent holds\nGQ-2: by the proofs\nGQ-3: none\nGQ-4: none\nGQ-AC1: by the capture\nGQ-AC2: same\n");
+  write(gh, "ans.txt", "GQ-1: the intent holds\nGQ-2: by the proofs\nGQ-3: none\nGQ-4: none\nGQ-5: none — new ground\nGQ-AC1: by the capture\nGQ-AC2: same\n");
   check("grillmode: a named round", run(gh, ["grill", "010-mode-unit", "--answers", "ans.txt", "--by", "Founder"]), 0, (r) => {
     const md = read(gh, join("01-document", "01-discover", "010-mode-unit", "grill.md"));
     return md.includes("round: answered by Founder");
@@ -124,7 +124,7 @@ fact("the payload's AGENTS.md states the event order and the repair rule", agent
   const rh = mkdtempSync(join(tmpdir(), "docodego-conformance-reuse-"));
   check("reuse: init", run(rh, ["init"]), 0);
   check("reuse: new", run(rh, ["new", "scored-unit"]), 0);
-  write(rh, "ans.txt", "GQ-1: holds\nGQ-2: by proofs\nGQ-3: none\nGQ-4: none\nGQ-AC1: captured\nGQ-AC2: same\n");
+  write(rh, "ans.txt", "GQ-1: holds\nGQ-2: by proofs\nGQ-3: none\nGQ-4: none\nGQ-5: none — new ground\nGQ-AC1: captured\nGQ-AC2: same\n");
   check("reuse: grill", run(rh, ["grill", "010-scored-unit", "--answers", "ans.txt"]), 0);
   check("reuse: score", run(rh, ["score", "010-scored-unit"]), 0);
   const quiet = run(rh, ["check"]);
@@ -192,7 +192,7 @@ Out: queue persistence and dead-letter handling.
   const ph = mkdtempSync(join(tmpdir(), "docodego-conformance-prose-"));
   check("prose: init", run(ph, ["init"]), 0);
   check("prose: new", run(ph, ["new", "wording-unit"]), 0);
-  write(ph, "ans.txt", "GQ-1: holds\nGQ-2: by proofs\nGQ-3: none\nGQ-4: none\nGQ-AC1: captured\nGQ-AC2: same\n");
+  write(ph, "ans.txt", "GQ-1: holds\nGQ-2: by proofs\nGQ-3: none\nGQ-4: none\nGQ-5: none — new ground\nGQ-AC1: captured\nGQ-AC2: same\n");
   check("prose: grill", run(ph, ["grill", "010-wording-unit", "--answers", "ans.txt"]), 0);
   check("prose: score", run(ph, ["score", "010-wording-unit"]), 0);
   write(ph, join(".docodego", "01-document", "01-discover", "010-wording-unit", "proofs.md"), "# proofs\n\n- AC1 — real: `01-document/01-discover/010-wording-unit/spec.md`\n- stray: `/etc/hosts` absolute\n");

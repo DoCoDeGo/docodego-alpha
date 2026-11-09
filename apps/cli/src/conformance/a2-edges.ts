@@ -3,6 +3,7 @@ import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { recordFiles, skillFiles, specVersion } from "../bundled/index.ts";
+import { adrLineageProblems } from "../commands/doctor.ts";
 import { STREAM_README_PATHS } from "../record/streams.ts";
 import { today } from "../fsx.ts";
 import { MIGRATIONS } from "../versioning/migrations.ts";
@@ -63,6 +64,58 @@ fact("bundled version landed side-by-side as README.md.new", existsSync(join(fix
   fact("680: no double counting — the plan twin is reported exactly once", (walked.match(/\.docodego\/README\.md\.new —/g) ?? []).length === 1);
   fact("670: the walk summary names the hops crossed", /walk summary: v31 -> v31 · migration steps applied: 0 · twins resolved in place: 0 · twins remaining: 2/.test(walked));
   fact("670: the lockfile's recordSpecVersion matches the manifest after apply", JSON.parse(read(fixture, "skills-lock.json")).recordSpecVersion === JSON.parse(read(fixture, ".standard/manifest.json")).recordVersion);
+}
+
+// --- 700: record lineage — the ADR law, verified instead of prose ---
+{
+  // the studio's own lineage: this repo (v2) carries no docs/decisions —
+  // the scanner names the missing index honestly, and doctor reports the
+  // check absent without failing
+  fact("700: a repo without a decisions directory names the missing index", adrLineageProblems(join(REPO_ROOT, "docs", "decisions")).some((p) => p.includes("README.md missing")));
+  check("700: doctor reports the lineage check absent without failing", run(fixture, ["doctor"]), 0, (r) => r.stdout.includes("no docs/decisions/ here"));
+
+  // a drift fixture yields every named problem, and repairing it empties the list
+  const lin = mkdtempSync(join(tmpdir(), "docodego-lineage-"));
+  write(lin, "README.md", [
+    "| ADR | Title | Status |",
+    "|-----|-------|--------|",
+    "| [0001](./0001-real.md) | real | Accepted |",
+    "| [0002](./0002-gone.md) | dead link | Accepted |",
+    "| [0003](./0003-old.md) | pointerless file | Superseded by 0004 |",
+    "| [0004](./0004-new.md) | successor | Accepted |",
+    "| [0006](./0006-late.md) | unmarked row | Accepted |",
+    "| [0007](./0007-lost.md) | pointerless row | Superseded (scope) |",
+    "",
+  ].join("\n"));
+  write(lin, "0001-real.md", "# 0001\n**Status:** Accepted\n");
+  write(lin, "0003-old.md", "# 0003\n**Status:** Superseded (scope), by the successor — the file never names it\n");
+  write(lin, "0004-new.md", "# 0004\n**Status:** Accepted\n");
+  write(lin, "0005-unrowed.md", "# 0005\n**Status:** Accepted\n");
+  write(lin, "0006-late.md", "# 0006\n**Status:** Superseded (scope), 2026-11-01, by 0004\n");
+  write(lin, "0007-lost.md", "# 0007\n**Status:** Superseded (scope)\n");
+  const problems = adrLineageProblems(lin);
+  fact("700: a file without its index row is named", problems.some((p) => p.includes("0005-unrowed.md has no index row")));
+  fact("700: an index row at a missing file is named", problems.some((p) => p.includes("0002-gone.md")));
+  fact("700: a Superseded file that never names its successor is named", problems.some((p) => p.includes("0003-old.md is marked Superseded by 0004 but the file never mentions 0004")));
+  fact("700: a Superseded row without a successor pointer is named", problems.some((p) => p.includes("0007-lost.md is marked Superseded without naming its successor")));
+  fact("700: a file whose status says Superseded under an unmarked row is named", problems.some((p) => p.includes("0006-late.md carries Superseded in its status but its index row does not")));
+  // repaired: the pointer lands in 0003 and 0007, 0005 gets its row, the dead link goes
+  write(lin, "0003-old.md", "# 0003\n**Status:** Superseded (scope), 2026-11-01, by [ADR 0004](./0004-new.md)\n");
+  write(lin, "0007-lost.md", "# 0007\n**Status:** Superseded (scope), 2026-11-01, by [ADR 0004](./0004-new.md)\n");
+  write(lin, "README.md", readFileSync(join(lin, "README.md"), "utf8").replace(/\| \[0002\]\(\.\/0002-gone\.md\) \| dead link \| Accepted \|\n/, "").replace(/\| \[0006\]\(\.\/0006-late\.md\) \| unmarked row \| Accepted \|\n/, "| [0006](./0006-late.md) | unmarked row | Superseded by 0004 |\n").replace(/\| \[0007\]\(\.\/0007-lost\.md\) \| pointerless row \| Superseded \(scope\) \|\n/, "| [0007](./0007-lost.md) | pointerless row | Superseded by 0004 |\n").replace(/\| \[0004\]\(\.\/0004-new\.md\) \| successor \| Accepted \|\n/, "| [0004](./0004-new.md) | successor | Accepted |\n| [0005](./0005-unrowed.md) | late row | Accepted |\n"));
+  fact("700: repaired lineage is empty of problems", adrLineageProblems(lin).length === 0);
+  rmSync(lin, { recursive: true, force: true });
+
+  // GQ-5: the lineage question, asked and enforced
+  const probe = run(fixture, ["new", "lineage-probe", "--stream", "01-document/01-discover"]);
+  const nnn = /\|\s*(\d{3})-lineage-probe\s*\|/.exec(probe.stdout + probe.stderr)?.[1];
+  fact("700: the probe unit scaffolded", nnn !== undefined);
+  check("700: grill's scaffold carries the lineage question", run(fixture, ["grill", `${nnn}-lineage-probe`, "--scaffold", ".docodego/gq5-scaffold.txt"]), 0, (r) => { const s = existsSync(join(fixture, ".docodego", "gq5-scaffold.txt")) ? read(fixture, "gq5-scaffold.txt") : `MISSING exit=${r.code} err=${r.stderr.slice(0, 160)}`; return s.includes("GQ-5") && s.includes("supersede"); });
+  const scaffoldIds = [...read(fixture, "gq5-scaffold.txt").matchAll(/^(GQ-[A-Z0-9]+):/gm)].map((m) => m[1]);
+  write(fixture, ".docodego/gq5-short.txt", scaffoldIds.filter((id) => id !== "GQ-5").map((id) => `${id}: answered for the lineage pin`).join("\n") + "\n");
+  check("700: skipping GQ-5 fails the verdict", run(fixture, ["grill", `${nnn}-lineage-probe`, "--answers", ".docodego/gq5-short.txt"]), 1, () => /verdict:\s*fail/i.test(read(fixture, `01-document/01-discover/${nnn}-lineage-probe/grill.md`)));
+  write(fixture, ".docodego/gq5-full.txt", scaffoldIds.map((id) => `${id}: ${id === "GQ-5" ? "supersedes nothing — new ground; the lineage law it lands is recorded in its own spec" : "answered for the lineage pin"}`).join("\n") + "\n");
+  check("700: answering GQ-5 passes the round", run(fixture, ["grill", `${nnn}-lineage-probe`, "--answers", ".docodego/gq5-full.txt"]), 0, () => /verdict:\s*pass/i.test(read(fixture, `01-document/01-discover/${nnn}-lineage-probe/grill.md`)));
 }
 
 // --- v12: restore law — a deleted engine file is never silently re-created ---

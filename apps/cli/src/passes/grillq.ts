@@ -13,6 +13,7 @@ const GATE_QUESTIONS: GrillQuestion[] = [
   { id: "GQ-2", text: "What evidence proves each acceptance criterion actually ran?" },
   { id: "GQ-3", text: "What is the biggest threat to this unit landing — and its mitigation?" },
   { id: "GQ-4", text: "What did you deliberately leave out of scope?" },
+  { id: "GQ-5", text: "What does this unit supersede, obsolete, or retell — name the units or ADRs whose law it changes, or answer 'none — new ground'." },
 ];
 
 /** The fixed gate questions plus one per acceptance criterion. `phrasing`

@@ -87,7 +87,7 @@ check("grill fail records the failed round and exits 1", (() => {
 write(scratch, "answers.txt", Array.from({ length: count }, () => "yes — evidence in the unit test output").join("\n") + "\n");
 check("grill pass again — the last verdict wins", run(scratch, ["grill", "010-first-unit", "--answers", "answers.txt"]), 0);
 // --- grill: structured answers — GQ-keyed, multi-line-safe ---
-write(scratch, "structured.txt", "GQ-1: adds a retry with backoff to the webhook sender\nGQ-2: the unit test counts attempts; its output is recorded in proofs.md\nGQ-3: retry storms — capped at three attempts with jittered backoff\nGQ-4: queue persistence stays out of scope\nGQ-AC1: |\n  the unit test counts exactly three attempts on a failing send\nGQ-AC2: |-\n  the final warning log line is asserted in the same test\n");
+write(scratch, "structured.txt", "GQ-1: adds a retry with backoff to the webhook sender\nGQ-2: the unit test counts attempts; its output is recorded in proofs.md\nGQ-3: retry storms — capped at three attempts with jittered backoff\nGQ-4: queue persistence stays out of scope\nGQ-5: none — new ground\nGQ-AC1: |\n  the unit test counts exactly three attempts on a failing send\nGQ-AC2: |-\n  the final warning log line is asserted in the same test\n");
 check("grill accepts a structured answers file", run(scratch, ["grill", "010-first-unit", "--answers", "structured.txt"]), 0, () => read(scratch, "01-document/01-discover/010-first-unit/grill.md").includes("counts exactly three attempts"));
 write(scratch, "unknown-gq.txt", "GQ-1: fine\nGQ-99: invented\n");
 check("structured answers with an unknown question id exit 2", run(scratch, ["grill", "010-first-unit", "--answers", "unknown-gq.txt"]), 2, (r) => r.stderr.includes("unknown question id 'GQ-99'"));
@@ -258,7 +258,7 @@ Out: queue persistence and dead-letter handling.
 
 - retry storms overload the receiver -> cap at 3 attempts with jittered backoff
 `);
-write(qs, "answers.txt", "capped exponential backoff, three attempts\nthe unit test counts attempts\nretry storms — capped at three attempts with jittered backoff\nqueue persistence stays out of scope\nthe unit test counts exactly three attempts on a failing send\nthe final warning log line is asserted in the same test\n");
+write(qs, "answers.txt", "capped exponential backoff, three attempts\nthe unit test counts attempts\nretry storms — capped at three attempts with jittered backoff\nqueue persistence stays out of scope\nnone — new ground\nthe unit test counts exactly three attempts on a failing send\nthe final warning log line is asserted in the same test\n");
 check("quickstart: grill pass", run(qs, ["grill", "010-retry-webhook", "--answers", "answers.txt"]), 0);
 check("quickstart: score clears the floor", run(qs, ["score", "010-retry-webhook"]), 0, () => {
   const m = /total:\s*(\d+)/.exec(read(qs, "01-document/01-discover/010-retry-webhook/score.md"));

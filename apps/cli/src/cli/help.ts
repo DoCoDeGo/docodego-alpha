@@ -95,8 +95,13 @@ example:
   grill: {
     usage: "docodego grill <unit> [--answers <file>] [--scaffold <file>] [--by <who>] [--json]",
     summary: "The adversarial Q&A: fixed gate questions plus one per acceptance criterion.",
-    body: `the count contract: FOUR fixed questions plus ONE per acceptance
-criterion in the unit's spec — a five-criterion unit asks nine.
+    body: `the count contract: FIVE fixed questions plus ONE per acceptance
+criterion in the unit's spec — a five-criterion unit asks ten.
+
+the fifth question is lineage (GQ-5): what does this unit supersede,
+obsolete, or retell — name the units or ADRs whose law it changes, or
+answer 'none — new ground'. records are the product; every unit states
+its lineage so a direction change never strands an old law unmarked.
 
 flags:
   --scaffold <file> write the answers skeleton: every question's id and

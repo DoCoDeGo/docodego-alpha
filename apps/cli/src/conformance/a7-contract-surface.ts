@@ -238,7 +238,7 @@ rmSync(sb, { recursive: true, force: true });
     "- AC2 — the command run returns 0 and prints `3 attempts` on failure-then-recovery, recorded in proofs.md.",
     "",
   ].join("\n");
-  const answers = "GQ-1: adds a retry with backoff to the webhook sender\nGQ-2: the unit test counts attempts; its output is recorded in proofs.md\nGQ-3: retry storms — capped at three attempts with jittered backoff\nGQ-4: queue persistence stays out of scope\nGQ-AC1: the unit test counts exactly three attempts on a failing send\nGQ-AC2: the command returns 0 and prints 3 attempts\n";
+  const answers = "GQ-1: adds a retry with backoff to the webhook sender\nGQ-2: the unit test counts attempts; its output is recorded in proofs.md\nGQ-3: retry storms — capped at three attempts with jittered backoff\nGQ-4: queue persistence stays out of scope\nGQ-5: none — new ground\nGQ-AC1: the unit test counts exactly three attempts on a failing send\nGQ-AC2: the command returns 0 and prints 3 attempts\n";
   const plant = (name: string, dir: string): void => {
     write(s240, `.docodego/${dir}/spec.md`, specBody(name, dir));
     write(s240, `.docodego/${dir}/proofs.md`, `# proofs — ${name}\n\n- AC1 — the test ran: \`${dir}/retry.test.txt\`\n`);
