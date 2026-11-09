@@ -1,7 +1,7 @@
 ---
 name: 630-sign-dialog
 type: unit
-status: scored
+status: founder-signed
 ---
 
 # 630-sign-dialog

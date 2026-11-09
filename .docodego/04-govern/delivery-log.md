@@ -81,3 +81,4 @@ is recorded here; what was learned lives in the unit's own records.
 | 2026-11-09 | 600-twin-text-founder-marker | G1,G2,G3,G4 | proof: canon/record/version-transition.md |
 | 2026-11-09 | 610-supersession-recognition | G1,G2,G3,G4 | proof: apps/cli/src/passes/check.ts |
 | 2026-11-09 | 620-sign-picker | G1,G2,G3,G4 | proof: apps/cli/src/commands/sign.ts |
+| 2026-11-09 | 630-sign-dialog | G1,G2,G3,G4 | proof: canon/record/version-transition.md |

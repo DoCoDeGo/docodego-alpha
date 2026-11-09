@@ -249,3 +249,7 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-09 | upgrade | record upgraded v30 -> v30 | .docodego/.standard/manifest.json |
 | 2026-11-09 | upgrade | v30->v31: updated AGENTS.md (the sign bullet teaches the dialog) | .docodego/04-govern/01-monitor/tracker.md |
 | 2026-11-09 | upgrade | record upgraded v30 -> v31 | .docodego/.standard/manifest.json |
+| 2026-11-09 | 630-sign-dialog | delivered | 02-compose/01-build/630-sign-dialog/delivered.md |
+| 2026-11-09 | 630-sign-dialog | launch-refused | L5 failed — 03-demonstrate/demo/630-sign-dialog/how-to-run.md is still the unfilled sca... |
+| 2026-11-09 | 630-sign-dialog | launch-passed | 02-compose/01-build/630-sign-dialog/launch.md |
+| 2026-11-09 | 630-sign-dialog | founder-signed | 02-compose/01-build/630-sign-dialog/signature.md |
