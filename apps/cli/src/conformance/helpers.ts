@@ -1,7 +1,7 @@
 // 580: shared conformance helpers — paths, runners, the check/fact ledger, the ctx (580-conformance-split)
 import { spawnSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { hostname, userInfo } from "node:os";
+import { hostname, tmpdir, userInfo } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -20,7 +20,7 @@ export type Ctx = { scratch: string; fixture: string; fixtureSpecRel: string; fi
 
 /** The identity ladder (the 530 teach): git config first, then the system identity — derived once, shared by a3 and a5. */
 export const encOf = (raw: string): string => `enc:v1:${Buffer.from(raw, "utf8").toString("base64")}`;
-const gitCfg = (k: string): string | null => { const r = spawnSync("git", ["config", "--get", k], { encoding: "utf8" }); const v = (r.stdout ?? "").trim(); return r.status === 0 && v !== "" ? v : null; };
+const gitCfg = (k: string): string | null => { const r = spawnSync("git", ["config", "--get", k], { encoding: "utf8", cwd: tmpdir() }); const v = (r.stdout ?? "").trim(); return r.status === 0 && v !== "" ? v : null; };
 export const gitName0 = gitCfg("user.name");
 export const gitMail0 = gitName0 !== null ? gitCfg("user.email") : null;
 export const envRaw = gitName0 === null ? `${userInfo().username}@${hostname()}` : gitMail0 === null ? gitName0 : `${gitName0} <${gitMail0}>`;
