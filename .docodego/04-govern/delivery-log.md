@@ -85,3 +85,4 @@ is recorded here; what was learned lives in the unit's own records.
 | 2026-11-09 | 640-go-public-surface | G1,G2,G3,G4 | proof: .github/ISSUE_TEMPLATE/bug.yml · warning: 2 path-like span(s) do not resolve (feature.yml, config.yml) — launch will refuse if they are proof paths |
 | 2026-11-09 | 650-enhancements-triage | G1,G2,G3,G4 | proof: docs/process/enhancements.md |
 | 2026-11-09 | 660-founder-identity-set | G1,G2,G3,G4 | proof: ../AGENTS.md |
+| 2026-11-10 | 670-upgrade-honesty | G1,G2,G3,G4 | proof: apps/cli/src/commands/upgrade.ts |

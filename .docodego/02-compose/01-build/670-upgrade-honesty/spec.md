@@ -1,7 +1,7 @@
 ---
 name: 670-upgrade-honesty
 type: unit
-status: scored
+status: founder-signed
 ---
 
 ## intent

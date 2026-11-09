@@ -28,3 +28,7 @@ are the operator's; the CLI only counts.
 fixture's walk prints the summary live, and the 670 block pins its
 shape. On any real record: `docodego upgrade --apply` and read the
 last line.
+## delivered 2026-11-10
+
+- gates: G1, G2, G3, G4 all passed
+- detail: frontmatter, intent and acceptance in place; recomputed 72/100 — matches the recorded block (spec-sha adff743bbd3d4d27); latest verdict: pass; proof: apps/cli/src/commands/upgrade.ts

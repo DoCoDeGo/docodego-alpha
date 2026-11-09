@@ -275,3 +275,8 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-09 | 660-founder-identity-set | launch-passed | 02-compose/01-build/660-founder-identity-set/launch.md |
 | 2026-11-09 | 660-founder-identity-set | founder-signed | 02-compose/01-build/660-founder-identity-set/signature.md |
 | 2026-11-10 | 670-upgrade-honesty | new unit | 02-compose/01-build/670-upgrade-honesty/spec.md |
+| 2026-11-10 | 670-upgrade-honesty | gate-refused | G3 failed — latest verdict: fail |
+| 2026-11-10 | 670-upgrade-honesty | gate-refused | G3 failed — latest verdict: fail |
+| 2026-11-10 | 670-upgrade-honesty | delivered | 02-compose/01-build/670-upgrade-honesty/delivered.md |
+| 2026-11-10 | 670-upgrade-honesty | launch-passed | 02-compose/01-build/670-upgrade-honesty/launch.md |
+| 2026-11-10 | 670-upgrade-honesty | founder-signed | 02-compose/01-build/670-upgrade-honesty/signature.md |
