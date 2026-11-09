@@ -253,3 +253,6 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-09 | 630-sign-dialog | launch-refused | L5 failed — 03-demonstrate/demo/630-sign-dialog/how-to-run.md is still the unfilled sca... |
 | 2026-11-09 | 630-sign-dialog | launch-passed | 02-compose/01-build/630-sign-dialog/launch.md |
 | 2026-11-09 | 630-sign-dialog | founder-signed | 02-compose/01-build/630-sign-dialog/signature.md |
+| 2026-11-09 | 640-go-public-surface | new unit | 02-compose/01-build/640-go-public-surface/spec.md |
+| 2026-11-09 | 640-go-public-surface | gate-refused | G3 failed — latest verdict: fail |
+| 2026-11-09 | 640-go-public-surface | launch-refused | L2,L4,L5 failed — proof path(s) vanished since delivery: feature.yml, config.yml — evid... |

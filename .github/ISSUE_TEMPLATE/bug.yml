@@ -1,0 +1,41 @@
+name: Bug report
+description: Something the CLI does that it shouldn't, or doesn't that it should.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Before filing — upgrade to the newest release; pre-1.0 only the latest gets fixes (see SECURITY.md).
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Output of `docodego --version`.
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - macOS (arm64)
+        - macOS (x64)
+        - Linux (x64)
+        - Linux (arm64)
+        - Windows
+        - other
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Command and output
+      description: The exact command and the exact output — facts, not summaries.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+      description: One line.
+    validations:
+      required: true
