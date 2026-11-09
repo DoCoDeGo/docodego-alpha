@@ -1,7 +1,7 @@
 ---
 name: 700-record-lineage
 type: unit
-status: delivered
+status: founder-signed
 ---
 
 ## intent

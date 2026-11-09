@@ -32,3 +32,4 @@ signature.md.
 | 2026-11-09 | 660-founder-identity-set | DoCoDeGo (a typed legal identifier) | founder | founder-signed |
 | 2026-11-10 | 670-upgrade-honesty | DoCoDeGo (a typed legal identifier) | founder | founder-signed |
 | 2026-11-10 | 680-leftover-twins | DoCoDeGo (a typed legal identifier) | founder | founder-signed |
+| 2026-11-10 | 700-record-lineage | DoCoDeGo (a typed legal identifier) | founder | founder-signed |
