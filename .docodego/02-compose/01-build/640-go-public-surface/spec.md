@@ -1,7 +1,7 @@
 ---
 name: 640-go-public-surface
 type: unit
-status: scored
+status: delivered
 ---
 
 # 640-go-public-surface

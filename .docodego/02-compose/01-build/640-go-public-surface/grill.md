@@ -39,3 +39,65 @@ homes for one claim).
   answered: 
 
 verdict: fail
+## grill 2026-11-09
+
+- round: self-grilled — the agent answered its own questions; the form of independence is not the fact of it
+
+- GQ-1 asked: What does this unit do, in one sentence a stranger can verify?
+  answered: The checklist's own split governs: `us` items execute, `you` items
+wait for the founder. Verified-before-building (the 430 law): the two
+docs that seemed missing already exist — SECURITY.md names the
+private-advisory channel, CONTRIBUTING.md teaches the loop — so the
+unit builds only what is actually absent. Standard surface files are
+boring and reversible; the founder-owned calls (trademark, 1.0 bar,
+announcement) are not mine to make.
+
+- GQ-2 asked: What evidence proves each acceptance criterion actually ran?
+  answered: Existence is `ls`; correctness is content: CODEOWNERS carries one
+rule covering every path (`* @DoCoDeGo` — the org is the only
+confirmed owner); the CoC text matches the canonical Covenant v2.1
+(fetched 2026-11-09 from contributor-covenant.org; the canonical
+markdown endpoints 404'd, the HTML page is the fallback source,
+structure reconstructed verbatim); the templates parse as YAML and
+their required fields are the honest facts (version, platform,
+command+output). The proof file lists every path with its evidence.
+
+- GQ-3 asked: What is the biggest threat to this unit landing — and its mitigation?
+  answered: CODEOWNERS `* @DoCoDeGo` — the org account is the only confirmed
+owner (the founder's personal handle is deliberately unknown here;
+privacy law). The Covenant is adopted unmodified in its commitments —
+a modified Covenant is a different document; the one placeholder
+(enforcement contact) is filled with the advisory channel SECURITY.md
+already names, so there is one reporting home, not two. Branch
+protection is attempted via `gh api` with a minimal policy (no
+force-push, no deletion, conversation resolution; no PR gate — a solo
+founder's direct-push flow stays legal) and its true response recorded.
+
+- GQ-4 asked: What did you deliberately leave out of scope?
+  answered: Inventing a personal-owner line (privacy law); modifying the
+Covenant's commitments; skipping the recorded branch-protection
+attempt; touching SECURITY/CONTRIBUTING (already correct —
+duplication would be two homes for one claim); fencing direct pushes
+behind PR bureaucracy (the founder works solo).
+
+- GQ-AC1 asked: Criterion: 'The three surface files exist and are correct: CODEOWNERS names the org for every path; the CoC is the Covenant, unmodified in its commitments; both templates collect facts, not opinions.' — how is this verified end-to-end?
+  answered: End-to-end: the three files exist in the tree (ls); CODEOWNERS is one
+org rule covering `*`; the CoC's headings match the canonical
+Covenant section list (Our Pledge → Attribution) with the attribution
+URL intact; both templates are valid YAML with required fields on the
+fact questions. The proofs file lists each path and what was checked.
+
+- GQ-AC2 asked: Criterion: '`docodego check` stays at 0 errors (the record law is untouched — these files live outside the payload boundary).' — how is this verified end-to-end?
+  answered: End-to-end: `node apps/cli/src/main.ts check` exits 0 before and
+after — the surface files are outside the payload boundary (payload
+collects .docodego + AGENTS.md + .agents only), so no hop, no bundle
+drift, and the check pass output is the evidence.
+
+- GQ-AC3 asked: Criterion: 'The branch-protection attempt is recorded with its true outcome — applied, or refused with the reason.' — how is this verified end-to-end?
+  answered: End-to-end: the `gh api -X PUT .../branches/main/protection` call is
+run for real and its response (the applied policy JSON, or the
+refusal text) is quoted in proofs.md — the outcome is whatever GitHub
+said, applied or refused, and the record says which.
+
+
+verdict: pass

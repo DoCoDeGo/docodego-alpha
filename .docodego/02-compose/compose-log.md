@@ -37,3 +37,4 @@ delivered through this room yet.
 | 2026-11-09 | 610-supersession-recognition | 3e67d735656c1ec1 | none recorded |
 | 2026-11-09 | 620-sign-picker | 04d86b253529b52e | none recorded |
 | 2026-11-09 | 630-sign-dialog | a2b9219b6fca27a5 | none recorded |
+| 2026-11-09 | 640-go-public-surface | 36a9b3237f90b96d | none recorded |

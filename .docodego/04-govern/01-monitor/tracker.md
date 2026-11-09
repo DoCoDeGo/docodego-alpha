@@ -256,3 +256,7 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-09 | 640-go-public-surface | new unit | 02-compose/01-build/640-go-public-surface/spec.md |
 | 2026-11-09 | 640-go-public-surface | gate-refused | G3 failed — latest verdict: fail |
 | 2026-11-09 | 640-go-public-surface | launch-refused | L2,L4,L5 failed — proof path(s) vanished since delivery: feature.yml, config.yml — evid... |
+| 2026-11-09 | 640-go-public-surface | gate-refused | G3 failed — latest verdict: fail |
+| 2026-11-09 | 640-go-public-surface | gate-refused | G3 failed — latest verdict: fail |
+| 2026-11-09 | 640-go-public-surface | delivered | 02-compose/01-build/640-go-public-surface/delivered.md |
+| 2026-11-09 | 640-go-public-surface | launch-refused | L2 failed — proof path(s) vanished since delivery: feature.yml, config.yml — evidence t... |
