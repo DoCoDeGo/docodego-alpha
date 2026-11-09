@@ -191,3 +191,21 @@ research-and-questions package in cycles.md, never the answer — and
 EL-33/EL-34 remain drafts until the founder accepts and signs. R10-5
 stays recorded as a thread of the ICS 2.0 redesign, not a mechanism
 invented solo.
+
+## close-out note (appended 2026-11-09 — the epic closes, fully dispositioned)
+
+Every cluster now ends in exactly one state:
+
+| # | cluster | final disposition |
+|---|---|---|
+| 1 | fleet launch-blockers | **superseded — the products are frozen read-only.** The studio-first pivot (ADR 0003) made the fleet's launch ceremonies studio ceremony templates, not shipping obligations; the instruments the cluster asked for (launch, sign/tiers, coherence) shipped here in 190/200/220 and the record law of this repo supersedes the per-product blockers. Nothing remains to do there. |
+| 2 | go-public execution | **in execution — the founder's rulings are in.** Name stays `docodego` (ruled 2026-11-09); commit identity = handle-based noreply (ruled); distribution verified live, not assumed: npm `docodego` + `@docodego/cli` publish from the release workflow with provenance (registry latest 0.7.2 — main lags core-loop, which is the sequencing fact, not a defect), homebrew tap `docodego/tap/docodego` is real (0.7.1), installer + binaries shipped. The remaining `us` surface (CODEOWNERS, code of conduct, issue templates) lands as its own unit; the remaining `you` items (trademark stance, 1.0 bar, announcement) are founder-owned at launch, recorded in the go-public checklist. |
+| 3 | improvement-log remainders | done — 230 (see the mapping above) |
+| 4 | cli debt cluster | done — 240 |
+| 5 | reference-doc TODOs | done — 250 (children 260/270/280/290 landed) |
+| 6 | two calendars | done — 170 |
+
+AC1 holds at close: every open item maps to exactly one home — the
+superseded cluster to the pivot ADR, the founder-owned items to the
+go-public checklist, the executed surface to its unit. This epic is
+closed; the debt map above stays as the historical record (append-only).
