@@ -55,6 +55,18 @@ const markedRole = (role: string, identity: Identity): string =>
     ? `${role} (provisional — a derived identity signed; the confirming act is a named-person founder signature)`
     : role;
 
+/** The three verbs the interactive prompt speaks (630): approve signs
+ * the act as shown; edit takes a typed identifier or a role and then
+ * confirms the amended act once; reject appends nothing. Legacy forms
+ * keep their meaning — y/yes approved before, everything else
+ * declined. Exported for the conformance grammar pins. */
+export const parseConfirm = (answer: string): "approve" | "edit" | "reject" => {
+  const a = answer.trim().toLowerCase();
+  if (a === "y" || a === "yes") return "approve";
+  if (a === "e" || a === "edit") return "edit";
+  return "reject";
+};
+
 /** One typed line from stdin — the picker's read and the confirmation's
  * read are the same act: a human answering once. */
 const askLine = (): string => {
@@ -154,7 +166,7 @@ function signAll(rec: RecordAst, args: Args, io: Io): number {
 }
 
 function signOne(name: string, args: Args, io: Io, opts: { confirmed?: boolean } = {}): number {
-  const role = typeof args.role === "string" && args.role !== "" ? args.role : "founder";
+  let role = typeof args.role === "string" && args.role !== "" ? args.role : "founder";
 
   const rec = loadRecord(process.cwd());
   const resolved = resolveUnitOrComplain(rec, name, io, args.json);
@@ -173,37 +185,60 @@ function signOne(name: string, args: Args, io: Io, opts: { confirmed?: boolean }
   if (typedName !== undefined && args.system === true) {
     return complain(args.json, io, { severity: "error", code: "DG-U111", message: "sign takes one identifier source: --name/--by (a typed identifier) or --system (this environment) — not both (nothing appended)" }, 2, "usage");
   }
-  const identity = resolveIdentity({ name: typedName, system: args.system === true });
-  if (identity === "unresolvable") {
+  const resolvedIdentity = resolveIdentity({ name: typedName, system: args.system === true });
+  if (resolvedIdentity === "unresolvable") {
     return complain(args.json, io, { severity: "error", code: "DG-U111", message: 'a signature needs an identifier and none could be derived from git or system details — type --name "<legal identifier or handle>"' }, 2, "usage");
   }
+  let identity: Identity = resolvedIdentity;
 
   const specHash = sha256(join(rec.root, unit.dir, "spec.md"));
   const deliveredHash = unit.markers.delivered === null ? null : sha256(join(rec.root, unit.markers.delivered));
   const date = today();
   const evidence = `spec.md sha256:${specHash ?? "unavailable"}${deliveredHash === null ? "" : ` · delivered.md sha256:${deliveredHash}`}`;
-  const act = actLine(identity);
-  const roleMarked = markedRole(role, identity);
-
-  // One confirmation, one path per world: --yes declares the act for
-  // headless callers; a TTY is shown the whole act and asked once;
-  // a batch that already asked once skips straight through; everything
-  // else refuses with nothing appended (DG-U118).
+  // One confirmation, one path per world (630): --yes declares the act
+  // for headless callers; a TTY — or a harness rendering the prompt as
+  // a dialog — is shown the whole act and answers the three verbs:
+  // approve signs as shown; edit takes a typed identifier or a role,
+  // shows the amended act, and confirms it once; reject appends
+  // nothing (DG-U118). A batch that already asked once skips through.
   if (args.yes !== true && opts.confirmed !== true) {
     if (args.json || process.stdin.isTTY !== true) {
       return complain(args.json, io, { severity: "error", code: "DG-U118", message: `${name}: a signature needs a human yes — an interactive run shows the act and asks once; a headless run declares --yes (nothing appended)` }, 1, "signature-refused");
     }
-    io.out(`about to sign ${name} — founder-signed ${date}`);
-    io.out(`  signed by: ${identity.line}`);
-    io.out(`  role: ${roleMarked}`);
-    io.out(`  act: ${act}`);
-    io.out(`  evidence: ${evidence}`);
-    io.out("sign and approve? [y/N]");
-    const answer = askLine().toLowerCase();
-    if (answer !== "y" && answer !== "yes") {
+    const showAct = (): void => {
+      io.out(`about to sign ${name} — founder-signed ${date}`);
+      io.out(`  signed by: ${identity.line}`);
+      io.out(`  role: ${markedRole(role, identity)}`);
+      io.out(`  act: ${actLine(identity)}`);
+      io.out(`  evidence: ${evidence}`);
+    };
+    showAct();
+    io.out("sign and approve? [y]es / [e]dit identity or role / [n]o");
+    const first = parseConfirm(askLine());
+    if (first === "edit") {
+      io.out("typed identifier — empty keeps the derived one:");
+      const typedAnswer = askLine();
+      io.out("role — empty keeps the current one:");
+      const roleAnswer = askLine();
+      if (typedAnswer !== "") {
+        const amended = resolveIdentity({ name: typedAnswer });
+        if (amended === "unresolvable") {
+          return complain(args.json, io, { severity: "error", code: "DG-U111", message: 'the amended identifier is empty after trim — type a legal identifier or handle' }, 2, "usage");
+        }
+        identity = amended;
+      }
+      if (roleAnswer !== "") role = roleAnswer;
+      showAct();
+      io.out("confirm the amended act? [y/N]");
+      if (parseConfirm(askLine()) !== "approve") {
+        return complain(args.json, io, { severity: "error", code: "DG-U118", message: `${name}: declined at the prompt — nothing appended` }, 1, "signature-refused");
+      }
+    } else if (first !== "approve") {
       return complain(args.json, io, { severity: "error", code: "DG-U118", message: `${name}: declined at the prompt — nothing appended` }, 1, "signature-refused");
     }
   }
+  const act = actLine(identity);
+  const roleMarked = markedRole(role, identity);
 
   const receipt = `## founder-signed ${date}\n\n- signed by: ${identity.line}\n- role: ${roleMarked}\n- act: ${act}\n- evidence: ${evidence}\n`;
   writeText(unitFile(rec, unit, "signature.md"), `# signature — ${name}\n\n${receipt}`);

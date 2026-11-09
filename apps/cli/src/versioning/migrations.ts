@@ -320,6 +320,16 @@ export const MIGRATIONS: Migration[] = [
     ],
     steps: [teachSignPicker],
   },
+  {
+    from: 30,
+    to: 31,
+    notes: [
+      "the sign dialog lands (the founder's ruling, 2026-11-09, unit 630): the interactive prompt speaks three answers — approve signs the act as shown; edit takes a typed identifier or a role (empty keeps the current), shows the amended act, and confirms it once; reject — or any non-approve answer — declines with nothing appended (DG-U118); a harness may render the prompt as a dialog, but the CLI's question is the act, rendered whole; the batch keeps its single approve/reject ask and --all --yes stays the headless batch; the receipt and ledger shapes are untouched",
+      "the laws hold unchanged: the tiers are strict, one signature per act, the whole act shown and confirmed once, the founder-tier marker riding derived signings (600), the consent split and the encoding rethink untouched",
+      "AGENTS.md's sign bullet teaches the three answers and the render-whole rule in place, anchor-matched (the .new twin rule: a customized copy is never overwritten)",
+    ],
+    steps: [teachSignDialog],
+  },
 ];
 
 /** v29 -> v30: the sign-picker teach. AGENTS.md's sign bullet gains the
@@ -337,6 +347,24 @@ export function teachSignPicker(root: string): string {
     anchorLabel: "the shipped-v29 marker sub-bullet",
     teach: (raw) => raw.replace(SIGN_PICKER_ANCHOR, SIGN_PICKER_ANCHOR + SIGN_PICKER_SENTENCE),
     note: "updated AGENTS.md (the sign bullet teaches the picker)",
+  });
+}
+
+/** v30 -> v31: the sign-dialog teach. AGENTS.md's sign bullet gains the
+ * three-answer grammar and the render-whole rule as an indented
+ * sub-bullet, anchored on the picker sub-bullet's tail. Same
+ * conservative contract as every AGENTS.md teacher. */
+const SIGN_DIALOG_ANCHOR = "--json signs one named unit";
+const SIGN_DIALOG_SENTENCE =
+  "\n  - the interactive prompt speaks three answers: approve, edit (supply a typed identifier or role, then confirm the amended act once), reject — a harness may render the prompt as a dialog, but the CLI's question is the act: render it whole";
+
+export function teachSignDialog(root: string): string {
+  return teachAnchor(root, {
+    present: { sentinel: "the interactive prompt speaks three answers", label: "the sign-dialog teach" },
+    anchor: SIGN_DIALOG_ANCHOR,
+    anchorLabel: "the shipped-v30 picker sub-bullet",
+    teach: (raw) => raw.replace(SIGN_DIALOG_ANCHOR, SIGN_DIALOG_ANCHOR + SIGN_DIALOG_SENTENCE),
+    note: "updated AGENTS.md (the sign bullet teaches the dialog)",
   });
 }
 

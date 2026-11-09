@@ -39,7 +39,10 @@ environment signed both.
 
 the derivation kind is named in the receipt. The whole act is shown
 before anything is recorded, and one confirmation closes it: an
-interactive run asks "sign and approve? [y/N]"; a headless run
+interactive run asks "sign and approve? [y]es / [e]dit identity or
+role / [n]o" — approve signs as shown; edit takes a typed identifier
+or a role (empty keeps the current), shows the amended act, and
+confirms it once; reject appends nothing; a headless run
 declares --yes; a run that is neither confirmed nor promptable refuses
 with nothing appended (DG-U118) — a signature without an actor's yes is
 furniture wearing accountability's clothes.

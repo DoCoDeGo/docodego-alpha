@@ -3,6 +3,7 @@ import { existsSync, rmSync, writeFileSync } from "node:fs";
 import { userInfo, hostname } from "node:os";
 import { join } from "node:path";
 import { run, read, write, check, fact, encOf, envRaw, expectedEnvEnc } from "./helpers.ts";
+import { parseConfirm } from "../commands/sign.ts";
 import type { Ctx } from "./helpers.ts";
 
 export async function area(c: Ctx): Promise<void> {
@@ -140,4 +141,12 @@ check("sign --all --yes signs every unsigned unit — shown whole, asked once, d
 fact("the batch receipts carry the marker on derived signings (600, 620)", read(fixture, "01-document/01-discover/batch-a/signature.md").includes("provisional") && read(fixture, "01-document/01-discover/batch-b/signature.md").includes("provisional"));
 fact("the ledger holds both batch rows", read(fixture, "04-govern/signatures.md").includes("batch-a") && read(fixture, "04-govern/signatures.md").includes("batch-b"));
 check("a batch with nothing to sign is honest and calm", run(fixture, ["sign", "--all", "--yes"]), 0, (r) => r.stdout.includes("nothing to sign"));
+
+// --- 630: the sign dialog — the prompt speaks three answers ---
+// (the TTY loop itself cannot be spawned by the suite; the grammar is
+// pinned through the exported parser, the headless rails through the
+// refusals above, which stay byte-unchanged)
+fact("the dialog grammar: y/yes approve (630)", parseConfirm("y") === "approve" && parseConfirm("yes") === "approve" && parseConfirm("  Y ") === "approve");
+fact("the dialog grammar: e/edit amend (630)", parseConfirm("e") === "edit" && parseConfirm("edit") === "edit");
+fact("the dialog grammar: everything else rejects, nothing appended (630)", parseConfirm("n") === "reject" && parseConfirm("N") === "reject" && parseConfirm("") === "reject" && parseConfirm("banana") === "reject");
 }
