@@ -27,3 +27,7 @@ law from prose into machinery:
 shows each named problem and the repair emptying the list. On any
 record: `docodego doctor` reads the lineage line; the next unit you
 grill asks GQ-5 first.
+## delivered 2026-11-10
+
+- gates: G1, G2, G3, G4 all passed
+- detail: frontmatter, intent and acceptance in place; recomputed 74/100 — matches the recorded block (spec-sha f7e6daf3267795b6); latest verdict: pass; proof: apps/cli/src/commands/doctor.ts · warning: 1 path-like span(s) do not resolve (<cwd>/.docodego/<rel>) — launch will refuse if they are proof paths
