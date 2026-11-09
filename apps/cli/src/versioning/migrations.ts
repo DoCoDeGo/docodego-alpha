@@ -6,7 +6,7 @@
 import { existsSync, rmSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { dirname, join } from "node:path";
-import { readText, writeText } from "../fsx.ts";
+import { readText, writeText, walkFiles } from "../fsx.ts";
 import { emptyLock, writeLock, LOCK_REL } from "../skills/lock.ts";
 import { COMPOSE_LOG_TEMPLATE, DEMO_README_TEMPLATE, DELIVERY_LOG_TEMPLATE, INTENT_TEMPLATE, CYCLES_TEMPLATE, specVersion, recordFiles, statutesShippedHashes } from "../bundled/index.ts";
 import { COMPOSE_LOG_REL, DEMO_DIR_REL, DELIVERY_LOG_REL } from "../record/record-write.ts";
@@ -330,6 +330,17 @@ export const MIGRATIONS: Migration[] = [
     ],
     steps: [teachSignDialog],
   },
+  {
+    from: 31,
+    to: 32,
+    notes: [
+      "the replace-live law lands (ADR 0013, the founder's ruling, 2026-11-10, walked the products and ruled from the workflow: every record lives in git, upgrades land as reviewed PRs): the upgrade's conflict law flips — the bundled bytes go live at the canonical path and the operator's previous copy is preserved beside it byte-exact as <file>.old (never lost, never hidden; deleting an .old is the review's act, never the CLI's); skills refresh the same way; nothing from the upgrade is gitignored — the record's .gitignore drops the *.new rule, the var/ rule stands (a separate law: the ephemeral Scratch's own hygiene); every apply appends a dated section to UPGRADE-NOTES.md at the repo root — each refreshed file, its residual line count, the reason, and the review options (delete the .old or restore it to revert); the walk summary counts files refreshed and previous copies awaiting review, equal to the on-disk .old count",
+      "the twin-law accounting retires with its mechanism: the swept/remaining twin counts and the skill-add --force guidance leave the summary — the plan's end-state honesty stays (a file a migration brought current reports resolved in place, planting nothing); restore comes in place too (a lost engine file is back at its canonical path — deletion may have been deliberate, and the walk says so to the operator's face)",
+      "this hop carries bytes: the record's .gitignore drops the *.new rule in place, anchor-matched (a customized copy keeps its words and takes the plan's own conflict path), and AGENTS.md's upgrade paragraph swaps create-only for the replace-live law; leftover .new twins from earlier walks are named for the review, never deleted — the twin law that planted them is retired, the twins are operator state",
+      "the laws hold unchanged: the plan prints before it applies, --branch is the opt-in commit path, migrations stay create-only toward user-owned content (units, tracker, dossier are never rewritten), the locked skill set is still audited by docodego skill list, and git-at-birth — the last piece of the ruling — lands in its own unit",
+    ],
+    steps: [teachReplaceLive],
+  },
 ];
 
 /** v29 -> v30: the sign-picker teach. AGENTS.md's sign bullet gains the
@@ -439,7 +450,7 @@ function teachAnchor(root: string, plan: TeachPlan): string {
   const raw = readText(abs) ?? "";
   if (raw.includes(plan.present.sentinel)) return `kept AGENTS.md (${plan.present.label} already present)`;
   if (!raw.includes(plan.anchor)) {
-    return `kept AGENTS.md (${plan.anchorLabel} not found — your copy is customized; the refreshed scaffold rides as AGENTS.md.new)`;
+    return `kept AGENTS.md (${plan.anchorLabel} not found — your copy is customized; the walk's own refresh covers it, previous copy preserved as AGENTS.md.old if it changes)`;
   }
   return finishTeach(abs, plan.teach(raw), plan.note);
 }
@@ -678,6 +689,50 @@ export function teachSecondUseClean(root: string): string {
  * must find every step between where it is and where it is going; a gap
  * would let it silently upgrade with zero transforms and get stamped
  * current (H2's second versioning finding, enforced by the bundle guard). */
+/** v31 -> v32: the replace-live teach (ADR 0013, founder ruling
+ * 2026-11-10). The twin law is retired: the record's .gitignore drops the
+ * `*.new` rule (nothing from an upgrade is ignored anymore), AGENTS.md's
+ * upgrade paragraph swaps create-only for the new law (the bundled files
+ * apply live, previous copies preserved as `<file>.old`, the review in
+ * UPGRADE-NOTES.md at the repo root), and leftover `.new` twins from
+ * earlier walks are named for the review — never deleted by the CLI; the
+ * twin law that planted them is retired, the twins are operator state. */
+const REPLACE_LIVE_SENTINEL = "the review lives in\nUPGRADE-NOTES.md";
+const REPLACE_LIVE_ANCHOR = "migrates the record forward — create-only, on a";
+const REPLACE_LIVE_REPLACEMENT =
+  "migrates the record forward — the bundled law\napplies live, your previous copies preserved beside them as `<file>.old`\nand nothing from the upgrade gitignored (the review lives in\nUPGRADE-NOTES.md, at the repo root), on a";
+const IGNORE_ANCHOR =
+  "# *.new — the upgrade plan's conflict copies: your words were kept and\n#   the refreshed scaffold rides beside them. Resolve or delete; never\n#   commit.\nvar/\n*.new";
+const IGNORE_REPLACEMENT =
+  "# nothing else is ignored: upgrades apply live and preserve your\n#   previous copy beside each refreshed file as <file>.old — the review\n#   sees every change, then deletes the .old or restores it to revert\n#   (ADR 0013: never lost, never hidden).\nvar/";
+
+export function teachReplaceLive(root: string): string {
+  const parts: string[] = [];
+  const igAbs = join(root, ".gitignore");
+  const ig = readText(igAbs) ?? "";
+  if (!ig.includes("*.new")) {
+    parts.push("kept .gitignore (no *.new rule — already under the replace-live law)");
+  } else if (ig.includes(IGNORE_ANCHOR)) {
+    writeText(igAbs, ig.replace(IGNORE_ANCHOR, IGNORE_REPLACEMENT));
+    parts.push("updated .gitignore (the *.new rule dropped — nothing from an upgrade is ignored)");
+  } else {
+    parts.push("kept .gitignore (your copy is customized — the walk's own refresh covers it, previous copy preserved as .gitignore.old if it changes)");
+  }
+  parts.push(teachAnchor(root, {
+    present: { sentinel: REPLACE_LIVE_SENTINEL, label: "the replace-live teach" },
+    anchor: REPLACE_LIVE_ANCHOR,
+    anchorLabel: "the shipped-v31 create-only clause",
+    teach: (raw) => raw.replace(REPLACE_LIVE_ANCHOR, REPLACE_LIVE_REPLACEMENT),
+    note: "updated AGENTS.md (the upgrade paragraph teaches the replace-live law)",
+  }));
+  const repoRoot = dirname(root);
+  const leftovers = walkFiles(repoRoot, new Set([".git", "node_modules"])).filter((p) => p.endsWith(".new"));
+  if (leftovers.length > 0) {
+    parts.push(`${leftovers.length} leftover .new twin(s) from earlier walks — merge or delete knowingly; the twin law is retired and nothing new will be planted`);
+  }
+  return parts.join("; ");
+}
+
 export function assertContiguous(target: number): void {
   let expected = 0;
   for (const m of MIGRATIONS) {

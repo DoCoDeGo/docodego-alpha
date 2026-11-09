@@ -141,8 +141,12 @@ export function plantSkill(recordRoot: string, name: string, files: Record<strin
       writeText(abs, body);
       actions.push(existing === null ? `wrote skills/${name}/${rel}` : `force-updated skills/${name}/${rel}`);
     } else if (existing !== body) {
-      writeText(`${abs}.new`, body);
-      actions.push(`conflict skills/${name}/${rel} -> planted .new (your copy kept)`);
+      // ADR 0013: the refresh goes live; the operator's previous copy is
+      // preserved byte-exact beside it as <file>.old — never lost, never
+      // hidden. The review deletes the .old or restores it to revert.
+      writeText(`${abs}.old`, existing);
+      writeText(abs, body);
+      actions.push(`refreshed skills/${name}/${rel} — the bundled update went live; your previous copy is preserved as skills/${name}/${rel}.old (review the diff, then delete the .old or restore it to revert)`);
     } else {
       actions.push(`unchanged skills/${name}/${rel}`);
     }

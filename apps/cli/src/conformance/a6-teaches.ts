@@ -233,7 +233,7 @@ check("a vocabulary on an existing record is refused — words are chosen at bir
 rmSync(vf, { recursive: true, force: true });
 const vd = mkdtempSync(join(tmpdir(), "docodego-conformance-canonical-"));
 check("default init still plants the canonical voice", run(vd, ["init"]), 0, () => read(vd, "01-document/01-discover/README.md") === recordFiles()["01-document/01-discover/README.md"]);
-check("init plants the record's gitignore", run(vd, ["check"]), 0, () => read(vd, ".gitignore").includes("var/") && read(vd, ".gitignore").includes("*.new"));
+check("init plants the record's gitignore (var/ stands, nothing else ignored)", run(vd, ["check"]), 0, () => read(vd, ".gitignore").includes("var/") && !read(vd, ".gitignore").includes("*.new"));
 fact("default manifest carries no vocabulary key", !("vocabulary" in (JSON.parse(read(vd, ".standard/manifest.json")) as Record<string, unknown>)));
 run(vd, ["new", "010-plain-unit"]);
 const dvq = run(vd, ["grill", "010-plain-unit", "--json"]);

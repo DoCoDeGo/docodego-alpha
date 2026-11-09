@@ -131,9 +131,11 @@ preference.
 
 The record versions itself: `.docodego/.standard/manifest.json` carries
 `recordVersion`. `docodego upgrade` prints the migration plan first;
-`docodego upgrade --apply` migrates the record forward — create-only, on a
-branch with `--branch`, never rewriting this project's own units, tracker,
-or dossier.
+`docodego upgrade --apply` migrates the record forward — the bundled law
+applies live, your previous copies preserved beside them as `<file>.old`
+and nothing from the upgrade gitignored (the review lives in
+UPGRADE-NOTES.md, at the repo root), on a branch with `--branch`, never
+rewriting this project's own units, tracker, or dossier.
 
 ## The skills
 

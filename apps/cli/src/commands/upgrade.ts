@@ -12,7 +12,6 @@
  * every step is idempotent and leaves tracker evidence. */
 import { spawnSync } from "node:child_process";
 import { join } from "node:path";
-import { existsSync } from "node:fs";
 import type { Args, Io, Manifest } from "../types.ts";
 import { loadRecord, MANIFEST_REL, RECORD_DIR, type RecordAst } from "../record/load.ts";
 import { checkPass } from "../passes/index.ts";
@@ -21,7 +20,7 @@ import { migrationsFor } from "../versioning/migrations.ts";
 import { applyPlan, computePlan, renderPlan, type PlanEntry } from "../versioning/plan.ts";
 import { agentsMd, agentPresets, introductions, recordFiles, ruleFiles, skillFiles, skillsIndex, specVersion, DEFAULT_PROFILE, profiles as profileMap, vocabularyPack } from "../bundled/index.ts";
 import { appendTrackerLine, plantSkill, readLock, writeLock } from "../skills/lock.ts";
-import { readText, writeText, walkFiles } from "../fsx.ts";
+import { appendText, readText, today, writeText, walkFiles } from "../fsx.ts";
 import { emitJson } from "../emit/json.ts";
 
 /** The files an upgrade may plant, repo-root-relative. The engine-owned
@@ -93,46 +92,25 @@ function apply(args: Args, io: Io, rec: RecordAst, current: number, target: numb
       applied.push(outcome);
     }
   }
-  // twin reconciliation (670): a plan conflict line was true when printed,
-  // but migrations may have brought the kept copy to the bundled bytes —
-  // the sweep then removed that twin inside this same apply. Report the
-  // END state: resolved twins named, surviving twins measured. Never
-  // auto-merged — the words are the operator's; we only count.
-  let sweptTwins = 0;
-  let keptTwins = 0;
-  let residualLines = 0;
-  for (const e of plan.filter((p) => p.action === "conflict")) {
-    const twinAbs = join(repoRoot, `${e.path}.new`);
-    if (!existsSync(twinAbs)) {
-      sweptTwins++;
-      applied.push(`resolved in place (twin swept): ${e.path} — the kept copy was brought current by the walk; nothing to merge`);
-      continue;
-    }
-    keptTwins++;
-    const keptRaw = readText(join(repoRoot, e.path));
-    const twinRaw = readText(twinAbs);
-    const d = keptRaw === null || twinRaw === null ? -1 : residualDiffLines(keptRaw, twinRaw);
-    if (d > 0) residualLines += d;
-    applied.push(`${e.path}.new — the kept copy was also taught in place; the twin still carries ${d >= 0 ? d : "unknown"} differing line(s) — merge or delete knowingly`);
-  }
-  // the plan is not the only planter: skill installs keep older copies
-  // current-side as `<file>.new` too (plantSkill). Account for every twin
-  // the walk left on disk, whatever planted it — the summary must match
-  // the disk, not the plan.
-  const reconciled = new Set(plan.filter((p) => p.action === "conflict").map((p) => `${p.path}.new`));
+  // previous-copy accounting (690, per ADR 0013): the walk replaces in
+  // place and preserves every displaced copy as `<file>.old` — whatever
+  // planted it (record files or skill refreshes). Account for every .old
+  // on disk, measure its residual against the live file, and write the
+  // one review surface: UPGRADE-NOTES.md at the repo root.
   const skip = new Set([".git", "node_modules"]);
-  for (const abs of walkFiles(repoRoot, skip).filter((p) => p.endsWith(".new"))) {
+  const olds = walkFiles(repoRoot, skip).filter((p) => p.endsWith(".old"));
+  const notes: string[] = [];
+  let residualLines = 0;
+  for (const abs of olds) {
     const rel = abs.slice(repoRoot.length + 1);
-    if (reconciled.has(rel)) continue;
-    keptTwins++;
-    const skill = /skills\/([^/]+)\//.exec(rel)?.[1];
-    const keptRaw = readText(abs.slice(0, -4));
-    const twinRaw = readText(abs);
-    const d = keptRaw === null || twinRaw === null ? -1 : residualDiffLines(keptRaw, twinRaw);
+    const liveRaw = readText(abs.slice(0, -4));
+    const oldRaw = readText(abs);
+    const d = liveRaw === null || oldRaw === null ? -1 : residualDiffLines(oldRaw, liveRaw);
     if (d > 0) residualLines += d;
-    applied.push(`${rel} — the bundled update sits beside an older copy${skill !== undefined ? `; if yours is unmodified, 'docodego skill add ${skill} --force' brings the skill current` : ""} — merge knowingly (${d >= 0 ? d : "unknown"} differing line(s))`);
+    notes.push(`- refreshed ${rel.slice(0, -4)} — ${d >= 0 ? d : "unknown"} line(s) differed from the bundled update; your previous copy is preserved as ${rel}. Review the diff, then delete the .old (keep the refresh) or restore it (revert).`);
   }
-  applied.push(`walk summary: v${from} -> v${target} · migration steps applied: ${stepCount} · twins resolved in place: ${sweptTwins} · twins remaining: ${keptTwins}${keptTwins > 0 ? ` (carrying ${residualLines} differing line(s))` : ""}`);
+  applied.push(`walk summary: v${from} -> v${target} · migration steps applied: ${stepCount} · files refreshed: ${olds.length} · previous copies awaiting review: ${olds.length}${olds.length > 0 ? ` (carrying ${residualLines} differing line(s))` : ""} · notes: UPGRADE-NOTES.md`);
+  appendUpgradeNotes(repoRoot, from, target, olds, notes);
   // validate before stamping: re-read the record, run the check pass
   const reloaded = loadRecord(repoRoot);
   const findings = [...reloaded.loadDiags, ...checkPass(reloaded)];
@@ -179,6 +157,19 @@ function stampVersion(root: string, target: number): void {
   if (lock !== null && lock.recordSpecVersion !== target) {
     writeLock(root, { ...lock, recordSpecVersion: target });
   }
+}
+
+/** The one review surface (ADR 0013): every apply appends a dated
+ * section to UPGRADE-NOTES.md at the repo root — each refreshed file,
+ * its residual, the review options; a clean run says so in one line.
+ * Append-only per run, never rewritten — the records' own law. */
+function appendUpgradeNotes(repoRoot: string, from: number, target: number, olds: string[], notes: string[]): void {
+  const header = `## ${today()} — upgrade v${from} -> v${target}\n\n`;
+  const body =
+    notes.length > 0
+      ? `${notes.join("\n")}\n\nThe bundled spec moved these files live; git shows the full diff. Nothing from the upgrade is ignored — review, then delete each .old (keep the refresh) or restore it (revert).\n\n`
+      : `- nothing to refresh — the record already matches the bundled spec.\n\n`;
+  appendText(join(repoRoot, "UPGRADE-NOTES.md"), `${header}${body}`);
 }
 
 /** Line-multiset symmetric difference — honest "how much differs" without

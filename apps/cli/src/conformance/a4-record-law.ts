@@ -95,7 +95,7 @@ rmSync(sf, { recursive: true, force: true });
 }
 
 // --- v2k: the record's machine artifacts leave git (370) ---
-fact("the payload plants the record's gitignore with both rules", (recordFiles()[".gitignore"] ?? "").includes("var/") && (recordFiles()[".gitignore"] ?? "").includes("*.new"));
+fact("the payload plants the record's gitignore under the replace-live law", (recordFiles()[".gitignore"] ?? "").includes("var/") && !(recordFiles()[".gitignore"] ?? "").includes("*.new") && (recordFiles()[".gitignore"] ?? "").includes("never lost, never hidden"));
 
 // --- v2l: the compose room's integrity artifact (380) ---
 fact("the compose log template names its readers and its grammar", COMPOSE_LOG_TEMPLATE.includes("handoff agent") && COMPOSE_LOG_TEMPLATE.includes("build-honesty auditor") && COMPOSE_LOG_TEMPLATE.includes("| date | unit | spec | deviations |"));

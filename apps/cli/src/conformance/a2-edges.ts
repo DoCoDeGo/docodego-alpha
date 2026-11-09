@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { recordFiles, skillFiles, specVersion } from "../bundled/index.ts";
 import { adrLineageProblems } from "../commands/doctor.ts";
 import { STREAM_README_PATHS } from "../record/streams.ts";
-import { today } from "../fsx.ts";
+import { today, walkFiles } from "../fsx.ts";
 import { MIGRATIONS } from "../versioning/migrations.ts";
 import { run, runRaw, read, write, check, fact, REPO_ROOT, BUNDLE, FUZZ } from "./helpers.ts";
 import type { Ctx } from "./helpers.ts";
@@ -32,37 +32,42 @@ check("fixture upgrade plan exits 0", run(fixture, ["upgrade"]), 0, (r) => r.std
 check("fixture upgrade --apply exits 0", run(fixture, ["upgrade", "--apply"]), 0);
 fact("fixture manifest stamped to the bundled spec", JSON.parse(read(fixture, ".standard/manifest.json")).recordVersion === specVersion());
 fact("fixture skills-lock.json exists", existsSync(join(fixture, ".docodego", "skills-lock.json")));
+fact("690: the hop crossed — the v1 fixture's ignore drops *.new and AGENTS.md teaches the new law", !read(fixture, ".gitignore").includes("*.new") && read(fixture, ".gitignore").includes("var/") && read(fixture, ".gitignore").includes("never lost, never hidden") && readFileSync(join(fixture, "AGENTS.md"), "utf8").includes("UPGRADE-NOTES.md"));
 fact("fixture tracker carries the migration line", read(fixture, "04-govern/01-monitor/tracker.md").includes("v1->v2") && read(fixture, "04-govern/01-monitor/tracker.md").includes("skills-lock.json"));
 fact("fixture unit content unchanged byte-for-byte", readFileSync(join(fixture, fixtureSpecRel), "utf8") === fixtureSpec);
 fact("fixture received the bundled record files", existsSync(join(fixture, ".docodego", "README.md")) && read(fixture, "README.md").includes("01-discover"));
 
-// --- v2: conflict law — user-modified files are never overwritten ---
+// --- ADR 0013: the replace-live law — upgrades apply, nothing hides ---
+// The founder walked the products and ruled it: every record lives in
+// git, upgrades land as reviewed PRs, so the bundled bytes go live at
+// the canonical path and the operator's words are preserved beside them
+// as <path>.old — byte-exact, never lost, never hidden. The review sees
+// every change in the PR diff, decides from UPGRADE-NOTES.md, and the
+// CLI never deletes an .old — that is the review's act.
 write(fixture, ".docodego/README.md", `${read(fixture, "README.md")}\nMY OWN EDIT — do not lose this line\n`);
 write(fixture, ".docodego/.standard/manifest.json", `{\n  "recordVersion": 1\n}\n`);
 check("re-upgrade with a conflict exits 0", run(fixture, ["upgrade", "--apply"]), 0, (r) => r.stdout.includes("walk summary: v1 -> ") && r.stdout.includes("migration steps applied:"));
-fact("user-modified README.md NOT overwritten", read(fixture, "README.md").includes("MY OWN EDIT"));
-fact("bundled version landed side-by-side as README.md.new", existsSync(join(fixture, ".docodego", "README.md.new")) && readFileSync(join(fixture, ".docodego", "README.md.new"), "utf8").includes("01-discover"));
+fact("690: the conflict went live — the canonical file carries the bundled bytes", read(fixture, "README.md").includes("01-discover") && !read(fixture, "README.md").includes("MY OWN EDIT"));
+fact("690: the previous copy is preserved byte-exact as README.md.old", readFileSync(join(fixture, ".docodego", "README.md.old"), "utf8").includes("MY OWN EDIT"));
+fact("690: no .new is planted anywhere", walkFiles(fixture, new Set([".git", "node_modules"])).every((p) => !p.endsWith(".new")));
+fact("690: the notes file names the refresh with the review options", readFileSync(join(fixture, "UPGRADE-NOTES.md"), "utf8").includes("README.md.old") && readFileSync(join(fixture, "UPGRADE-NOTES.md"), "utf8").includes("delete the .old (keep the refresh) or restore it (revert)"));
 
-// --- 670: upgrade honesty — reconcile the conflicts, report the walk ---
-// the conflict line was true when printed; the reconciliation names the
-// END state: surviving twins measured in differing lines, swept twins
-// named resolved, lockfile stamped alongside the manifest
-// --- 680: leftover twins — the plan is not the only planter; skill
-// installs at older versions leave twins too, and the summary must
-// match the disk. Seed one exactly as a real old install leaves it.
+// --- 690: the walk's accounting is disk-truth — the plan is not the only
+// planter (skill refreshes displace too), the summary counts equal the
+// on-disk .old count, and UPGRADE-NOTES.md is the one review surface.
 {
   const skillBody = skillFiles("docodego-loop")["SKILL.md"] ?? "";
   if (skillBody === "") throw new Error("bundled docodego-loop lost its SKILL.md — fix the bundle");
   const skillKept = skillBody.replace("large may retire them into a `system/behavioral/` practice via `docodego retire` — named `a-*`", "large may retire them into a `system/behavioral/` practice — named `a-*`");
   write(fixture, ".agents/skills/docodego-loop/SKILL.md", skillKept === skillBody ? `${skillBody}DRIFT LINE the real install would not have\n` : skillKept);
-  write(fixture, ".agents/skills/docodego-loop/SKILL.md.new", skillBody);
   let walked = "";
-  check("670: apply ends with the walk summary", run(fixture, ["upgrade", "--apply"]), 0, (r) => { walked = r.stdout; return walked.includes("walk summary:") && walked.includes("twins remaining:"); });
-  fact("680: the leftover skill twin is named with its residual", walked.includes(".agents/skills/docodego-loop/SKILL.md.new") && /SKILL\.md\.new — .*— merge knowingly \(2 differing line\(s\)\)/.test(walked));
-  fact("680: the skill twin carries the skill-add guidance", walked.includes("docodego skill add docodego-loop --force"));
-  fact("680: the summary matches the disk — plan twin + leftover counted together", walked.includes("twins remaining: 2 (carrying 4 differing line(s))"));
-  fact("680: no double counting — the plan twin is reported exactly once", (walked.match(/\.docodego\/README\.md\.new —/g) ?? []).length === 1);
-  fact("670: the walk summary names the hops crossed", /walk summary: v31 -> v31 · migration steps applied: 0 · twins resolved in place: 0 · twins remaining: 2/.test(walked));
+  check("690: apply ends with the walk summary", run(fixture, ["upgrade", "--apply"]), 0, (r) => { walked = r.stdout; return walked.includes("walk summary:") && walked.includes("files refreshed:"); });
+  fact("690: the skill refresh went live with its previous copy beside it", read(fixture, ".agents/skills/docodego-loop/SKILL.md") === skillBody && readFileSync(join(fixture, ".agents/skills/docodego-loop/SKILL.md.old"), "utf8").includes("DRIFT LINE"));
+  fact("690: the summary counts equal the on-disk .old count", /files refreshed: 2 · previous copies awaiting review: 2 \(carrying 4 differing line\(s\)\)/.test(walked));
+  fact("690: the walk summary names the hops crossed", /walk summary: v32 -> v32 · migration steps applied: 0 · files refreshed: 2/.test(walked));
+  fact("690: the notes file carries a dated section per apply", readFileSync(join(fixture, "UPGRADE-NOTES.md"), "utf8").split("## ").filter((s) => s.trim() !== "").length >= 3);
+  const clean = run(fixture, ["upgrade", "--apply"]);
+  fact("690: a clean re-apply appends its one-line section", clean.code === 0 && readFileSync(join(fixture, "UPGRADE-NOTES.md"), "utf8").includes("nothing to refresh — the record already matches the bundled spec"));
   fact("670: the lockfile's recordSpecVersion matches the manifest after apply", JSON.parse(read(fixture, "skills-lock.json")).recordSpecVersion === JSON.parse(read(fixture, ".standard/manifest.json")).recordVersion);
 }
 
@@ -118,16 +123,15 @@ fact("bundled version landed side-by-side as README.md.new", existsSync(join(fix
   check("700: answering GQ-5 passes the round", run(fixture, ["grill", `${nnn}-lineage-probe`, "--answers", ".docodego/gq5-full.txt"]), 0, () => /verdict:\s*pass/i.test(read(fixture, `01-document/01-discover/${nnn}-lineage-probe/grill.md`)));
 }
 
-// --- v12: restore law — a deleted engine file is never silently re-created ---
-// a record at the bundled version that LOST a planted file gets the copy
-// back as `<path>.new` (owed a merge — the deletion may have been
-// deliberate), same twin law as a conflict; never written in place.
+// --- v12: restore law, under ADR 0013 — a lost engine file comes back
+// in place; the deletion may have been deliberate, and the walk says so
+// to the operator's face (the PR review re-deletes if it was meant).
 rmSync(join(fixture, ".docodego", "README.md"));
-rmSync(join(fixture, ".docodego", "README.md.new"));
-check("restore plan exits 0 and names the restore", run(fixture, ["upgrade"]), 0, (r) => r.stdout.includes("R restore") && r.stdout.includes("owed a merge"));
+rmSync(join(fixture, ".docodego", "README.md.old"));
+check("restore plan exits 0 and names the restore", run(fixture, ["upgrade"]), 0, (r) => r.stdout.includes("R restore") && r.stdout.includes("restored in place"));
 check("restore upgrade --apply exits 0", run(fixture, ["upgrade", "--apply"]), 0);
-fact("deleted README.md NOT re-created in place", !existsSync(join(fixture, ".docodego", "README.md")));
-fact("restored copy waits as README.md.new", existsSync(join(fixture, ".docodego", "README.md.new")) && readFileSync(join(fixture, ".docodego", "README.md.new"), "utf8").includes("01-discover"));
+fact("the lost file is back at the canonical path", read(fixture, "README.md").includes("01-discover"));
+fact("a restore plants no .old — nothing was displaced because nothing was there", !existsSync(join(fixture, ".docodego", "README.md.old")));
 
 // --- v12: one calendar — the local wall-clock date is the only stamp ---
 // the two-calendars defect: gate rows in UTC, the human's rows local.

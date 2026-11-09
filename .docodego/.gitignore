@@ -2,8 +2,8 @@
 # var/ — scratch: probe output, captures, anything ephemeral. The
 #   honesty law's "ephemeral artifacts delete themselves" starts here:
 #   if it is disposable, it lives under var/ and git never sees it.
-# *.new — the upgrade plan's conflict copies: your words were kept and
-#   the refreshed scaffold rides beside them. Resolve or delete; never
-#   commit.
+# nothing else is ignored: upgrades apply live and preserve your
+#   previous copy beside each refreshed file as <file>.old — the review
+#   sees every change, then deletes the .old or restores it to revert
+#   (ADR 0013: never lost, never hidden).
 var/
-*.new
