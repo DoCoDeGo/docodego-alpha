@@ -21,7 +21,7 @@ import { migrationsFor } from "../versioning/migrations.ts";
 import { applyPlan, computePlan, renderPlan, type PlanEntry } from "../versioning/plan.ts";
 import { agentsMd, agentPresets, introductions, recordFiles, ruleFiles, skillFiles, skillsIndex, specVersion, DEFAULT_PROFILE, profiles as profileMap, vocabularyPack } from "../bundled/index.ts";
 import { appendTrackerLine, plantSkill, readLock, writeLock } from "../skills/lock.ts";
-import { readText, writeText } from "../fsx.ts";
+import { readText, writeText, walkFiles } from "../fsx.ts";
 import { emitJson } from "../emit/json.ts";
 
 /** The files an upgrade may plant, repo-root-relative. The engine-owned
@@ -114,6 +114,23 @@ function apply(args: Args, io: Io, rec: RecordAst, current: number, target: numb
     const d = keptRaw === null || twinRaw === null ? -1 : residualDiffLines(keptRaw, twinRaw);
     if (d > 0) residualLines += d;
     applied.push(`${e.path}.new — the kept copy was also taught in place; the twin still carries ${d >= 0 ? d : "unknown"} differing line(s) — merge or delete knowingly`);
+  }
+  // the plan is not the only planter: skill installs keep older copies
+  // current-side as `<file>.new` too (plantSkill). Account for every twin
+  // the walk left on disk, whatever planted it — the summary must match
+  // the disk, not the plan.
+  const reconciled = new Set(plan.filter((p) => p.action === "conflict").map((p) => `${p.path}.new`));
+  const skip = new Set([".git", "node_modules"]);
+  for (const abs of walkFiles(repoRoot, skip).filter((p) => p.endsWith(".new"))) {
+    const rel = abs.slice(repoRoot.length + 1);
+    if (reconciled.has(rel)) continue;
+    keptTwins++;
+    const skill = /skills\/([^/]+)\//.exec(rel)?.[1];
+    const keptRaw = readText(abs.slice(0, -4));
+    const twinRaw = readText(abs);
+    const d = keptRaw === null || twinRaw === null ? -1 : residualDiffLines(keptRaw, twinRaw);
+    if (d > 0) residualLines += d;
+    applied.push(`${rel} — the bundled update sits beside an older copy${skill !== undefined ? `; if yours is unmodified, 'docodego skill add ${skill} --force' brings the skill current` : ""} — merge knowingly (${d >= 0 ? d : "unknown"} differing line(s))`);
   }
   applied.push(`walk summary: v${from} -> v${target} · migration steps applied: ${stepCount} · twins resolved in place: ${sweptTwins} · twins remaining: ${keptTwins}${keptTwins > 0 ? ` (carrying ${residualLines} differing line(s))` : ""}`);
   // validate before stamping: re-read the record, run the check pass

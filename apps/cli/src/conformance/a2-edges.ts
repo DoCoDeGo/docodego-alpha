@@ -2,7 +2,7 @@
 import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { recordFiles, specVersion } from "../bundled/index.ts";
+import { recordFiles, skillFiles, specVersion } from "../bundled/index.ts";
 import { STREAM_README_PATHS } from "../record/streams.ts";
 import { today } from "../fsx.ts";
 import { MIGRATIONS } from "../versioning/migrations.ts";
@@ -46,11 +46,22 @@ fact("bundled version landed side-by-side as README.md.new", existsSync(join(fix
 // the conflict line was true when printed; the reconciliation names the
 // END state: surviving twins measured in differing lines, swept twins
 // named resolved, lockfile stamped alongside the manifest
+// --- 680: leftover twins — the plan is not the only planter; skill
+// installs at older versions leave twins too, and the summary must
+// match the disk. Seed one exactly as a real old install leaves it.
 {
+  const skillBody = skillFiles("docodego-loop")["SKILL.md"] ?? "";
+  if (skillBody === "") throw new Error("bundled docodego-loop lost its SKILL.md — fix the bundle");
+  const skillKept = skillBody.replace("large may retire them into a `system/behavioral/` practice via `docodego retire` — named `a-*`", "large may retire them into a `system/behavioral/` practice — named `a-*`");
+  write(fixture, ".agents/skills/docodego-loop/SKILL.md", skillKept === skillBody ? `${skillBody}DRIFT LINE the real install would not have\n` : skillKept);
+  write(fixture, ".agents/skills/docodego-loop/SKILL.md.new", skillBody);
   let walked = "";
   check("670: apply ends with the walk summary", run(fixture, ["upgrade", "--apply"]), 0, (r) => { walked = r.stdout; return walked.includes("walk summary:") && walked.includes("twins remaining:"); });
-  fact("670: the surviving twin's residual is counted in differing lines", /twins remaining: 1 \(carrying [1-9][0-9]* differing line/.test(walked));
-  fact("670: the walk summary names the hops crossed", /walk summary: v31 -> v31 · migration steps applied: 0 · twins resolved in place: 0 · twins remaining: 1/.test(walked));
+  fact("680: the leftover skill twin is named with its residual", walked.includes(".agents/skills/docodego-loop/SKILL.md.new") && /SKILL\.md\.new — .*— merge knowingly \(2 differing line\(s\)\)/.test(walked));
+  fact("680: the skill twin carries the skill-add guidance", walked.includes("docodego skill add docodego-loop --force"));
+  fact("680: the summary matches the disk — plan twin + leftover counted together", walked.includes("twins remaining: 2 (carrying 4 differing line(s))"));
+  fact("680: no double counting — the plan twin is reported exactly once", (walked.match(/\.docodego\/README\.md\.new —/g) ?? []).length === 1);
+  fact("670: the walk summary names the hops crossed", /walk summary: v31 -> v31 · migration steps applied: 0 · twins resolved in place: 0 · twins remaining: 2/.test(walked));
   fact("670: the lockfile's recordSpecVersion matches the manifest after apply", JSON.parse(read(fixture, "skills-lock.json")).recordSpecVersion === JSON.parse(read(fixture, ".standard/manifest.json")).recordVersion);
 }
 
