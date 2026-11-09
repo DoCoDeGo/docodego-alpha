@@ -46,3 +46,60 @@ secret scanning are recorded in the triage prose, not gated).
   answered: 
 
 verdict: fail
+## grill 2026-11-09
+
+- round: self-grilled — the agent answered its own questions; the form of independence is not the fact of it
+
+- GQ-1 asked: What does this unit do, in one sentence a stranger can verify?
+  answered: The ruling said triage + implement small wins; re-verification
+(the 430 law) showed four boxes already landed as children and two
+more landed today, so the remaining small wins are fewer than the
+shelf implies. Implementing the biggest items (transcript gate,
+threat pass) as half-units inside a triage unit would break the
+unit's coherence; they get ship-now dispositions with the design
+named, becoming their own picked-up units. The least-privilege pin
+is genuinely small (three read-only facts) and closes a stated gap.
+
+- GQ-2 asked: What evidence proves each acceptance criterion actually ran?
+  answered: The table: every box 1-20 appears exactly once with a state and a
+one-line reason; done boxes name their child unit; inline flips only
+where the tree confirms. The pin: the facts read the two workflow
+files from the repo root and assert exact permission strings; suite
+green; count grows by exactly three (485 -> 488).
+
+- GQ-3 asked: What is the biggest threat to this unit landing — and its mitigation?
+  answered: release.yml's `contents: write` is correct today (tag + release
+creation) and must stay scoped — the pin asserts the exact blocks,
+so widening fails the suite. ci.yml asserting "no permissions block"
+documents the default surface honestly. npm's id-token:write is
+provenance's requirement, pinned as-is. Declines 17/18/19 stand on
+the record's own prior rulings, not new opinions.
+
+- GQ-4 asked: What did you deliberately leave out of scope?
+  answered: Implementing 5/6/16 inside this unit (they are their own units);
+flipping boxes without tree verification; pinning whole workflow
+files byte-for-byte (legit edits would fail the suite — pin the
+permission blocks only); network calls in conformance (the suite
+stays offline — repo settings like secret scanning are prose in the
+triage, not gated).
+
+- GQ-AC1 asked: Criterion: 'The disposition table covers all 19 open boxes, each in exactly one state, done-boxes naming their child unit.' — how is this verified end-to-end?
+  answered: End-to-end: the table covers 1-20 with one state each (read it:
+tail -40 docs/process/enhancements.md); done boxes cite child units
+that exist in the tree; flipped boxes carry their ruling inline in
+the same doc — one claim, one home.
+
+- GQ-AC2 asked: Criterion: 'The least-privilege pin runs green: three facts reading the workflow files from the repo root and asserting the permission blocks; the facts fail loudly if a workflow gains write surface.' — how is this verified end-to-end?
+  answered: End-to-end: `pnpm -C apps/cli run -s conformance` — 488 green; the
+three new facts are visible by their "650:" labels; intentionally
+adding a permission line to release.yml would flip them red (the
+pin's teeth), and the count grew by exactly three over the recorded
+485.
+
+- GQ-AC3 asked: Criterion: '`docodego check` exits 0; the conformance count grows by exactly the new facts; no payload hop (the shelf and workflows live outside the boundary — ci.yml/release.yml are repo files, not payload files).' — how is this verified end-to-end?
+  answered: End-to-end: `node apps/cli/src/main.ts check` exits 0 before and
+after; no bundle drift appears (the shelf and workflows are outside
+the payload boundary — bundle:verify stays clean with no hop).
+
+
+verdict: pass

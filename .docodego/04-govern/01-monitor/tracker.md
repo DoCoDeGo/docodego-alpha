@@ -263,3 +263,8 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-09 | 640-go-public-surface | launch-passed | 02-compose/01-build/640-go-public-surface/launch.md |
 | 2026-11-09 | 640-go-public-surface | founder-signed | 02-compose/01-build/640-go-public-surface/signature.md |
 | 2026-11-09 | 650-enhancements-triage | new unit | 02-compose/01-build/650-enhancements-triage/spec.md |
+| 2026-11-09 | 650-enhancements-triage | gate-refused | G3 failed — latest verdict: fail |
+| 2026-11-09 | 650-enhancements-triage | gate-refused | G3 failed — latest verdict: fail |
+| 2026-11-09 | 650-enhancements-triage | delivered | 02-compose/01-build/650-enhancements-triage/delivered.md |
+| 2026-11-09 | 650-enhancements-triage | launch-passed | 02-compose/01-build/650-enhancements-triage/launch.md |
+| 2026-11-09 | 650-enhancements-triage | founder-signed | 02-compose/01-build/650-enhancements-triage/signature.md |

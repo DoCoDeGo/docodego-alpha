@@ -29,3 +29,7 @@ every one in exactly one state, nothing unowned:
 `tail -40 docs/process/enhancements.md` — the table.
 `pnpm -C apps/cli run -s conformance` — 488 green including the three
 "650:" facts.
+## delivered 2026-11-09
+
+- gates: G1, G2, G3, G4 all passed
+- detail: frontmatter, intent and acceptance in place; recomputed 70/100 — matches the recorded block (spec-sha b8219fbfcf33425c); latest verdict: pass; proof: docs/process/enhancements.md
