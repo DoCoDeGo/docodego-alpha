@@ -268,3 +268,4 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-09 | 650-enhancements-triage | delivered | 02-compose/01-build/650-enhancements-triage/delivered.md |
 | 2026-11-09 | 650-enhancements-triage | launch-passed | 02-compose/01-build/650-enhancements-triage/launch.md |
 | 2026-11-09 | 650-enhancements-triage | founder-signed | 02-compose/01-build/650-enhancements-triage/signature.md |
+| 2026-11-09 | 660-founder-identity-set | new unit | 02-compose/01-build/660-founder-identity-set/spec.md |
