@@ -44,3 +44,4 @@ delivered through this room yet.
 | 2026-11-10 | 680-leftover-twins | b61547605f925262 | none recorded |
 | 2026-11-10 | 700-record-lineage | 3d930fa91c38a1ac | none recorded |
 | 2026-11-10 | 690-reviewable-upgrade | 7aeae62056016ef8 | none recorded |
+| 2026-11-10 | 710-git-at-birth | 35af404719979ce3 | none recorded |

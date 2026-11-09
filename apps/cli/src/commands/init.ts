@@ -4,6 +4,7 @@
  * existing record unless --force — which fills what is missing and never
  * overwrites a planted file the user may have edited; the tracker is
  * created only when absent (append-only from its first byte). */
+import { spawnSync } from "node:child_process";
 import { join } from "node:path";
 import type { Args, Io, Manifest, Mode } from "../types.ts";
 import { isDir, readText, today, writeText } from "../fsx.ts";
@@ -21,6 +22,14 @@ const ENGINE_OWNED = new Set([MANIFEST_REL, TRACKER_REL]);
 export function run(args: Args, io: Io): number {
   const mode: Mode = args.mode ?? "review";
   const root = join(process.cwd(), RECORD_DIR);
+  // ADR 0013's last piece: records are born under version control — git
+  // must answer before anything is planted (a record born wild is the
+  // exact hiding the law forbids); the birth commit happens after planting.
+  if (!gitAvailable(process.cwd())) {
+    io.err(`error[DG-U140]: git is not available — nothing was planted`);
+    io.err(`  records are born under version control (ADR 0013) — make git available, then re-run 'docodego init'`);
+    return 1;
+  }
   if (isDir(root) && !args.force) {
     io.err(`refusing: ${RECORD_DIR}/ already exists — pass --force to fill what is missing (nothing is overwritten)`);
     return 1;
@@ -125,20 +134,62 @@ export function run(args: Args, io: Io): number {
   const detectionLine =
     `${detection.fileCount} files, git depth ${detection.detect.gitDepth}, ` +
     `tests ${detection.detect.tests}, ci ${detection.detect.ci} -> ${detection.codeState}`;
+  const birth = birthCommit(process.cwd(), created);
+  if (!birth.ok) {
+    io.err(`error[DG-U140]: ${birth.why}`);
+    return 1;
+  }
   const profileName = args.allSkills ? "all-skills" : (args.profile ?? DEFAULT_PROFILE);
   if (args.json) {
-    emitJson(io, "init", { created, manifest, profile: profileName, skills: installed, detection: detectionLine, date: today(), ...(pack !== undefined ? { vocabulary: pack.name } : {}) });
+    emitJson(io, "init", { created, manifest, profile: profileName, skills: installed, detection: detectionLine, git: birth.line, date: today(), ...(pack !== undefined ? { vocabulary: pack.name } : {}) });
   } else {
     const vocabNote = pack !== undefined ? `, vocabulary ${pack.name}` : "";
     io.out(`${RECORD_DIR}/ ready — mode ${mode}, code state ${detection.codeState}, record v${specVersion()}, profile ${profileName}${vocabNote}`);
     io.err(`skills installed: ${installed.length ? installed.join(", ") : "(none)"}`);
     if (pack !== undefined) io.err(`vocabulary: ${pack.name} — ${VOCABULARY_MOTTO}`);
     io.err(`detected: ${detectionLine}`);
+    io.err(birth.line);
     const recordCount = created.filter((l) => l.startsWith(`${RECORD_DIR}/`)).length;
     const agentCount = created.length - recordCount;
     io.err(`planted ${recordCount} record file(s) under ${RECORD_DIR}/ + ${agentCount} agent file(s) · skills installed: ${installed.length} — existing files were kept (create-only law)`);
   }
   return 0;
+}
+
+/** The pre-flight (DG-U140): git must answer before anything is planted. */
+function gitAvailable(repoRoot: string): boolean {
+  const pre = spawnSync("git", ["--version"], { cwd: repoRoot, encoding: "utf8" });
+  return !pre.error && pre.status === 0;
+}
+
+/** The birth (ADR 0013, unit 710): records are born under version
+ * control. Pre-flight: git must answer before anything is planted — a
+ * record born wild is the exact hiding the law forbids. Then git init
+ * when needed, and one birth commit carrying exactly the planted paths
+ * (never the operator's own files), authored by the record's handle
+ * identity via -c (the founder's privacy law: handle-based noreply;
+ * no global config required). `created` holds repo-root-relative paths. */
+function birthCommit(repoRoot: string, created: string[]): { ok: true; line: string } | { ok: false; why: string } {
+  const git = (argv: string[]) => spawnSync("git", argv, { cwd: repoRoot, encoding: "utf8" });
+  const inRepo = git(["rev-parse", "--is-inside-work-tree"]);
+  const existing = inRepo.status === 0 && inRepo.stdout.trim() === "true";
+  if (!existing) {
+    const gi = git(["init"]);
+    if (gi.status !== 0) return { ok: false, why: `git init failed — nothing was planted: ${(gi.stderr || "").trim().split("\n")[0]}` };
+  }
+  const identity = ["-c", "user.name=DoCoDeGo", "-c", "user.email=DoCoDeGo@users.noreply.github.com"];
+  for (let i = 0; i < created.length; i += 50) {
+    const add = git(["add", "--", ...created.slice(i, i + 50)]);
+    if (add.status !== 0) return { ok: false, why: `git add failed: ${(add.stderr || "").trim().split("\n")[0]}` };
+  }
+  const msg = `record birth — planted by docodego init (spec v${specVersion()})`;
+  const c = git([...identity, "commit", "-m", msg, "--no-verify", "--"]);
+  if (c.status !== 0) {
+    const out = (c.stderr || c.stdout || "").trim();
+    if (/nothing to commit|no changes added/.test(out)) return { ok: true, line: existing ? "git: already under version control — the planted files were already committed" : "git: repository initialized (nothing new to commit)" };
+    return { ok: false, why: `the birth commit failed — the record IS planted but NOT under version control; make git work and commit, or remove ${RECORD_DIR}/ and re-init: ${out.split("\n")[0]}` };
+  }
+  return { ok: true, line: existing ? "git: birth commit added to the existing repository (only the planted files staged)" : "git: repository initialized — the birth commit is made" };
 }
 
 /** Validate --profile against the bundled profiles; null (after printing) = usage error. */

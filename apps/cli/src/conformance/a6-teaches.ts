@@ -6,7 +6,7 @@ import { join } from "node:path";
 import { recordFiles, agentsMd, specVersion, vocabularies, VOCABULARY_NAMES, vocabularyPack } from "../bundled/index.ts";
 import { ALL_STREAMS } from "../record/streams.ts";
 import { validateVocabularyPack } from "../record/vocabulary.ts";
-import { run, runRaw, read, write, check, fact } from "./helpers.ts";
+import { run, runRaw, read, write, check, fact, MAIN } from "./helpers.ts";
 import type { Ctx } from "./helpers.ts";
 
 export async function area(_c: Ctx): Promise<void> {
@@ -234,6 +234,29 @@ rmSync(vf, { recursive: true, force: true });
 const vd = mkdtempSync(join(tmpdir(), "docodego-conformance-canonical-"));
 check("default init still plants the canonical voice", run(vd, ["init"]), 0, () => read(vd, "01-document/01-discover/README.md") === recordFiles()["01-document/01-discover/README.md"]);
 check("init plants the record's gitignore (var/ stands, nothing else ignored)", run(vd, ["check"]), 0, () => read(vd, ".gitignore").includes("var/") && !read(vd, ".gitignore").includes("*.new"));
+// --- 710: git at birth — records are born under version control (ADR 0013) ---
+{
+  const gb = mkdtempSync(join(tmpdir(), "docodego-conformance-birth-"));
+  check("710: init births the record under version control", run(gb, ["init"]), 0, () => existsSync(join(gb, ".git")));
+  const log = runRaw(gb, "git", ["log", "--format=%s %an %ae"]);
+  fact("710: the birth commit carries the record's handle identity", log.stdout.includes("record birth — planted by docodego init") && log.stdout.includes("DoCoDeGo") && log.stdout.includes("DoCoDeGo@users.noreply.github.com"));
+  // an existing repo with an operator file: init stages exactly the planted paths
+  write(gb, "operators-own-file.txt", "mine, not the engine's\n");
+  runRaw(gb, "git", ["add", "operators-own-file.txt"]);
+  const rebirth = run(gb, ["init", "--force"]);
+  const staged = runRaw(gb, "git", ["diff", "--cached", "--name-only"]);
+  check("710: re-init in an existing repo commits only the planted files", rebirth, 0, () => !staged.stdout.includes("operators-own-file.txt"));
+  // git unavailable: the refusal comes before anything is planted
+  const shim = mkdtempSync(join(tmpdir(), "docodego-conformance-nogit-"));
+  writeFileSync(join(shim, "git"), "#!/bin/sh\nexit 127\n", { mode: 0o755 });
+  const gn = mkdtempSync(join(tmpdir(), "docodego-conformance-nogit2-"));
+  const refused = spawnSync(process.execPath, ["--experimental-strip-types", MAIN, "init"], { cwd: gn, encoding: "utf8", env: { ...process.env, PATH: `${shim}:${process.env.PATH ?? ""}` } });
+  const refusedRes = { code: refused.status ?? -1, stdout: refused.stdout ?? "", stderr: refused.stderr ?? "" };
+  check("710: git unavailable refuses before planting (DG-U140)", refusedRes, 1, (r) => r.stderr.includes("DG-U140") && r.stderr.includes("born under version control") && !existsSync(join(gn, ".docodego")));
+  rmSync(gb, { recursive: true, force: true });
+  rmSync(shim, { recursive: true, force: true });
+  rmSync(gn, { recursive: true, force: true });
+}
 fact("default manifest carries no vocabulary key", !("vocabulary" in (JSON.parse(read(vd, ".standard/manifest.json")) as Record<string, unknown>)));
 run(vd, ["new", "010-plain-unit"]);
 const dvq = run(vd, ["grill", "010-plain-unit", "--json"]);

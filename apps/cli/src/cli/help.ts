@@ -23,12 +23,16 @@ export const COMMAND_HELP: Record<string, CommandHelp> = {
   --force         fill in missing scaffold files; never overwrite existing content
   --json          emit docodego/init/v1 on stdout
 
-exit codes: 0 planted · 1 record already exists (refusing; pass --force) · 2 usage
+exit codes: 0 planted · 1 record already exists (refusing; pass --force) or the birth refused (DG-U140) · 2 usage
 
 behavior:
   detects code state (new | growing | mature), plants the record tree from the
   bundle, writes the manifest, installs the profile's skills + agent presets,
   and writes .docodego/skills-lock.json recording what was installed.
+  then the birth (ADR 0013): git init when the directory is not a repository,
+  and one birth commit carrying exactly the planted paths, authored by the
+  record's handle identity — records are born under version control; when git
+  is unavailable init refuses before planting anything.
   --vocabulary re-voices the planted prose (stream READMEs, AGENTS.md glosses,
   gate-question phrasing) and plants .standard/vocabulary.md; it is chosen at
   birth and is refused on an existing record.

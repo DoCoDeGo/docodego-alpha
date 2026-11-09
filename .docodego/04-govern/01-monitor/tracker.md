@@ -298,3 +298,8 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-10 | 690-reviewable-upgrade | delivered | 02-compose/01-build/690-reviewable-upgrade/delivered.md |
 | 2026-11-10 | 690-reviewable-upgrade | launch-passed | 02-compose/01-build/690-reviewable-upgrade/launch.md |
 | 2026-11-10 | 690-reviewable-upgrade | founder-signed | 02-compose/01-build/690-reviewable-upgrade/signature.md |
+| 2026-11-10 | 710-git-at-birth | new unit | 02-compose/01-build/710-git-at-birth/spec.md |
+| 2026-11-10 | 710-git-at-birth | delivered | 02-compose/01-build/710-git-at-birth/delivered.md |
+| 2026-11-10 | 710-git-at-birth | launch-refused | L5 failed — 03-demonstrate/demo/710-git-at-birth/how-to-run.md is still the unfilled sc... |
+| 2026-11-10 | 710-git-at-birth | launch-passed | 02-compose/01-build/710-git-at-birth/launch.md |
+| 2026-11-10 | 710-git-at-birth | founder-signed | 02-compose/01-build/710-git-at-birth/signature.md |
