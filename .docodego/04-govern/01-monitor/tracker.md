@@ -294,3 +294,7 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-10 | 700-record-lineage | launch-refused | L2 failed — proof path(s) vanished since delivery: <cwd>/.docodego/<rel> — evidence tha... |
 | 2026-11-10 | 700-record-lineage | launch-passed | 02-compose/01-build/700-record-lineage/launch.md |
 | 2026-11-10 | 700-record-lineage | founder-signed | 02-compose/01-build/700-record-lineage/signature.md |
+| 2026-11-10 | 690-reviewable-upgrade | gate-refused | G4 failed — proofs.md holds no path entries — write list items like: - path/to/proof.tx... |
+| 2026-11-10 | 690-reviewable-upgrade | delivered | 02-compose/01-build/690-reviewable-upgrade/delivered.md |
+| 2026-11-10 | 690-reviewable-upgrade | launch-passed | 02-compose/01-build/690-reviewable-upgrade/launch.md |
+| 2026-11-10 | 690-reviewable-upgrade | founder-signed | 02-compose/01-build/690-reviewable-upgrade/signature.md |

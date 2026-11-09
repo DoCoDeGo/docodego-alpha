@@ -33,6 +33,9 @@ check("fixture upgrade --apply exits 0", run(fixture, ["upgrade", "--apply"]), 0
 fact("fixture manifest stamped to the bundled spec", JSON.parse(read(fixture, ".standard/manifest.json")).recordVersion === specVersion());
 fact("fixture skills-lock.json exists", existsSync(join(fixture, ".docodego", "skills-lock.json")));
 fact("690: the hop crossed — the v1 fixture's ignore drops *.new and AGENTS.md teaches the new law", !read(fixture, ".gitignore").includes("*.new") && read(fixture, ".gitignore").includes("var/") && read(fixture, ".gitignore").includes("never lost, never hidden") && readFileSync(join(fixture, "AGENTS.md"), "utf8").includes("UPGRADE-NOTES.md"));
+// the fixture is coherent here (its lock still clean) — the 700 lineage
+// line reads absent and healthy; later blocks seed review state on purpose
+check("700: doctor reports the lineage check absent without failing", run(fixture, ["doctor"]), 0, (r) => r.stdout.includes("no docs/decisions/ here"));
 fact("fixture tracker carries the migration line", read(fixture, "04-govern/01-monitor/tracker.md").includes("v1->v2") && read(fixture, "04-govern/01-monitor/tracker.md").includes("skills-lock.json"));
 fact("fixture unit content unchanged byte-for-byte", readFileSync(join(fixture, fixtureSpecRel), "utf8") === fixtureSpec);
 fact("fixture received the bundled record files", existsSync(join(fixture, ".docodego", "README.md")) && read(fixture, "README.md").includes("01-discover"));
@@ -58,11 +61,13 @@ fact("690: the notes file names the refresh with the review options", readFileSy
 {
   const skillBody = skillFiles("docodego-loop")["SKILL.md"] ?? "";
   if (skillBody === "") throw new Error("bundled docodego-loop lost its SKILL.md — fix the bundle");
-  const skillKept = skillBody.replace("large may retire them into a `system/behavioral/` practice via `docodego retire` — named `a-*`", "large may retire them into a `system/behavioral/` practice — named `a-*`");
-  write(fixture, ".agents/skills/docodego-loop/SKILL.md", skillKept === skillBody ? `${skillBody}DRIFT LINE the real install would not have\n` : skillKept);
+  write(fixture, ".agents/skills/docodego-loop/SKILL.md", `${skillBody}\nDRIFT LINE the real install would not have\n`);
+  // the lock names the skill as installed from the bundle — the walk
+  // refreshes exactly what the lock names, never adds new ones
+  write(fixture, ".docodego/skills-lock.json", `{\n  "version": 1,\n  "recordSpecVersion": 32,\n  "installed": [\n    { "name": "docodego-loop", "version": "1.0.0", "source": "bundled", "integrity": "sha256:seeded-for-the-pin" }\n  ]\n}\n`);
   let walked = "";
   check("690: apply ends with the walk summary", run(fixture, ["upgrade", "--apply"]), 0, (r) => { walked = r.stdout; return walked.includes("walk summary:") && walked.includes("files refreshed:"); });
-  fact("690: the skill refresh went live with its previous copy beside it", read(fixture, ".agents/skills/docodego-loop/SKILL.md") === skillBody && readFileSync(join(fixture, ".agents/skills/docodego-loop/SKILL.md.old"), "utf8").includes("DRIFT LINE"));
+  fact("690: the skill refresh went live with its previous copy beside it", readFileSync(join(fixture, ".agents/skills/docodego-loop/SKILL.md"), "utf8") === skillBody && readFileSync(join(fixture, ".agents/skills/docodego-loop/SKILL.md.old"), "utf8").includes("DRIFT LINE"));
   fact("690: the summary counts equal the on-disk .old count", /files refreshed: 2 · previous copies awaiting review: 2 \(carrying 4 differing line\(s\)\)/.test(walked));
   fact("690: the walk summary names the hops crossed", /walk summary: v32 -> v32 · migration steps applied: 0 · files refreshed: 2/.test(walked));
   fact("690: the notes file carries a dated section per apply", readFileSync(join(fixture, "UPGRADE-NOTES.md"), "utf8").split("## ").filter((s) => s.trim() !== "").length >= 3);
@@ -74,10 +79,9 @@ fact("690: the notes file names the refresh with the review options", readFileSy
 // --- 700: record lineage — the ADR law, verified instead of prose ---
 {
   // the studio's own lineage: this repo (v2) carries no docs/decisions —
-  // the scanner names the missing index honestly, and doctor reports the
-  // check absent without failing
+  // the scanner names the missing index honestly (the doctor-absent pin
+  // runs earlier, while the fixture is still coherent)
   fact("700: a repo without a decisions directory names the missing index", adrLineageProblems(join(REPO_ROOT, "docs", "decisions")).some((p) => p.includes("README.md missing")));
-  check("700: doctor reports the lineage check absent without failing", run(fixture, ["doctor"]), 0, (r) => r.stdout.includes("no docs/decisions/ here"));
 
   // a drift fixture yields every named problem, and repairing it empties the list
   const lin = mkdtempSync(join(tmpdir(), "docodego-lineage-"));

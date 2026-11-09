@@ -1,7 +1,7 @@
 ---
 name: 690-reviewable-upgrade
 type: unit
-status: scored
+status: founder-signed
 ---
 
 ## intent

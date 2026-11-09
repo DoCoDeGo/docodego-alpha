@@ -33,3 +33,4 @@ signature.md.
 | 2026-11-10 | 670-upgrade-honesty | DoCoDeGo (a typed legal identifier) | founder | founder-signed |
 | 2026-11-10 | 680-leftover-twins | DoCoDeGo (a typed legal identifier) | founder | founder-signed |
 | 2026-11-10 | 700-record-lineage | DoCoDeGo (a typed legal identifier) | founder | founder-signed |
+| 2026-11-10 | 690-reviewable-upgrade | DoCoDeGo (a typed legal identifier) | founder | founder-signed |
