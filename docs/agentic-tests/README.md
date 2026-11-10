@@ -43,8 +43,22 @@ without a human in the room — and whether it **improves outcomes** while
 ## Running it
 
 ```sh
-scripts/agentic-setup.sh <arena-dir>     # plants one repo per brief
+scripts/agentic-setup.sh <arena-dir> <product ...>   # one docodego repo per product
 ```
+
+**How a product repo is initialized (explicit, no improvising):** the
+setup script runs OUR codebase's CLI with the product repo as the
+working directory —
+
+```sh
+cd <product-repo>
+node --experimental-strip-types <v2>/apps/cli/src/main.ts init --profile product-team
+```
+
+`init` is the whole birth: it plants the record layer, and git init +
+the birth commit happen inside it (records are born under version
+control — no manual git steps). From the engine checkout itself,
+`pnpm docodego <command>` is the same CLI for engine-side work.
 
 Author the brief at dispatch: one or two sentences, complex enough,
 feature or whole product. Then, for each repo, spawn a fresh-context agent

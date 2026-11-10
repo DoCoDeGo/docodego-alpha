@@ -12,7 +12,8 @@ You are an autonomous engineer founder-agent working alone in an existing reposi
 Environment facts (not instructions — just what is true):
 - Your repository is at: <ARENA>/<NN-name> — work only there. It is a git repo; commit your work as you go with conventional commits (type(scope): lowercase summary), one logical unit of work per commit.
 - The file AGENTS.md at the repository root is the law for how this repository is run. Read it first and follow it. It points to a record layer at .docodego/ — that is the repository's memory; work through the phases it defines.
-- The docodego CLI is invoked exactly as: node --experimental-strip-types <CLI-MAIN-TS> <command> — run it from the repository root.
+- If the repository has no .docodego/ yet, your FIRST act is to initialize the record layer with our codebase's CLI, run from the repository root: node --experimental-strip-types <CLI-MAIN-TS> init --profile product-team — init plants the record layer (AGENTS.md included) and makes the git birth commit itself (records are born under version control); no manual git steps.
+- The docodego CLI is invoked exactly as: node --experimental-strip-types <CLI-MAIN-TS> <command> — run it from the repository root. (From the engine checkout, `pnpm docodego <command>` is the same CLI for engine-side work.)
 - Available: node, npm, pnpm. NETWORK IS AVAILABLE — you may install packages and fetch assets. Budget install weight sensibly for a real product.
 - The product will live at its own .com domain (the founder registers separately — do not register anything; the name is for the product's identity and copy).
 
