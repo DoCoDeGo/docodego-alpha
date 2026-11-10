@@ -82,6 +82,52 @@ reported bluntly. New law findings:
     collision snapshots — replays clean; the agent's own words: "the
     trail, including the collision, replays clean."
 
+## 09 exit findings (second clean-trial exit, ~15:50) — the concurrency defect, confirmed by evidence
+
+The headline: **two founder-agents built this product simultaneously in
+one repository** — and the record absorbed it. Five units launch-passed
+across two parallel decompositions (010-closet-engine /
+010-closet-map-core, 020-rail-flair / 020-site-and-flair,
+030-passive-context), a supersession verdict recorded, `check` exit 0
+at HEAD ("record: launch tiers passed; parallel-run reconciliation
+recorded").
+
+**Root cause, owned:** my orchestration. The first 09 dispatch was
+killed by pkill during the popup-protocol pivot — but `opencode run`
+without `--standalone` connects to the background service, and the
+session survived the process kill. The redispatch then created a second
+live session on the same repository. Orchestration defect; the fix is
+doctrine: dispatch with `--standalone` (a killed process is a killed
+session), and never redispatch without verifying the old session is dead.
+
+**The law finding it confirmed (the round's most valuable evidence):**
+
+16. **No concurrency protocol — CONFIRMED critical.** No lock, claim,
+    or heartbeat exists: two agents delivered five units covering the
+    same seams and the law had nothing to say until a human-read
+    reconciliation. Candidate unit: a claim/lock/heartbeat mechanism
+    (or at minimum, `docodego new` detecting a live peer session and
+    refusing to double-decompose).
+17. **Gate grammar fights prose** (corroborates 9/12): backticked spans
+    containing `/` are read as proof paths even when they name routes.
+18. **Founder-docs vs the unit scanner** (corroborates 3): verbatim
+    brief copies stored beside intent.md trip lint.
+19. **The scorer cannot check arithmetic — field-confirmed twice**: a
+    quiz-differentiation bug scored 100/100 undetected. Known
+    limitation ("the scorer checks grammar, never truth"), now with
+    production evidence; candidate: re-measure requirements enforced at
+    grill.
+20. **Minor**: Lighthouse `minScore: 90` means 0.9 (a perfect 100
+    "failed" the first config); `docodego new` after a crashed run
+    silently diverges from the dead run's plan.
+
+## POSITIVE from 09's exit
+
+21. **The record absorbed a double-build honestly**: append-only held,
+    the supersession verdict is recorded, five launch-passed units are
+    each grilled, scored, evidenced, and `check` is green at HEAD. The
+    worst-case stress test of the honesty law passed.
+
 ## Disqualified trials
 
 05/06/07 ran on the over-fed first-draft prompt (hard lines, creative
