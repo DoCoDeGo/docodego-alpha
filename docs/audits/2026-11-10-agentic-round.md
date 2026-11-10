@@ -320,6 +320,32 @@ the only unmarked path? Founder decision required.
     agent's own words on the sign law: the headless form "worked
     cleanly" (which is precisely the problem — see 41).
 
+## 10 exit findings (round-2 exit, ~21:1X) — verified: check exit 0
+
+One deep unit (010-event-stylist-v1: engine, tiers, flair, all in one
+grilled-24-answers, scored-98, launch-passed walk; 47 unit + 10 e2e
+green). The sign tier deliberately left unsigned: "an agent's
+provisional signature would be ceremony, not trust" — the direct
+behavioral contrast to 12's takeover. New/corroborating:
+
+47. **AGENTS.md says grill returns "four gate questions"** — the CLI
+    asks five. The count-contract drift class, now in AGENTS.md
+    itself: rides the next hop's sync pass.
+48. **The prefix catch-22, demonstrated**: an evidence folder in a
+    stream warns without an NNN- prefix (DG-N004) and errors with one
+    (DG-F001, demanding a spec) — the escape-hatch finding (#3/#9/#18)
+    now has its no-legal-home case proven end-to-end.
+49. **CLI examples use unprefixed unit names** the CLI rejects —
+    documentation/examples consistency.
+50. Corroborated: document-skill gate order (#42), compose assumes a
+    human (#43), proof-grammar prose bites (#7/#24/#44), and
+    shared-machine port contention — 10's report names product 11's
+    vite holding ::1:4173 serving content for a DIFFERENT product.
+51. POSITIVE: the launch gate rightly refused the first attempt
+    (unfilled scaffold); repair-forward worked; the decomposition
+    strategy (one deep unit vs many small) is recorded as this
+    subject's own call.
+
 ## Disqualified trials — preserved, never deleted
 
 05/06/07 ran on the over-fed first-draft prompt (hard lines, creative
