@@ -192,6 +192,11 @@ loop itself and ride hops; after each landing the agentic suite re-runs
   paths (three agents degraded honest prose to appease it).
 
 **P1 — law completeness**
+- Wire the ux-strategy design gate into the loop phases: installed is
+  not invoked — round 2's three agents all skipped the skill (named in
+  the dispatch, still unread) and two entered site design without it.
+  Candidate: `docodego new` for product units prints the design-gate
+  requirement, or check flags UI units without research evidence.
 - Evidence-folder escape hatch in the rules floor (founder docs are
   evidence, not units).
 - AGENTS.md names it explicitly: agents never sign; the plan-approval
