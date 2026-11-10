@@ -346,6 +346,35 @@ behavioral contrast to 12's takeover. New/corroborating:
     strategy (one deep unit vs many small) is recorded as this
     subject's own call.
 
+## 13 exit findings (round-2 exit, 14-chatsubtext dispatched after) — verified: check exit 0
+
+Three units delivered + launch-passed ("The Darkroom": pixel-metric
+photo scoring, ECDSA unlock, guardrails; 68 unit + 23 e2e green,
+Lighthouse 100/96). New/corroborating:
+
+52. **The deliver gate warns after writing** — 010/020 delivered WITH
+    unresolvable-span warnings; deliver's landing is terminal, the
+    refusal only comes at launch (extends #23: the whole warning
+    cadence needs the redesign).
+53. **The evidence-type registry is too small** — [evidence:
+    build-log], [evidence: report-file], [evidence: transcript] all
+    drift-flagged; real runs produce kinds the registry doesn't name.
+    Candidate: extend the registry (or an open type with provenance).
+54. **`.docodego/var` contradiction**: init's law says var/ is the
+    scratch home, the record's gitignore ignores it — and lint still
+    flags it as an unexpected entry (DG-S005). The plant and the lint
+    disagree; candidate: exempt var/ at DG-S005.
+55. **Founder docs found their legal home in `knowledge/`** — the
+    escape-hatch finding gains its resolution path (no rule change
+    needed; the knowledge/ home works and should be named in the
+    law/docs).
+56. Corroborated: scorer-truth limitation (frontmatter edit staled
+    correctly — the status machine worked); node --test sweeping e2e
+    specs (minor); sign headless ergonomics.
+57. POSITIVE, second independent confirmation: "the single most
+    valuable instrument this run: the visual-proof skill — it caught
+    the one bug 91 tests missed (style.css was never imported)."
+
 ## Disqualified trials — preserved, never deleted
 
 05/06/07 ran on the over-fed first-draft prompt (hard lines, creative
