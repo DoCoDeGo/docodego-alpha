@@ -168,10 +168,24 @@ session), and never redispatch without verifying the old session is dead.
     generation not configured"; the network-privacy claim is audited by
     its own e2e suite (nothing uploads — proven in the tests).
 
-## Disqualified trials
+## Disqualified trials — preserved, never deleted
 
 05/06/07 ran on the over-fed first-draft prompt (hard lines, creative
 mandate, checklist — since cut by the minimal-prompt rule). Their runs
-are not clean trials; their LAW FINDINGS stand (defects are defects
-however the agent was fed). 05's repo is reset to birth for its clean
-rerun; 06/07 reset when they exit.
+are NOT clean trials; their LAW FINDINGS stand (defects are defects
+however the agent was fed).
+
+**Preservation law (founder correction, 2026-11-10): completed work is
+never deleted.** A rerun happens in a NEW COPY (a fresh init beside the
+original), never a reset of the original. The over-fed builds are
+preserved: 05 restored to `05-wardrobeclimate-overfed` (commit 885d9f4),
+06 restored to `06-tryonface-overfed` (from its pre-reset reflog), 07's
+over-fed build stays untouched in place — its clean rerun runs beside it
+as `07-trackhair-r2`.
+
+**Quality assessment:** which trial produced the best work is judged on
+the **end-user experience** — build and serve each trial's product,
+walk the core experience, and grade it (the suites and Lighthouse are
+inputs, not the verdict). Every trial is assessed, including
+disqualified ones: the comparison between coached and cold runs is part
+of the answer to "does DoCoDeGo improve outcomes".

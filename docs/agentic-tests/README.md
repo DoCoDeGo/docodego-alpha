@@ -39,6 +39,12 @@ without a human in the room — and whether it **improves outcomes** while
 4. **Grading is two-sided.** Every finding attributes to *agent* (law clear,
    bypassed) or *law* (ambiguous, silent, self-contradicted). A quiet run is
    not a pass; a run whose frictions surface as harvestable findings is.
+5. **Preserve every trial; judge the end-user experience.** Completed
+   work is never deleted — a rerun happens in a NEW COPY beside the
+   original. Every trial (coached or cold) is quality-assessed by
+   building and serving the product and walking the core experience:
+   which trial produced the best work is part of the answer to whether
+   the system improves outcomes.
 
 ## Running it
 
