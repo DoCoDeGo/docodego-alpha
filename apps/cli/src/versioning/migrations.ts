@@ -372,6 +372,15 @@ export const MIGRATIONS: Migration[] = [
     ],
     steps: [],
   },
+  {
+    from: 35,
+    to: 36,
+    notes: [
+      "planted-prose hygiene (caught by the sweep gate the same day the skills shipped): the five design/build-craft skills referenced the founder's own corpus paths (docs/products/…) — dead ends in any consumer repository, where those paths do not exist — rewritten to source-agnostic phrasing (the founder's shared build rules; the product's FLAIR.md; the passive-context toolkit; the founder's product corpus)",
+      "no record-file transforms: skills are payload rows, not record law; existing lockfiles are untouched — 'docodego skill add' refreshes to current",
+    ],
+    steps: [],
+  },
 ];
 
 /** v29 -> v30: the sign-picker teach. AGENTS.md's sign bullet gains the
