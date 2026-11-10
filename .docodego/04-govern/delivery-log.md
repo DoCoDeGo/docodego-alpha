@@ -90,3 +90,4 @@ is recorded here; what was learned lives in the unit's own records.
 | 2026-11-10 | 700-record-lineage | G1,G2,G3,G4 | proof: apps/cli/src/commands/doctor.ts · warning: 1 path-like span(s) do not resolve (<cwd>/.docodego/<rel>) — launch will refuse if they are proof paths |
 | 2026-11-10 | 690-reviewable-upgrade | G1,G2,G3,G4 | proof: apps/cli/src/versioning/plan.ts |
 | 2026-11-10 | 710-git-at-birth | G1,G2,G3,G4 | proof: apps/cli/src/commands/init.ts |
+| 2026-11-10 | 720-founder-communication-rules | G1,G2,G3,G4 | proof: apps/cli/src/bundled/payload.ts |

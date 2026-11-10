@@ -1,7 +1,7 @@
 ---
 name: 720-founder-communication-rules
 type: unit
-status: draft
+status: founder-signed
 ---
 
 ## intent

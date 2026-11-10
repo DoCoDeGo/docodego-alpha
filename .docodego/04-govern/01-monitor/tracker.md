@@ -304,3 +304,7 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-10 | 710-git-at-birth | launch-passed | 02-compose/01-build/710-git-at-birth/launch.md |
 | 2026-11-10 | 710-git-at-birth | founder-signed | 02-compose/01-build/710-git-at-birth/signature.md |
 | 2026-11-10 | 720-founder-communication-rules | new unit | 02-compose/01-build/720-founder-communication-rules/spec.md |
+| 2026-11-10 | 720-founder-communication-rules | delivered | 02-compose/01-build/720-founder-communication-rules/delivered.md |
+| 2026-11-10 | 720-founder-communication-rules | launch-refused | L5 failed — 03-demonstrate/demo/720-founder-communication-rules/how-to-run.md is still ... |
+| 2026-11-10 | 720-founder-communication-rules | launch-passed | 02-compose/01-build/720-founder-communication-rules/launch.md |
+| 2026-11-10 | 720-founder-communication-rules | founder-signed | 02-compose/01-build/720-founder-communication-rules/signature.md |
