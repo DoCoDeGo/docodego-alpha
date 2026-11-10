@@ -41,7 +41,7 @@ export async function run(args: Args, io: Io): Promise<number> {
     if (args.json) {
       emitJson(io, "grill", { unit: unit.name, scaffold: args.scaffold, count: questions.length, questions }, true);
     } else {
-      io.out(`scaffold written: ${args.scaffold} — ${questions.length} questions (four fixed + one per acceptance criterion)`);
+      io.out(`scaffold written: ${args.scaffold} — ${questions.length} questions (five fixed questions, incl. the lineage question, + one per acceptance criterion)`);
       io.err(`fill one answer per GQ id, then: docodego grill ${unit.name} --answers ${args.scaffold}`);
     }
     return 0;

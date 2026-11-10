@@ -10,6 +10,7 @@ where its dispositions landed. Newest first by the date-leading name.
 | `2026-11-08-security-audit.md` | F2: server/client surfaces probed live, every finding reproduced | the issues catalog §11 |
 | `2026-11-08-cli-law-audit.md` | F1: full source read of `apps/cli/src/` + black-box runs against five fleet records | the issues catalog §9; cluster 4's `240-cli-debt-cluster` |
 | `2026-11-08-improvements.md` | improvement log: five autonomous founder-agents building in parallel | `010-canon-spec-7` and its delivered children |
+| `2026-11-10-agentic-round.md` | the effectiveness test's live findings log (round 1: five cold products under the minimal-prompt law) | this file grows in place; open findings are candidate units |
 | `2026-11-08-acceptance-2agent.md` | two-stranger acceptance: the planted law graded from a bare init | `010-canon-spec-7` (the spec-7 epic it commissioned) |
 | `2026-11-08-dogfood.md` | an independent agent builds a product from the published package | the tracker rows it spawned; the dogfood loop's fixes |
 
