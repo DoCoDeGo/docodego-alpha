@@ -35,7 +35,7 @@ When asked to invent names, produce brandable ones:
 2. RDAP-batch all; table: name | code | verdict | checked-at timestamp.
 3. Available set too small → generate another round, repeat.
 4. Record results in the product's portfolio entry
-   (`docs/products/product-portfolio.md`, Appendix A holds the current registry).
+   (the product-portfolio registry; Appendix A holds the current registry).
 5. **Before purchase**: re-run the batch same-day; diff against the earlier table and
    call out every snipe loudly. This project observed 5 snipes within hours.
 

@@ -71,7 +71,7 @@ fact("690: the notes file names the refresh with the review options", readFileSy
   check("690: apply ends with the walk summary", run(fixture, ["upgrade", "--apply"]), 0, (r) => { walked = r.stdout; return walked.includes("walk summary:") && walked.includes("files refreshed:"); });
   fact("690: the skill refresh went live with its previous copy beside it", readFileSync(join(fixture, ".agents/skills/docodego-loop/SKILL.md"), "utf8") === skillBody && readFileSync(join(fixture, ".agents/skills/docodego-loop/SKILL.md.old"), "utf8").includes("DRIFT LINE"));
   fact("690: the summary counts equal the on-disk .old count", /files refreshed: 2 · previous copies awaiting review: 2 \(carrying 4 differing line\(s\)\)/.test(walked));
-  fact("690: the walk summary names the hops crossed", /walk summary: v33 -> v33 · migration steps applied: 0 · files refreshed: 2/.test(walked));
+  fact("690: the walk summary names the hops crossed", /walk summary: v35 -> v35 · migration steps applied: 0 · files refreshed: 2/.test(walked));
   fact("690: the notes file carries a dated section per apply", readFileSync(join(fixture, "UPGRADE-NOTES.md"), "utf8").split("## ").filter((s) => s.trim() !== "").length >= 3);
   const clean = run(fixture, ["upgrade", "--apply"]);
   fact("690: a clean re-apply appends its one-line section", clean.code === 0 && readFileSync(join(fixture, "UPGRADE-NOTES.md"), "utf8").includes("nothing to refresh — the record already matches the bundled spec"));

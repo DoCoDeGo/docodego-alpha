@@ -5,8 +5,8 @@ description: Pre-launch audit of a built product site against the _stack-spec ac
 
 # docodego-launch-auditor — verify, don't trust
 
-Audit against `docs/products/_stack-spec.md` §11 + the product prompt's own
-acceptance additions + `docs/products/NN-name/FLAIR.md`. Every finding cites evidence
+Audit against the shared build rules' acceptance section (§11) + the product prompt's own
+acceptance additions, and the product's FLAIR.md. Every finding cites evidence
 (test run, network trace, file line). A claim without evidence is a fail.
 
 ## The audit checklist

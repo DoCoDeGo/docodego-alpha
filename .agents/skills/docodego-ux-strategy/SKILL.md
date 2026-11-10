@@ -5,7 +5,7 @@ description: Researches a product's market, peers, and reference sites, then ide
 
 # docodego-ux-strategy — research first, then the unique angle
 
-Hard gate (from `docs/products/_stack-spec.md` §0): **no product code before this
+Hard gate (from the founder's shared build rules (the stack spec supplied with the brief), §0): **no product code before this
 skill's output exists.** The research pass is the deliverable, not a nicety.
 
 ## Phase 1 — Conversion & peer research
@@ -45,12 +45,11 @@ until only this product fits it. Derive:
 
 ## Phase 4 — Write FLAIR.md
 
-Fill `docs/products/_FLAIR-template.md` completely (see the filled exemplar
-`docs/products/00-finessetry/FLAIR.md`): reference table, 10 techniques to steal, the
+Fill the FLAIR template completely (the filled exemplar: the flagship finessetry FLAIR): reference table, 10 techniques to steal, the
 signature interaction with performance budget + fallback, cursor states, easter-egg
 spec, hidden-page outline, motion inventory (transform/opacity only), gating table
 (what loads after LCP, at what trigger, with what fallback), reduced-motion plan,
-acceptance cross-check. Save as `docs/products/NN-name/FLAIR.md`.
+acceptance cross-check. Save beside the product's brief as FLAIR.md.
 
 ## Guardrails
 

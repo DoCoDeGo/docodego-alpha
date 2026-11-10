@@ -90,7 +90,7 @@ rmSync(sf, { recursive: true, force: true });
     const lines = readFileSync(join(REPO_ROOT, rel), "utf8").split("\n");
     for (let i = 0; i < lines.length; i++) if (stale.test(lines[i] ?? "")) offenders.push(`${rel}:${i + 1}`);
   }
-  fact("the sweep reads the whole payload boundary (53 planted rows)", rows.length === 53);
+  fact("the sweep reads the whole payload boundary (59 planted rows)", rows.length === 59);
   fact("the planted prose names only shipped paths — no repo-side or dead-tree references", offenders.length === 0);
 }
 

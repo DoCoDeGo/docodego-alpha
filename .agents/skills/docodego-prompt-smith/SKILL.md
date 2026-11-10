@@ -1,16 +1,16 @@
 ---
 name: docodego-prompt-smith
-description: Turns a product idea into a complete build prompt following the portfolio's conventions — insecurity served, client-first engine, free teaser, one-time paid report, page shape, Three.js verdict, acceptance additions, and a unique Signature flair. Use when asked to "write a prompt for this product", "add product NN", or "expand this idea into a build spec". Encodes the 22-prompt playbook under docs/products/.
+description: Turns a product idea into a complete build prompt following the portfolio's conventions — insecurity served, client-first engine, free teaser, one-time paid report, page shape, Three.js verdict, acceptance additions, and a unique Signature flair. Use when asked to "write a prompt for this product", "add product NN", or "expand this idea into a build spec". Encodes the portfolio's prompt playbook.
 ---
 
 # docodego-prompt-smith — idea in, build-ready prompt out
 
-Every prompt inherits `docs/products/_stack-spec.md`; the product prompt only
+Every prompt inherits the shared build spec; the product prompt only
 overrides what it explicitly says. Read it before writing.
 
 ## The required sections
 
-Write to `docs/products/NN-name/prompt.md` (NN = next build-order number, 00 is flagship):
+Write into the founder's product corpus, named for the product (NN = next build-order number, 00 is flagship):
 
 1. **Header** — `# NN · Product Name — domain.com` + "Read `../_stack-spec.md` first."
 2. **Product** — two lines: what it does, the artifact it produces.
@@ -49,4 +49,4 @@ Write to `docs/products/NN-name/prompt.md` (NN = next build-order number, 00 is 
 
 - Verify domain(s) via `docodego-domain-scout` conventions — a prompt for an
   unverified domain is incomplete.
-- Check the number isn't taken: `ls docs/products/ | grep ^NN`.
+- Check the number isn't taken: the corpus listing (no duplicate NN).

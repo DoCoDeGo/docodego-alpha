@@ -1,13 +1,13 @@
 ---
 name: docodego-context-forge
-description: Generates 10 permission-free passive-context enhancements for a product using the toolkit — edge-header geo, timezone/locale, Open-Meteo weather/AQI/pollen, hemisphere logic, holiday tables, water hardness, elevation, day-length — always including PPP pricing, a referrer-split variant, and auto lite-mode. Use when asked to "add context enhancements for product NN", "make the site feel local without asking", or after writing a base product prompt. Encodes docs/products/_passive-context.md and its ethics rules.
+description: Generates 10 permission-free passive-context enhancements for a product using the toolkit — edge-header geo, timezone/locale, Open-Meteo weather/AQI/pollen, hemisphere logic, holiday tables, water hardness, elevation, day-length — always including PPP pricing, a referrer-split variant, and auto lite-mode. Use when asked to "add context enhancements for product NN", "make the site feel local without asking", or after writing a base product prompt. Encodes the passive-context toolkit and its ethics rules.
 ---
 
 # docodego-context-forge — context without permission
 
-Read `docs/products/_passive-context.md` (the toolkit) and the
+Read the passive-context toolkit and the
 product's base prompt first. Write the output to
-`docs/products/NN-name/context.md`.
+the product's context.md.
 
 ## The 10 ideas — required composition
 

@@ -362,6 +362,16 @@ export const MIGRATIONS: Migration[] = [
     ],
     steps: [],
   },
+  {
+    from: 34,
+    to: 35,
+    notes: [
+      "the build-craft shelf lands (the founder's ruling: a skill around code structure, where the product is developed using reusable components, so a mobile app can be built easily without much rework): docodego-component-architecture joins the bundled index — the seam decided before the first component (core: pure domain logic, deterministic, headlessly testable; shell: views and platform APIs; tokens: the brand ports by re-theming; adapters: platform capabilities enter through interfaces) — plus the port test, measured per unit: what would a second platform reuse today",
+      "ux-strategy gains platform awareness (the founder's ruling: UX is subjective to the product in question — web page, web app, desktop, mobile, and CLI are different UX disciplines with different canons; the rule of one applies per platform; responsive design is designed at 375/768/1280 before it is built, not shrunk after), and component-architecture joins the product-team and platform-team default sets",
+      "no record-file transforms: skills are payload rows, not record law; this entry exists so no version is ever skipped silently",
+    ],
+    steps: [],
+  },
 ];
 
 /** v29 -> v30: the sign-picker teach. AGENTS.md's sign bullet gains the
