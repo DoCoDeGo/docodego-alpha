@@ -53,6 +53,22 @@ opencode run "<the directive shell, wrapped around the brief>" > run.log 2>&1
 Real processes, real logs, true cold starts — and the log is what the
 monitoring rounds read.
 
+**Popups and questions — the four classes and their handlers:**
+
+| class | handler |
+|---|---|
+| opencode's own permission prompts (edit, bash) | dispatch with `--auto` — auto-approve what is not explicitly denied; the subject is the agent's conduct, not the permission gate |
+| questions the agent asks in its output | headless has no answerer: the stall is caught by the monitoring round; note the finding (agent asked instead of deciding-and-recording — or law defect if AGENTS.md never said the founder is absent), then nudge the same session once (`opencode run --continue`): "founder absent — decide and record"; the nudge is itself logged as an orchestrator intervention |
+| prompts from tools the agent invokes (npx, git editor, vendor CLIs) | headless hygiene on dispatch: `CI=1 GIT_TERMINAL_PROMPT=0 GIT_EDITOR=true`; a tool that still demands interactivity is a brief finding (the founder's rules require runnable, provable products) |
+| prompts from our own CLI | none by law: `sign` refuses headless without `--yes` — a cold agent cannot sign for the founder, and recording that refusal is a pass of the tiers law |
+
+Dispatch form (the whole hygiene in one line):
+
+```sh
+cd <arena>/<product> && CI=1 GIT_TERMINAL_PROMPT=0 GIT_EDITOR=true \
+  opencode run --auto "<directive shell wrapped around the brief>" > run.log 2>&1
+```
+
 **How a product repo is initialized (explicit, no improvising):** the
 setup script runs OUR codebase's CLI with the product repo as the
 working directory —
