@@ -1,12 +1,13 @@
 {
-  "specVersion": 32,
+  "specVersion": 33,
   "cliVersion": "0.9.0",
-  "structureHash": "84668fbecc0531d8cabc241dc4a917b55ef6dec23c35ff9f6154a47737611e61",
+  "structureHash": "c3b28006959a643560071f96e6b42e09a951702a89a8391854328370fa00705c",
   "files": {
     ".agents/agents/docodego-researcher.md": "dff87e487865ef57b0e6e786ba39dcf543d87a0eb81831aea8ec9b41a760a0b9",
     ".agents/agents/docodego-reviewer.md": "9e99827130a79966b02f10baedb4e3507a771e6a9c15e4ea49982f0b48fcc787",
     ".agents/agents/docodego-tester.md": "f5b83f66a4e3f6282ab1f4bb2f09c72fe61fd4083c6a64552f5cbcb7194358b0",
-    ".agents/rules/README.md": "c18b4ac7a890f14d031447534e6a011df38ebac5efc06a72ab30242fa26108b5",
+    ".agents/rules/README.md": "b4b52172e3c500095e66bf0692b5f6cfc903572454ae7a47711ed1065e792e73",
+    ".agents/rules/founder-communication.md": "518299676885ad67ed144cbdb55759507defc73881fdb81ea19556f7fa78655b",
     ".agents/rules/interruption-safety.md": "2b79b7065578fbb6cc10291d6c79ece8942ddfb9cb1d42a2c6f0b35e2558d493",
     ".agents/rules/no-untracked-source.md": "43331c12842d86120ed30c86dc316bad2506a77e482ea7a972f4bd6c1d6b573c",
     ".agents/rules/privacy-at-network-layer.md": "91e5c3c8571059c0463609cf8efe5d2187a97d48920584a8ef13731b26a72901",
@@ -34,7 +35,7 @@
     ".agents/skills/supply-chain-evidence/SKILL.md": "2a7c84b337312fe3591b28cd5d8f8e8ab360aaa3fd63b27361da2f0eeb91a0f8",
     ".agents/skills/tech-stack/SKILL.md": "2ef163a0c701ba275202863ecdc2eaf488c32eab1e110e5a5b41a19158ef00da",
     ".docodego/.gitignore": "4adfb873ecc7a23575832197031a64297f9c6877ba17e1d81265053f25912106",
-    ".docodego/.standard/manifest.json": "4b50bc517bcddc28935ba0c0652e16b2ac8091a3ca55e397f40cf521e5683114",
+    ".docodego/.standard/manifest.json": "91c33e7a3ccea728efa059372564f448935ba65de8376f57fb402010e1e2e4ee",
     ".docodego/.standard/statutes.md": "770e570c911333d0d21221485bcd739cd145b1fef3bf008efcd02334850f3e3b",
     ".docodego/.standard/tech-radar.md": "6fdf71fac4037381fe8eef9ce5809867c208f99b760e78ede573bb56f8a9a3af",
     ".docodego/01-document/01-discover/README.md": "a38ca76df237911af2283fb450d2490dd23962017415b1055cb3d04099144b91",
@@ -54,6 +55,6 @@
     ".docodego/04-govern/03-retrospect/README.md": "ebc281dbb57424f9f1d411f72036ac04fbd709cc8a9477866cd60798350e92a3",
     ".docodego/04-govern/04-improve/README.md": "2f39b0cf2b98e55ec5c49461109330c2c3c1b4e94f0858a525ca0d962a21c95e",
     ".docodego/README.md": "fad04d563564c48f4fab5b0626c7d505c53cf473c4e8c1a644f707d3d0e63883",
-    "AGENTS.md": "c677fe24a1e0c611ed2d96541872fdb27ff204184c73ea5e7e00b5c80ecf7164"
+    "AGENTS.md": "19a8bdbc62132e21375756230c3588a80dbe3b488db56c4efdb80ebbe43654e6"
   }
 }

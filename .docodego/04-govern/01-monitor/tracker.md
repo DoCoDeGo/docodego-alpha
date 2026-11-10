@@ -303,3 +303,4 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-10 | 710-git-at-birth | launch-refused | L5 failed — 03-demonstrate/demo/710-git-at-birth/how-to-run.md is still the unfilled sc... |
 | 2026-11-10 | 710-git-at-birth | launch-passed | 02-compose/01-build/710-git-at-birth/launch.md |
 | 2026-11-10 | 710-git-at-birth | founder-signed | 02-compose/01-build/710-git-at-birth/signature.md |
+| 2026-11-10 | 720-founder-communication-rules | new unit | 02-compose/01-build/720-founder-communication-rules/spec.md |

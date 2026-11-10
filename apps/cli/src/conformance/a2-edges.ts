@@ -33,6 +33,8 @@ check("fixture upgrade --apply exits 0", run(fixture, ["upgrade", "--apply"]), 0
 fact("fixture manifest stamped to the bundled spec", JSON.parse(read(fixture, ".standard/manifest.json")).recordVersion === specVersion());
 fact("fixture skills-lock.json exists", existsSync(join(fixture, ".docodego", "skills-lock.json")));
 fact("690: the hop crossed — the v1 fixture's ignore drops *.new and AGENTS.md teaches the new law", !read(fixture, ".gitignore").includes("*.new") && read(fixture, ".gitignore").includes("var/") && read(fixture, ".gitignore").includes("never lost, never hidden") && readFileSync(join(fixture, "AGENTS.md"), "utf8").includes("UPGRADE-NOTES.md"));
+fact("720: the hop crossed — six rules named, the birth taught, the voice spans both ends", (() => { const a = readFileSync(join(fixture, "AGENTS.md"), "utf8"); return a.includes("six invariant rules") && a.includes("spans both ends") && a.includes("Git is enforced at birth"); })());
+fact("720: the rule plants and the map names it", existsSync(join(fixture, ".agents", "rules", "founder-communication.md")) && readFileSync(join(fixture, ".agents", "rules", "README.md"), "utf8").includes("| founder-communication |"));
 // the fixture is coherent here (its lock still clean) — the 700 lineage
 // line reads absent and healthy; later blocks seed review state on purpose
 check("700: doctor reports the lineage check absent without failing", run(fixture, ["doctor"]), 0, (r) => r.stdout.includes("no docs/decisions/ here"));
@@ -69,7 +71,7 @@ fact("690: the notes file names the refresh with the review options", readFileSy
   check("690: apply ends with the walk summary", run(fixture, ["upgrade", "--apply"]), 0, (r) => { walked = r.stdout; return walked.includes("walk summary:") && walked.includes("files refreshed:"); });
   fact("690: the skill refresh went live with its previous copy beside it", readFileSync(join(fixture, ".agents/skills/docodego-loop/SKILL.md"), "utf8") === skillBody && readFileSync(join(fixture, ".agents/skills/docodego-loop/SKILL.md.old"), "utf8").includes("DRIFT LINE"));
   fact("690: the summary counts equal the on-disk .old count", /files refreshed: 2 · previous copies awaiting review: 2 \(carrying 4 differing line\(s\)\)/.test(walked));
-  fact("690: the walk summary names the hops crossed", /walk summary: v32 -> v32 · migration steps applied: 0 · files refreshed: 2/.test(walked));
+  fact("690: the walk summary names the hops crossed", /walk summary: v33 -> v33 · migration steps applied: 0 · files refreshed: 2/.test(walked));
   fact("690: the notes file carries a dated section per apply", readFileSync(join(fixture, "UPGRADE-NOTES.md"), "utf8").split("## ").filter((s) => s.trim() !== "").length >= 3);
   const clean = run(fixture, ["upgrade", "--apply"]);
   fact("690: a clean re-apply appends its one-line section", clean.code === 0 && readFileSync(join(fixture, "UPGRADE-NOTES.md"), "utf8").includes("nothing to refresh — the record already matches the bundled spec"));

@@ -99,7 +99,7 @@ export function run(args: Args, io: Io): number {
   // the law + the agent presets
   putNew(join(process.cwd(), "AGENTS.md"), agentsMd(), "AGENTS.md");
   created.push(...plantAgentPresets(root));
-  // the rules layer: five invariant rules + the map — create-only, like
+  // the rules layer: six invariant rules + the map — create-only, like
   // everything else; a rule a repo lost is restored by re-running init
   for (const [rel, body] of Object.entries(ruleFiles())) {
     putNew(join(process.cwd(), ".agents", "rules", rel), body, `.agents/rules/${rel}`);

@@ -50,7 +50,9 @@ pages fix refusals and gloss the law.
 Before delivering: ask whether what you built teaches someone who
 was not in the room. If yes, name the second audience where the
 artifact lives. If no, say so — a recorded "none yet" beats an
-invented audience.
+invented audience. The voice spans both ends: the words read whole
+to a high school kid and to an industry veteran — every term
+introduced before it is used, and nothing dumbed down.
 
 ## The honesty law
 
@@ -93,7 +95,7 @@ why on the record.
 
 ## The commands
 
-- `docodego init` — plant the record layer, law, agent presets, and skills (already done here if `.docodego/` exists).
+- `docodego init` — plant the record layer, law, agent presets, and skills (already done here if `.docodego/` exists). Git is enforced at birth: the birth commit carries the planted files, authored by the record's handle identity; git unavailable refuses before planting (DG-U140).
 - `docodego new <unit>` — scaffold a unit (or epic/story document); implementation units take `--stream 02-compose/01-build` (the default stream is for discovery).
 - `docodego sketch <name>` — capture an idea near zero ceremony.
 - `docodego grill <unit>` — adversarial grilling round, recorded.
@@ -152,7 +154,7 @@ never by default (`tech-stack`, `docodego-payments`, `research-verify`).
 
 ## The rules
 
-`.agents/rules/` holds the five invariant rules, each rule file naming
+`.agents/rules/` holds the six invariant rules, each rule file naming
 who reads it, what failure it prevents, and what holds it
 (`enforced-by`). A rule whose enforced-by names nothing live is
 furniture: `docodego check` lists it, and deletion is human-confirmed —

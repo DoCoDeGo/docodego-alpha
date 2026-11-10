@@ -341,6 +341,17 @@ export const MIGRATIONS: Migration[] = [
     ],
     steps: [teachReplaceLive],
   },
+  {
+    from: 32,
+    to: 33,
+    notes: [
+      "the founder-communication rule lands (the founder's ruling, 2026-11-10: communication is law, not style): five laws for every founder-facing word and every product word — correct context first (unit, state, evidence before any claim); plain English; every acronym spelled out on first use or not used; concise (the shortest honest form); every question answered before implementation begins (a skipped question is a silent scope decision); and the product's words read whole at both ends — meaningful to a high school kid and to an industry veteran, every term introduced before it is used and nothing dumbed down",
+      "the rule holds by practice (the grill round's first question — a stranger can verify — and the delivered note read whole); the rules map gains the row and AGENTS.md names six invariant rules",
+      "AGENTS.md's init bullet teaches the birth law deferred from unit 710 (git enforced at birth — the birth commit, the handle identity, the DG-U140 refusal) and the second-use section carries the both-ends voice law; all teaches are anchor-matched — a customized copy keeps its words and takes the plan's own conflict path",
+      "the laws hold unchanged: the floor still validates reader, fails-when, enforced-by, deletion stays human-confirmed, and the plan-applies-first conflict law is untouched",
+    ],
+    steps: [teachFounderRules],
+  },
 ];
 
 /** v29 -> v30: the sign-picker teach. AGENTS.md's sign bullet gains the
@@ -733,8 +744,52 @@ export function teachReplaceLive(root: string): string {
   return parts.join("; ");
 }
 
-export function assertContiguous(target: number): void {
-  let expected = 0;
+/** v32 -> v33: the founder-communication teach. AGENTS.md names six
+ * invariant rules, the init bullet teaches the birth law (deferred
+ * from unit 710), and the second-use section carries the both-ends
+ * voice law; the rules map gains the row. All anchor-matched — a
+ * customized copy keeps its words and takes the plan's own conflict
+ * path (the rule file itself plants through the payload diff). */
+const SIX_RULES_ANCHOR = "holds the five invariant rules";
+const SIX_RULES_REPLACEMENT = "holds the six invariant rules";
+const INIT_BULLET_ANCHOR = "- `docodego init` — plant the record layer, law, agent presets, and skills (already done here if `.docodego/` exists).";
+const INIT_BULLET_REPLACEMENT = "- `docodego init` — plant the record layer, law, agent presets, and skills (already done here if `.docodego/` exists). Git is enforced at birth: the birth commit carries the planted files, authored by the record's handle identity; git unavailable refuses before planting (DG-U140).";
+const VOICE_ANCHOR = "invented audience.";
+const VOICE_REPLACEMENT = "invented audience. The voice spans both ends: the words read whole\nto a high school kid and to an industry veteran — every term\nintroduced before it is used, and nothing dumbed down.";
+const RULES_MAP_ANCHOR = "| interruption-safety | practice — AGENTS.md hard rule 9 | practice |";
+const RULES_MAP_ROW = "\n| founder-communication | practice — the grill round's first question and the delivered note read whole | practice |";
+
+export function teachFounderRules(root: string): string {
+  const parts: string[] = [];
+  const agents = join(dirname(root), "AGENTS.md");
+  const raw = readText(agents) ?? "";
+  let taught = raw;
+  if (taught.includes(SIX_RULES_REPLACEMENT)) parts.push("kept AGENTS.md (six rules already named)");
+  else if (taught.includes(SIX_RULES_ANCHOR)) taught = taught.replace(SIX_RULES_ANCHOR, SIX_RULES_REPLACEMENT);
+  else parts.push("kept AGENTS.md (the rules-count anchor is gone — customized; the plan's own refresh covers it)");
+  if (!taught.includes("Git is enforced at birth")) {
+    if (taught.includes(INIT_BULLET_ANCHOR)) taught = taught.replace(INIT_BULLET_ANCHOR, INIT_BULLET_REPLACEMENT);
+    else parts.push("kept AGENTS.md (the init-bullet anchor is gone — customized)");
+  }
+  if (!taught.includes("spans both ends")) {
+    if (taught.includes(VOICE_ANCHOR)) taught = taught.replace(VOICE_ANCHOR, VOICE_REPLACEMENT);
+    else parts.push("kept AGENTS.md (the second-use anchor is gone — customized)");
+  }
+  if (taught !== raw) {
+    writeText(agents, taught);
+    parts.push("updated AGENTS.md (six rules named; the init bullet teaches the birth; the voice spans both ends)");
+  }
+  const mapAbs = join(dirname(root), ".agents", "rules", "README.md");
+  const map = readText(mapAbs) ?? "";
+  if (map.includes("| founder-communication |")) parts.push("kept the rules map (the row is present)");
+  else if (map.includes(RULES_MAP_ANCHOR)) {
+    writeText(mapAbs, map.replace(RULES_MAP_ANCHOR, RULES_MAP_ANCHOR + RULES_MAP_ROW));
+    parts.push("updated the rules map (founder-communication row added)");
+  } else parts.push("kept the rules map (anchor not found — customized)");
+  return parts.join("; ");
+}
+
+export function assertContiguous(target: number): void {  let expected = 0;
   for (const m of MIGRATIONS) {
     if (m.from !== expected) {
       throw new Error(`migration registry has a gap: expected an entry from v${expected}, found from v${m.from} — never consolidate, never skip`);

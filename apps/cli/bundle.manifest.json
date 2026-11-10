@@ -7,6 +7,7 @@
     ".agents/agents/docodego-tester.md",
     ".agents/rules/README.md",
     ".agents/rules/interruption-safety.md",
+    ".agents/rules/founder-communication.md",
     ".agents/rules/no-untracked-source.md",
     ".agents/rules/privacy-at-network-layer.md",
     ".agents/rules/reduced-motion.md",

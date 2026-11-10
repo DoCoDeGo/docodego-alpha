@@ -2,7 +2,7 @@
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { recordFiles, COMPOSE_LOG_TEMPLATE, profiles as bundledProfiles } from "../bundled/index.ts";
+import { recordFiles, ruleFiles, COMPOSE_LOG_TEMPLATE, profiles as bundledProfiles } from "../bundled/index.ts";
 import { loadRecord } from "../record/load.ts";
 import { digestFiles, digestSkillDir } from "../skills/lock.ts";
 import { appendComposeLog } from "../record/record-write.ts";
@@ -90,11 +90,13 @@ rmSync(sf, { recursive: true, force: true });
     const lines = readFileSync(join(REPO_ROOT, rel), "utf8").split("\n");
     for (let i = 0; i < lines.length; i++) if (stale.test(lines[i] ?? "")) offenders.push(`${rel}:${i + 1}`);
   }
-  fact("the sweep reads the whole payload boundary (52 planted rows)", rows.length === 52);
+  fact("the sweep reads the whole payload boundary (53 planted rows)", rows.length === 53);
   fact("the planted prose names only shipped paths — no repo-side or dead-tree references", offenders.length === 0);
 }
 
 // --- v2k: the record's machine artifacts leave git (370) ---
+fact("720: the payload carries the founder-communication rule with its three fields", (() => { const r = ruleFiles()["founder-communication.md"] ?? ""; return r.includes("reader:") && r.includes("fails-when:") && r.includes("enforced-by:") && r.includes("high school kid") && r.includes("industry veteran"); })());
+fact("720: the payload's rules map names the founder-communication rule", (ruleFiles()["README.md"] ?? "").includes("| founder-communication |"));
 fact("the payload plants the record's gitignore under the replace-live law", (recordFiles()[".gitignore"] ?? "").includes("var/") && !(recordFiles()[".gitignore"] ?? "").includes("*.new") && (recordFiles()[".gitignore"] ?? "").includes("never lost, never hidden"));
 
 // --- v2l: the compose room's integrity artifact (380) ---

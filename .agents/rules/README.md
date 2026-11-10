@@ -15,6 +15,7 @@ a target that names nothing live lists the rule as furniture.
 | reduced-motion | practice — the launch-auditor checklist's reduced-motion item | practice |
 | privacy-at-network-layer | practice — the launch-auditor checklist's privacy item | practice |
 | interruption-safety | practice — AGENTS.md hard rule 9 | practice |
+| founder-communication | practice — the grill round's first question and the delivered note read whole | practice |
 
 Deliberately not planted: verbatim-intent and records-append (already
 the planted AGENTS.md honesty law — a rule that repeats a law is

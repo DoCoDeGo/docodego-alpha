@@ -145,7 +145,7 @@ rmSync(sb, { recursive: true, force: true });
     fact(`${name} is auto-add: marked in the index, listed in no profile`, s?.autoAdd === true && Object.values(bundledProfiles).every((list) => !list.includes(name)));
   }
   const rules = Object.keys(ruleFiles()).sort();
-  fact("the rules layer plants six files: the README map + five invariant rules", JSON.stringify(rules) === JSON.stringify(["README.md", "interruption-safety.md", "no-untracked-source.md", "privacy-at-network-layer.md", "reduced-motion.md", "standard-stack-default.md"]));
+  fact("the rules layer plants seven files: the README map + six invariant rules", JSON.stringify(rules) === JSON.stringify(["README.md", "founder-communication.md", "interruption-safety.md", "no-untracked-source.md", "privacy-at-network-layer.md", "reduced-motion.md", "standard-stack-default.md"]));
   // the floor and the scans, driven through scratch fixtures
   const t = mkdtempSync(join(tmpdir(), "dg-tree-"));
   const rulesDir = join(t, ".agents", "rules");
