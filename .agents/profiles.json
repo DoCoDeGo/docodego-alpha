@@ -3,10 +3,43 @@
   "default": "product-team",
   "note": "profiles are named default sets (pip-extras style); the bundler compiles this into the CLI's skill index; init --profile <name> installs a set, --all-skills installs everything",
   "profiles": {
-    "minimal": ["docodego"],
-    "docs-only": ["docodego", "docodego-document", "docodego-finding", "docodego-grounding"],
-    "product-team": ["docodego", "docodego-loop", "docodego-document", "docodego-compose", "docodego-demonstrate", "docodego-govern", "docodego-visual-proof"],
-    "platform-team": ["docodego", "docodego-loop", "docodego-document", "docodego-compose", "docodego-demonstrate", "docodego-govern", "docodego-finding", "docodego-grounding", "docodego-visual-proof"],
-    "research": ["docodego", "docodego-finding", "docodego-grounding"]
+    "minimal": [
+      "docodego"
+    ],
+    "docs-only": [
+      "docodego",
+      "docodego-document",
+      "docodego-finding",
+      "docodego-grounding"
+    ],
+    "product-team": [
+      "docodego",
+      "docodego-loop",
+      "docodego-document",
+      "docodego-compose",
+      "docodego-demonstrate",
+      "docodego-govern",
+      "docodego-visual-proof",
+      "docodego-ux-strategy",
+      "docodego-launch-auditor",
+      "docodego-component-architecture"
+    ],
+    "platform-team": [
+      "docodego",
+      "docodego-loop",
+      "docodego-document",
+      "docodego-compose",
+      "docodego-demonstrate",
+      "docodego-govern",
+      "docodego-finding",
+      "docodego-grounding",
+      "docodego-visual-proof",
+      "docodego-component-architecture"
+    ],
+    "research": [
+      "docodego",
+      "docodego-finding",
+      "docodego-grounding"
+    ]
   }
 }

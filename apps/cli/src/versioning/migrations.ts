@@ -352,6 +352,16 @@ export const MIGRATIONS: Migration[] = [
     ],
     steps: [teachFounderRules],
   },
+  {
+    from: 33,
+    to: 34,
+    notes: [
+      "the design shelf lands (the founder's ruling: distinct and unique creative personalities per product, latest UX styles that impress and retain — the portfolio's convergence on one taste was the evidence): five founder skills join the bundled index — docodego-ux-strategy (research-first design gate: the rule of one — one signature interaction, one cursor concept, one easter egg, one hidden page; the uniqueness sentence test), docodego-launch-auditor (the launch checklist the privacy rule has named as its enforcer since planting), docodego-context-forge, docodego-prompt-smith, docodego-domain-scout",
+      "ux-strategy and launch-auditor join the product-team profile default set; the other three ship bundled for skill add; existing records' lockfiles are untouched — 'docodego skill add <name>' installs, exactly as the shelf law always said",
+      "no record-file transforms: skills are payload rows, not record law; this entry exists so no version is ever skipped silently",
+    ],
+    steps: [],
+  },
 ];
 
 /** v29 -> v30: the sign-picker teach. AGENTS.md's sign bullet gains the
