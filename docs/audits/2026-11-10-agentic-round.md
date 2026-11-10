@@ -233,6 +233,50 @@ Three units, all launch-passed, 102 Vitest + 10 Playwright green,
 - Round-closing assessment will build and serve BOTH and walk the
   experience — the founder's judge is the visitor, not the numbers.
 
+## 07-r2 clean-rerun exit (third clean-trial exit, ~17:5X) — verified: check exit 0
+
+Four units launch-passed (vs the over-fed trial's five — a leaner
+decomposition the cold agent chose itself), 75 unit tests + 12 e2e,
+Lighthouse 100/100/1.09s LCP, honest unfinished list (one real
+reference for score calibration; the 3.76MB model kept over FLAIR's
+3MB budget, recorded as an over-budget exception rather than excused).
+New/corroborating findings:
+
+34. **The grill scaffold suggests `.docodego/var/` for answers; the
+    layout lint flags writing there** — the CLI contradicts its own
+    lint (corroborates the var/ law thread).
+35. **"One unit = one commit" cannot survive the gate order** —
+    delivery rows append only at deliver, after all builds; per-unit
+    commits break the shape. Candidate: name the commit cadence the
+    gates actually enforce.
+36. **plan.md human approval is unreachable autonomously** (extends
+    the waiver-form candidate): the skill's "waive, warn once,
+    proceed" works, but headless the warning is a formality.
+37. **ICS 100/100 by phrasing alone, third confirmation** — the
+    docodego-document skill says so itself; the law's load-bearing
+    sentence is "re-measure every number".
+
+## POSITIVE from 07-r2's exit
+
+38. Tests-first discipline arrived unprompted in the clean trial
+    ("RED first per unit criteria") — absent from the coached trial.
+39. The visual-proof skill "earned itself": the agent extended the
+    driver for uploads and read its own screenshots before claiming
+    the real-face path took the ok branch.
+40. The law verdict, in the subject's words: "sound spine, two rough
+    edges — both recorded in the record, not just muttered."
+
+## ROUND STATE: all five products settled
+
+Every product now holds a completed trial: 05 clean (3/3),
+06 clean (5/5), 07-r2 clean (4/4), 08 clean (1 delivered + honest
+stop), 09 clean-reconciled (5/5 after the double-build). Preserved
+coached builds: 05-overfed (2 delivered), 06-overfed (7/7),
+07-trackhair (5/5, in place). The round-closing quality assessment
+(build, serve, walk each; rank the visitor experience; coached vs
+cold per product) is the next session's work, per the doctrine's
+assessment protocol.
+
 ## Disqualified trials — preserved, never deleted
 
 05/06/07 ran on the over-fed first-draft prompt (hard lines, creative
