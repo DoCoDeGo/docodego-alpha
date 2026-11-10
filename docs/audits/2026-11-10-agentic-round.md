@@ -45,6 +45,43 @@ surgical law changes, then the suite re-runs.
    don't collide, it stays an agent defect; if the law's silence invites
    it, it graduates.
 
+## 08 exit findings (first clean-trial exit, ~15:45)
+
+The run DELIVERED and launch-passed one unit (153 unit tests + 32 e2e
+green, Lighthouse 100/100/1.4s LCP) — with a collision history it
+reported bluntly. New law findings:
+
+9. **G4 passed on the weakest possible evidence** — with mis-rooted
+   proof paths, the deliver gate accepted `dist/index.html` (a build
+   artifact) as a proof. A proof path that merely exists is not
+   evidence of the criterion. Candidate: a proof-quality floor (proofs
+   under proofs/, evidence-kind declarations required, build outputs
+   rejected as primary evidence).
+10. **`grill` absorbed two rounds from two authors silently** — the
+    collision era produced two grill rounds with no authorship flag.
+    Append-only absorbed it (good), but a round authored by a
+    different identity than the last should be named on the record.
+11. **Path resolution is dual-rooted and surprised the agent twice** —
+    proof paths resolve against repo root AND `.docodego/`; writing
+    `docodego/…` instead of `.docodego/…` failed silently. Candidate:
+    one resolution rule, documented in the scaffold header.
+12. **Cosmetics**: DG-C002 flags slash-laden prose as paths; the scorer
+    counts "One sentence:" as template residue inside a legitimate
+    answer.
+13. **Worktree leftover**: the sibling's `08-glowmonth-landing`
+    worktree is registered (f179493, detached) — evidence of the
+    collision, kept for review; diff-and-keep-one is the founder's
+    decision.
+
+## POSITIVE from 08's exit
+
+14. **The tiers law held under a cold agent**: the launch output taught
+    "the next tier is a person", the agent did not attempt `sign`, and
+    said so unprompted.
+15. **Append-only absorbed the collision**: the trail — including both
+    collision snapshots — replays clean; the agent's own words: "the
+    trail, including the collision, replays clean."
+
 ## Disqualified trials
 
 05/06/07 ran on the over-fed first-draft prompt (hard lines, creative
