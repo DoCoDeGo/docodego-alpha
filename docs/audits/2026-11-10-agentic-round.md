@@ -178,6 +178,10 @@ loop itself and ride hops; after each landing the agentic suite re-runs
 — the re-run is the proof the change fixed what it claimed.
 
 **P0 — shapes every future run**
+- First-paint legibility law (the quality assessment's systemic finding):
+  the hero is fully legible without scroll, entrance animations settle
+  ≤1.5s, ink-vs-sky contrast verified at multiple local times — proven
+  by an e2e, not by hope (05/06/09 all regressed at first paint).
 - Concurrency protocol: `docodego new` detects a live peer session and
   refuses to double-decompose (confirmed by 09's double-build). 
 - Proof-quality floor at G4: proofs under proofs/, build outputs
