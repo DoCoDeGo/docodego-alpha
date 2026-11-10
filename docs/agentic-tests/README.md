@@ -1,20 +1,41 @@
 # Agentic tests — docodego's own acceptance suite
 
 **What this is.** A rerunnable test of the law itself: fresh-context agents,
-given nothing but a planted record and a product brief in essence-form, build
-real products through the loop. The products are the instrument's *load*; the
-thing under test is whether the planted law carries invention, handoffs, and
-honesty without a human in the room.
+given nothing but a planted record and a short brief, build real products
+through the loop. The products are the instrument's *load*; the thing under
+test is whether the planted law carries invention, handoffs, and honesty
+without a human in the room — and whether it **improves outcomes** while
+**living up to its promises**.
+
+**The promises under test** (each observable; source in parentheses):
+
+- repositories become *teachable* to agents — a cold agent reads the
+  planted law and works correctly, unprompted (decision record 0001);
+- no implementation before a scored spec; no delivery without a proof
+  that exists — the walk order holds (the gate law);
+- every principle's violations are caught or named (the sixteen statutes);
+- upgrades apply live and hide nothing — previous copies preserved,
+  nothing gitignored (founder ruling, units 690);
+- the founder reads whole: context first, plain English, acronyms
+  spelled out, concise, questions answered before work (founder
+  ruling, unit 720);
+- records are born under version control (founder ruling, unit 710).
 
 **Design principles** (each earned the hard way):
 
-1. **Briefs give the destination, never the route.** Product essence, the
-   anxious question it answers, price anchor, hard ethical lines — and an
-   explicit creativity mandate. No page shape, no engine spec, no flair, no
-   stack. (A pre-scripted brief measures transcription, not the law.)
+1. **Briefs give the destination, never the route.** Briefs are authored
+   **on the fly at dispatch time** — never pre-written per product. A
+   brief is one or two sentences; the feature or improvement may be
+   **large**; the idea must be **complex enough** to exercise the law
+   (a trivial ask measures nothing). A new product idea is a brief too:
+   starting fresh gets the full walk like everything else — starting
+   new is not an exemption. (A pre-scripted brief measures
+   transcription, not the law.)
 2. **Network on, real tooling.** Offline arenas pre-decide the architecture.
 3. **One planted repo per product, one fresh-context agent per repo** —
    handoffs across agents are tested by letting records, not chats, carry.
+   The agent enters with **minimal background context**: the repository
+   and the brief, nothing else.
 4. **Grading is two-sided.** Every finding attributes to *agent* (law clear,
    bypassed) or *law* (ambiguous, silent, self-contradicted). A quiet run is
    not a pass; a run whose frictions surface as harvestable findings is.
@@ -25,8 +46,9 @@ honesty without a human in the room.
 scripts/agentic-setup.sh <arena-dir>     # plants one repo per brief
 ```
 
-Then, for each repo, spawn a fresh-context agent whose task prompt is the
-shared shell in `directive.md` wrapping the brief from `briefs/<product>.md`.
+Author the brief at dispatch: one or two sentences, complex enough,
+feature or whole product. Then, for each repo, spawn a fresh-context agent
+whose task prompt is the shared shell in `directive.md` wrapping that brief.
 Observe live with the instrument in `docs/process/review-dimensions.md` (~5-minute
 read-only rounds; findings to an improvement log like
 `docs/audits/2026-11-08-improvements.md`); on completion, grade each product against

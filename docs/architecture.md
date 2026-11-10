@@ -58,8 +58,8 @@ apps/cli/src/
     json.ts         the --json envelope builders + the one pour (emitJson)
     board.ts        the status board rendering
     exit.ts         the exit-code vocabulary
-  versioning/       migrations: ordered, version-keyed, create-only
-    plan.ts         the upgrade plan: what moves, what rides as .new
+  versioning/       migrations: ordered, version-keyed, create-only steps
+    plan.ts         the upgrade plan: what moves live, what is preserved as .old
     v1-scaffold.ts  the legacy v1 dialect's scaffold shapes
   skills/           lockfile, install/remove, folder digests
   bundled/          GENERATED — the payload (record + law + skills), hashes

@@ -73,8 +73,13 @@ docodego upgrade --apply --branch
 ```
 
 - The plan first is the point: you see every copy before anything happens.
-- A scaffold file you modified receives the new version side-by-side as
-  `<file>.new` — you diff and merge by hand; nothing of yours is replaced.
+- A scaffold file you modified receives the new version **live** at its
+  canonical path, and your previous copy is preserved beside it
+  byte-exact as `<file>.old` — never lost, never hidden, never
+  gitignored. The review (you) then deletes the `.old` (keep the
+  refresh) or restores it (revert); the tool never deletes one.
+  Every apply appends a dated section to `UPGRADE-NOTES.md` at the
+  repository root naming each refresh.
 - `--branch` keeps your working tree clean and makes the upgrade a
   reviewable commit.
 - A record **newer** than the CLI is refused politely (forward

@@ -9,8 +9,13 @@ holds the guides.
 4. `versioning.md` — the three version axes and the migration ladder
 5. `commands/` — one page per command
 6. `skills.md`, `vocabulary-packs.md`, `diagnostics.md` — reference
+6. `skills.md`, `vocabulary-packs.md`, `diagnostics.md` — reference
 7. `process/` — how this project runs itself: enhancements, the go-public
    checklist, distribution, the quality rubric, review dimensions, outcomes
+8. `agentic-tests/` — the acceptance suite: cold agents, short briefs,
+   the law under test (read its README before dispatching any agent)
+9. `audits/` — dated quality rounds, indexed by its README
+10. `journal/` — the engine's own work-log narratives, dated
 
 Evergreen reference has no sequence — number it and you fake an order that
 does not exist. Dated audits live in `audits/` (indexed by its README) with

@@ -240,9 +240,11 @@ re-verifies digests on `skill list` and fails on mismatch (`DG-K001`).
    archived — the trail must replay.
 2. **Statuses are earned.** Commands write markers; hands do not.
 3. **Claims carry evidence paths.** A claim without a path is a wish.
-4. **Upgrades are create-only.** `docodego upgrade` adds missing scaffold,
-   never edits or removes your content; a file you modified receives the
-   new version side-by-side as `<file>.new`.
+4. **Upgrades apply live and hide nothing.** `docodego upgrade` never
+   edits your units, tracker, or dossier; a scaffold file you modified
+   takes the bundled update live with your previous copy preserved
+   beside it as `<file>.old`, and nothing from the upgrade is
+   gitignored.
 5. **The record reads without the CLI.** If this page and the record
    disagree, the record wins — and one of them is wrong, which is a bug to
    report.

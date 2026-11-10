@@ -1,6 +1,7 @@
 # Directive — the task-prompt shell
 
-Wrap a brief from `briefs/` in this shell, verbatim, and hand it to a
+Author the brief at dispatch (short, complex enough, feature or whole
+product), wrap it in this shell, verbatim, and hand it to a
 fresh-context agent. Nothing else: the agent discovers the law from the
 planted AGENTS.md. Bracketed values change per product.
 
@@ -15,9 +16,11 @@ Environment facts (not instructions — just what is true):
 - Available: node, npm, pnpm. NETWORK IS AVAILABLE — you may install packages and fetch assets. Budget install weight sensibly for a real product.
 - The product will live at its own .com domain (the founder registers separately — do not register anything; the name is for the product's identity and copy).
 
-The founder's brief (verbatim — record it exactly where the record asks for the founding intent):
+The founder's brief (verbatim — record it exactly where the record asks:
+the founding intent for a new product, the unit's spec intent for a
+feature):
 
-<BRIEF FROM briefs/<NN-name>.md>
+<BRIEF — AUTHORED AT DISPATCH>
 
 Non-negotiable (the founder's hard lines, not suggestions):
 <HARD LINES FROM THE BRIEF, plus these standing ones:>
