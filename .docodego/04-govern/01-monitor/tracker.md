@@ -309,3 +309,5 @@ Appended, never rewritten. Every claim carries a path to its evidence.
 | 2026-11-10 | 720-founder-communication-rules | launch-passed | 02-compose/01-build/720-founder-communication-rules/launch.md |
 | 2026-11-10 | 720-founder-communication-rules | founder-signed | 02-compose/01-build/720-founder-communication-rules/signature.md |
 | 2026-11-10 | 730-distinct-ux-shelf | new unit | 02-compose/01-build/730-distinct-ux-shelf/spec.md |
+| 2026-11-10 | 730-distinct-ux-shelf | delivered | 02-compose/01-build/730-distinct-ux-shelf/delivered.md |
+| 2026-11-10 | 730-distinct-ux-shelf | launch-refused | L5 failed — 03-demonstrate/demo/730-distinct-ux-shelf/how-to-run.md is still the unfill... |

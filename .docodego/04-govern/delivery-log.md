@@ -91,3 +91,4 @@ is recorded here; what was learned lives in the unit's own records.
 | 2026-11-10 | 690-reviewable-upgrade | G1,G2,G3,G4 | proof: apps/cli/src/versioning/plan.ts |
 | 2026-11-10 | 710-git-at-birth | G1,G2,G3,G4 | proof: apps/cli/src/commands/init.ts |
 | 2026-11-10 | 720-founder-communication-rules | G1,G2,G3,G4 | proof: apps/cli/src/bundled/payload.ts |
+| 2026-11-10 | 730-distinct-ux-shelf | G1,G2,G3,G4 | proof: .agents/profiles.json |
