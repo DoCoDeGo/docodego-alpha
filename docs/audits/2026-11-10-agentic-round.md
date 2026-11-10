@@ -375,6 +375,31 @@ Lighthouse 100/96). New/corroborating:
     valuable instrument this run: the visual-proof skill — it caught
     the one bug 91 tests missed (style.css was never imported)."
 
+## 11 exit findings (round-2 exit, ~21:2X, exit code 1 — work complete, verified) — check exit 0
+
+Three units delivered + launch-passed (scent engine + product site +
+unlock report; 41 unit + 36 e2e, Lighthouse recorded, tree clean). New
+/corroborating:
+
+57b. **The delivery gate has no "code committed ≠ unit delivered"
+   tripwire until launch** (corroborates the deliver-cadence candidate:
+   11 committed 010 and moved on; launch caught it) — third subject to
+   hit this exact gap.
+57c. **Founder-docs home (corroboration, third independent arrival)**:
+    archiving the founder's documents in 01-discover tripped DG-F001;
+    moved to the knowledge layer per lint. The knowledge/ home is the
+    convergent answer — name it in the law.
+57d. **Proof grammar vs honest prose** (fifth confirmation of #7-class).
+57e. **`grill --scaffold` duplicates the ACs' own verification wording**
+    — the per-criterion "how is this verified end-to-end?" question is
+    near-redundant when the AC already states its verification. Design
+    tension for the grill-extractor unit (#2's sibling).
+57f. **The two-registers distinction is stated but not mechanical** —
+    known, minor.
+57g. POSITIVE: sign tier held ("I won't fabricate one"); the launch
+    gate's refusal, the visual-proof overflow check, and the ranking
+    sweep each caught real issues ("credited where due").
+
 ## Disqualified trials — preserved, never deleted
 
 05/06/07 ran on the over-fed first-draft prompt (hard lines, creative
