@@ -83,15 +83,21 @@ the birth commit happen inside it (records are born under version
 control — no manual git steps). From the engine checkout itself,
 `pnpm docodego <command>` is the same CLI for engine-side work.
 
-**The monitoring rule — always in force.** While any subject runs,
-every 5 minutes, for each agent: read the log tail, check the
-commits landed (`git log --oneline`), and make one dated note — what
-the agent is doing, which record phase it is in, anything odd. As the
-run proceeds, consolidate the notes into an issue list: frictions,
-silences, deviations, signs of thrash. Issues caught live are
-findings with context; issues found only at the exit are ones we
-missed for the whole run. The notes and the consolidated list are
-part of the round's evidence.
+**The monitoring rule — always in force, and realtime.** Monitoring is
+a **watchdog subagent**, not a sampler. One watchdog covers the running
+subjects with a 60-second internal cadence — process liveness, log
+growth, new commits, record-phase movement — keeping timestamped notes,
+and it **exits immediately on a critical finding**: a subject dying
+early, a stall (no log growth and no commits for 10 minutes), a refusal
+loop, or an agent asking a question to the void. The exit wakes the
+orchestrator at the moment of the problem, not at the next sample; the
+orchestrator relays the alert, consolidates the notes into the issue
+list, and dispatches the next watchdog. Coverage is continuous for as
+long as subjects run. With nothing critical, the watchdog exits after
+~30 minutes with a consolidated per-subject report. The watchdog is an
+instrument, not a subject: it observes read-only — logs, git state,
+record files — and never writes to a product repository or runs
+mutating commands.
 
 **The minimal-prompt rule.** The directive shell is environment facts
 and the brief — nothing else (see directive.md). If a run seems to
