@@ -99,6 +99,16 @@ instrument, not a subject: it observes read-only — logs, git state,
 record files — and never writes to a product repository or runs
 mutating commands.
 
+**Orchestrator interventions are logged where the watchdog reads.**
+Every harness-side act on a subject's repository — resets, nudges,
+restarts, disqualified-trial cleanup — is appended to
+`logs/<product>/orchestrator.log` (timestamped, what and why), and the
+watchdog's brief carries the authorized interventions for its window.
+Without this, a monitor cannot attribute the record break it exists to
+catch: the first round's critical alarm fired on the orchestrator's own
+ordered reset, detected within three minutes (the system worked) and
+mis-attributed (the system was blind to itself).
+
 **The minimal-prompt rule.** The directive shell is environment facts
 and the brief — nothing else (see directive.md). If a run seems to
 need a coaching paragraph, the finding is that the planted law does
