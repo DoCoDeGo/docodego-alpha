@@ -128,6 +128,46 @@ session), and never redispatch without verifying the old session is dead.
     each grilled, scored, evidenced, and `check` is green at HEAD. The
     worst-case stress test of the honesty law passed.
 
+## 06 exit findings (over-fed trial, all 7 units launch-passed) — verified: check exit 0
+
+22. **Proof-path repairs have no forward instrument (real law gap).**
+    010 delivered with 10 unresolvable path spans; the fix is a file
+    edit, but `delivered → delivered` is refused, so the record could
+    not learn why the file changed — the tracker never recorded the
+    repair. Candidate unit: a relink/amendment mechanism (or a
+    repair-forward marker the tracker accepts).
+23. **Deliver-gate warnings surface too late** — unresolved-path
+    warnings hid in deliver's fine print, then launch refused; 7
+    tracker ceremony rows recorded the same missing scaffold. Candidate:
+    escalate deliver warnings; dedup repeated launch-attempt rows.
+24. **Prose degraded to satisfy the checker** (corroborates 09's #17
+    and 08's #12): `.report`, `navigator.share`, `AC3/AC8` all tripped
+    the path grammar; the agent un-backticked legitimate prose. The
+    checker is degrading the both-ends voice — the grammar needs a
+    route/prose disambiguation, not prose edits.
+25. **The scaffold is thinner than the score gate**: the proofs-path
+    grammar (resolve from the unit folder) was discovered only through
+    a deliver warning. Candidate: front-load the grammar in the
+    scaffold header and `docodego new` output.
+26. **Grill rewards prophecy, never marks plan changes**: verification
+    answers are predictions; when the plan changed during build, one
+    change rode a `deviations:` line, the rest live only in proofs
+    prose. Candidate: a "verification revised at proof time" marker.
+27. **Minor**: the sign tier's `--by`/`--name` distinction needed three
+    re-reads of AGENTS.md; launch refusal ceremony rows (see 23).
+
+## POSITIVE from 06's exit — the strongest outcome evidence yet
+
+28. **Two bugs the law itself caught**: a canvas-determinism FAIL
+    forced a real discovery (Chromium glyph warm-up, now handled by
+    construction and recorded in 040's proofs); a static-call crash was
+    caught by the browser proof. The subject's words: "The record
+    earned its keep."
+29. Honesty as design material throughout: unwired checkout explains
+    itself instead of fake-selling; samples burned "SAMPLE PREVIEW —
+    generation not configured"; the network-privacy claim is audited by
+    its own e2e suite (nothing uploads — proven in the tests).
+
 ## Disqualified trials
 
 05/06/07 ran on the over-fed first-draft prompt (hard lines, creative
