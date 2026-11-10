@@ -168,6 +168,42 @@ session), and never redispatch without verifying the old session is dead.
     generation not configured"; the network-privacy claim is audited by
     its own e2e suite (nothing uploads — proven in the tests).
 
+## The improvement plan (ranked; built through docodego's own loop)
+
+The entire idea is to improve DoCoDeGo to its fullest extent — every
+finding above is a unit in that direction. Rhythm: code-level fixes land
+between trial waves (never mid-walk — a subject must run under one
+law); law-level fixes (payload bytes) are built as units through the
+loop itself and ride hops; after each landing the agentic suite re-runs
+— the re-run is the proof the change fixed what it claimed.
+
+**P0 — shapes every future run**
+- Concurrency protocol: `docodego new` detects a live peer session and
+  refuses to double-decompose (confirmed by 09's double-build). 
+- Proof-quality floor at G4: proofs under proofs/, build outputs
+  rejected as primary evidence (08's dist/index.html pass).
+- Grill extractor: an acceptance criterion is one unit — never split on
+  punctuation (05's 16-for-10 scaffold).
+- Checker grammar: backticked prose, routes, and APIs are not proof
+  paths (three agents degraded honest prose to appease it).
+
+**P1 — law completeness**
+- Evidence-folder escape hatch in the rules floor (founder docs are
+  evidence, not units).
+- AGENTS.md names it explicitly: agents never sign; the plan-approval
+  waiver gets an agent-run form (07 waived it five times by charter).
+- Grill rounds carry author identity; author changes are flagged.
+- Relink/amendment for post-delivery proof-path repairs.
+- `init` sets a repo-local git identity; append-only heading-count
+  check.
+
+**P2 — polish**
+- Scaffold front-loads the path grammar; deliver warnings escalate;
+  ceremony rows dedup; the Lighthouse minScore trap documented; sign
+  `--by`/`--name` wording; the manifest's codeState either updates at
+  gates or is retired as furniture (07's finding: five delivered units,
+  still "new").
+
 ## Disqualified trials — preserved, never deleted
 
 05/06/07 ran on the over-fed first-draft prompt (hard lines, creative
