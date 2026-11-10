@@ -36,3 +36,4 @@ signature.md.
 | 2026-11-10 | 690-reviewable-upgrade | DoCoDeGo (a typed legal identifier) | founder | founder-signed |
 | 2026-11-10 | 710-git-at-birth | DoCoDeGo (a typed legal identifier) | founder | founder-signed |
 | 2026-11-10 | 720-founder-communication-rules | DoCoDeGo (a typed legal identifier) | founder | founder-signed |
+| 2026-11-10 | 730-distinct-ux-shelf | DoCoDeGo (a typed legal identifier) | founder | founder-signed |

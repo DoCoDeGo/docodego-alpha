@@ -1,24 +1,24 @@
 # how to run
 
-Filled by the agent at demonstration time; read by the founder's
-"show me it working" and the launch auditor (an unfilled scaffold
-refuses the launch gate). Write how a cold reader sees this unit work.
-Scratch captures live in var/ or here as paths — the honesty law
-recognizes paths, not pasted binaries. One honest line is a valid fill:
-"the suite is the demo" is a show.
-
 ## see it work
 
-(fill: the commands, in order, and what each should show)
+1. Fresh init with the product-team profile: `docodego skill list`
+   shows ux-strategy, launch-auditor, and component-architecture
+   installed by default alongside the loop craft.
+2. Read the rule of one: .agents/skills/docodego-ux-strategy/SKILL.md —
+   one signature interaction, one cursor concept, one easter egg, one
+   hidden page; the uniqueness sentence test; the platform table.
+3. `docodego upgrade --apply` on a spec-33 record walks 33→36 and the
+   skills arrive per the lockfile law (skill add installs; nothing new
+   installs uninvited).
+4. The suite: `pnpm -C apps/cli run -s conformance` — 518 green, the
+   sweep counting 59 boundary rows with zero repo-side references.
 
 ## run output
 
-(fill: pasted output or the path to the capture)
+proofs.md quotes the gates; the skills live in .agents/skills/ and the
+hops in apps/cli/src/versioning/migrations.ts.
 
 ## visual evidence
 
-(fill: screenshot/recording paths, or "none — the suite is the demo".
-A path may declare its kind — `[evidence: screenshot]`,
-`[evidence: session-recording]` — from the registry: suite-run,
-test-transcript, screenshot, session-recording; the types are
-described, never ranked.)
+none — the shelf and the suite are the demo.

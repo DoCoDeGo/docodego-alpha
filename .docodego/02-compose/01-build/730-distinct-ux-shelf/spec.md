@@ -1,7 +1,7 @@
 ---
 name: 730-distinct-ux-shelf
 type: unit
-status: delivered
+status: founder-signed
 ---
 
 ## intent
