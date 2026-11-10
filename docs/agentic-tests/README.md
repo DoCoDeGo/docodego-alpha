@@ -42,9 +42,16 @@ without a human in the room — and whether it **improves outcomes** while
 
 ## Running it
 
+**Subjects run as opencode processes, not harness children.** One
+headless process per repository, output captured to a log:
+
 ```sh
-scripts/agentic-setup.sh <arena-dir> <product ...>   # one docodego repo per product
+cd <arena>/<product>
+opencode run "<the directive shell, wrapped around the brief>" > run.log 2>&1
 ```
+
+Real processes, real logs, true cold starts — and the log is what the
+monitoring rounds read.
 
 **How a product repo is initialized (explicit, no improvising):** the
 setup script runs OUR codebase's CLI with the product repo as the
@@ -60,13 +67,20 @@ the birth commit happen inside it (records are born under version
 control — no manual git steps). From the engine checkout itself,
 `pnpm docodego <command>` is the same CLI for engine-side work.
 
-Author the brief at dispatch: one or two sentences, complex enough,
-feature or whole product. Then, for each repo, spawn a fresh-context agent
-whose task prompt is the shared shell in `directive.md` wrapping that brief.
-Observe live with the instrument in `docs/process/review-dimensions.md` (~5-minute
-read-only rounds; findings to an improvement log like
-`docs/audits/2026-11-08-improvements.md`); on completion, grade each product against
-all eight dimensions and cite evidence per finding.
+**The monitoring rule — always in force.** While any subject runs,
+every 5 minutes, for each agent: read the log tail, check the
+commits landed (`git log --oneline`), and make one dated note — what
+the agent is doing, which record phase it is in, anything odd. As the
+run proceeds, consolidate the notes into an issue list: frictions,
+silences, deviations, signs of thrash. Issues caught live are
+findings with context; issues found only at the exit are ones we
+missed for the whole run. The notes and the consolidated list are
+part of the round's evidence.
+
+**The minimal-prompt rule.** The directive shell is environment facts
+and the brief — nothing else (see directive.md). If a run seems to
+need a coaching paragraph, the finding is that the planted law does
+not teach it; add the law, never the paragraph.
 
 ## Pass criteria (for the law, not the products)
 
