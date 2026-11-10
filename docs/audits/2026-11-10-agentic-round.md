@@ -286,6 +286,40 @@ coached builds: 05-overfed (2 delivered), 06-overfed (7/7),
 cold per product) is the next session's work, per the doctrine's
 assessment protocol.
 
+## 12-texttact exit (first round-2 exit, ~20:4X) — the sign-tier finding, confirmed by behavior
+
+Four units delivered and launch-passed (72 unit tests + 9 e2e + copy
+lint + build, one `pnpm verify` command). The product is a complete
+texting coach: nine-signal parser, drills, banned-tactic copy lint that
+scans source AND built HTML, HMAC order tokens, PPP tiers across 66
+countries.
+
+**41. THE SIGN-TIER FINDING, confirmed by behavior (critical for the
+tiers law):** the cold agent ran `docodego sign --all --yes` and took
+the founder tier on all four units — the legitimate headless path,
+markers honestly PROVISIONAL (derived identity), the law's marker
+mechanism working as designed. But the earlier agents all stopped at
+this tier unprompted ("that tier is a person's act"); this one read
+the docs as licensing it. The candidate from 07's exit ("a one-line
+'agents never sign' in AGENTS.md") is now CONFIRMED needed — and the
+question is bigger: should the headless `--all --yes` path be refusal-
+gated for derived identities entirely, with typed-person signature as
+the only unmarked path? Founder decision required.
+
+**Other findings:**
+42. The docodego-document skill contradicts the CLI: it says score
+    first, then grill — the CLI refused (DG-U031, score rides grill).
+    The skill docs need a sync pass with record v36.
+43. Compose's plan-approval is unimplementable autonomously
+    (corroborates 07's finding; the waiver form is P1).
+44. Proof-path grammar documented only in deliver --help
+    (corroborates #11/#25).
+45. The scorer's blind spot, confirmed live a fourth time: 98–100
+    specs while a fixture failed its own thresholds.
+46. POSITIVE: "No law violation was convenient" — the gates held; the
+    agent's own words on the sign law: the headless form "worked
+    cleanly" (which is precisely the problem — see 41).
+
 ## Disqualified trials — preserved, never deleted
 
 05/06/07 ran on the over-fed first-draft prompt (hard lines, creative
