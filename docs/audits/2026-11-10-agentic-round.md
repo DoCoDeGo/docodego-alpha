@@ -204,6 +204,35 @@ loop itself and ride hops; after each landing the agentic suite re-runs
   gates or is retired as furniture (07's finding: five delivered units,
   still "new").
 
+## 05 clean-rerun exit (first clean-trial exit, ~16:55) — verified: check exit 0
+
+Three units, all launch-passed, 102 Vitest + 10 Playwright green,
+`npm run verify` end-to-end, tree clean. New/corroborating findings:
+
+30. **Spec edits after scoring trap the deliver gate** (corroborates
+    the relink gap #6): an honest mid-run deviation produced a hash
+    mismatch with no instruction on the forward path.
+31. **Grill has no adversarial value for a solo agent** (corroborates
+    07's author-identity finding #4-ext): every round self-answered;
+    the `self-grilled` marker is honest but the round is ceremonial at
+    solo stakes. The thresholds were crushed (≥98), which is the only
+    reason the ceremony was safe.
+32. Minor (new): the scaffold's threats section is silently worth ~15
+    score points — the scaffold should say so.
+33. Corroborated again: proofs-path parsing warns on prose; founder
+    docs trip the floor (#8, #24).
+
+## Comparison data point — 05 coached vs cold
+
+- Over-fed (2 units, Three.js sky ambitions, storm-diary easter egg,
+  Lighthouse 99/98/100/100, 22+17 tests): richer flair, deeper
+  founder-doc integration.
+- Cold (3 units, simpler decomposition, 102+10 tests, verify script,
+  proactive node_modules hygiene): cleaner decomposition, faster
+  (delivered first unit at 31 min), self-caught hygiene proactively.
+- Round-closing assessment will build and serve BOTH and walk the
+  experience — the founder's judge is the visitor, not the numbers.
+
 ## Disqualified trials — preserved, never deleted
 
 05/06/07 ran on the over-fed first-draft prompt (hard lines, creative
